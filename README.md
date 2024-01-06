@@ -1,3 +1,5 @@
+Node.js i npm
+
 cd MyMeritFrontend
 
 npm install
