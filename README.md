@@ -1,5 +1,7 @@
 cd MyMeritFrontend
+
 npm install
+
 npm run dev
 
 
