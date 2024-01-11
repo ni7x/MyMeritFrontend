@@ -39,7 +39,11 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[], setFilteredTasks  }> = ({ ta
         <ul className="filter-panel">
             <li>
                 <button className={lastClickedButton === "recent" ? "active" : ""} onClick={showRecent}  >
-                    recent <span>{getCount(tasks.filter(task => task.isRecent))}</span>
+                    <span className="recent">
+                        recent activity
+                    </span>
+                    <span className="recent">{getCount(tasks.filter(task => task.isRecent))}</span>
+
                 </button>
             </li>
             <li>

@@ -23,7 +23,7 @@ const MyTasks: React.FC = () => {
                 <FilterPanel tasks={tasks} setFilteredTasks={setFilteredTasks}/>
             </div>
             <div className="right-panel">
-                <SortPanel tasks={filteredTasks}/>
+                <SortPanel filteredTasks={filteredTasks} setFilteredTasks={setFilteredTasks}/>
                 <TaskList tasks={filteredTasks}/>
             </div>
         </div>

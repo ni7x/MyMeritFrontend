@@ -9,7 +9,6 @@ class TaskPreview {
         public credits: number,
         public isRecent: boolean,
         public isBookmarked: boolean,
-        public isRated: boolean,
     ) {}
 }
 

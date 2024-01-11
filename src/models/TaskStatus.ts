@@ -1,6 +1,6 @@
 const TaskStatus = {
-    RATED: "RATED",
-    UNRATED: "UNRATED",
+    RATED: "rated",
+    UNRATED: "unrated",
 };
 
 export default TaskStatus;

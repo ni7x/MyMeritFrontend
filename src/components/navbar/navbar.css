@@ -1,11 +1,11 @@
 nav{
-    background-color: #33343e;
     position: fixed;
     width: 100%;
     top: 0;
     height: 3.5rem;
     display: flex;
     align-items: center;
+
     font-size: 1rem;
     border-bottom: 1px solid #777882;
 }
