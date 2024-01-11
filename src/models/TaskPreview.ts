@@ -6,7 +6,10 @@ class TaskPreview {
         public name: string,
         public submitDate: Date,
         public status: TaskStatus,
-        public credits: number
+        public credits: number,
+        public isRecent: boolean,
+        public isBookmarked: boolean,
+        public isRated: boolean,
     ) {}
 }
 

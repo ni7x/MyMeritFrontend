@@ -1,7 +1,8 @@
 .user-tasks{
     display: flex;
     justify-content: center;
-
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .user-tasks .right-panel{
@@ -11,6 +12,11 @@
     width: 50%;
 }
 
+.user-tasks .left-panel{
+    width: 15%;
+    margin: 1rem 2rem;
+    min-width: 150px;
+}
 
 
 .user-tasks .right-panel .task-list{
@@ -30,10 +36,10 @@
     padding: 0.25rem 1rem;
     border-radius: 0.5rem;
 }
+
 .user-tasks .right-panel .sort-panel{
     width: 100%;
     list-style: none;
-
     display: flex;
     box-sizing: border-box;
     flex-direction: row;
@@ -42,12 +48,10 @@
 
 }
 
-
 .user-tasks .right-panel .sort-panel  li{
     padding: 0.25rem 0;
 
 }
-
 
 .user-tasks .right-panel .task-list  li p .credits{
     background-color: #777882;
@@ -55,11 +59,41 @@
     border-radius: 10px;
 }
 
-.user-tasks .left-panel{
-    width: 15%;
-    padding: 1rem;
-}
-
 .user-tasks .left-panel ul{
     list-style: none;
+    border: 1px solid #6a6c76;
+    width: 100%;
+    padding: 0;
+    font-size: 0.9rem;
+    border-radius: 10px;
+}
+
+.user-tasks .left-panel ul li button{
+    background:none;
+    border: none;
+    border-bottom: 1px solid #6a6c76;
+    width: 100%;
+    color: white;
+    padding: 1rem 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.user-tasks .left-panel ul li:first-child button{
+    border-radius: 10px 10px 0px 0px;
+}
+
+.user-tasks .left-panel ul li button.active{
+    background-color: #3a3b46;
+}
+
+.user-tasks .left-panel ul li:last-child button{
+    border-bottom: none;
+    border-radius: 0 0 10px 10px;
+}
+
+.user-tasks .left-panel ul li button span{
+
 }

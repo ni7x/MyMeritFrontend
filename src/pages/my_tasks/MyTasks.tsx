@@ -8,19 +8,23 @@ import FilterPanel from "../../components/my_tasks/FilterPanel";
 
 const MyTasks: React.FC = () => {
     const [ tasks, setTasks ] = useState<TaskPreview[]>([]);
+    const [ filteredTasks, setFilteredTasks ] = useState<TaskPreview[]>([]);
 
     useEffect(()=>{
-        setTasks(getUserTasks(0));
+        const tasks_json = getUserTasks(0)
+        setTasks(tasks_json);
+        setFilteredTasks(tasks_json);
+
     }, [])
 
     return (
         <div className="user-tasks">
             <div className="left-panel">
-                <FilterPanel tasks={tasks}/>
+                <FilterPanel tasks={tasks} setFilteredTasks={setFilteredTasks}/>
             </div>
             <div className="right-panel">
-                <SortPanel tasks={tasks}/>
-                <TaskList tasks={tasks}/>
+                <SortPanel tasks={filteredTasks}/>
+                <TaskList tasks={filteredTasks}/>
             </div>
         </div>
     );
