@@ -1,7 +1,7 @@
 import TaskPreview from "../../models/TaskPreview";
 import React from "react";
 
-const UserTaskItem: React.FC<{ task: TaskPreview }> = ({ task } ) => {
+const Task: React.FC<{ task: TaskPreview }> = ({ task } ) => {
     return (
         <li>
             <p><strong>{task.name}</strong></p>
@@ -12,4 +12,4 @@ const UserTaskItem: React.FC<{ task: TaskPreview }> = ({ task } ) => {
     );
 };
 
-export default UserTaskItem;
+export default Task;
