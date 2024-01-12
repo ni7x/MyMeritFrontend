@@ -17,13 +17,23 @@ const Task: React.FC<{ task: TaskPreview }> = ({ task } ) => {
     return (
         <li>
             <a href={"tasks/" + task.taskID}>
-           <p><strong>{task.name}</strong></p>
-            <p className="date">{task.submitDate.toLocaleDateString()}</p>
+                <p>
+                    <strong>
+                        {task.name.length > 30 ? task.name.substring(0, 29) + "..." : task.name}
+                    </strong>
+                    {task.name.length > 30 ?
+                        <span className="full-name">{task.name}</span>
+                        :
+                        <></>
+                    }
+                </p>
 
-            <p className={task.status === TaskStatus.RATED ? "rated": "unrated"}>
-               {task.status}
-            </p>
-            <p><span className={"credits " + getCreditStyle(task.credits)} >{task.credits}</span></p>
+                <p className="date">{task.submitDate.toLocaleDateString()}</p>
+
+                <p className={task.status === TaskStatus.RATED ? "rated": "unrated"}>
+                   {task.status}
+                </p>
+                <p><span className={"credits " + getCreditStyle(task.credits)} >{task.credits}</span></p>
         </a>
 
         </li>

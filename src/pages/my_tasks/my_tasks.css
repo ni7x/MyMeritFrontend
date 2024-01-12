@@ -14,7 +14,7 @@
 
 .user-tasks .left-panel{
     width: 15%;
-    margin: 0rem 2rem;
+    margin: 0 2rem;
     min-width: 150px;
 }
 
@@ -46,9 +46,6 @@
 }
 
 
-
-
-
 .user-tasks .right-panel .task-list{
     display: flex;
     flex-direction: column;
@@ -58,14 +55,14 @@
 }
 
 .user-tasks .right-panel .task-list .unrated{
-    color: #9294a1;
+    color: var(--main-lighter);
     font-weight: 600;
     font-style: italic;
 
 }
 
 .user-tasks .right-panel .task-list .date{
-    color: #9294a1;
+    color: var(--main-lighter);
 }
 
 .user-tasks .left-panel .filter-panel .recent{
@@ -81,16 +78,16 @@
 
 .user-tasks .right-panel .task-list  li a{
     width: 100%;
-    background-color: #3c3e4a;
+    background-color: var(--secondary-bg-color);
     margin: 0.5rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 20px;
-    padding: 5px;
+    border-radius: 5px;
+    padding: 7px;
     cursor:pointer;
     text-decoration: none;
-    color:white;
+    color: var(--main-font-color);
 }
 
 .user-tasks .right-panel .task-list  li p{
@@ -102,7 +99,7 @@
 }
 
 .user-tasks .right-panel .task-list  li p:last-child{
-    flex: 0.3;
+    flex: 0.25;
 }
 
 
@@ -113,7 +110,6 @@
 .user-tasks .right-panel .task-list  li a{
 
 }
-
 
 .task-list p:last-child {
     margin-right: 0;
@@ -134,20 +130,42 @@
 }
 
 .user-tasks .right-panel .sort-panel  li:last-child {
-    flex: 0.3;
+    flex: 0.25;
 }
 
 .user-tasks .right-panel .task-list  li p .credits{
     background-color: #50515d;
     padding: 0.3rem 0.75rem;
-    border-radius: 10px;
+    border-radius: 20px;
     font-weight: 600;
     width: 100%;
     text-align: center;
 }
 
+.full-name {
+    display: none;
+
+}
+
+p:hover .full-name{
+    display: inline-block;
+    background-color: #6a6c76;
+    border: 1px solid #777882;
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    border-radius: 5px;
+    margin-left: -5px;
+    line-height: 1.4;
+    max-width: 130px;
+    margin-top: 30px;
+    font-size: 0.8rem;
+
+}
+
+
+
 .user-tasks .right-panel .task-list  li p .credits.medium{
-    background-color: #f2962a;
+    background-color: #ecc52b;
 }
 
 .user-tasks .right-panel .task-list  li p .credits.high{
@@ -163,7 +181,7 @@
 .user-tasks .right-panel .sort-panel button{
     background: none;
     border: none;
-    color: white;
+    color: var(--main-font-color);
     font-size: 0.7rem;
     font-weight: 700;
     padding: 3px;
@@ -173,13 +191,13 @@
 }
 
 .user-tasks .right-panel .sort-panel button:hover{
-    background-color: #777882;
+    background-color: var(--secondary-bg-color);
 }
 
 
 .user-tasks .left-panel ul{
     list-style: none;
-    border: 1px solid #6a6c76;
+    border: 1px solid var(--main-border);
     width: 100%;
     padding: 0;
     font-size: 0.9rem;
@@ -189,9 +207,9 @@
 .user-tasks .left-panel ul li button{
     background:none;
     border: none;
-    border-bottom: 1px solid #6a6c76;
+    border-bottom: 1px solid var(--main-border);
     width: 100%;
-    color: white;
+    color: var(--main-font-color);
     padding: 1rem 1.3rem;
     display: flex;
     justify-content: space-between;
@@ -204,7 +222,7 @@
 }
 
 .user-tasks .left-panel ul li button.active{
-    background-color: #3a3b46;
+    background-color: var(--secondary-bg-color);
 }
 
 .user-tasks .left-panel ul li:last-child button{
