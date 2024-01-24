@@ -6,16 +6,21 @@ import Home from "./pages/home/Home";
 import Navbar from "./components/navbar/Navbar";
 import NotFound from "./pages/not_found/NotFound";
 import MyTasks from "./pages/my_tasks/MyTasks";
+import Login from "./pages/login/Login";
+
+const isLoginPage = () => window.location.pathname === "/login";
+const renderNavbar = () => !isLoginPage() ? <Navbar/> : null;
 
 const App = () => {
     return (
           <>
               <Router>
-                  <Navbar/>
+                  {renderNavbar()}
                   <div className="wrapper">
                       <Routes>
                           <Route exact path="/" element={<Home />}  />
                           <Route exact path="/mytasks/" element={<MyTasks />}  />
+                          <Route exact path="/login/" element={<Login />}  />
 
                           <Route exact path="*"  element={<NotFound />} />
                       </Routes>
