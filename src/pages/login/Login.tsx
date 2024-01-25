@@ -3,6 +3,7 @@ import "./login.css";
 
 import Input from '../../components/login/Input';
 import Divider from '../../components/login/Divider';
+import OAuthLogin from '../../components/login/OAuthLogin';
 
 const Login: React.FC = () => {
     return (
@@ -20,11 +21,8 @@ const Login: React.FC = () => {
             </form>
 
             <Divider>or</Divider>
-            {/*
-            <div className="oauth-login">
-                <OAuthLoginButton provider="google" />
-                <OAuthLoginButton provider="github" />
-            </div> */}
+
+            {/* <OAuthLogin /> */}
         </div>
     );
 }

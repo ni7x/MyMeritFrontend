@@ -11,6 +11,7 @@
     color: #fff;
     box-sizing: border-box;
     width: 100%;
+    font-weight: 600;
 }
 
 .input-wrapper input:focus-visible{
@@ -22,7 +23,9 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
+    right: 15px;
     margin: auto;
-    padding-right: .8rem;
+    width: 18px;
+    height: auto;
+    color: var(--main-lighter);
 }
