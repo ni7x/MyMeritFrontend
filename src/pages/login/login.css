@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper:has(.login-box){ /* .wrapper -> .wrapper:has(.login-box) bo inaczej napisuje ten glowny z App.css na calej stronie */
     margin: 0;
     padding: 0;
     height: 100vh;
