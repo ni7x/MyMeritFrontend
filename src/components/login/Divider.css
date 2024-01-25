@@ -1,0 +1,31 @@
+.divider{
+    position: relative;
+}
+
+.divider::before,
+.divider::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: #44444f;
+    margin: auto;
+    width: 45%;
+}
+
+.divider::before{
+    left: 0;
+}
+
+.divider::after{
+    right: 0;
+}
+
+.divider span{
+    display: block;
+    text-align: center;
+    font-size: .8rem;
+    color:#535353;
+    padding: .8rem 0;
+}

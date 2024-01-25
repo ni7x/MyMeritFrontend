@@ -9,9 +9,17 @@
 }
 
 .login-box{
-    padding: 2rem;
+    padding: 1.5rem 1.3rem;
     background-color: var(--secondary-bg-color);
     border-radius: 5%;
+    width: 280px;
+}
+
+.login-box h1{
+    padding: 0 0 1.5rem 0;
+    margin: 0;
+    font-size: .9rem;
+    text-align: center;
 }
 
 .login-box form{
@@ -20,4 +28,19 @@
     gap: 1rem;
 }
 
-.login-box form
+.login-box form .forgot-password{
+    text-align: right;
+    color: #fff;
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+.login-box form button[type="submit"]{
+    padding: 1rem;
+    border-radius: .2rem;
+    background-color: #0fd9bd;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: .9rem;
+}

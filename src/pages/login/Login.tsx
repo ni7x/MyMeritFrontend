@@ -2,15 +2,15 @@ import React from 'react';
 import "./login.css";
 
 import Input from '../../components/login/Input';
+import Divider from '../../components/login/Divider';
 
 const Login: React.FC = () => {
     return (
         <div className="login-box">
-            <h2>Welcome back!</h2>
+            <h1>Welcome back!</h1>
             <form>
                 <Input type="text" placeholder="email" />
-
-                <Input type="password" placeholder="Password" />
+                <Input type="password" placeholder="password" />
 
                 <a class="forgot-password" href="#">forgot password?</a>
 
@@ -19,8 +19,8 @@ const Login: React.FC = () => {
                 </button>
             </form>
 
-            {/* <Divider>or</Divider>
-
+            <Divider>or</Divider>
+            {/*
             <div className="oauth-login">
                 <OAuthLoginButton provider="google" />
                 <OAuthLoginButton provider="github" />
