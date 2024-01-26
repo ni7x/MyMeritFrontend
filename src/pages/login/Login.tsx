@@ -19,10 +19,10 @@ const Login: React.FC = () => {
                     Log In
                 </button>
             </form>
-
             <Divider>or</Divider>
+            <OAuthLogin />
 
-            {/* <OAuthLogin /> */}
+            <p className="signup-link">Don't have an account? <a href="#">Sign up</a></p>
         </div>
     );
 }

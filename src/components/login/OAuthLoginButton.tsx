@@ -8,9 +8,9 @@ type Props = {
 
 const OAuthLoginButton: React.FC<Props> = ({children, icon, ...props}) => {
     return (
-        <button {...props}>
+        <button className={"oauth-login-button"} {...props}>
             <img src={icon}/>
-            {children}
+            <span>{children}</span>
         </button>
     );
 }

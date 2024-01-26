@@ -1,0 +1,25 @@
+.oauth-login-button{
+    display: grid;
+    grid-template-columns: 10% 1fr;
+    padding: .5rem;
+    border-radius: .2rem;
+    background-color: #44444f;
+    border: none;
+    color: #fff;
+    font-size: .9rem;
+    font-weight: 600;
+    align-items: center;
+    justify-items: start;
+    cursor: pointer;
+    transition: background-color .2s ease;
+    gap: .8rem;
+}
+
+.oauth-login-button:hover{
+    background-color: #373741;
+}
+
+.oauth-login-button img{
+    max-width: 100%;
+    height: auto;
+}

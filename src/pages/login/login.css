@@ -13,6 +13,7 @@
     background-color: var(--secondary-bg-color);
     border-radius: 5%;
     width: 280px;
+    user-select: none;
 }
 
 .login-box h1{
@@ -29,7 +30,8 @@
 }
 
 .login-box form .forgot-password{
-    text-align: right;
+    width: max-content;
+    margin-left: auto;
     color: #fff;
     font-weight: 700;
     font-size: .8rem;
@@ -38,9 +40,26 @@
 .login-box form button[type="submit"]{
     padding: 1rem;
     border-radius: .2rem;
-    background-color: #0fd9bd;
+    background-color: #06a58f;
     border: none;
     color: #fff;
     font-weight: 700;
     font-size: .9rem;
+    cursor: pointer;
+    transition: background-color .2s ease;
+}
+
+.login-box form button[type="submit"]:hover{
+    background-color: #057767;
+}
+
+.login-box .signup-link{
+    text-align: center;
+    font-size: .9rem;
+    margin: 1rem 0 0 0;
+    font-weight: 600;
+}
+
+.login-box .signup-link a{
+    color: #06a58f;
 }
