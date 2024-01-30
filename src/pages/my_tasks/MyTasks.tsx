@@ -11,7 +11,7 @@ const MyTasks: React.FC = () => {
     const [ filteredTasks, setFilteredTasks ] = useState<TaskPreview[]>([]);
 
     useEffect(()=>{
-        const tasks_json = getUserTasks(0)
+        const tasks_json = getUserTasks("0")
         setTasks(tasks_json);
         setFilteredTasks(tasks_json);
 

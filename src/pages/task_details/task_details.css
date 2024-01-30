@@ -1,0 +1,9 @@
+.task-details{
+    --task-bck: #434550;
+    --task-lighter: #98999b;
+    display: flex;
+    flex-direction: row;
+    gap:2rem;
+    height: 85vh;
+}
+
