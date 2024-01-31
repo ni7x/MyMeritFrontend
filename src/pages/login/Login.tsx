@@ -1,11 +1,14 @@
 import React from 'react';
 import "./login.css";
+import { useNavigate } from 'react-router-dom';
 
 import Input from '../../components/login/Input';
 import Divider from '../../components/login/Divider';
 import OAuthLogin from '../../components/login/OAuthLogin';
 
 const Login: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="login-box">
             <h1>Welcome back!</h1>
@@ -22,7 +25,7 @@ const Login: React.FC = () => {
             <Divider>or</Divider>
             <OAuthLogin />
 
-            <p className="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+            <p className="signup-link">Don't have an account? <a href="#" onClick={()=>{navigate("/register")}}>Sign up</a></p>
         </div>
     );
 }
