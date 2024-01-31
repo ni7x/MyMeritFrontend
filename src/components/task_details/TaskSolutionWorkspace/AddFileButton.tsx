@@ -12,6 +12,7 @@ const AddFileButton: React.FC = ({addFile}) => {
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             addFile(name, language);
+            setIsPopUpOpen(false);
         }
     };
 

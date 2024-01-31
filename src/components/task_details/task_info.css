@@ -1,12 +1,14 @@
 
 .task-info{
-    width: 30%;
+    width: 20%;
     background-color: var(--task-bck);
     border-radius: 0.5rem;
     padding: 0.7rem 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    max-height: 800px;
+    max-width: 400px;
 }
 
 

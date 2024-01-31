@@ -3,9 +3,9 @@ import {getTaskById} from "../../services/TaskService";
 import Task from "../../models/Task";
 import { formatDistance } from 'date-fns';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faUser, faBookmark, faLeftLong, faMinimize, faWindowMinimize} from '@fortawesome/free-solid-svg-icons'
+import {faClock, faUser, faBookmark} from '@fortawesome/free-solid-svg-icons'
 import logo from '../../assets/logo-placeholder.png';
-import "./TaskInfo/task_info.css";
+import "./task_info.css";
 
 const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
     const [ task, setTask ] = useState<Task|null>(null);
@@ -18,6 +18,7 @@ const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
     if(task == null){
         return <p>Loading...</p>
     }
+
     const relativeDate = formatDistance(task.endDate, new Date(), { addSuffix: false })
 
     {{ /* <button className={"task-info-toggle"}><FontAwesomeIcon icon={faMinimize} /></button> */ }}
