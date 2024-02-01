@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
+import {getLanguageFromFileName} from "../../../fileUtils";
 
-const AddFileButton: React.FC = ({addFile}) => {
+const AddFileButton: React.FC<{addFile: (name: string, language: string, content?: string) => void;}> = ({addFile}) => {
     const [name, setName] = useState("");
     const [language, setLanguage] = useState("plaintext");
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
@@ -17,23 +18,7 @@ const AddFileButton: React.FC = ({addFile}) => {
     };
 
     useEffect(() => {
-        const setLanguageFromFileName = () => {
-            const extension = name.split('.').pop();
-            switch (extension) {
-                case 'js':
-                    setLanguage('javascript');
-                    break;
-                case 'css':
-                    setLanguage('css');
-                    break;
-                case 'html':
-                    setLanguage('html');
-                    break;
-                default:
-                    setLanguage('plaintext');
-            }
-        };
-        setLanguageFromFileName();
+        setLanguage(getLanguageFromFileName(name))
     }, [name]);
 
     return (

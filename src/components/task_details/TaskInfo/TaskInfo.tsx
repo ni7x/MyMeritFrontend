@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {getTaskById} from "../../services/TaskService";
-import Task from "../../models/Task";
+import {getTaskById} from "../../../services/TaskService";
+import Task from "../../../models/Task";
 import { formatDistance } from 'date-fns';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock, faUser, faBookmark} from '@fortawesome/free-solid-svg-icons'
-import logo from '../../assets/logo-placeholder.png';
+import logo from '../../../assets/logo-placeholder.png';
 import "./task_info.css";
 
 const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {

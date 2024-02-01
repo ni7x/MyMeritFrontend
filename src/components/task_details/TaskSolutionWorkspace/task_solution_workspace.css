@@ -159,12 +159,8 @@
     flex-direction: column;
 }
 
-.task-solution-workspace .ide{
-    width: 100%;
-    display: flex;
-}
 
-.task-solution-workspace .ide-wrapper{
+.task-solution-workspace .ide{
     width: 100%;
     display: flex;
     flex-direction: row;

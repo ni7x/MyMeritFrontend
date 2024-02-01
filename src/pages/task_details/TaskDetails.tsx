@@ -1,8 +1,8 @@
 import React from "react";
 import "./task_details.css";
 import { useParams } from "react-router-dom";
-import TaskInfo from "../../components/task_details/TaskInfo";
-import TaskSolutionWorkspace from "../../components/task_details/TaskSolutionWorkspace";
+import TaskInfo from "../../components/task_details/TaskInfo/TaskInfo";
+import TaskSolutionWorkspace from "../../components/task_details/TaskSolutionWorkspace/TaskSolutionWorkspace";
 
 const TaskDetails: React.FC = () => {
 
