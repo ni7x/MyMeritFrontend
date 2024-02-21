@@ -1,6 +1,65 @@
 import TaskPreview from "../models/TaskPreview";
 import TaskStatus from "../models/TaskStatus";
 import Task from "../models/Task";
+import Company from "../models/Company";
+import QueryParams from "../models/QueryParams";
+
+const getHomeTasks = (pageNum: number = 0, params: QueryParams): any => {
+    const tasks =  [
+        new Task("1abc", "Zaimplementuj operacje na macierzach w c++ (matrix.ccp) 1abc", "Description of Task One", new Date(), new Date(), 10, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "Cpp"]),
+        new Task("2", "Task Two", "Description of Task Two", new Date(), new Date(), 6, new Company(2, "Company 2", "logo2.png"), 8, ["Cpp", "C"]),
+        new Task("3", "Task Three", "Description of Task Three", new Date(), new Date(), 8, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "C"]),
+        new Task("4", "Task Four", "Description of Task Four", new Date(), new Date(), 10, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "Cpp"]),
+        new Task("5", "Task Five", "Description of Task Five", new Date(), new Date(), 12, new Company(2, "Company 2", "logo2.png"), 8, ["Java", "C"]),
+        new Task("6", "Task Six", "Description of Task Six", new Date(), new Date(), 20, new Company(1, "Company 1", "logo1.png"), 5, ["Cpp", "C"]),
+    ];
+
+
+    const { languages, minCredits, maxCredits } = params;
+
+    let filteredTasks = tasks;
+
+    if (languages && languages.length > 0) {
+        const languageArray = languages.split(",").map(lang => lang.trim());
+        filteredTasks = filteredTasks.filter(task => task.allowedTechnologies.some(tech => languageArray.includes(tech)));
+    }
+
+    if (minCredits) {
+        filteredTasks = filteredTasks.filter(task => task.credits >= minCredits);
+    }
+    if (maxCredits) {
+        filteredTasks = filteredTasks.filter(task => task.credits <= maxCredits);
+    }
+
+    const pageSize = 3;
+    const totalPages = Math.ceil(filteredTasks.length / pageSize);
+    const startIndex = (pageNum - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const tasksForPage = filteredTasks.slice(startIndex, endIndex);
+
+    return { //xd idk tak bylo w dokumentacji sping ze to wyglada
+        "_links": {
+            "self": {
+                "href": `http://localhost:8080/tasks?page=${pageNum}&size=${pageSize}`,
+                "templated": true
+            },
+            "next": {
+                "href": `http://localhost:8080/tasks?page=${pageNum + 1}&size=${pageSize}`,
+                "templated": true
+            }
+        },
+        "_embedded": {
+            "tasks": tasksForPage
+        },
+        "page": {
+            "size": pageSize,
+            "totalElements": filteredTasks.length,
+            "totalPages": totalPages,
+            "number": pageNum - 1
+        }
+    };
+};
+
 
 const getUserTasks = (userId: string): TaskPreview[] => {
     return [
@@ -25,7 +84,6 @@ function getTaskById(taskId: string): Task {
         new Date(),
         new Date((new Date()).getTime() + 86400000),
         5,
-        false,
         { id: 5, name: "Sample Company", logoUrl: "/" },
         5,
         ["java", "python"]
@@ -35,4 +93,4 @@ function getTaskById(taskId: string): Task {
 
 
 
-export  { getUserTasks, getTaskById }
+export  { getUserTasks, getTaskById, getHomeTasks }
