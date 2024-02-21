@@ -16,7 +16,7 @@ const Home: React.FC = () => {
     const maxCredits =  searchParams.get("maxCredits") ? parseInt(searchParams.get("maxCredits")) : undefined
 
     const [maxPage, setMaxPage] = useState<number>(1);
-    const [ tasks, setTasks ] = useState<Task[]>([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
 
     const queryParams: QueryParams = {
         languages: languages,
@@ -31,6 +31,7 @@ const Home: React.FC = () => {
         setTasks(tasks_json._embedded.tasks);
         setMaxPage(tasks_json.page.totalPages)
     }, [page, languages, minCredits, maxCredits])
+
 
     return (
         <div className="flex flex-col justify-between w-[70%] mx-auto">

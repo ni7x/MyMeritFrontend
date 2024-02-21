@@ -3,13 +3,14 @@ import {Task as TaskDTO} from "../../models/Task";
 import {formatDistance} from "date-fns";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock, faUser} from "@fortawesome/free-solid-svg-icons";
+import logo from '../../assets/logo-placeholder.png';
 
 const  Task: React.FC<{task: TaskDTO}> = ({task})=> {
     const relativeDate = formatDistance(task.endDate, new Date(), { addSuffix: false })
 
     return (
         <div className="flex-column bg-secondary-bg-color rounded mb-5">
-            <div className="mb-5 pt-5 px-6 pb-0">
+            <div className="mb-5 pt-6 px-6 pb-0">
                 <div className="text-[0.825rem] font-semibold mt-1 flex justify-between">
                     <div>
                         <span className="text-merit-credits-color mr-2">{task.credits} MC</span>
@@ -31,6 +32,12 @@ const  Task: React.FC<{task: TaskDTO}> = ({task})=> {
                     return <li className="mr-3 px-4 py-3 text-sm rounded-lg bg-[#5c5e68]">{technology}</li>
                 })}
             </ul>
+            <div className="mb-5 pt-5 px-6 pb-6 flex items-center justify-end font-semibold text-sm">
+                <span className="font-medium">by</span>
+                <img className="h-7 w-7 rounded-full mx-2" src={logo}/>
+                <a href={"/company/" + task.company.id}>{task.company.name}</a>
+            </div>
+
         </div>
     );
 

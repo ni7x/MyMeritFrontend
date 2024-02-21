@@ -4,8 +4,8 @@ import Task from "../../../models/Task";
 import { formatDistance } from 'date-fns';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock, faUser, faBookmark} from '@fortawesome/free-solid-svg-icons'
-import logo from '../../../assets/logo-placeholder.png';
 import "./task_info.css";
+import logo from '../../../assets/logo-placeholder.png';
 
 const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
     const [ task, setTask ] = useState<Task|null>(null);
