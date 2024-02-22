@@ -1,77 +1,119 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 // import z from 'zod';
-import { useNavigate } from 'react-router';
-import { useMutation } from '@tanstack/react-query';
-import { jwtDecode } from 'jwt-decode';
-import Cookies from 'universal-cookie';
+import { useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "universal-cookie";
 
-import User from '../models/User.ts';
+import User from "../models/User.ts";
 // import Company from '../models/Company.tsx';
 // import { JwtEncodedUser } from '../types';
-import { apiCall } from '../api/ApiClient';
+import { httpCall } from "../api/HttpClient.ts";
 
 // type UserSignIn = Partial<z.infer<typeof UserModel>>;
 // type UserSignUp = Partial<z.infer<typeof UserModel> & { passwordRepeat: string }>;
 
+type CookieUser = JwtEncodedUser | undefined;
+
 type JwtEncodedUser = {
-    id: string;
-    createdAt: Date;
-    expiresAt: Date;
-}
+  sub: string;
+  iat: number;
+  exp: number;
+};
 
 type UserSignIn = {
   email: string;
   password: string;
-}
+};
+
+type UserSignUp = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 type Error = {
   type: "SignIn" | "SignUp" | "SignInCompany";
   message: string;
-}
+};
 
 type AuthContext = {
-//   guestUser: JwtEncodedUser;
-  user: JwtEncodedUser;
+  user: CookieUser;
   isAuthenticated: () => boolean;
-//   isAuthenticatedAdmin: () => boolean;
-  signIn: ({ email, password }: UserSignIn) => void;
-//   signInAdmin: ({ email, password }: UserSignIn) => void;
-//   signUp: ({ email, password, passwordRepeat }: UserSignUp) => void;
-//   signInWithGoogle: () => void;
+  // isAuthenticatedCompany: () => boolean;
+  signIn: ({ email, password }: UserSignIn) => boolean;
+  signUp: ({ username, email, password }: UserSignUp) => boolean;
+  signOut: () => void;
+  //TODO: Add Google Auth
+  //   signInWithGoogle: () => void;
+  //TODO Add GitHub Auth
+  //   signInWithGitHub: () => void;
   isLoading: boolean;
   isError?: Error;
 };
 
 const getUserFromCookie = () => {
   const cookies = new Cookies();
-  
-  if (cookies.get('user'))
-    return cookies.get('user')
-  return null;
+  return cookies.get("user");
 };
 
 const useAuthProvider = () => {
-//   const navigation = useNavigate();
+  const navigation = useNavigate();
+  const [user, setUser] = useState<CookieUser>(getUserFromCookie());
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState<Error | undefined>(undefined);
   const cookies = new Cookies();
 
-  const isAuthenticated = () => {
-    return getUserFromCookie() !== null;
+  const isAuthenticated = (): boolean => {
+    return user !== undefined && user.sub !== null && user.sub !== "";
   };
 
+  // const isAuthenticatedCompany = () => {
+  //   return user.role === "company";
+  // };
+
   const signInMutation = useMutation({
-    mutationFn: async ({
-      email,
-      password,
-    }: UserSignIn) => {
-      const data = await apiCall<any[]>({
+    mutationFn: async ({ email, password }: UserSignIn) => {
+      const data = await httpCall<any[]>({
         url: import.meta.env.VITE_ROUTE_AUTH_LOGIN,
-        method: 'POST',
+        method: "POST",
         body: {
           email: email,
-          password: password
-        }
+          password: password,
+        },
+      });
+
+      return data;
+    },
+    onMutate: async () => {
+      setIsLoading(true);
+    },
+    onSuccess: async (response: any) => {
+      setIsLoading(false);
+
+      console.log("zalogowano", response.token);
+
+      const decodedToken = jwtDecode<JwtEncodedUser>(response.token);
+      setUser(decodedToken);
+      cookies.set("user", decodedToken);
+      navigation("/");
+    },
+    onError: async (response: string) => {
+      setIsLoading(false);
+      setIsError({ type: "SignIn", message: response });
+    },
+  });
+
+  const signUpMutation = useMutation({
+    mutationFn: async ({ username, email, password }: UserSignUp) => {
+      const data = await httpCall<any[]>({
+        url: import.meta.env.VITE_ROUTE_AUTH_REGISTER,
+        method: "POST",
+        body: {
+          username: username,
+          email: email,
+          password: password,
+        },
       });
 
       return data;
@@ -84,15 +126,13 @@ const useAuthProvider = () => {
     },
     onError: async (response: string) => {
       setIsLoading(false);
-      setIsError({type: "SignIn", message: response});
-    }
+      setIsError({ type: "SignUp", message: response });
+    },
   });
- 
-  const [user, setUser] = useState<JwtEncodedUser>(getUserFromCookie());
 
   useEffect(() => {
-    if (cookies.get('user')) {
-      setUser(cookies.get('user'));
+    if (cookies.get("user")) {
+      setUser(cookies.get("user"));
     }
   }, []);
 
@@ -101,21 +141,34 @@ const useAuthProvider = () => {
     return signInMutation.isSuccess;
   };
 
+  const signUp = ({ username, email, password }: UserSignUp) => {
+    signUpMutation.mutate({ username, email, password });
+    return signUpMutation.isSuccess;
+  };
+
+  const signOut = () => {
+    cookies.remove("user");
+    setUser(undefined);
+    window.location.reload();
+  };
+
   return {
     user,
     isAuthenticated,
     signIn,
+    signUp,
+    signOut,
     isLoading,
-    isError
+    isError,
   };
-}
+};
 
 const AuthContext = React.createContext({} as AuthContext);
 
-function AuthProvider({ children }: { children: React.ReactNode }) {
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const auth = useAuthProvider();
-  
+
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
-}
+};
 
 export { AuthProvider, AuthContext };
