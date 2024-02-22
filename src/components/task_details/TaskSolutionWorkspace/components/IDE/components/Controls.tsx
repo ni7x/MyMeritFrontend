@@ -21,19 +21,6 @@ const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, addFile, s
         );
     };
 
-    const addLocalFile = (event) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const fileContent = event.target?.result as string;
-                const fileName = file.name;
-                const fileLanguage = "plaintext";
-                addFile(fileName, fileLanguage, fileContent);
-            };
-            reader.readAsText(file);
-        }
-    };
 
     const clearCurrentFile = () => {
         const updatedFiles = [...files];
@@ -42,14 +29,11 @@ const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, addFile, s
     };
 
     return(
-        <div className="controls">
-            <div>
+        <div className="controls flex flex-row lg:flex-col w-full py-5 lg:w-[7%]">
+            <div className="flex flex-row lg:flex-col ">
                 <RunButton file={currentFile} setCodeOutput={setCodeOutput}/>
                 <button className="clear" onClick={clearCurrentFile}>Clear</button>
-                <label htmlFor="fileInput" className="add-local-file">
-                    <FontAwesomeIcon icon={faFileUpload} />
-                    <input id="fileInput" type="file" onChange={addLocalFile} />
-                </label>
+
             </div>
             <button className="submit-solution" onClick={submitSolution}>Submit</button>
         </div>

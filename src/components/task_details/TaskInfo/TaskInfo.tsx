@@ -23,7 +23,7 @@ const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
 
     {{ /* <button className={"task-info-toggle"}><FontAwesomeIcon icon={faMinimize} /></button> */ }}
     return (
-        <div className="task-info">
+        <div className="task-info w-[100%] lg:w-[35%]">
             <div>
                 <div className="top-part">
                     <div>

@@ -6,7 +6,7 @@ import QueryParams from "../models/QueryParams";
 
 const getHomeTasks = (pageNum: number = 0, params: QueryParams): any => {
     const tasks =  [
-        new Task("1abc", "Zaimplementuj operacje na macierzach w c++ (matrix.ccp) 1abc", "Description of Task One", new Date(), new Date(), 10, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "Cpp"]),
+        new Task("1abc", "Zaimplementuj operacje na macierzach w c++ (matrix.ccp) 1abc", "Twoim zadaniem jest stworzenie programu w języku C++, który będzie zawierał zestaw operacji na macierzach. Program powinien umożliwiać użytkownikowi wykonywanie podstawowych operacji na macierzach, takich jak dodawanie, odejmowanie, mnożenie, transpozycja itp.", new Date(), new Date(), 10, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "Cpp"]),
         new Task("2", "Task Two", "Description of Task Two", new Date(), new Date(), 6, new Company(2, "Company 2", "logo2.png"), 8, ["Cpp", "C"]),
         new Task("3", "Task Three", "Description of Task Three", new Date(), new Date(), 8, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "C"]),
         new Task("4", "Task Four", "Description of Task Four", new Date(), new Date(), 10, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "Cpp"]),

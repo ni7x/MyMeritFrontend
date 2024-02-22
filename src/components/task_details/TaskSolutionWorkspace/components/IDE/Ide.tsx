@@ -15,7 +15,7 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile}) =>
     const [output, setCodeOutput] = useState("");
 
     return (
-        <div className="ide">
+        <div className="ide flex flex-col lg:flex-row">
             <div className="editor">
                 <MyEditor files={files}
                           currentFileIndex={currentFileIndex}

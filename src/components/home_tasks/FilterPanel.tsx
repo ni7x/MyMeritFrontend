@@ -63,6 +63,9 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                 </div>
             </div>
             <div>
+                TODO sortowanie
+            </div>
+            <div>
                 <button onClick={submitFilter} className="w-full bg-emerald-400 rounded py-3 font-semibold mt-8 mb-1">Filter</button>
             </div>
         </div>

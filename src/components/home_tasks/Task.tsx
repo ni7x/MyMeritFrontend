@@ -10,13 +10,18 @@ const  Task: React.FC<{task: TaskDTO}> = ({task})=> {
 
     return (
         <div className="flex-column bg-secondary-bg-color rounded mb-5">
-            <div className="mb-5 pt-6 px-6 pb-0">
-                <div className="text-[0.825rem] font-semibold mt-1 flex justify-between">
-                    <div>
-                        <span className="text-merit-credits-color mr-2">{task.credits} MC</span>
+            <div className="mb-5 pt-3 px-6 pb-0">
+                <div className="text-[0.825rem] font-semibold mt-1 flex justify-between items-center">
+                    <div className="flex-row items-center">
+                        <span className="text-merit-credits-color mr-3">{task.credits} MC</span>
                         <span className="text-task-lighter"><FontAwesomeIcon icon={faUser} /> {task.solutionCount}</span>
                     </div>
                     <span className="text-task-lighter text-[0.825rem] font-medium "><FontAwesomeIcon icon={faClock} className="mr-1"/>{relativeDate} remaining</span>
+                    <div className="flex items-center justify-end font-semibold text-sm">
+                        <span className="font-medium">by</span>
+                        <img className="h-6 w-6 rounded-[50%] mx-2" src={logo}/>
+                        <a href={"/company/" + task.company.id}>{task.company.name}</a>
+                    </div>
                 </div>
 
                 <h3 className="text-lg font-bold  w-full py-2">
@@ -29,14 +34,10 @@ const  Task: React.FC<{task: TaskDTO}> = ({task})=> {
             <p className="text-task-lighter mb-5 pt-0 mt-[-1rem] px-6 leading-[1.5]">{task.description}</p>
             <ul className="flex pb-4 px-6">
                 {task.allowedTechnologies.map((technology)=>{
-                    return <li className="mr-3 px-4 py-3 text-sm rounded-lg bg-[#5c5e68]">{technology}</li>
+                    return <li className="mr-3 px-5 py-2.5 text-sm rounded-lg bg-[#5c5e68]">{technology}</li>
                 })}
             </ul>
-            <div className="mb-5 pt-5 px-6 pb-6 flex items-center justify-end font-semibold text-sm">
-                <span className="font-medium">by</span>
-                <img className="h-7 w-7 rounded-full mx-2" src={logo}/>
-                <a href={"/company/" + task.company.id}>{task.company.name}</a>
-            </div>
+
 
         </div>
     );

@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import File from "../../../models/File";
-import AddFileButton from "./components/FileTabManager/components/AddFileButton";
 import "./task_solution_workspace.css";
 import Ide from "./components/IDE/Ide";
-import FileList from "./components/FileTabManager/components/FileList";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
 
 const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
-    const [files, setFiles] = useState<File[]>([new File("index.js", "javascript", "")]);
+    const [files, setFiles] = useState<File[]>([new File("index.js", "javascript", "", true)]);
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
 
     const currentFile = files[currentFileIndex];
+
 
     const getFileByName = (name: string) => {
         return files.find(file => file.name === name);
@@ -23,7 +22,7 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
 
     const addFile = (name: string, language: string, content: string="") => {
         if (!getFileByName(name)) {
-            const newFile = new File(name, language, content);
+            const newFile = new File(name, language, content, false);
             setFiles(prevFiles => [...prevFiles, newFile]);
             setCurrentFileIndex(files.length);
         } else {
@@ -32,17 +31,51 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
     };
 
     const removeFile = (name: string) => {
-        setFiles(prevFiles => prevFiles.filter(file => file.name !== name));
+        const fileToRemove = getFileByName(name);
+
+        if(fileToRemove.isMain){
+            console.log("Can't remove main file")
+            return;
+        }
+        if (fileToRemove) {
+            if(currentFile == fileToRemove){
+                setCurrentFileIndex((index)=>index-1);
+            }
+            setFiles(prevFiles => prevFiles.filter(file => file.name !== name));
+        } else {
+            console.log("File not found.");
+        }
     };
 
+    const renameFile = (name: string, newName: string) => {
+        const fileToRename = getFileByName(name);
+        if(!getFileByName(newName)){
+            if (fileToRename) {
+                setFiles(prevFiles => {
+                    return prevFiles.map(file => {
+                        if (file.name === name) {
+                            return {...file, name: newName};
+                        }
+                        return file;
+                    });
+                });
+            }
+        }else{
+            console.log("This file name already exists")
+        }
+    }
+
     return (
-        <div className="task-solution-workspace">
+        <div className="task-solution-workspace w-[100%] lg:w[60%]">
             {currentFile &&
                 <div className="task-solution-workspace-wrapper">
                     <FileTabManager
                         addFile={addFile}
+                        removeFile={removeFile}
+                        renameFile={renameFile}
                         currentFile={currentFile}
                         files={files}
+                        getFileByName={(name) => getFileByName(name)}
                         setCurrentFileByName={setCurrentFileByName}
                     />
                     <Ide files={files}
