@@ -53,7 +53,7 @@ const getUserFromCookie = () => {
 const useAuthProvider = () => {
 //   const navigation = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState<Error | undefined>();
+  const [isError, setIsError] = useState<Error | undefined>(undefined);
   const cookies = new Cookies();
 
   const isAuthenticated = () => {
@@ -74,21 +74,17 @@ const useAuthProvider = () => {
         }
       });
 
-      return data[0];
+      return data;
     },
     onMutate: async () => {
       setIsLoading(true);
     },
     onSuccess: async (response: any) => {
       setIsLoading(false);
-      setIsError(undefined);
-
-      console.log(response);
     },
-    onError: async (response) => {
+    onError: async (response: string) => {
       setIsLoading(false);
-      setIsError({ type: "SignIn", message: 'cos sie odjebalo' });
-      console.error(response);
+      setIsError({type: "SignIn", message: response});
     }
   });
  

@@ -7,19 +7,19 @@ import OAuthLogin from '../../components/login/OAuthLogin';
 
 import { useAuth } from "../../hooks/useAuth";
 
-const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Form submitted");
-
+const Login: React.FC = () => {
     const { signIn } = useAuth();
 
-    const email = (event.target as any).email.value;
-    const password = (event.target as any).password.value;
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log("Form submitted");
+    
+        const email = (event.target as any).email.value;
+        const password = (event.target as any).password.value;
+    
+        signIn({ email, password });
+    }
 
-    signIn({ email, password });
-}
-
-const Login: React.FC = () => {
     return (
         <div className="login-box">
             <h1>Welcome back!</h1>

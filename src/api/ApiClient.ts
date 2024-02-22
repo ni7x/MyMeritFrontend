@@ -1,10 +1,9 @@
 // import { excludeCookies } from "@utils/cookies";
 
 export type TApiResponse<T> = {
-    status: number;
+    success: boolean;
     data: T[]; 
     message: string;
-    errors: [unknown] | null
 } 
 
 type TApiMethod = "POST" | "GET" | "PUT" | "PATCH" | "DELETE"; 
@@ -18,17 +17,12 @@ type TApiCallParams<T extends TApiMethod = TApiMethod> = {
     config?: RequestInit
 }
 
-function isResponseOk<TData>(response: TApiResponse<TData>) {
-    return response.status >= 200 && response.status < 300; 
-}
-
 export async function apiCall<TData>({url, method, body, config}: TApiCallParams): Promise<TData> {
     const headers = {
         'Content-Type': 'application/json',
-        // 'Cookie': excludeCookies()
     }; 
 
-    const response = await fetch(import.meta.env.VITE_API_URL + url, {
+    const response = await fetch(url, {
         method: method,
         headers,
         credentials: 'include', 
@@ -38,13 +32,11 @@ export async function apiCall<TData>({url, method, body, config}: TApiCallParams
     
     const jsonResponse: TApiResponse<TData> = await response.json(); 
 
-    if(isResponseOk<TData>(jsonResponse))
+    if(jsonResponse.success)
     {
-        return jsonResponse.data as TData; 
+        return jsonResponse.data as TData;
     } else {
-        const errorString: string = jsonResponse.errors != null ? jsonResponse.errors.map((error: any) => {
-            return error.message; 
-        }).join(",") : ""; 
+        const errorString: string = jsonResponse.message;
         throw new Error(errorString); 
     }
 }
