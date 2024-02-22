@@ -1,0 +1,127 @@
+
+.task-info{
+    width: 20%;
+    background-color: var(--task-bck);
+    border-radius: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 800px;
+    max-width: 400px;
+}
+
+
+.task-info div{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.task-info .top-part span{
+    color: #ffcc00;
+}
+
+.task-info .top-part img{
+
+}
+
+.task-info .top-part{
+    margin: 0;
+    width: 100%;
+    display: flex;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.task-info .top-part p{
+    display: inline-block;
+    margin-right: 1rem;
+    color: var(--task-lighter);
+}
+
+.task-info .bookmark{
+    width: 1px;
+}
+
+.task-info h3{
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    padding-top: 0;
+    margin-top: -0.4rem;
+    margin-bottom: -0.4rem;
+}
+
+.task-info .date{
+    font-size: 0.85rem;
+    color: var(--task-lighter);
+    font-weight: 500;
+}
+
+.task-info .description{
+    margin-top: 1.3rem;
+    line-height: 1.6;
+    overflow-y: auto;
+}
+
+.task-info .top-part, .date svg{
+    margin-right: 0.2rem;
+}
+
+
+.task-info ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.task-info ul li{
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    padding: 0.8rem 1.1rem;
+    border-radius: 10px;
+    background-color: #5c5e68;
+}
+
+.task-info .company{
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    padding-top: 1rem;
+    justify-content: space-between;
+}
+
+.task-info .company div{
+    display: flex;
+    align-items: center;
+}
+
+.task-info-toggle{
+    color: var(--task-lighter);
+    border: none;
+    background: var(--main-bg-color);
+    padding: 0.4rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+
+}
+
+.task-info a{
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.task-info img{
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    margin-right: 0.6rem;
+}
+
