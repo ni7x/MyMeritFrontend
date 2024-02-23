@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,7 @@ import { useAuth } from "../../hooks/useAuth";
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const { signUp } = useAuth();
+  const [message, setMessage] = useState<boolean | string>(false);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,7 +20,10 @@ const Register: React.FC = () => {
     const email = (event.target as any).email.value;
     const password = (event.target as any).password.value;
 
-    signUp({ username, email, password });
+    if (signUp({ username, email, password })) {
+      setMessage("Pomyślnie zarejestrowano. Możesz się teraz zalogować.");
+      window.location.href = "/login";
+    }
   };
 
   return (

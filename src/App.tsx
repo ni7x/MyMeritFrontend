@@ -9,6 +9,7 @@ import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
 import Register from "./pages/login/Register";
 import TaskDetails from "./pages/task_details/TaskDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   const location = useLocation();
@@ -26,7 +27,14 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mytasks/" element={<MyTasks />} />
-          <Route path="/tasks/:id" element={<TaskDetails />} />
+          <Route
+            path="/tasks/:id"
+            element={
+              <ProtectedRoute>
+                <TaskDetails />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login/" element={<Login />} />
           <Route path="/register/" element={<Register />} />
           <Route path="*" element={<NotFound />} />

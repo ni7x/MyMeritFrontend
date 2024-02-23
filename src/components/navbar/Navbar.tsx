@@ -4,7 +4,7 @@ import "./navbar.css";
 import { useAuth } from "../../hooks/useAuth";
 
 const Navbar: React.FC = () => {
-  const { isAuthenticated, signOut } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <nav>
@@ -12,9 +12,10 @@ const Navbar: React.FC = () => {
         <li>
           <Link to="/">home</Link>
           <Link to="/mytasks">my tasks</Link>
-          {isAuthenticated() === false && <Link to="/login">log in </Link>}
-          {isAuthenticated() === true && (
-            <button onClick={signOut}>log out</button>
+          {user ? (
+            <button onClick={signOut}>sign out</button>
+          ) : (
+            <Link to="/login">sign in</Link>
           )}
         </li>
       </ul>

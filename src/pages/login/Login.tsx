@@ -1,6 +1,6 @@
 import React from "react";
 import "./login.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Input from "../../components/login/Input";
 import Divider from "../../components/login/Divider";
@@ -11,6 +11,8 @@ import { useAuth } from "../../hooks/useAuth";
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
+  const location = useLocation();
+  const message = location.state && location.state.message;
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,6 +26,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-box">
+      {message && <p className="message">{message}</p>}
       <h1>Welcome back!</h1>
       <form onSubmit={onSubmit}>
         <Input type="text" id="email" name="email" placeholder="email" />
