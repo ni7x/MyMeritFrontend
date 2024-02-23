@@ -35,14 +35,17 @@ const FileChangeButton: React.FC<FileChangeButtonProps> = ({name, setCurrentFile
     }
 
     return (
-        <div className={"flex justify-center items-center pr-2 pl-4 p-2.5 text-sm "  + (currentFileName != name ? " bg-secondary-bg-color " : " bg-[#1e1e1e] ") }>
-            {isMain ? <FontAwesomeIcon icon={faPlay} className="text-xs text-main-lighter"/> : "" }
-            <div className="mx-6 w-[100%]" onClick={handleClick} onBlur={handleLoseFocus}>
-                {isRenaming ?
-                    <input value={newFileName} onChange={(e) => {changeFileName(e)}} className="bg-transparent w-[60px] resize-none"></input>
-                    : name
-                }
+        <div className={"flex justify-center items-center   text-sm cursor-pointer pr-2 "  + (currentFileName != name ? " bg-[#353740] text-task-lighter" : " bg-task-bck font-medium") } >
+            <div className="flex items-center p-2.5  pl-4" onClick={handleClick} onBlur={handleLoseFocus}>
+                {isMain ? <FontAwesomeIcon icon={faPlay} className="text-xs text-main-lighter"/> : "" }
+                <div className="mx-6">
+                    {isRenaming ?
+                        <input value={newFileName} onChange={(e) => {changeFileName(e)}} className="bg-transparent   p-0 m-0 h-[100%]"></input>
+                        : name
+                    }
+                </div>
             </div>
+
             <button className="text-task-lighter  p-1 pr-1.5 pl-1.5 rounded text-[0.6rem] hover:bg-red-700 hover:text-white" onClick={()=>removeFile(name)}><FontAwesomeIcon icon={faX} /></button>
         </div>
 

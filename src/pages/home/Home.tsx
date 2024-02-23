@@ -7,6 +7,7 @@ import {useLocation} from "react-router-dom";
 import Pagination from "../../components/home_tasks/Pagination";
 import FilterPanel from "../../components/home_tasks/FilterPanel";
 import QueryParams from "../../models/QueryParams";
+import SortPanel from "../../components/home_tasks/SortPanel";
 
 const Home: React.FC = () => {
     const searchParams = new URLSearchParams(useLocation().search);
@@ -26,7 +27,6 @@ const Home: React.FC = () => {
     
     
     useEffect(()=>{
-
         const tasks_json = getHomeTasks(page, queryParams);
         setTasks(tasks_json._embedded.tasks);
         setMaxPage(tasks_json.page.totalPages)
@@ -34,10 +34,13 @@ const Home: React.FC = () => {
 
 
     return (
-        <div className="flex flex-col justify-between w-[70%] mx-auto">
-            <div className="flex gap-x-10 h-full">
-                <TaskList tasks={tasks}/>
-                <FilterPanel queryParams={queryParams} tasks={tasks}/>
+        <div className="flex flex-col justify-between w-full xl:w-[60%] mx-auto">
+            <div className="flex flex-col  gap-x-10 h-full items-center xl:items-baseline">
+                <SortPanel/>
+                <div className="flex w-[70%] flex-col-reverse gap-x-10 xl:flex-row xl:w-[100%]">
+                    <TaskList tasks={tasks}/>
+                    <FilterPanel queryParams={queryParams} tasks={tasks}/>
+                </div>
             </div>
             <div>
                 <Pagination page={page} maxPages={maxPage} queryParams={queryParams}/>

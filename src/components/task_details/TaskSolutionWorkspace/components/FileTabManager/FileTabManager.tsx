@@ -3,7 +3,7 @@ import AddFileButton from "./components/AddFileButton";
 
 const FileTabManager = ({files, currentFile, setCurrentFileByName, addFile, removeFile, getFileByName, renameFile}) => {
     return(
-        <div className="top-panel">
+        <div className="flex items-center">
             <FileList
                 files={files}
                 currentFile={currentFile}

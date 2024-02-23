@@ -40,6 +40,7 @@ const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
                 const fileName = file.name;
                 const fileLanguage = "plaintext";
                 addFile(fileName, fileLanguage, fileContent);
+                setIsPopUpOpen(false);
             };
             reader.readAsText(file);
         }
