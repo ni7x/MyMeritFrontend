@@ -11,6 +11,8 @@ import Register from "./pages/login/Register";
 import TaskDetails from "./pages/task_details/TaskDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+
+
 const App = () => {
   const location = useLocation();
 

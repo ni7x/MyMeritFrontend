@@ -1,5 +1,5 @@
-import React from "react";
-import Editor from "@monaco-editor/react";
+import React, {useEffect} from "react";
+import Editor from '@monaco-editor/react';
 import File from "../../../../../../models/File";
 
 interface MyEditorProps{
@@ -19,12 +19,12 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) 
         const updatedFiles = [...files];
         updatedFiles[currentFileIndex].content = value;
         setFiles(updatedFiles);
-    };
+    }
 
     return (
         <Editor
-            height="60vh"
-            theme="vs-dark"
+            height="50vh"
+            theme="customTheme"
             path={currentFile.name}
             defaultLanguage={currentFile.language}
             value={currentFile.content}

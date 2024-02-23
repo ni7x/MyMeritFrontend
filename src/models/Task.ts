@@ -8,7 +8,6 @@ class Task {
         public startDate: Date,
         public endDate: Date,
         public credits: number,
-        public isBookmarked: boolean,
         public company: Company,
         public solutionCount: number,
         public allowedTechnologies: string[]

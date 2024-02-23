@@ -6,10 +6,10 @@ import TaskSolutionWorkspace from "../../components/task_details/TaskSolutionWor
 
 const TaskDetails: React.FC = () => {
 
-    const { id } = useParams<{ id: string }>();
+    const {id} = useParams<{ id: string }>();
 
     return (
-        <div className={"task-details"}>
+        <div className="task-details flex flex-col gap-[2rem] lg:flex-row w-[100%] ">
             <TaskInfo taskId={id!}></TaskInfo>
             <TaskSolutionWorkspace taskId={id!}></TaskSolutionWorkspace>
         </div>

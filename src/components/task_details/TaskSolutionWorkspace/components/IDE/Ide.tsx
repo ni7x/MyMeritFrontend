@@ -9,28 +9,31 @@ interface IdeProps {
     currentFileIndex: number;
     setFiles: (files: File[]) => void;
     addFile: (name: string, language: string, content?: string) => void;
+    setAsMain: (name: string) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile}) => {
+const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile, setAsMain}) => {
     const [output, setCodeOutput] = useState("");
 
     return (
-        <div className="ide">
-            <div className="editor">
+        <div className="flex flex-col lg:flex-row">
+            <div className="w-full">
                 <MyEditor files={files}
                           currentFileIndex={currentFileIndex}
                           setFiles={setFiles}
                 />
                 <Terminal output={output}/>
+                <Controls
+                    currentFile={files[currentFileIndex]}
+                    files={files}
+                    setFiles={setFiles}
+                    currentFileIndex={currentFileIndex}
+                    addFile={addFile}
+                    setCodeOutput={setCodeOutput}
+                    setAsMain={setAsMain}
+                />
+
             </div>
-            <Controls
-                currentFile={files[currentFileIndex]}
-                files={files}
-                setFiles={setFiles}
-                currentFileIndex={currentFileIndex}
-                addFile={addFile}
-                setCodeOutput={setCodeOutput}
-            />
         </div>
     )
 }
