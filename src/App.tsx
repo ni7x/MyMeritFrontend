@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import "./normalize.css";
 import "./App.css";
 import Home from "./pages/home/Home";
@@ -27,7 +27,8 @@ const App = () => {
       {renderNavbar()}
       <div className="wrapper">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Navigate to="/tasks" />} />
+          <Route path="/tasks" element={<Home/>} />
           <Route path="/mytasks/" element={<MyTasks />} />
           <Route
             path="/tasks/:id"
