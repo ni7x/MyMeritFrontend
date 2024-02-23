@@ -1,23 +1,22 @@
-nav{
-    position: fixed;
-    width: 100%;
-    top: 0;
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-    background-color: var(--main-bg-color);
-    font-size: 1rem;
-    border-bottom: 1px solid var(--main-border);
+nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  background-color: var(--main-bg-color);
+  font-size: 1rem;
+  border-bottom: 1px solid var(--main-border);
 }
 
-nav ul{
-    list-style: none;
+nav ul {
+  list-style: none;
 }
 
-nav ul li a{
+/* nav ul li a{
     color: white;
     margin: 0 1rem;
     text-decoration: none;
     font-weight: 600;
-}
-
+} */
