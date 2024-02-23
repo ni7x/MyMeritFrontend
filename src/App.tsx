@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./normalize.css";
 import "./App.css";
 import Home from "./pages/home/Home";
@@ -11,11 +11,10 @@ import Register from "./pages/login/Register";
 import TaskDetails from "./pages/task_details/TaskDetails";
 
 const App = () => {
+  const location = useLocation();
+
   const isLoginPage = (): boolean => {
-    return (
-      window.location.pathname === "/login" ||
-      window.location.pathname === "/register"
-    );
+    return location.pathname === "/login" || location.pathname === "/register";
   };
 
   const renderNavbar = () => (!isLoginPage() ? <Navbar /> : null);

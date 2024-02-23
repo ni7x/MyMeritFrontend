@@ -19,6 +19,8 @@ type JwtEncodedUser = {
   sub: string;
   iat: number;
   exp: number;
+  //TODO
+  //isCompany: boolean;
 };
 
 type UserSignIn = {
@@ -68,8 +70,9 @@ const useAuthProvider = () => {
     return user !== undefined && user.sub !== null && user.sub !== "";
   };
 
+  //TODO
   // const isAuthenticatedCompany = () => {
-  //   return user.role === "company";
+  //   return user.isCompany;
   // };
 
   const signInMutation = useMutation({
