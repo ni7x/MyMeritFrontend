@@ -12,6 +12,12 @@ html {
 
 }
 
+body .popup-open {
+    overflow: hidden;
+    position:fixed;
+    height: 100vh;
+}
+
 .wrapper{
     margin: 3.5rem auto 0;
     width: 90%;

@@ -1,6 +1,4 @@
 import RunButton from "./RunButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileUpload, faTrash, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import React from "react";
 import File from "../../../../../../models/File";
 
@@ -30,10 +28,10 @@ const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, addFile, s
     };
 
     return(
-        <div className="flex flex-row  w-[100%] py-3 px-3 bg-[#1d1e25]  items-center justify-end">
-            <div className="w-[65%] flex flex-row gap-3 items-center justify-between">
+        <div className="flex flex-row  w-[100%] py-3 px-3 bg-[#1d1e25]  items-center justify-end ">
+            <div className="flex flex-row gap-3 items-center justify-between flex-wrap lg:w-[65%]">
                 <div className="flex flex-row items-center">
-                    <button className="bg-gray-600 p-1.5 px-5 text-sm font-semibold rounded border-2 border-gray-600 mr-3 " onClick={() => setAsMain(currentFile.name)}>Set as main</button>
+                    <button className="bg-gray-600 p-1.5 px-5 text-sm font-semibold rounded border-2 border-gray-600 mr-3 w-auto  text-nowrap" onClick={() => setAsMain(currentFile.name)}>Set as main</button>
                     <button className="bg-orange-400 p-1.5 px-5 text-sm font-semibold rounded border-2 border-orange-400 mr-3" onClick={clearCurrentFile}>Clear</button>
                     <RunButton file={currentFile} setCodeOutput={setCodeOutput}/>
                 </div>

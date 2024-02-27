@@ -102,6 +102,7 @@ const useAuthProvider = () => {
       navigation("/");
     },
     onError: async (response: string) => {
+      console.log(response)
       setIsLoading(false);
       setIsError({ type: "SignIn", message: response });
     },
@@ -125,6 +126,7 @@ const useAuthProvider = () => {
       setIsLoading(true);
     },
     onSuccess: async (response: any) => {
+      console.log(response)
       setIsLoading(false);
     },
     onError: async (response: string) => {

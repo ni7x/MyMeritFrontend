@@ -6,7 +6,7 @@ import SecondWrapper from "../SecondWrapper";
 const TaskList: React.FC<{ tasks: TaskDTO[] }> = ({ tasks }) => {
   return (
     <div
-      className={`w-[60%] ${
+      className={`w-[100%] flex flex-col align-center justify-center ${
         tasks.length === 0 ? "justify-center align-center flex h-full" : ""
       }`}
     >
