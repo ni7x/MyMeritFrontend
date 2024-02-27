@@ -25,9 +25,9 @@ const App = () => {
           <Route
             path="/tasks/:id"
             element={
-              //<ProtectedRoute>
+              <ProtectedRoute>
                 <TaskDetails />
-             // </ProtectedRoute>
+              </ProtectedRoute>
             }
           />
           <Route path="/login/" element={<Login />} />
