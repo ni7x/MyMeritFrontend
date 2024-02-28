@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Editor from '@monaco-editor/react';
 import File from "../../../../../../models/File";
+import {getLanguageFromFileName} from "../../../fileUtils";
 
 interface MyEditorProps{
     files: File[],
@@ -11,25 +12,21 @@ interface MyEditorProps{
 const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) => {
     const currentFile = files[currentFileIndex];
 
-    function handleEditorValidation(markers) {
-        markers.forEach(marker => console.log('onValidate:', marker.message));
-    }
-
     const handleEditorChange = (value: string) => {
         const updatedFiles = [...files];
         updatedFiles[currentFileIndex].content = value;
         setFiles(updatedFiles);
     }
 
+
     return (
         <Editor
             height="50vh"
             theme="customTheme"
             path={currentFile.name}
-            defaultLanguage={currentFile.language}
+            language={getLanguageFromFileName(currentFile.name)}
             value={currentFile.content}
             onChange={handleEditorChange}
-            onValidate={handleEditorValidation}
             options={{
                 minimap: { enabled: false },
                 overviewRulerBorder: false,

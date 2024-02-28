@@ -4,7 +4,7 @@ import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
 
 const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
-    const [files, setFiles] = useState<File[]>([new File("index.js", "javascript", "", true)]);
+    const [files, setFiles] = useState<File[]>([new File("index.js", "", true)]);
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
 
 
@@ -22,7 +22,7 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
 
     const addFile = (name: string, language: string, content: string="") => {
         if (!getFileByName(name)) {
-            const newFile = new File(name, language, content, false);
+            const newFile = new File(name, content, false);
             setFiles(prevFiles => [...prevFiles, newFile]);
             setCurrentFileIndex(files.length);
         } else {

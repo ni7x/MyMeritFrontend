@@ -9,6 +9,8 @@ const getLanguageFromFileExtension = (fileExtension: string) : string =>{
     switch (fileExtension){
         case "js":
             return "javascript";
+        case "cpp":
+            return "cpp";
         case "java":
             return "java";
         default:

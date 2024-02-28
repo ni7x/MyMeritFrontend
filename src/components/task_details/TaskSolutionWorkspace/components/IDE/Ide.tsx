@@ -14,6 +14,8 @@ interface IdeProps {
 
 const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile, setAsMain}) => {
     const [output, setCodeOutput] = useState("");
+    const [loading, setLoading] = useState(false);
+
 
     return (
         <div className="flex flex-col lg:flex-row">
@@ -22,7 +24,7 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile, set
                           currentFileIndex={currentFileIndex}
                           setFiles={setFiles}
                 />
-                <Terminal output={output}/>
+                <Terminal output={output} loading={loading}/>
                 <Controls
                     currentFile={files[currentFileIndex]}
                     files={files}
@@ -31,6 +33,7 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile, set
                     addFile={addFile}
                     setCodeOutput={setCodeOutput}
                     setAsMain={setAsMain}
+                    setLoading={setLoading}
                 />
 
             </div>
