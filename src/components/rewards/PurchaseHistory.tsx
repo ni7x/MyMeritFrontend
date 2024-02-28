@@ -1,13 +1,14 @@
 import Reward from "./Reward";
 import React from "react";
-import PurchasedReward from "../../models/PurchasedReward";
+import  {PurchasedReward as PurchasedRewardDTO} from "../../models/PurchasedReward";
+import PurchasedReward from "./PurchasedReward";
 
-const PurchaseHistory: React.FC<{history: PurchasedReward[]}> = ({history}) => {
+const PurchaseHistory: React.FC<{history: PurchasedRewardDTO[]}> = ({history}) => {
     return (
         <div class="flex justify-center w-full">
             <ul className="flex flex-wrap w-full">
                 {history.map((reward)=>{
-                    return <PurchasedReward reward={reward}/>
+                    return <PurchasedReward purchase={reward}/>
                 })}
             </ul>
         </div>

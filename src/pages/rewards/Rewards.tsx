@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Reward from "../../models/Reward";
 import AvailableRewards from "../../components/rewards/AvailableRewards";
-import {getRewards} from "../../services/RewardService";
+import {getPurchaseHistory, getRewards} from "../../services/RewardService";
 import SecondWrapper from "../../components/SecondWrapper";
 import PurchaseHistory from "../../components/rewards/PurchaseHistory";
 import PurchasedReward from "../../models/PurchasedReward";
@@ -20,6 +20,7 @@ const Rewards: React.FC = () => {
 
     useEffect(()=>{
         setAvailableRewards(getRewards);
+        setPurchaseHistory(getPurchaseHistory)
     }, [])
 
     return (
