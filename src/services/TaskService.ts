@@ -75,7 +75,7 @@ const getUserTasks = (userId: string): TaskPreview[] => {
     ];
 }
 
-function getTaskById(taskId: string): Task {
+const getTaskById = (taskId: string): Task => {
     return new Task(
         taskId,
         "Zaimplementuj operacje na macierzach \n" +

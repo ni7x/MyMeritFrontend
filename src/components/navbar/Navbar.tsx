@@ -21,10 +21,13 @@ const Navbar: React.FC = () => {
             {" "}
             <Link to="/">home</Link>{" "}
           </li>
-
           <li>
             {" "}
             <Link to="/mytasks">my tasks</Link>
+          </li>
+          <li>
+            {" "}
+            <Link to="/rewards">rewards</Link>
           </li>
           <li className="ml-auto">
             {user ? (
