@@ -32,6 +32,7 @@ type UserSignUp = {
   username: string;
   email: string;
   password: string;
+  code: string;
 };
 
 type Error = {
@@ -44,7 +45,7 @@ type AuthContext = {
   isAuthenticated: () => boolean;
   // isAuthenticatedCompany: () => boolean;
   signIn: ({ email, password }: UserSignIn) => boolean;
-  signUp: ({ username, email, password }: UserSignUp) => boolean;
+  signUp: ({ username, email, password, code }: UserSignUp) => boolean;
   signOut: () => void;
   //TODO: Add Google Auth
   //   signInWithGoogle: () => void;
@@ -94,22 +95,25 @@ const useAuthProvider = () => {
     onSuccess: async (response: any) => {
       setIsLoading(false);
 
-      console.log("zalogowano", response.token);
+      if (response.success) {
+        console.log("zalogowano", response.data.token);
 
-      const decodedToken = jwtDecode<JwtEncodedUser>(response.token);
-      setUser(decodedToken);
-      cookies.set("user", decodedToken);
-      navigation("/");
+        const decodedToken = jwtDecode<JwtEncodedUser>(response.data.token);
+        setUser(decodedToken);
+        cookies.set("user", decodedToken);
+        navigation("/");
+      } else {
+        setIsError({ type: "SignIn", message: response.message });
+      }
     },
     onError: async (response: string) => {
-      console.log(response)
       setIsLoading(false);
       setIsError({ type: "SignIn", message: response });
     },
   });
 
   const signUpMutation = useMutation({
-    mutationFn: async ({ username, email, password }: UserSignUp) => {
+    mutationFn: async ({ username, email, password, code }: UserSignUp) => {
       const data = await httpCall<any[]>({
         url: import.meta.env.VITE_ROUTE_AUTH_REGISTER,
         method: "POST",
@@ -117,6 +121,9 @@ const useAuthProvider = () => {
           username: username,
           email: email,
           password: password,
+          code: code,
+          // TODO
+          // password2: password2,
         },
       });
 
@@ -126,8 +133,13 @@ const useAuthProvider = () => {
       setIsLoading(true);
     },
     onSuccess: async (response: any) => {
-      console.log(response)
       setIsLoading(false);
+      if (response.success) {
+        console.log("zarejestrowano");
+        navigation("/login");
+      } else {
+        navigation("/register");
+      }
     },
     onError: async (response: string) => {
       setIsLoading(false);
@@ -146,8 +158,8 @@ const useAuthProvider = () => {
     return signInMutation.isSuccess;
   };
 
-  const signUp = ({ username, email, password }: UserSignUp) => {
-    signUpMutation.mutate({ username, email, password });
+  const signUp = ({ username, email, password, code }: UserSignUp) => {
+    signUpMutation.mutate({ username, email, password, code });
     return signUpMutation.isSuccess;
   };
 

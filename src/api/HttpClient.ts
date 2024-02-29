@@ -9,7 +9,7 @@ type HttpMethod = "POST" | "GET" | "PUT" | "PATCH" | "DELETE";
 type RequiredBodyHttpMethod = "POST" | "PUT" | "PATCH";
 
 type HttpCallParams<T extends HttpMethod = HttpMethod> = {
-  url: `/${string}`;
+  url: string;
   method: T;
   body?: T extends RequiredBodyHttpMethod ? unknown : undefined;
 };
@@ -30,12 +30,5 @@ export async function httpCall<Data>({
     body: JSON.stringify(body),
   });
 
-  const jsonResponse: HttpResponse<Data> = await response.json();
-
-  if (jsonResponse.success) {
-    return jsonResponse.data as Data;
-  } else {
-    const errorString: string = jsonResponse.message;
-    throw new Error(errorString);
-  }
+  return await response.json();
 }
