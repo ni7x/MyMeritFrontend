@@ -15,7 +15,7 @@ loader.init().then((monaco) => {
         rules: [],
         colors: {
             'editor.background': '#3a3b46',
-            'editor.lineHighlightBackground': '#4f515d',
+            'editor.lineHighlightBackground': '#434450',
         },
     });
 });
