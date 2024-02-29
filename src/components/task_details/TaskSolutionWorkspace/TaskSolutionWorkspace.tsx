@@ -7,9 +7,13 @@ import {decodeBase64} from "./fileUtils";
 import CodeExecutionOutput from "../../../models/CodeExecutionOutput";
 
 const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
-    const helloWorld = `#include <iostream>\nint main() {\n    std::cout << "Hello World!";\n    return 0;\n}`;
+    const code = `#include <iostream>\n#include "firstFile.h"\nusing namespace std;\nextern int add(int a, int b);\nint main() {\ncout << add(14, 16) << endl;\ncout << add(2, 3) << endl;\nreturn 0;\n}`;
 
-    const [files, setFiles] = useState<File[]>([new File("main.cpp", helloWorld, true)]);
+    const [files, setFiles] = useState<File[]>([
+        new File("main.cpp", code, true),
+        new File("firstFile.h", "int add(int a, int b) { return a + b; }", false)
+    ]);
+
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
     const currentFile = files[currentFileIndex];
 
