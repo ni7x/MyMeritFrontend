@@ -12,7 +12,7 @@ const SupportContact: React.FC = () => {
     return (
         <GenericContact
             title="Support"
-            URL="https://script.google.com/macros/s/AKfycbx43bxEXuI9xN9tbGJ76C0z06R2jXbq90SVa2kcINVGcdtB0Zwwh4oeaL7f96p6xjNt/exec"
+            URL={import.meta.env.VITE_CONTACT_SUPPORT}
             fields={supportFields}
             contactMail="supportMain@xd.com"
         />

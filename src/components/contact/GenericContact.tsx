@@ -47,7 +47,7 @@ const GenericContact: React.FC<ContactProps> = ({ title, URL , contactMail, fiel
                 {fields.map(field => (
                     <label
                         key={field.name}
-                        className={"mb-3 flex flex-col " + (field.type === "textarea" ? "w-[98%]": "w-[48%]")
+                        className={"mb-3 flex flex-col " + (field.type === "textarea" ? "w-[98%]": "w-[98%] md:w-[48%]")
                     }>
                         <span className="font-medium text-sm">{field.name}</span>
                         {field.type === "textarea" ? (

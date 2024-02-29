@@ -13,7 +13,7 @@ const BusinessContact: React.FC = () => {
     return (
         <GenericContact
             title="Business"
-            URL="https://script.google.com/macros/s/AKfycbyEolx-7ro_nSPHf1DJQgIgZ6vg9quv9uPE3XWPDMUiwQLdMm_A4-mqBN03YsJ9BrEP/exec"
+            URL={import.meta.env.VITE_CONTACT_BUSINESS}
             fields={businessFields}
             contactMail="buisnessMail@xd.pl"
         />
