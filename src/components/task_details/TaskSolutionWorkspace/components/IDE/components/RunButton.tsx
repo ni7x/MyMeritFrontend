@@ -1,17 +1,24 @@
 import React from "react";
 import File from "../../../../../../models/File";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
+import {generateEncodedZip} from "../../../fileUtils";
 
-const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, setCodeOutput, setLoading}) => {
+const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading}) => {
+    const isMultiFile = true;
+
     const compileCode = async () => {
         if(file.content.trim() === ""){
             return;
         }
 
         setLoading(true);
-        const output: CodeExecutionOutput = await getToken().then(token => getCompilation(token));
+        let output: CodeExecutionOutput;
+        if(isMultiFile){
+            output = await getMultiFileToken().then(token => getCompilation(token));
+        }else{
+             output = await getToken().then(token => getCompilation(token));
+        }
         setLoading(false)
-
         setCodeOutput(output);
     }
 
@@ -25,6 +32,24 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
                 body: JSON.stringify({
                     fileName: file.name,
                     fileContentBase64: btoa(file.content)
+                })
+            });
+            return await response.text();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const getMultiFileToken =  async () => {
+        try {
+            const response = await fetch("http://localhost:8080/token", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fileName: file.name,
+                    fileContentBase64: await generateEncodedZip(files)
                 })
             });
             return await response.text();

@@ -11,7 +11,7 @@ interface FileListProps {
 
 const FileList: React.FC<FileListProps>= ({files, setCurrentFileByName, currentFile, removeFile, renameFile}) => {
     return(
-        <div class="overflow-auto flex">
+        <div className="overflow-auto flex">
             {files.map(file =>
                 <FileChangeButton
                     key={file.name}

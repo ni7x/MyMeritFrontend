@@ -1,12 +1,13 @@
 import RunButton from "./RunButton";
 import React from "react";
 import File from "../../../../../../models/File";
+import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
 
 interface ControlsProps {
     files: File[];
     currentFileIndex: number;
     addFile: (name: string, language: string, content?: string) => void;
-    setCodeOutput: (output: string) => void;
+    setCodeOutput: (output: CodeExecutionOutput) => void;
     setFiles: (files: File[]) => void;
     setAsMain: (name: string) => void;
 }
@@ -33,7 +34,7 @@ const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, setLoading
                 <div className="flex flex-row items-center">
                     <button className="bg-gray-600 p-1.5 px-5 text-sm font-semibold rounded border-2 border-gray-600 mr-3 w-auto  text-nowrap" onClick={() => setAsMain(currentFile.name)}>Set as main</button>
                     <button className="bg-orange-400 p-1.5 px-5 text-sm font-semibold rounded border-2 border-orange-400 mr-3" onClick={clearCurrentFile}>Clear</button>
-                    <RunButton file={currentFile} setCodeOutput={setCodeOutput} setLoading={setLoading}/>
+                    <RunButton file={currentFile} setCodeOutput={setCodeOutput} setLoading={setLoading} files={files}/>
                 </div>
                 <button className="bg-blue-500 p-1.5 px-5 text-sm font-medium rounded border-2 border-blue-500" onClick={submitSolution}>Submit</button>
             </div>

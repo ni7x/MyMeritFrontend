@@ -2,14 +2,15 @@ import React, { useState} from "react";
 import File from "../../../models/File";
 import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
+import JSZip from "jszip";
+import {decodeBase64} from "./fileUtils";
+import CodeExecutionOutput from "../../../models/CodeExecutionOutput";
 
 const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
     const helloWorld = `#include <iostream>\nint main() {\n    std::cout << "Hello World!";\n    return 0;\n}`;
 
     const [files, setFiles] = useState<File[]>([new File("main.cpp", helloWorld, true)]);
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
-
-
     const currentFile = files[currentFileIndex];
 
 
@@ -67,6 +68,8 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
             console.log("This file name already exists")
         }
     }
+
+
 
     const setAsMain = (name: string) => {
         console.log("XD")

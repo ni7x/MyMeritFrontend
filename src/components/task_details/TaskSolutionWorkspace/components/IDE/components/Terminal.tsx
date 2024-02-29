@@ -1,18 +1,9 @@
 import React from "react";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
+import {decodeBase64} from "../../../fileUtils";
 
 const Terminal:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
 
-    const decodeBase64 = (base64) => { //uzywanie samego atob nie konwerowalo wszystkich znakow specialnych ascii
-        const text = atob(base64);
-        const length = text.length;
-        const bytes = new Uint8Array(length);
-        for (let i = 0; i < length; i++) {
-            bytes[i] = text.charCodeAt(i);
-        }
-        const decoder = new TextDecoder();
-        return decoder.decode(bytes);
-    }
 
     //[{"id":1,"description":"In Queue"},
     // {"id":2,"description":"Processing"},

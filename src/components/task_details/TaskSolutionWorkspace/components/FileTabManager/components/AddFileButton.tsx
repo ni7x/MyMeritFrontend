@@ -71,7 +71,7 @@ const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
 
                 </div>
             </div>
-            <button onClick={togglePopup} class="bg-secondary-bg-color text-sm font-bold w-7 h-7 ml-2 rounded-full">
+            <button onClick={togglePopup} className="bg-secondary-bg-color text-sm font-bold w-7 h-7 ml-2 rounded-full">
                 +
             </button>
         </div>
