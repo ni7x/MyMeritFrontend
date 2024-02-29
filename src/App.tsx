@@ -12,6 +12,7 @@ import Register from "./pages/login/Register";
 import TaskDetails from "./pages/task_details/TaskDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainWrapper from "./components/MainWrapper";
+import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
             }
           />
           <Route path="/rewards/" element={<Rewards/>} />
+          <Route path="/contact/" element={<Contact/>} />
           <Route path="/login/" element={<Login />} />
           <Route path="/register/" element={<Register />} />
           <Route path="*" element={<NotFound />} />
