@@ -44,7 +44,7 @@ const Terminal:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
     }
 
     return(
-        <div className="relative bg-task-bck border-t-[1px] border-solid border-[#767880] h-40 overflow-x-auto p-5">
+        <div className="relative bg-terminal-color border-t-[1px] border-solid border-[#767880] h-40 overflow-x-auto p-5">
             <pre className="leading-6 font-sans">
                 {loading ?  "Loading please wait..." : renderOutput(output?.status?.id)
                 }

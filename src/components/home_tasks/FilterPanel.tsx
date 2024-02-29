@@ -59,7 +59,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                                 return (
                                     <button
                                         onClick={()=>toggleLanguage(language)}
-                                        className={"px-4 py-2 rounded-full mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-[#5c5e68] border-2 border-[#5c5e68] ")}>
+                                        className={"px-4 py-2 rounded-full mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-main-lighter-2 border-2 border-main-lighter-2 ")}>
                                         {language}
                                     </button>
                                 )
@@ -74,14 +74,14 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                                    onChange={(e)=>setMinCredits(e.currentTarget.value)}
                                    min="0"
                                    max="20"
-                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-[#5c5e68] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
+                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-main-lighter-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
                             <FontAwesomeIcon icon={faArrowsLeftRight} className="mx-5 text-main-lighter"/>
                             <input type="number"
                                    value={maxCredits}
                                    onChange={(e)=>setMaxCredits(e.currentTarget.value)}
                                    min="0"
                                    max="20"
-                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-[#5c5e68] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
+                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-main-lighter-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
                         </div>
                     </div>
                     <div className="flex flex-col border-0 border-t border-[#5c5e68] pt-4 pb-4 items-center lg:items-stretch">
@@ -89,7 +89,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                         <div className="flex lg:justify-center">
                             <select id="time-left"
                                     name="time-left"
-                                    className="text-center pr-8 pl-2 outline-none p-2 w-[100%] lg:w-[100%] rounded bg-[#5c5e68]"
+                                    className="text-center pr-8 pl-2 outline-none p-2 w-[100%] lg:w-[100%] rounded bg-main-lighter-2"
                                     value={timeLeft === null ? "" : timeLeft}
                                     onChange={(e) => setTimeLeft(parseInt(e.currentTarget.value))}>
                                 <option value="1">1 hour</option>

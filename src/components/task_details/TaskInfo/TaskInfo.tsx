@@ -22,7 +22,7 @@ const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
 
     {{ /* <button className={"task-info-toggle"}><FontAwesomeIcon icon={faMinimize} /></button> */ }}
     return (
-        <div className="flex flex-col bg-task-bck p-[1.5rem] rounded-lg w-[100%] lg:w-[35%] justify-between">
+        <div className="flex flex-col bg-terminal-color p-[1.5rem] rounded-lg w-[100%] lg:w-[35%] justify-between">
             <div>
                 <div className="flex flex-row w-100 text-sm font-semibold justify-between">
                     <div>
@@ -36,7 +36,7 @@ const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
                 <p className="leading-6 my-5">{task.description}</p>
                 <ul>
                     {task.allowedTechnologies.map((technology)=>{
-                        return <li className="inline-block px-5 py-3 font-medium bg-[#5c5e68] mr-3 rounded-lg text-sm" key={technology}>{technology}</li>
+                        return <li className="inline-block px-5 py-3 font-medium bg-[#555764] mr-3 rounded-lg text-sm" key={technology}>{technology}</li>
                     })}
                 </ul>
             </div>
