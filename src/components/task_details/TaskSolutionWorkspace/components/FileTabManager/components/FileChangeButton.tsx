@@ -35,7 +35,7 @@ const FileChangeButton: React.FC<FileChangeButtonProps> = ({name, setCurrentFile
     }
 
     return (
-        <div className={"flex justify-center items-center   text-sm cursor-pointer pr-2 "  + (currentFileName != name ? " bg-[#353740] text-task-lighter" : " bg-task-bck font-medium") } >
+            <div className={"flex justify-center items-center   text-sm cursor-pointer pr-2 "  + (currentFileName != name ? " bg-[#33343e] text-task-lighter" : " bg-terminal-color font-medium") } >
             <div className="flex items-center p-2.5  pl-4" onClick={handleClick} onBlur={handleLoseFocus}>
                 {isMain ? <FontAwesomeIcon icon={faPlay} className="text-xs text-main-lighter"/> : "" }
                 <div className="mx-6">

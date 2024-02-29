@@ -18,14 +18,27 @@ const Navbar: React.FC = () => {
       <div className="w-[90%] mx-auto">
         <ul className="flex flex-row gap-8 w-full xl:w-[60%] mx-auto list-none">
           <li>
-            {" "}
             <Link to="/">home</Link>{" "}
           </li>
 
-          <li>
-            {" "}
-            <Link to="/mytasks">my tasks</Link>
-          </li>
+          {user &&
+            <li>
+              <Link to="/mytasks">my tasks</Link>
+            </li>
+          }
+
+          {location.pathname == "/tasks" &&
+            <li>
+               <Link to="/contact">contact</Link>
+            </li>
+          }
+
+          {user &&
+            <li>
+               <Link to="/rewards">rewards</Link>
+            </li>
+          }
+
           <li className="ml-auto">
             {user ? (
               <button onClick={signOut}>sign out</button>
@@ -33,6 +46,7 @@ const Navbar: React.FC = () => {
               <Link to="/login">sign in</Link>
             )}
           </li>
+
         </ul>
       </div>
     </nav>

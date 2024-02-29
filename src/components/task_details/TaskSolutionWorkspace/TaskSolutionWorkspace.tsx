@@ -4,7 +4,9 @@ import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
 
 const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
-    const [files, setFiles] = useState<File[]>([new File("index.js", "", true)]);
+    const helloWorld = `#include <iostream>\nint main() {\n    std::cout << "Hello World!";\n    return 0;\n}`;
+
+    const [files, setFiles] = useState<File[]>([new File("main.cpp", helloWorld, true)]);
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
 
 

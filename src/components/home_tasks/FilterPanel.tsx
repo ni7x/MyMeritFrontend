@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowsLeftRight} from "@fortawesome/free-solid-svg-icons";
+import {faArrowsLeftRight, faX} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import QueryParams from "../../models/QueryParams";
 import SortPanel from "./SortPanel";
@@ -51,7 +51,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
         <div className="h-full w-[30%]">
             <div className={"max-md:absolute top-0 left-0 h-full w-full bg-secondary-bg-color px-5 py-4 mb-10 rounded lg:flex lg:flex-col justify-between " + (isPopupOpen ? "popup-open" : "hidden")}>
                 <div className="h-[90%] flex flex-col">
-                    <button onClick={togglePopup} className={"text-red-400 self-end mb-5 " + (isPopupOpen? "":"hidden")}>Close</button>
+                    <button onClick={togglePopup} className={"text-white bg-red-400 w-10 h-10 font-bold text-sm rounded-[50%] self-end mb-5 " + (isPopupOpen? "":"hidden")}><FontAwesomeIcon icon={faX}/></button>
                     <div className="flex flex-col items-center lg:items-start">
                         <label className="pb-5 lg:pb-3 text-base font-medium">Languages</label>
                         <div className="flex flex-wrap mb-2 text-sm font-medium">
@@ -59,7 +59,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                                 return (
                                     <button
                                         onClick={()=>toggleLanguage(language)}
-                                        className={"px-4 py-2 rounded-full mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-[#5c5e68] border-2 border-[#5c5e68] ")}>
+                                        className={"px-4 py-2 rounded-full mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-main-lighter-2 border-2 border-main-lighter-2 ")}>
                                         {language}
                                     </button>
                                 )
@@ -74,14 +74,14 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                                    onChange={(e)=>setMinCredits(e.currentTarget.value)}
                                    min="0"
                                    max="20"
-                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-[#5c5e68] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
+                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-main-lighter-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
                             <FontAwesomeIcon icon={faArrowsLeftRight} className="mx-5 text-main-lighter"/>
                             <input type="number"
                                    value={maxCredits}
                                    onChange={(e)=>setMaxCredits(e.currentTarget.value)}
                                    min="0"
                                    max="20"
-                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-[#5c5e68] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
+                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-main-lighter-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
                         </div>
                     </div>
                     <div className="flex flex-col border-0 border-t border-[#5c5e68] pt-4 pb-4 items-center lg:items-stretch">
@@ -89,7 +89,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                         <div className="flex lg:justify-center">
                             <select id="time-left"
                                     name="time-left"
-                                    className="text-center pr-8 pl-2 outline-none p-2 w-[100%] lg:w-[100%] rounded bg-[#5c5e68]"
+                                    className="text-center pr-8 pl-2 outline-none p-2 w-[100%] lg:w-[100%] rounded bg-main-lighter-2"
                                     value={timeLeft === null ? "" : timeLeft}
                                     onChange={(e) => setTimeLeft(parseInt(e.currentTarget.value))}>
                                 <option value="1">1 hour</option>

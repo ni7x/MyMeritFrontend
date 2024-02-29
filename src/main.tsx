@@ -14,8 +14,8 @@ loader.init().then((monaco) => {
         inherit: true,
         rules: [],
         colors: {
-            'editor.background': '#434550',
-            'editor.lineHighlightBackground': '#4f515d',
+            'editor.background': '#3a3b46',
+            'editor.lineHighlightBackground': '#434450',
         },
     });
 });
