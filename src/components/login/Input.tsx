@@ -2,8 +2,6 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, ChangeEvent } from "react";
 
-import "./input.css";
-
 const Input = ({
   type,
   placeholder,
@@ -29,8 +27,9 @@ const Input = ({
   }
 
   return (
-    <div className="input-wrapper">
+    <div className="relative">
       <input
+        className="bg-main-bg-input bg-[#44444f] rounded border-none p-4 text-sm text-white box-border w-full font-semibold focus-visible:border-none focus-visible:outline-none"
         type={processedType}
         placeholder={placeholder}
         name={name}
@@ -39,7 +38,7 @@ const Input = ({
       />
       {type == "password" && (
         <FontAwesomeIcon
-          className="show-password"
+          className="absolute top-0 bottom-0 right-4 m-auto w-5 h-auto text-main-lighter"
           icon={showPassword ? faEyeSlash : faEye}
           onClick={handleShowPassword}
         />
