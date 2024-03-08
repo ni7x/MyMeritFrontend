@@ -1,6 +1,9 @@
 import { FormEvent } from "react";
 
 import Input from "../../components/login/Input";
+import AuthSubTitle from "./AuthSubTitle";
+import AuthForm from "./AuthForm";
+import AuthSubmit from "./AuthSubmit";
 
 const RegisterStep3 = ({
   username,
@@ -21,8 +24,8 @@ const RegisterStep3 = ({
 }) => {
   return (
     <>
-      <h2>Step 3 - fill your data</h2>
-      <form onSubmit={onSubmit}>
+      <AuthSubTitle>Step 3 - fill your data</AuthSubTitle>
+      <AuthForm handleSubmit={onSubmit}>
         <Input
           type="text"
           placeholder="username"
@@ -45,8 +48,8 @@ const RegisterStep3 = ({
           value={password2}
         />
 
-        <button type="submit">Register</button>
-      </form>
+        <AuthSubmit>Register</AuthSubmit>
+      </AuthForm>
     </>
   );
 };

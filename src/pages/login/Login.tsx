@@ -8,6 +8,8 @@ import Divider from "../../components/login/Divider";
 import OAuthLogin from "../../components/login/OAuthLogin";
 
 import { useAuth } from "../../hooks/useAuth";
+import AuthForm from "../../components/login/AuthForm";
+import AuthSubmit from "../../components/login/AuthSubmit";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -25,8 +27,8 @@ const Login: React.FC = () => {
 
   return (
     <AuthBox>
-      <h1 className="pb-6 m-0 text-base text-center">Welcome back!</h1>
-      <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+      <AuthTitle>Welcome back!</AuthTitle>
+      <AuthForm handleSubmit={onSubmit}>
         <Input 
           type="text" 
           id="email" 
@@ -48,8 +50,8 @@ const Login: React.FC = () => {
           forgot password?
         </a>
 
-        <button className=" p-4 rounded bg-[#06a58f] border-none text-white font-bold text-sm cursor-pointer transition-colors duration-200 ease-linear hover:bg-[#057767]" type="submit">Log In</button>
-      </form>
+        <AuthSubmit>Log In</AuthSubmit>
+      </AuthForm>
       <Divider>or</Divider>
       <OAuthLogin />
 

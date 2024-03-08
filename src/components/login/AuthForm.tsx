@@ -1,9 +1,14 @@
 import {FormEvent} from 'react'
 
-const AuthForm = ({onSubmit, children}) : {onSubmit: (e: FormEvent<HTMLFormElement>) => void, children: JSX.Element | JSX.Element[]} => {
+interface AuthFormProps {
+    handleSubmit: (event: FormEvent) => void;
+    children: JSX.Element | JSX.Element[];
+}
+
+const AuthForm = ({handleSubmit, children}:AuthFormProps) => {
   return (
     <form className="flex flex-col gap-4"
-     onSubmit={onSubmit}>{children}</form>
+     onSubmit={handleSubmit}>{children}</form>
 
   )
 }

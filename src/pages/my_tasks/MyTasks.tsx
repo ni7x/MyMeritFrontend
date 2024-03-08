@@ -19,11 +19,11 @@ const MyTasks: React.FC = () => {
 
   return (
     // <SecondWrapper>
-    <div className="flex flex-row max-w-3xl:flex-col gap-8 user-tasks">
-      <div className="left-panel">
+    <div className="flex flex-col md:flex-row gap-8 user-tasks">
+      <div className="left-panel w-[100%] m-0 min-w-[150px] md:w-[25%] md:mx-8 lg:w-[15%]">
         <FilterPanel tasks={tasks} setFilteredTasks={setFilteredTasks} />
       </div>
-      <div className="right-panel">
+      <div className="right-panel list-none flex flex-col w-full md:w-[60%] lg:w-[50%]">
         <SortPanel
           filteredTasks={filteredTasks}
           setFilteredTasks={setFilteredTasks}
