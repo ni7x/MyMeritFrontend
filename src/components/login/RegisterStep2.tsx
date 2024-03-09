@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { FormEvent } from "react";
 
 import Input from "../../components/login/Input";
 import AuthSubTitle from "./AuthSubTitle";
@@ -12,7 +12,7 @@ const RegisterStep2 = ({
 }: {
   code: string;
   setCode: (code: string) => void;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: FormEvent) => void;
 }) => {
   return (
     <>
@@ -22,7 +22,7 @@ const RegisterStep2 = ({
           type="text"
           placeholder="code"
           name="code"
-          onChange={(e) => setCode(e.target.value)}
+          onChange={(e) => setCode(e.currentTarget.value)}
           value={code}
         />
         <AuthSubmit>Next</AuthSubmit>

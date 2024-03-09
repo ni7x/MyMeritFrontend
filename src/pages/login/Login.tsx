@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
@@ -11,14 +11,14 @@ import { useAuth } from "../../hooks/useAuth";
 import AuthForm from "../../components/login/AuthForm";
 import AuthSubmit from "../../components/login/AuthSubmit";
 
-const Login: React.FC = () => {
+const Login = () => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     console.log("Form submitted");
 
@@ -29,12 +29,12 @@ const Login: React.FC = () => {
     <AuthBox>
       <AuthTitle>Welcome back!</AuthTitle>
       <AuthForm handleSubmit={onSubmit}>
-        <Input 
-          type="text" 
-          id="email" 
-          name="email" 
-          placeholder="email" 
-          onChange={(e)=>setEmail(e.target.value)}
+        <Input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="email"
+          onChange={(e) => setEmail(e.currentTarget.value)}
           value={email}
         />
         <Input
@@ -42,7 +42,7 @@ const Login: React.FC = () => {
           id="password"
           name="password"
           placeholder="password"
-          onChange={(e)=>setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.currentTarget.value)}
           value={password}
         />
 

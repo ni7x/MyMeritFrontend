@@ -20,7 +20,7 @@ const RegisterStep3 = ({
   setPassword1: (password1: string) => void;
   password2: string;
   setPassword2: (password2: string) => void;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: FormEvent) => void;
 }) => {
   return (
     <>
@@ -30,21 +30,21 @@ const RegisterStep3 = ({
           type="text"
           placeholder="username"
           name="username"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.currentTarget.value)}
           value={username}
         />
         <Input
           type="password"
           placeholder="password"
           name="password1"
-          onChange={(e) => setPassword1(e.target.value)}
+          onChange={(e) => setPassword1(e.currentTarget.value)}
           value={password1}
         />
         <Input
           type="password"
           placeholder="repeat password"
           name="password2"
-          onChange={(e) => setPassword2(e.target.value)}
+          onChange={(e) => setPassword2(e.currentTarget.value)}
           value={password2}
         />
 

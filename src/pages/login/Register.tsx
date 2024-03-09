@@ -6,14 +6,9 @@ import RegisterStep1 from "../../components/login/RegisterStep1";
 import RegisterStep2 from "../../components/login/RegisterStep2";
 import RegisterStep3 from "../../components/login/RegisterStep3";
 
-import Divider from "../../components/login/Divider";
-import OAuthLogin from "../../components/login/OAuthLogin";
-
 import { useAuth } from "../../hooks/useAuth";
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
-// import { useForm } from "react-hook-form";
-// import { Form, Button } from "react-bootstrap";
 
 const Register = () => {
   const { signUp } = useAuth();
@@ -24,7 +19,6 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const [code, setCode] = useState<string>("");
-  const [message, setMessage] = useState<boolean | string>(false);
 
   const verifyEmailMutation = useMutation({
     mutationFn: async ({ email }: { email: string }) => {
@@ -82,47 +76,49 @@ const Register = () => {
     },
   });
 
-  const onSubmit1 = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit1 = (e: FormEvent) => {
     e.preventDefault();
 
     verifyEmailMutation.mutate({ email });
   };
 
-  const onSubmit2 = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit2 = (e: FormEvent) => {
     e.preventDefault();
 
     verifyCodeMutation.mutate({ email, code });
   };
 
-  const onSubmit3 = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit3 = (e: FormEvent) => {
     e.preventDefault();
 
     signUp({ username, email, password, code /*TODO, password2 */ });
   };
 
-  let step;
-  if(activeStep === 1){
-    step = <RegisterStep1 email={email} setEmail={setEmail} onSubmit={onSubmit1} />;
-  } else if(activeStep === 2){
-    step = <RegisterStep2 code={code} setCode={setCode} onSubmit={onSubmit2} />
-  } else if(activeStep === 3){
-    <RegisterStep3
-      username={username}
-      setUsername={setUsername}
-      password1={password}
-      setPassword1={setPassword}
-      password2={password2}
-      setPassword2={setPassword2}
-      onSubmit={onSubmit3}
-    />
+  let step = (
+    <RegisterStep1 email={email} setEmail={setEmail} onSubmit={onSubmit1} />
+  );
+  if (activeStep === 2) {
+    step = <RegisterStep2 code={code} setCode={setCode} onSubmit={onSubmit2} />;
+  } else if (activeStep === 3) {
+    step = (
+      <RegisterStep3
+        username={username}
+        setUsername={setUsername}
+        password1={password}
+        setPassword1={setPassword}
+        password2={password2}
+        setPassword2={setPassword2}
+        onSubmit={onSubmit3}
+      />
+    );
   }
 
   return (
-      <AuthBox>
-        <AuthTitle>Create an account</AuthTitle>
-        {step}
-      </AuthBox>
-);
+    <AuthBox>
+      <AuthTitle>Create an account</AuthTitle>
+      {step}
+    </AuthBox>
+  );
 };
 
 export default Register;

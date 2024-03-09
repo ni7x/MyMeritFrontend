@@ -12,7 +12,7 @@ const RegisterStep1 = ({
 }: {
   email: string;
   setEmail: (email: string) => void;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: FormEvent) => void;
 }) => {
   return (
     <>
@@ -22,7 +22,7 @@ const RegisterStep1 = ({
           type="text"
           placeholder="email"
           name="email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.currentTarget.value)}
           value={email}
         />
         <AuthSubmit>Next</AuthSubmit>

@@ -1,6 +1,15 @@
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState, ChangeEvent } from "react";
+import { useState, FormEvent } from "react";
+
+interface InputProps {
+  type?: string;
+  placeholder?: string;
+  name?: string;
+  onChange?: (e: FormEvent<HTMLInputElement>) => void;
+  value?: string;
+  id?: string;
+}
 
 const Input = ({
   type,
@@ -8,13 +17,8 @@ const Input = ({
   name,
   onChange,
   value,
-}: {
-  type: string;
-  placeholder: string;
-  name: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-}) => {
+  id,
+}: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   function handleShowPassword() {
@@ -35,6 +39,7 @@ const Input = ({
         name={name}
         onChange={onChange}
         value={value}
+        id={id}
       />
       {type == "password" && (
         <FontAwesomeIcon
