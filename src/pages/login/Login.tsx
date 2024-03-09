@@ -1,54 +1,64 @@
-import React from "react";
-import "./login.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
+import AuthBox from "../../components/login/AuthBox";
+import AuthTitle from "../../components/login/AuthTitle";
 import Input from "../../components/login/Input";
 import Divider from "../../components/login/Divider";
 import OAuthLogin from "../../components/login/OAuthLogin";
 
 import { useAuth } from "../../hooks/useAuth";
+import AuthForm from "../../components/login/AuthForm";
+import AuthSubmit from "../../components/login/AuthSubmit";
 
-const Login: React.FC = () => {
+const Login = () => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
-  const location = useLocation();
-  const message = location.state && location.state.message;
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     console.log("Form submitted");
-
-    const email = (event.target as any).email.value;
-    const password = (event.target as any).password.value;
 
     signIn({ email, password });
   };
 
   return (
-    <div className="login-box">
-      {message && <p className="message">{message}</p>}
-      <h1>Welcome back!</h1>
-      <form onSubmit={onSubmit}>
-        <Input type="text" id="email" name="email" placeholder="email" />
+    <AuthBox>
+      <AuthTitle>Welcome back!</AuthTitle>
+      <AuthForm handleSubmit={onSubmit}>
+        <Input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="email"
+          onChange={(e) => setEmail(e.currentTarget.value)}
+          value={email}
+        />
         <Input
           type="password"
           id="password"
           name="password"
           placeholder="password"
+          onChange={(e) => setPassword(e.currentTarget.value)}
+          value={password}
         />
 
-        <a className="forgot-password" href="#">
+        <a className=" w-max ml-auto text-white font-bold text-xs" href="#">
           forgot password?
         </a>
 
-        <button type="submit">Log In</button>
-      </form>
+        <AuthSubmit>Log In</AuthSubmit>
+      </AuthForm>
       <Divider>or</Divider>
       <OAuthLogin />
 
-      <p className="signup-link">
+      <p className=" text-center text-sm mt-4 font-semibold">
         Don't have an account?{" "}
         <a
+          className="text-[#06a58f]"
           href="#"
           onClick={() => {
             navigate("/register");
@@ -57,7 +67,7 @@ const Login: React.FC = () => {
           Sign up
         </a>
       </p>
-    </div>
+    </AuthBox>
   );
 };
 

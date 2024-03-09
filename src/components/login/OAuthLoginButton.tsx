@@ -1,5 +1,4 @@
 import React from 'react';
-import './OAuthLoginButton.css';
 
 type Props = {
     children?: React.ReactNode,
@@ -8,8 +7,8 @@ type Props = {
 
 const OAuthLoginButton: React.FC<Props> = ({children, icon, ...props}) => {
     return (
-        <button className={"oauth-login-button"} {...props}>
-            <img src={icon}/>
+        <button className="oauth-login-button grid grid-cols-[10%_1fr] p-2 rounded bg-[#44444f] border-none text-white text-sm font-semibold text-center justify-items-center cursor-pointer transition-colors duration-200 ease-linear gap-3 hover:bg-[#373741]" {...props}>
+            <img className="max-w-full h-auto" src={icon}/>
             <span>{children}</span>
         </button>
     );

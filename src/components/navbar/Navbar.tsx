@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./navbar.css";
 import { useAuth } from "../../hooks/useAuth";
 import MainWrapper from "../MainWrapper";
 import SecondWrapper from "../SecondWrapper";
