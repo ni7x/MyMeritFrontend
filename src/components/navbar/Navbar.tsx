@@ -20,23 +20,23 @@ const Navbar: React.FC = () => {
             <Link to="/">home</Link>{" "}
           </li>
 
-          {user &&
+          {user && (
             <li>
               <Link to="/mytasks">my tasks</Link>
             </li>
-          }
+          )}
 
-          {location.pathname == "/tasks" &&
-            <li>
-               <Link to="/contact">contact</Link>
-            </li>
-          }
+          {/* {location.pathname == "/tasks" && */}
+          <li>
+            <Link to="/contact">contact</Link>
+          </li>
+          {/* } */}
 
-          {user &&
+          {user && (
             <li>
-               <Link to="/rewards">rewards</Link>
+              <Link to="/rewards">rewards</Link>
             </li>
-          }
+          )}
 
           <li className="ml-auto">
             {user ? (
@@ -45,7 +45,6 @@ const Navbar: React.FC = () => {
               <Link to="/login">sign in</Link>
             )}
           </li>
-
         </ul>
       </div>
     </nav>
