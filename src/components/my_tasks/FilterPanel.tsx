@@ -41,19 +41,17 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
   };
 
   return (
-    <ul className="filter-panel">
+    <ul className="filter-panel list-none border-main-border border-[1px] border-solid w-full p-0 text-sm rounded-lg">
       <li>
         {/* <button className={lastClickedButton === "recent" ? "bg-secondary-bg-color" : ""} onClick={showRecent}  > */}
         <FilterButton
-          className={`rounded-t-lg
+          className={`rounded-t-lg text-[#e5ce54]
             ${lastClickedButton === "recent" ? "bg-secondary-bg-color" : ""}
           `}
           onClick={showRecent}
         >
-          <span className="recent">recent activity</span>
-          <span className="recent">
-            {getCount(tasks.filter((task) => task.isRecent))}
-          </span>
+          <span>recent activity</span>
+          <span>{getCount(tasks.filter((task) => task.isRecent))}</span>
         </FilterButton>
         {/* </button> */}
       </li>
