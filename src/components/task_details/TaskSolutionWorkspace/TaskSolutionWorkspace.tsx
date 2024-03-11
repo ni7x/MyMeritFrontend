@@ -5,14 +5,23 @@ import FileTabManager from "./components/FileTabManager/FileTabManager";
 import JSZip from "jszip";
 import {decodeBase64} from "./fileUtils";
 import CodeExecutionOutput from "../../../models/CodeExecutionOutput";
+import Task from "../../../models/Task";
+import UserTask from "../../../models/UserTask";
 
-const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
-    const code = `#include <iostream>\n#include "firstFile.h"\nusing namespace std;\nextern int add(int a, int b);\nint main() {\ncout << add(14, 16) << endl;\ncout << add(2, 3) << endl;\nreturn 0;\n}`;
+const TaskSolutionWorkspace: React.FC<{ task: UserTask }> = ({ task }) => {
 
-    const [files, setFiles] = useState<File[]>([
-        new File("main.cpp", code, true),
-        new File("firstFile.h", "int add(int a, int b) { return a + b; }", false)
-    ]);
+    const [files, setFiles] = useState<File[]>(() => {
+        if (task.solution) {
+            return task.solution.map((solution) => new File(
+                solution.name,
+                solution.content,
+                solution.isMain
+            ));
+        } else {
+            return [new File("main.cpp", "", true)];
+        }
+    });
+
 
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
     const currentFile = files[currentFileIndex];
@@ -45,9 +54,7 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
             return;
         }
         if (fileToRemove) {
-            if(currentFile == fileToRemove){
-                setCurrentFileIndex((index)=>index-1);
-            }
+            setCurrentFileIndex(0);
             setFiles(prevFiles => prevFiles.filter(file => file.name !== name));
             console.log("XD", files);
         } else {
@@ -107,6 +114,7 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
                          setFiles={setFiles}
                          addFile={addFile}
                          setAsMain={setAsMain}
+                         taskId={task.id}
                     />
                 </div>
             }

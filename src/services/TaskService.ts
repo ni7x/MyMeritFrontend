@@ -1,63 +1,28 @@
 import TaskPreview from "../models/TaskPreview";
 import TaskStatus from "../models/TaskStatus";
 import Task from "../models/Task";
-import Company from "../models/Company";
 import QueryParams from "../models/QueryParams";
+import Solution from "../models/Solution";
+import File from "../models/File";
 
-const getHomeTasks = (pageNum: number = 0, params: QueryParams): any => {
-    const tasks =  [
-        new Task("1abc", "Zaimplementuj operacje na macierzach w c++ (matrix.ccp) 1abc", "Twoim zadaniem jest stworzenie programu w języku C++, który będzie zawierał zestaw operacji na macierzach. Program powinien umożliwiać użytkownikowi wykonywanie podstawowych operacji na macierzach, takich jak dodawanie, odejmowanie, mnożenie, transpozycja itp.", new Date(), new Date(), 10, new Company(1, "Companyxxxxxxxxxx 1", "logo1.png"), 5, ["Java", "Cpp"]),
-        new Task("2", "Task Two", "Description of Task Two", new Date(), new Date(), 6, new Company(2, "Company 2", "logo2.png"), 8, ["Cpp", "C"]),
-        new Task("3", "Task Three", "Description of Task Three", new Date(), new Date(), 8, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "C"]),
-        new Task("4", "Task Four", "Description of Task Four", new Date(), new Date(), 10, new Company(1, "Company 1", "logo1.png"), 5, ["Java", "Cpp"]),
-        new Task("5", "Task Five", "Description of Task Five", new Date(), new Date(), 12, new Company(2, "Company 2", "logo2.png"), 8, ["Java", "C"]),
-        new Task("6", "Task Six", "Description of Task Six", new Date(), new Date(), 20, new Company(1, "Company 1", "logo1.png"), 5, ["Cpp", "C"]),
-    ];
+const getHomeTasks = async (pageNum = 1, params: QueryParams) : Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL+ "/tasks?"
+        + (params.languages ? "languages=" + params.languages+ "&" : "")
+        + (params.minCredits ? "minCredits=" + params.minCredits + "&" : "" )
+        + (params.maxCredits ? "maxCredits=" + params.maxCredits + "&" : "")
+        + (params.timeLeft != null ? "timeLeft=" + params.timeLeft  + "&": "")
+        + "page=" + (pageNum - 1)
+    ;
 
+    console.log(URL)
 
-    const { languages, minCredits, maxCredits } = params;
-
-    let filteredTasks = tasks;
-
-    if (languages && languages.length > 0) {
-        const languageArray = languages.split(",").map(lang => lang.trim());
-        filteredTasks = filteredTasks.filter(task => task.allowedTechnologies.some(tech => languageArray.includes(tech)));
+    try {
+        return await fetch(URL, {
+            method: 'GET',
+        });
+    } catch (error) {
+        console.error('Error:', error);
     }
-
-    if (minCredits) {
-        filteredTasks = filteredTasks.filter(task => task.credits >= minCredits);
-    }
-    if (maxCredits) {
-        filteredTasks = filteredTasks.filter(task => task.credits <= maxCredits);
-    }
-
-    const pageSize = 3;
-    const totalPages = Math.ceil(filteredTasks.length / pageSize);
-    const startIndex = (pageNum - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    const tasksForPage = filteredTasks.slice(startIndex, endIndex);
-
-    return { //xd idk tak bylo w dokumentacji sping ze to wyglada
-        "_links": {
-            "self": {
-                "href": `http://localhost:8080/tasks?page=${pageNum}&size=${pageSize}`,
-                "templated": true
-            },
-            "next": {
-                "href": `http://localhost:8080/tasks?page=${pageNum + 1}&size=${pageSize}`,
-                "templated": true
-            }
-        },
-        "_embedded": {
-            "tasks": tasksForPage
-        },
-        "page": {
-            "size": pageSize,
-            "totalElements": filteredTasks.length,
-            "totalPages": totalPages,
-            "number": pageNum - 1
-        }
-    };
 };
 
 
@@ -75,22 +40,38 @@ const getUserTasks = (userId: string): TaskPreview[] => {
     ];
 }
 
-const getTaskById = (taskId: string): Task => {
-    return new Task(
-        taskId,
-        "Zaimplementuj operacje na macierzach \n" +
-        "w c++ (matrix.ccp) " + taskId,
-        "Twoim zadaniem jest stworzenie programu w języku C++, który będzie zawierał zestaw operacji na macierzach. Program powinien umożliwiać użytkownikowi wykonywanie podstawowych operacji na macierzach, takich jak dodawanie, odejmowanie, mnożenie, transpozycja itp.",
-        new Date(),
-        new Date((new Date()).getTime() + 86400000),
-        5,
-        { id: 5, name: "Sample Company", logoUrl: "/" },
-        5,
-        ["java", "python"]
+const getTaskById = async (taskId: string, token: string): Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL+ "/task/" + taskId;
+    try {
+        return await fetch(URL, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
-    );
+const submitSolution = async (taskId: string, files: File[], token: string) => {
+    const URL = import.meta.env.VITE_API_URL + "/task/" + taskId + "/solution";
+    try {
+        return await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(files)
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
 
 
-export  { getUserTasks, getTaskById, getHomeTasks }
+
+export  { getUserTasks, getTaskById, getHomeTasks, submitSolution }

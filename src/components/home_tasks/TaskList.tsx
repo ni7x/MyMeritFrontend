@@ -6,13 +6,11 @@ import SecondWrapper from "../SecondWrapper";
 const TaskList: React.FC<{ tasks: TaskDTO[] }> = ({ tasks }) => {
   return (
     <div
-      className={`w-[100%] flex flex-col align-center justify-center ${
-        tasks.length === 0 ? "justify-center align-center flex h-full" : ""
-      }`}
+      className={`w-full flex flex-col align-center justify-center}`}
     >
       {tasks.length === 0
-        ? "No tasks"
-        : tasks.map((task) => <Task task={task} />)}
+        ? <p className="h-[32rem]">No tasks</p>
+        : tasks.map((task) => <Task key={task.id} task={task} />)}
     </div>
   );
 };

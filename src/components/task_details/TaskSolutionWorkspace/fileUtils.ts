@@ -12,8 +12,14 @@ const getLanguageFromFileExtension = (fileExtension: string) : string =>{
             return "javascript";
         case "cpp":
             return "cpp";
+        case "c":
+            return "c";
         case "java":
             return "java";
+        case "py":
+            return "python";
+        case "sh":
+            return "bash";
         default:
             return "plaintext"
     }
@@ -41,7 +47,7 @@ interface Script {
 }
 
 const generateScriptsContent = (language, mainFileName) : Script[] => {
-    let compileScriptContent,  runScriptContent;
+    let compileScriptContent = "",  runScriptContent = "";
     switch (language){
         case "java":
              compileScriptContent = `#!/bin/bash\n\n/usr/local/openjdk13/bin/javac *.java\n`;
@@ -51,52 +57,12 @@ const generateScriptsContent = (language, mainFileName) : Script[] => {
             compileScriptContent = `#!/bin/bash\n\n/usr/local/gcc-9.2.0/bin/g++ *.cpp -o ${mainFileName}_out\n`;
             runScriptContent = `#!/bin/bash\n\nLD_LIBRARY_PATH=/usr/local/gcc-9.2.0/lib64 ./${mainFileName}_out\n`;
             break;
-        default:
-            compileScriptContent = "";
-            runScriptContent = "";
+        case "c":
+            compileScriptContent = `#!/bin/bash\n\n/usr/local/gcc-9.2.0/bin/g++ *.c -o ${mainFileName}_out\n`;
+            runScriptContent = `#!/bin/bash\n\nLD_LIBRARY_PATH=/usr/local/gcc-9.2.0/lib64 ./${mainFileName}_out\n`;
+            break;
+        case "python":
+            runScriptContent = `#!/bin/bash\n\n/usr/local/python-3.8.1/bin/python3 ${mainFileName}`
             break;
     }
-    return [
-        { name: "compile", content: compileScriptContent },
-        { name: "run", content: runScriptContent }
-    ];
 }
-
-export const generateEncodedZip = (files: File[]): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        const mainFileName = files.find((file) => file.isMain).name;
-        if(!mainFileName){
-            reject(new Error("No main file"));
-        }
-        const language = getLanguageFromFileName(mainFileName);
-
-        const zip = new JSZip();
-
-        files.forEach(file => {
-            zip.file(file.name, file.content);
-        });
-
-        generateScriptsContent(language, mainFileName).forEach((script) => {
-            zip.file(script.name, script.content);
-        });
-
-        zip.generateAsync({ type: "blob" }).then(content => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                if (typeof reader.result === "string") {
-                    resolve(reader.result.split(',')[1]);
-                } else {
-                    reject(new Error("Encoding problem"));
-                }
-            };
-            reader.onerror = (error) => {
-                reject("Reader problem ", error);
-            };
-            reader.readAsDataURL(content);
-        }).catch(error => {
-            reject(error);
-        });
-    });
-};
-
-

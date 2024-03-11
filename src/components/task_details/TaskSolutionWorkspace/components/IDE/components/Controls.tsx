@@ -1,7 +1,9 @@
 import RunButton from "./RunButton";
-import React, {useState} from "react";
+import React  from "react";
 import File from "../../../../../../models/File";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
+import {getHomeTasks, submitSolution} from "../../../../../../services/TaskService";
+import {useAuth} from "../../../../../../hooks/useAuth";
 
 interface ControlsProps {
     files: File[];
@@ -12,15 +14,31 @@ interface ControlsProps {
     setAsMain: (name: string) => void;
 }
 
-const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, setLoading, setCodeOutput, setFiles, setAsMain}) => {
+const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, setLoading, setCodeOutput, setFiles, setAsMain, taskId}) => {
     const currentFile = files[currentFileIndex];
+    const {authToken} = useAuth();
 
-    const [isMultiFile, setIsMultiFile] = useState(false);
+    const submit = () => {
+        const fetchData = async () => {
+            try {
+                if(authToken){
+                    const response = await submitSolution(taskId, files, authToken);
+                    if (response.ok) {
+                        console.log(response)
+                    }
+                }else{
+                    console.log("no token provided")
+                }
 
-    const submitSolution = () => {
-        files.forEach(file =>
-            console.log(file.name  + "\n\n" + file.content)
-        );
+
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
+        };
+
+        fetchData();
+
+
     };
 
 
@@ -32,7 +50,7 @@ const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, setLoading
 
     return(
         <div className="flex flex-row  w-[100%] py-3 px-3 bg-[#1d1e25]  items-center justify-end ">
-            <div className="flex flex-row gap-3 items-center justify-between flex-wrap lg:w-[75%]">
+            <div className="flex flex-row gap-3 items-center justify-between flex-wrap lg:w-[70%]">
                 <div className="flex flex-row items-center">
                     <button
                         className="bg-gray-600 p-1.5 px-5 text-sm font-semibold rounded border-2 border-gray-600 mr-3 w-auto  text-nowrap"
@@ -44,14 +62,9 @@ const Controls: React.FC<ControlsProps>  = ({files, currentFileIndex, setLoading
                         onClick={clearCurrentFile}>
                         Clear
                     </button>
-                    <button
-                        className="bg-gray-600 p-1.5 px-5 text-sm font-semibold rounded border-2 border-gray-600 mr-3 w-auto  text-nowrap"
-                        onClick={() => setIsMultiFile(!isMultiFile)}>
-                        {isMultiFile ? "Make single file" : "Make multifile"}
-                    </button>
-                    <RunButton file={currentFile} setCodeOutput={setCodeOutput} setLoading={setLoading} files={files} isMultiFile={isMultiFile}/>
+                    <RunButton file={currentFile} setCodeOutput={setCodeOutput} setLoading={setLoading} files={files}/>
                 </div>
-                <button className="bg-blue-500 p-1.5 px-5 text-sm font-medium rounded border-2 border-blue-500" onClick={submitSolution}>Submit</button>
+                <button className="bg-blue-500 p-1.5 px-5 text-sm font-medium rounded border-2 border-blue-500" onClick={submit}>Submit</button>
             </div>
         </div>
     )

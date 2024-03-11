@@ -20,15 +20,18 @@ const Terminal:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
         } else if (status === 2) {
             return "Processing";
         } else if (status === 3) {
-            return decodeBase64(output.stdout);
+            if(output.stdout)
+                return decodeBase64(output.stdout);
         } else if (status === 4) {
             return "Wrong answer";
         } else if (status === 5) {
             return "Time Limit Exceeded";
         } else if (status === 6) {
-            return <span className="text-red-500">{decodeBase64(output.compile_output)}</span>
+            if(output.compile_output)
+                return <span className="text-red-500">{decodeBase64(output.compile_output)}</span>
         } else if (status >= 7){
-            return <span className="text-red-500">{decodeBase64(output.stderr)}</span>
+            if(output.stderr)
+                return <span className="text-red-500">{decodeBase64(output.stderr)}</span>
         } else {
             return null;
         }

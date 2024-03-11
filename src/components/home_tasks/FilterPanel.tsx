@@ -59,6 +59,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                                 return (
                                     <button
                                         onClick={()=>toggleLanguage(language)}
+                                        key={language}
                                         className={"px-4 py-2 rounded-full mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-main-lighter-2 border-2 border-main-lighter-2 ")}>
                                         {language}
                                     </button>

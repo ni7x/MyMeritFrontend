@@ -14,8 +14,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MainWrapper from "./components/MainWrapper";
 import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
+import {useAuth} from "./hooks/useAuth";
 
 const App = () => {
+    const {token} = useAuth();
+    console.log(token)
   return (
     <>
       <Navbar />

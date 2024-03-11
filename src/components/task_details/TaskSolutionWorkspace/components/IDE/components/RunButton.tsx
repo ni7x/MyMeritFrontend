@@ -3,7 +3,7 @@ import File from "../../../../../../models/File";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
 import {generateEncodedZip} from "../../../fileUtils";
 
-const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, isMultiFile}) => {
+const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading}) => {
     const compileCode = async () => {
         setLoading(true);
         const output: CodeExecutionOutput = await getToken().then(token => getCompilation(token));
@@ -21,8 +21,7 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
                 },
                 body: JSON.stringify({
                     fileName: file.name,
-                    fileContentBase64: isMultiFile ? await generateEncodedZip(files) : btoa(file.content),
-                    isMultiFile: isMultiFile
+                    fileContentBase64: await generateEncodedZip(files)
                 })
             });
             return await response.text();
