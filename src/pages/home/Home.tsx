@@ -18,29 +18,29 @@ const Home: React.FC = () => {
       ? parseInt(searchParams.get("page"), 10)
       : 1;
 
+  const languages = searchParams.get("languages");
+
+  const minCredits = searchParams.get("minCredits")
+      ? parseInt(searchParams.get("minCredits"))
+      : undefined;
+  const maxCredits = searchParams.get("maxCredits")
+      ? parseInt(searchParams.get("maxCredits"))
+      : undefined;
+
+  const timeLeft = searchParams.get("timeLeft")
+      ? parseInt(searchParams.get("timeLeft"))
+      : undefined;
+
+
     const queryParams: QueryParams = {
         languages: languages,
         minCredits: minCredits,
         maxCredits:maxCredits
     };
 
-
-    useEffect(()=>{
-        const tasks_json = getHomeTasks(page, queryParams);
-        setTasks(tasks_json._embedded.tasks);
-        setMaxPage(tasks_json.page.totalPages)
-    }, [page, languages, minCredits, maxCredits])
-
-
   const [maxPage, setMaxPage] = useState<number>(1);
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const queryParams: QueryParams = {
-    languages: languages,
-    minCredits: minCredits,
-    maxCredits: maxCredits,
-    timeLeft: timeLeft,
-  };
 
   useEffect(() => {
     const fetchData = async () => {
