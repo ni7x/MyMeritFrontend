@@ -73,8 +73,12 @@ const useAuthProvider = () => {
   const cookies = new Cookies();
 
   const isAuthenticated = (): boolean => {
-    console.log(user)
-    return user !== undefined && user.decodedTokenInfo.sub !== null && user.decodedTokenInfo.sub !== "";
+    const isTokenExpired = () => {
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      return user?.decodedTokenInfo.exp ? currentTimestamp >= user.decodedTokenInfo.exp : true;
+    };
+
+    return user != undefined && !isTokenExpired();
   };
 
   //TODO
