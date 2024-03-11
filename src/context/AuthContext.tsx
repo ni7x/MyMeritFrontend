@@ -15,10 +15,15 @@ import { httpCall } from "../api/HttpClient.ts";
 
 type CookieUser = JwtEncodedUser | undefined;
 
-type JwtEncodedUser = {
+type JwtDecodedToken = {
   sub: string;
   iat: number;
   exp: number;
+}
+
+type JwtEncodedUser = {
+  decodedTokenInfo: JwtDecodedToken;
+  accessToken: string;
   //TODO
   //isCompany: boolean;
 };
@@ -68,7 +73,8 @@ const useAuthProvider = () => {
   const cookies = new Cookies();
 
   const isAuthenticated = (): boolean => {
-    return user !== undefined && user.sub !== null && user.sub !== "";
+    console.log(user)
+    return user !== undefined && user.decodedTokenInfo.sub !== null && user.decodedTokenInfo.sub !== "";
   };
 
   //TODO
@@ -97,10 +103,10 @@ const useAuthProvider = () => {
 
       if (response.success) {
         console.log("zalogowano", response.data.token);
-
-        const decodedToken = jwtDecode<JwtEncodedUser>(response.data.token);
-        setUser(decodedToken);
-        cookies.set("user", decodedToken);
+        const decodedToken = jwtDecode<JwtDecodedToken>(response.data.token);
+        const userInfo = { decodedTokenInfo: decodedToken, accessToken: response.data.token };
+        setUser(userInfo);
+        cookies.set("user", userInfo);
         navigation("/");
       } else {
         setIsError({ type: "SignIn", message: response.message });
@@ -171,6 +177,7 @@ const useAuthProvider = () => {
 
   return {
     user,
+    accessToken: user ? user.accessToken : null,
     isAuthenticated,
     signIn,
     signUp,
