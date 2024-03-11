@@ -1,24 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {getTaskById} from "../../../services/TaskService";
+import React from "react";
 import Task from "../../../models/Task";
 import { formatDistance } from 'date-fns';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock, faUser, faBookmark} from '@fortawesome/free-solid-svg-icons'
 import logo from '../../../assets/logo-placeholder.png';
 
-const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
-    const [ task, setTask ] = useState<Task|null>(null);
-
-    useEffect(()=>{
-        setTask(getTaskById(taskId));
-    }, [])
-
-
-    if(task == null){
-        return <p>Loading...</p>
-    }
-
-    const relativeDate = formatDistance(task.endDate, new Date(), { addSuffix: false })
+const TaskInfo: React.FC<{task: Task}> = ({task}) => {
+console.log(task)
+    const relativeDate = formatDistance(task.expiryDate, new Date(), { addSuffix: false })
 
     {{ /* <button className={"task-info-toggle"}><FontAwesomeIcon icon={faMinimize} /></button> */ }}
     return (
@@ -26,7 +15,7 @@ const TaskInfo: React.FC<{taskId: string}> = ({taskId}) => {
             <div>
                 <div className="flex flex-row w-100 text-sm font-semibold justify-between">
                     <div>
-                        <p className="inline-block mr-3 text-merit-credits-color"><span>{task.credits} MC</span></p>
+                        <p className="inline-block mr-3 text-merit-credits-color"><span>{task.rewards} MC</span></p>
                         <p className="inline-block"><FontAwesomeIcon icon={faUser} /> {task.solutionCount}</p>
                     </div>
                     <p className=" inline-block"><FontAwesomeIcon icon={faBookmark} /> </p>

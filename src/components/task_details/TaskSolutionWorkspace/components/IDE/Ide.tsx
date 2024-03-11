@@ -12,7 +12,7 @@ interface IdeProps {
     setAsMain: (name: string) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile, setAsMain}) => {
+const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile, setAsMain, taskId}) => {
     const [output, setCodeOutput] = useState("");
 
     return (
@@ -26,6 +26,7 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, addFile, set
                 <Controls
                     currentFile={files[currentFileIndex]}
                     files={files}
+                    taskId={taskId}
                     setFiles={setFiles}
                     currentFileIndex={currentFileIndex}
                     addFile={addFile}

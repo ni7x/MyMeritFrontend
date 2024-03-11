@@ -8,30 +8,30 @@ import NotFound from "./pages/not_found/NotFound";
 import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
 import TaskDetails from "./pages/task_details/TaskDetails";
-
-const isLoginPage = () => window.location.pathname === "/login";
-const renderNavbar = () => !isLoginPage() ? <Navbar/> : null;
-
-
+import ProtectedRoute from "./components/ProtectedRoute";
+import MainWrapper from "./components/MainWrapper";
+import Contact from "./pages/contact/Contact";
+import Rewards from "./pages/rewards/Rewards";
+import {useAuth} from "./hooks/useAuth";
 
 const App = () => {
-    return (
-          <>
-              <Router>
-                  {renderNavbar()}
-                  <div className="wrapper">
-                      <Routes>
-                          <Route path="/" element={<Navigate to="/tasks" />} />
-                          <Route exact path="/tasks" element={<Home />}  />
-                          <Route exact path="/mytasks/" element={<MyTasks />}  />
-                          <Route path="/tasks/:id" element={<TaskDetails />}/>
-                          <Route exact path="/login/" element={<Login />}  />
-                          <Route exact path="*"  element={<NotFound />} />
-                      </Routes>
-                  </div>
-              </Router>
-          </>
-  )
-}
+    const {token} = useAuth();
+    console.log(token)
+  return (
+    <>
+      <Navbar />
+      <MainWrapper>
+        <Routes>
+          <Route path="/" element={<Navigate to="/tasks" />} />
+          <Route path="/tasks" element={<Home />} />
+          <Route path="/mytasks/" element={<MyTasks />} />
+          <Route
+            path="/tasks/:id"
+            element={
+              <ProtectedRoute>
+                <TaskDetails />
+              </ProtectedRoute>
+            }
+          />
 
 export default App

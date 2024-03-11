@@ -38,17 +38,21 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
     }
 
     return (
-        <div className="flex flex-col bg-secondary-bg-color w-[35%] px-5 py-4 h-[100%] mb-10 rounded">
-            <div className="flex flex-col">
-                <label className="pb-3 text-base font-medium">Languages</label>
-                <div className="flex flex-wrap mb-2 text-sm font-medium">
-                    {languages.map((language)=>{
-                            return (
-                                <button
-                                    onClick={()=>toggleLanguage(language)}
-                                    className={"px-4 py-2 rounded-full mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-[#5c5e68] border-2 border-[#5c5e68] ")}>
-                                    {language}
-                                </button>
+        <div className="h-full w-[30%]">
+            <div className={"max-md:absolute top-0 left-0 h-full w-full bg-secondary-bg-color px-5 py-4 mb-10 rounded lg:flex lg:flex-col justify-between " + (isPopupOpen ? "popup-open" : "hidden")}>
+                <div className="h-[90%] flex flex-col">
+                    <button onClick={togglePopup} className={"text-white bg-red-400 w-10 h-10 font-bold text-sm rounded-[50%] self-end mb-5 " + (isPopupOpen? "":"hidden")}><FontAwesomeIcon icon={faX}/></button>
+                    <div className="flex flex-col items-center lg:items-start">
+                        <label className="pb-5 lg:pb-3 text-base font-medium">Languages</label>
+                        <div className="flex flex-wrap mb-2 text-sm font-medium">
+                            {languages.map((language)=>{
+                                return (
+                                    <button
+                                        onClick={()=>toggleLanguage(language)}
+                                        key={language}
+                                        className={"px-4 py-2 rounded-full mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-main-lighter-2 border-2 border-main-lighter-2 ")}>
+                                        {language}
+                                    </button>
                                 )
                         })
                     }

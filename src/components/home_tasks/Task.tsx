@@ -4,9 +4,10 @@ import {formatDistance} from "date-fns";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock, faUser} from "@fortawesome/free-solid-svg-icons";
 import logo from '../../assets/logo-placeholder.png';
+import UserTask from "../../models/UserTask";
 
-const  Task: React.FC<{task: TaskDTO}> = ({task})=> {
-    const relativeDate = formatDistance(task.endDate, new Date(), { addSuffix: false })
+const  Task: React.FC<{task: UserTask}> = ({task})=> {
+    const relativeDate =  formatDistance(task.expiryDate, new Date(), { addSuffix: false })
 
     return (
         <div className="flex-column bg-secondary-bg-color rounded mb-5">
@@ -14,7 +15,9 @@ const  Task: React.FC<{task: TaskDTO}> = ({task})=> {
                 <div className="text-[0.825rem] font-semibold mt-1 flex justify-between items-center">
                     <div className="flex-row items-center">
                         <span className="text-merit-credits-color mr-3">{task.credits} MC</span>
-                        <span className="text-task-lighter"><FontAwesomeIcon icon={faUser} /> {task.solutionCount}</span>
+                        <span className="text-task-lighter">
+                            <FontAwesomeIcon icon={faUser} /> {task.solutionCount}
+                        </span>
                     </div>
                     <span className="text-task-lighter text-[0.825rem] font-medium "><FontAwesomeIcon icon={faClock} className="mr-1"/>{relativeDate} remaining</span>
                     <div className="flex items-center justify-end font-semibold text-sm">
@@ -34,7 +37,12 @@ const  Task: React.FC<{task: TaskDTO}> = ({task})=> {
             <p className="text-task-lighter mb-5 pt-0 mt-[-1rem] px-6 leading-[1.5]">{task.description}</p>
             <ul className="flex pb-4 px-6">
                 {task.allowedTechnologies.map((technology)=>{
-                    return <li className="mr-3 px-5 py-2.5 text-sm rounded-lg bg-[#5c5e68]">{technology}</li>
+                    return <li
+                                className="mr-3 px-5 py-2.5 text-sm rounded-lg bg-[#5c5e68]"
+                                key={technology}
+                            >
+                                {technology}
+                            </li>
                 })}
             </ul>
 

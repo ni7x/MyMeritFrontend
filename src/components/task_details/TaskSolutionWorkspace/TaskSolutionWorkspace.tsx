@@ -2,9 +2,27 @@ import React, { useState} from "react";
 import File from "../../../models/File";
 import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
+import JSZip from "jszip";
+import {decodeBase64} from "./fileUtils";
+import CodeExecutionOutput from "../../../models/CodeExecutionOutput";
+import Task from "../../../models/Task";
+import UserTask from "../../../models/UserTask";
 
-const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
-    const [files, setFiles] = useState<File[]>([new File("index.js", "javascript", "", true)]);
+const TaskSolutionWorkspace: React.FC<{ task: UserTask }> = ({ task }) => {
+
+    const [files, setFiles] = useState<File[]>(() => {
+        if (task.solution) {
+            return task.solution.map((solution) => new File(
+                solution.name,
+                solution.content,
+                solution.isMain
+            ));
+        } else {
+            return [new File("main.cpp", "", true)];
+        }
+    });
+
+
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
 
 
@@ -38,9 +56,7 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
             return;
         }
         if (fileToRemove) {
-            if(currentFile == fileToRemove){
-                setCurrentFileIndex((index)=>index-1);
-            }
+            setCurrentFileIndex(0);
             setFiles(prevFiles => prevFiles.filter(file => file.name !== name));
             console.log("XD", files);
         } else {
@@ -98,6 +114,7 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
                          setFiles={setFiles}
                          addFile={addFile}
                          setAsMain={setAsMain}
+                         taskId={task.id}
                     />
                 </div>
             }

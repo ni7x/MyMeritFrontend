@@ -2,22 +2,16 @@ import React from "react";
 import {Task as TaskDTO} from "../../models/Task";
 import Task from "./Task";
 
-const TaskList: React.FC<{tasks: TaskDTO[]}> = ({tasks}) => {
-    if(tasks.length == 0){
-        return (
-            <div className="w-[60%] justify-center align-center flex h-full">
-               No tasks
-            </div>
-        );
-    }
-    return (
-        <div className="w-[60%]">
-            {tasks.map(task=>{
-                return <Task task={task}/>
-            })}
-        </div>
-    );
-
+const TaskList: React.FC<{ tasks: TaskDTO[] }> = ({ tasks }) => {
+  return (
+    <div
+      className={`w-full flex flex-col align-center justify-center}`}
+    >
+      {tasks.length === 0
+        ? <p className="h-[32rem]">No tasks</p>
+        : tasks.map((task) => <Task key={task.id} task={task} />)}
+    </div>
+  );
 };
 
 export default TaskList;

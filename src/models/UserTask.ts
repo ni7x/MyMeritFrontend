@@ -1,6 +1,7 @@
 import Company from "./Company";
+import Solution from "./Solution";
 
-class Task {
+class UserTask {
     constructor(
         public id: string,
         public topic: string,
@@ -8,10 +9,11 @@ class Task {
         public releaseDate: Date,
         public expiryDate: Date,
         public rewards: number,
+        public solution: Solution,
         public company: Company,
         public solutionCount: number,
         public allowedTechnologies: string[]
     ) {}
 }
 
-export default Task;
+export default UserTask;
