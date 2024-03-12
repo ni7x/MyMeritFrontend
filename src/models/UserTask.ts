@@ -8,7 +8,7 @@ class UserTask {
         public description: string,
         public releaseDate: Date,
         public expiryDate: Date,
-        public rewards: number,
+        public reward: number,
         public solution: Solution,
         public company: Company,
         public solutionCount: number,

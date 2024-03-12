@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import TaskList from "../../components/home_tasks/TaskList";
 import Task from "../../models/Task";
-import {getHomeTasks, getHomeTasksMock} from "../../services/TaskService";
+import {getHomeTasks} from "../../services/TaskService";
 import { useLocation } from "react-router-dom";
 import Pagination from "../../components/home_tasks/Pagination";
 import FilterPanel from "../../components/home_tasks/FilterPanel";
 import QueryParams from "../../models/QueryParams";
-import SortPanel from "../../components/home_tasks/SortPanel";
 import SecondWrapper from "../../components/SecondWrapper";
-import {useAuth} from "../../hooks/useAuth";
-
 
 const Home: React.FC = () => {
   const searchParams = new URLSearchParams(useLocation().search);
@@ -47,7 +44,9 @@ const Home: React.FC = () => {
       try {
         const response = await getHomeTasks(page, queryParams);
         if (response.ok) {
-          setTasks(await response.json());
+          const json = await response.json();
+          setMaxPage(json.totalPages);
+          setTasks(json.content);
         }
       } catch (error) {
         console.error("Error fetching tasks:", error);

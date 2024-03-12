@@ -14,7 +14,7 @@ const  Task: React.FC<{task: UserTask}> = ({task})=> {
             <div className="mb-5 pt-3 px-6 pb-0">
                 <div className="text-[0.825rem] font-semibold mt-1 flex justify-between items-center flex-wrap gap-2">
                     <div className="flex-row items-center ">
-                        <span className="text-merit-credits-color mr-3">{task.credits} MC</span>
+                        <span className="text-merit-credits-color mr-3">{task.reward} MC</span>
                         <span className="text-task-lighter">
                             <FontAwesomeIcon icon={faUser} /> {task.solutionCount}
                         </span>
