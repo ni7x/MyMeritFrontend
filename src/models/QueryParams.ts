@@ -4,5 +4,6 @@ export  default  interface QueryParams {
     maxCredits?: number;
     timeLeft?: number;
     search?: string;
+    sort?: string;
 }
 

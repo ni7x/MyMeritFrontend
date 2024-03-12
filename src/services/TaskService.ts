@@ -1,8 +1,6 @@
 import TaskPreview from "../models/TaskPreview";
 import TaskStatus from "../models/TaskStatus";
-import Task from "../models/Task";
 import QueryParams from "../models/QueryParams";
-import Solution from "../models/Solution";
 import File from "../models/File";
 
 const getHomeTasks = async (pageNum = 1, params: QueryParams) : Promise<Response> => {
@@ -11,8 +9,11 @@ const getHomeTasks = async (pageNum = 1, params: QueryParams) : Promise<Response
         + (params.minCredits ? "minCredits=" + params.minCredits + "&" : "" )
         + (params.maxCredits ? "maxCredits=" + params.maxCredits + "&" : "")
         + (params.timeLeft != null ? "timeLeft=" + params.timeLeft  + "&": "")
+        + (params.sort != null ? "sort=" + params.sort  + "&": "")
         + "page=" + (pageNum - 1)
     ;
+
+    console.log(params)
 
     console.log(URL)
 

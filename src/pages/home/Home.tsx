@@ -28,11 +28,15 @@ const Home: React.FC = () => {
       ? parseInt(searchParams.get("timeLeft"))
       : undefined;
 
+  const sort = searchParams.get("sort")
+      ? (searchParams.get("sort"))
+      : undefined;
 
     const queryParams: QueryParams = {
         languages: languages,
         minCredits: minCredits,
-        maxCredits:maxCredits
+        maxCredits:maxCredits,
+        sort: sort
     };
 
   const [maxPage, setMaxPage] = useState<number>(1);
@@ -54,7 +58,7 @@ const Home: React.FC = () => {
     };
 
     fetchData();
-  }, [page, languages, minCredits, maxCredits, timeLeft]);
+  }, [page, languages, minCredits, maxCredits, timeLeft, sort]);
 
 
   return (

@@ -13,19 +13,28 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
     const [minCredits, setMinCredits] = useState<number>(queryParams.minCredits ? queryParams.minCredits : 0);
     const [maxCredits, setMaxCredits] = useState<number>(queryParams.maxCredits ? queryParams.maxCredits : 20);
     const [timeLeft, setTimeLeft] = useState<number|null>(queryParams.timeLeft ? queryParams.timeLeft : null);
-
+    const [sortValue, setSortValue] = useState<string>(queryParams.sort ? queryParams.sort : "expiryDate,desc");
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     const submitFilter = () => {
-        const URL = "/tasks?" + (selectedLanguages.length != 0 ? "languages=" + selectedLanguages: "")
-            + (minCredits != 0 ? "&minCredits=" + minCredits : "")
-            + (maxCredits != 20 ? "&maxCredits=" + maxCredits : "")
-            + (timeLeft != null ? "&timeLeft=" + timeLeft : "");
+        let URL = "/tasks?" + (selectedLanguages.length != 0 ? "languages=" + selectedLanguages + "&" : "")
+            + (minCredits != 0 ? "minCredits=" + minCredits + "&" : "")
+            + (maxCredits != 20 ? "maxCredits=" + maxCredits + "&" : "")
+            + (timeLeft != null ? "timeLeft=" + timeLeft + "&" : "")
+            + (sortValue != "expiryDate,asc" ? "sort=" + sortValue + "&" : "");
+
+        if (URL.charAt(URL.length - 1) === "&") {
+            URL = URL.slice(0, -1);
+        }
 
         setIsPopupOpen(false);
         navigate(URL);
+    }
+
+    const handleSort = (value) => {
+        setSortValue(value);
     }
 
     const toggleLanguage = (language: string) => {
@@ -105,7 +114,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                     </div>
                     <div className="flex flex-col border-0 border-t border-[#5c5e68] pt-4 items-center lg:items-stretch">
                         <label>Order</label>
-                        <SortPanel/>
+                        <SortPanel sortValue={sortValue} onSortChange={handleSort}/>
                     </div>
 
                 </div>
