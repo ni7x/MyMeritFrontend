@@ -6,7 +6,8 @@ class User {
         public password: string,
         public points: number,
         public isCompany: boolean,
-        public description: string
+        public description: string,
+        public imageSmall: string,
     ) {}
 }
 

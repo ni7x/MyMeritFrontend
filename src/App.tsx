@@ -34,6 +34,13 @@ const App = () => {
           />
 
           <Route
+            path="/users/:id"
+            element={
+                <UserDetails />
+            }
+          />
+
+          <Route
               path="/rewards/"
               element={
                   <ProtectedRoute>
