@@ -1,12 +1,16 @@
-import {users} from '../common/users';
+import { users } from "../common/users";
+import { socials } from "../common/socials";
 
 const getUsers = () => {
-    return users;
-}
+  return users;
+};
 
 const getUserById = (userId: string) => {
-    return getUsers()[0];
-}
+  return getUsers()[0];
+};
 
-export {getUsers, getUserById}
+const getUserSocials = (userId: string) => {
+  return socials;
+};
 
+export { getUsers, getUserById, getUserSocials };

@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MainWrapper from "./components/MainWrapper";
 import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
+import UserProfile from "./pages/user_profile/UserProfile";
 
 const App = () => {
   return (
@@ -33,23 +34,18 @@ const App = () => {
             }
           />
 
+          <Route path="/users/:id" element={<UserProfile />} />
+
           <Route
-            path="/users/:id"
+            path="/rewards/"
             element={
-                <UserDetails />
+              <ProtectedRoute>
+                <Rewards />
+              </ProtectedRoute>
             }
           />
 
-          <Route
-              path="/rewards/"
-              element={
-                  <ProtectedRoute>
-                    <Rewards/>
-                  </ProtectedRoute>
-                }
-          />
-
-          <Route path="/contact/" element={<Contact/>} />
+          <Route path="/contact/" element={<Contact />} />
           <Route path="/login/" element={<Login />} />
           <Route path="/register/" element={<Register />} />
           <Route path="*" element={<NotFound />} />
