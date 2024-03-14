@@ -1,3 +1,5 @@
+import Solution from "../Solution";
+
 class Task {
     constructor(
         public id: string,
@@ -6,7 +8,8 @@ class Task {
         public opensAt: Date,
         public closesAt: Date,
         public reward: number,
-        public allowedLanguages: string[]
+        public allowedLanguages: string[],
+        public solution: Solution
     ) {}
 }
 

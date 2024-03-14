@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
-import TaskInfo from "../../components/task_details/TaskInfo/TaskInfo";
-import TaskSolutionWorkspace from "../../components/task_details/TaskSolutionWorkspace/TaskSolutionWorkspace";
+import TaskInfo from "../../components/job_offer_details/TaskInfo/TaskInfo";
+import TaskSolutionWorkspace from "../../components/job_offer_details/TaskSolutionWorkspace/TaskSolutionWorkspace";
 import {getJobOfferById} from "../../services/JobOfferService";
 import {useAuth} from "../../hooks/useAuth";
 import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
+import JobOfferInfo from "../../components/job_offer_details/JobOfferInfo/JobOfferInfo";
 
 const JobOfferDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -35,7 +36,7 @@ const JobOfferDetails: React.FC = () => {
     if(jobOffer){
         if(jobOffer.task){
             return (
-                <div className="flex flex-col gap-[2rem] lg:flex-row w-[100%] ">
+                <div className="flex flex-col gap-[2rem] lg:flex-row w-[80%] mx-auto ">
                     <TaskInfo task={jobOffer.task}></TaskInfo>
                     <TaskSolutionWorkspace task={jobOffer.task}></TaskSolutionWorkspace>
                 </div>
@@ -43,7 +44,7 @@ const JobOfferDetails: React.FC = () => {
         }else{
             return (
                 <div className="flex flex-col gap-[2rem] lg:flex-row w-[100%] ">
-                    Job details
+                    <JobOfferInfo jobOffer={jobOffer}/>
                 </div>
 
             );

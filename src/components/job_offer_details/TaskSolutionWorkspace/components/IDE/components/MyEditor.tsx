@@ -18,15 +18,15 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) 
         setFiles(updatedFiles);
     }
 
-
     return (
         <Editor
-            height="50vh"
+            height="45vh"
             theme="customTheme"
             path={currentFile.name}
             language={getLanguageFromFileName(currentFile.name)}
             value={currentFile.content}
             onChange={handleEditorChange}
+            className="border-b-[1px] border-task-lighter"
             options={{
                 minimap: { enabled: false },
                 overviewRulerBorder: false,

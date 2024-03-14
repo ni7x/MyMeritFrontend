@@ -2,30 +2,27 @@ import React, { useState} from "react";
 import File from "../../../models/File";
 import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
-import JSZip from "jszip";
-import {decodeBase64} from "./fileUtils";
-import CodeExecutionOutput from "../../../models/CodeExecutionOutput";
-import Task from "../../../models/Task";
-import UserTask from "../../../models/UserTask";
 
-const TaskSolutionWorkspace: React.FC<{ task: UserTask }> = ({ task }) => {
+import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
+import {useAuth} from "../../../hooks/useAuth";
+import {submitSolution} from "../../../services/JobOfferService";
+
+const TaskSolutionWorkspace: React.FC<{ task: UserTaskDTO }> = ({ task }) => {
 
     const [files, setFiles] = useState<File[]>(() => {
         if (task.solution) {
-            return task.solution.map((solution) => new File(
-                solution.name,
-                solution.content,
-                solution.isMain
+            return task.solution.files.map((file) => new File(
+                file.name,
+                file.content,
+                file.isMain
             ));
         } else {
             return [new File("main.cpp", "", true)];
         }
     });
 
-
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
     const currentFile = files[currentFileIndex];
-
 
     const getFileByName = (name: string) => {
         return files.find(file => file.name === name);
@@ -94,12 +91,33 @@ const TaskSolutionWorkspace: React.FC<{ task: UserTask }> = ({ task }) => {
         });
     }
 
-    console.log(files)
+    const {authToken} = useAuth();
+
+    const submit = () => {
+        const fetchData = async () => {
+            try {
+                if(authToken){
+                    const response = await submitSolution(taskId, files, authToken);
+                    if (response.ok) {
+                        console.log(response)
+                    }
+                }else{
+                    console.log("no token provided")
+                }
+
+
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
+        };
+        fetchData();
+    };
+
 
     return (
-        <div className="task-solution-workspace w-[100%] lg:w[60%]">
+        <div className="flex flex-col w-[100%] lg:w-[67.5%] items-end">
             {currentFile &&
-                <div className="task-solution-workspace-wrapper">
+                <div className="w-full">
                     <FileTabManager
                         addFile={addFile}
                         removeFile={removeFile}
@@ -116,6 +134,12 @@ const TaskSolutionWorkspace: React.FC<{ task: UserTask }> = ({ task }) => {
                          setAsMain={setAsMain}
                          taskId={task.id}
                     />
+                    <button
+                        className="bg-blue-400 p-2 px-5 text-sm font-semibold float-right mt-3 rounded w-[10rem]"
+                        onClick={submit}
+                    >
+                        submit solution
+                    </button>
                 </div>
             }
         </div>

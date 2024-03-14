@@ -1,5 +1,5 @@
 import Company from '../Company';
-import Task from '../Task';
+import UserTaskDTO from "./UserTaskDTO";
 
 interface JobOfferDetailsDTO {
     id: string;
@@ -10,7 +10,7 @@ interface JobOfferDetailsDTO {
     workLocations: string[];
     technologies: string[];
     company: Company;
-    task: Task | null;
+    task: UserTaskDTO | null;
 }
 
 export default JobOfferDetailsDTO;

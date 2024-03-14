@@ -2,6 +2,8 @@ import React from "react";
 import File from "../../../../../../models/File";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
 import {generateEncodedZip} from "../../../fileUtils";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlay} from "@fortawesome/free-solid-svg-icons";
 
 const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading}) => {
     const compileCode = async () => {
@@ -47,9 +49,10 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
 
     return (
         <button
-            className="bg-black border-[2px] border-emerald-500 text-emerald-400 p-1.5 px-5 text-sm font-semibold rounded mr-4"
-            onClick={compileCode}>
-           Run
+            className="text-green-400"
+            onClick={compileCode}
+        >
+           <FontAwesomeIcon icon={faPlay}/>
         </button>
     );
 };
