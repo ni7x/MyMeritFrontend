@@ -1,7 +1,7 @@
 import Company from "./Company";
 import Task from './Task';
 
-enum Experience {
+export enum Experience {
     INTERN = "Intern",
     JUNIOR = "Junior",
     REGULAR = "Regular",
@@ -9,14 +9,19 @@ enum Experience {
     EXPERT = "Expert"
 }
 
+export enum EmploymentType{
+    STATIONARY, REMOTE, MIXED
+}
+
 class JobOffer {
     constructor(
         public jobTitle: string,
         public description: string,
+        salary: number,
+        employmentType: EmploymentType,
         public requiredSkills: string[],
         public preferredSkills: string[],
         public workLocations: string[],
-        public categories: string[],
         public experience: Experience,
         public company: Company,
         public task: Task

@@ -2,7 +2,7 @@ import React from "react";
 import QueryParams from "../../models/QueryParams";
 
 const Pagination: React.FC<{page: number, maxPages: number, queryParams: QueryParams}> = ({page, maxPages, queryParams}) => {
-    const URL = "/tasks?"
+    const URL = "/jobs?"
         + (queryParams.languages?.length != 0 && queryParams.languages != undefined ? "languages=" + queryParams.languages + "&": "")
         + (queryParams.minCredits != 0 && queryParams.minCredits != undefined ? "minCredits=" + queryParams?.minCredits + "&" : "")
         + (queryParams.maxCredits != 20  && queryParams.maxCredits != undefined ? "maxCredits=" + queryParams.maxCredits  + "&" : "")

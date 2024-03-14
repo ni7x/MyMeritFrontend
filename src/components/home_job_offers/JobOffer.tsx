@@ -6,12 +6,8 @@ import logo from '../../assets/logo-placeholder.png';
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 
 const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
-    let openingDate;
-    if (new Date(jobOffer.opensAt) <= new Date()) {
-        openingDate = "open";
-    }else{
-        openingDate = formatDistance(new Date(), jobOffer.opensAt, { addSuffix: false })
-    }
+    const taskIsOpen = new Date(jobOffer.opensAt) <= new Date() && new Date(jobOffer.closesAt) >= new Date();
+    const offerEnded = new Date(jobOffer.closesAt) >= new Date();
     const solvingTime = differenceInMinutes( new Date(jobOffer.closesAt),  new Date(jobOffer.opensAt));
 
     return (
@@ -27,35 +23,27 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                     <div className="flex gap-8">
                         <span className="flex items-center text-task-lighter  truncate max-w-[12rem] gap-1">
                             <FontAwesomeIcon icon={faClock} className="mr-1"/>
-                            <span className="font-semibold">{solvingTime}</span> <p>minutes</p>
+                            <span className="font-medium text-white">{solvingTime} minutes</span>
                         </span>
                             <span className="flex items-center text-task-lighter  truncate max-w-[12rem] gap-1">
                             <FontAwesomeIcon icon={faCalendar} className="mr-1"/>
-                               <p>
-                                  {openingDate === "open" ? (
-                                      <span className="font-semibold text-green-400">open now</span>
-                                  ) : (
-                                      <>
-                                          <span>opens in</span>{" "}
-                                          <span className="font-semibold">{openingDate}</span>
-                                      </>
-                                  )}
-                                </p>
+                            <p>
+                                <span className={`font-medium ${taskIsOpen ? "text-green-400" : offerEnded ? "text-red-500" : "text-white"}`}>
+                                    {taskIsOpen ? "open" : offerEnded ? "closed" : "opens in " + formatDistance(new Date(), jobOffer.opensAt, { addSuffix: false })}
+                                </span>
+                            </p>
                         </span>
                             <span className="flex items-center text-task-lighter truncate max-w-[12rem]">
                             <FontAwesomeIcon icon={faBell} className="mr-2"/>
                         </span>
                     </div>
-
                 </div>
-
                 <h3 className="text-xl font-bold  w-full">
                     <a href={"tasks/" + jobOffer.id}>
                         {jobOffer.jobTitle}
                     </a>
                 </h3>
             </div>
-
             <ul className="flex py-5 pb-6 px-4">
                 {jobOffer.technologies.map((technology)=>{
                     return <li
@@ -66,7 +54,6 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                             </li>
                 })}
             </ul>
-
             <div className="flex items-center justify-between text-sm pb-2.5 px-4 w-full font-medium" >
                 <div className="flex justify-center items-center">
                     <img className="h-6 w-6 rounded mr-2" src={logo}/>
@@ -81,12 +68,10 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                             }
                         </li>
                     ))}
-
                 </ul>
             </div>
         </div>
     );
-
 };
 
 export default JobOffer;

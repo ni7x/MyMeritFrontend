@@ -43,7 +43,7 @@ const JobOfferDetails: React.FC = () => {
             );
         }else{
             return (
-                <div className="flex flex-col gap-[2rem] lg:flex-row w-[100%] ">
+                <div className="flex w-[100%] justify-center">
                     <JobOfferInfo jobOffer={jobOffer}/>
                 </div>
 

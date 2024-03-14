@@ -35,7 +35,7 @@ const TaskInfo: React.FC<{task: Task}> = ({task}) => {
 
     {{ /* <button className={"task-info-toggle"}><FontAwesomeIcon icon={faMinimize} /></button> */ }}
     return (
-        <div className="flex flex-col bg-terminal-color p-[1.5rem] rounded-lg w-[100%] lg:flex-1 justify-between">
+        <div className="flex flex-col bg-terminal-color p-[1.5rem] rounded w-[100%] lg:flex-1 justify-between">
             <div>
                 <div className="flex flex-row w-100 text-sm font-semibold justify-between">
                     <div>
