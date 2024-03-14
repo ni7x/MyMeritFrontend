@@ -15,8 +15,8 @@ export default {
         'main-font-color': '#fff',
         'main-border': '#6a6c76',
         'task-bck': '#434550',
-        'task-lighter' : '#8c8f9f',
-        'merit-credits-color' : '#ffcc00',
+        'task-lighter' : '#6b6d7d',
+        'merit-credits-color' : '#f7d94b',
         'terminal-color' : '#3a3b46'
       },
     },

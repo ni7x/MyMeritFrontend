@@ -2,7 +2,7 @@ export  default  interface QueryParams {
     languages?: string;
     minCredits?: number;
     maxCredits?: number;
-    timeLeft?: number;
+    opensIn?: number;
     search?: string;
     sort?: string;
 }

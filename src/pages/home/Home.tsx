@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import TaskList from "../../components/home_tasks/TaskList";
+import JobOfferList from "../../components/home_job_offers/JobOfferList";
 import Task from "../../models/Task";
-import {getHomeTasks} from "../../services/TaskService";
+import {getHomeJobOffers} from "../../services/JobOfferService";
 import { useLocation } from "react-router-dom";
-import Pagination from "../../components/home_tasks/Pagination";
-import FilterPanel from "../../components/home_tasks/FilterPanel";
+import Pagination from "../../components/home_job_offers/Pagination";
+import FilterPanel from "../../components/home_job_offers/FilterPanel";
 import QueryParams from "../../models/QueryParams";
 import SecondWrapper from "../../components/SecondWrapper";
+import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 
 const Home: React.FC = () => {
   const searchParams = new URLSearchParams(useLocation().search);
@@ -24,8 +25,8 @@ const Home: React.FC = () => {
       ? parseInt(searchParams.get("maxCredits"))
       : undefined;
 
-  const timeLeft = searchParams.get("timeLeft")
-      ? parseInt(searchParams.get("timeLeft"))
+  const opensIn = searchParams.get("opensIn")
+      ? parseInt(searchParams.get("opensIn"))
       : undefined;
 
   const sort = searchParams.get("sort")
@@ -36,41 +37,41 @@ const Home: React.FC = () => {
         languages: languages,
         minCredits: minCredits,
         maxCredits:maxCredits,
+        opensIn: opensIn,
         sort: sort
     };
 
   const [maxPage, setMaxPage] = useState<number>(1);
-  const [tasks, setTasks] = useState<Task[]>([]);
-
+  const [jobOffers, setJobOffers] = useState<JobOfferListedDTO[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getHomeTasks(page, queryParams);
+        const response = await getHomeJobOffers(page, queryParams);
         if (response.ok) {
           const json = await response.json();
           setMaxPage(json.totalPages);
-          setTasks(json.content);
+          setJobOffers(json.content);
         }
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error("Error fetching jobOffers:", error);
       }
     };
 
     fetchData();
-  }, [page, languages, minCredits, maxCredits, timeLeft, sort]);
+  }, [page, languages, minCredits, maxCredits, opensIn, sort]);
 
 
   return (
     // <div className="flex flex-col justify-between w-full xl:w-[60%] mx-auto">
     <SecondWrapper>
       <div className="flex flex-col gap-x-10 h-full w-[100%]  items-center lg:items-baseline">
-        <div className="w-full flex flex-col-reverse gap-x-10 lg:flex-row">
-          <div className="w-full lg:w-[70%]">
-            <TaskList tasks={tasks} />
+        <div className="w-full flex flex-col-reverse gap-x-10 lg:flex-row justify-center">
+          <div className="w-full lg:w-[70%] lg:max-w-[40rem]">
+            <JobOfferList jobOffers={jobOffers} />
             <Pagination page={page} maxPages={maxPage} queryParams={queryParams} />
           </div>
-          <FilterPanel queryParams={queryParams} tasks={tasks} />
+          <FilterPanel queryParams={queryParams} tasks={jobOffers} />
         </div>
       </div>
     </SecondWrapper>

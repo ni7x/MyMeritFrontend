@@ -10,13 +10,13 @@ const SortPanel = ({ sortValue, onSortChange }) => {
             id="sort-by"
             name="sort-by"
             defaultValue={sortValue}
-            className="text-center appearance-none text-sm font-medium outline-none py-3 px-5 rounded bg-main-lighter-2 mt-4"
+            className="text-center appearance-none text-sm font-medium outline-none py-3 px-5 rounded bg-main-lighter-2"
             onChange={handleSortChange}
         >
             <option value="reward,asc">Reward Ascending</option>
             <option value="reward,desc">Reward Descending</option>
-            <option value="expiryDate,asc">Opens Ascending</option>
-            <option value="expiryDate,desc">Opens Descending</option>
+            <option value="opensIn,asc">Opens Ascending</option>
+            <option value="opensIn,desc">Opens Descending</option>
         </select>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./my_tasks.css";
 import TaskPreview from "../../models/TaskPreview";
-import { getUserTasks } from "../../services/TaskService";
+import { getUserTasks } from "../../services/JobOfferService";
 import TaskList from "../../components/my_tasks/TaskList";
 import SortPanel from "../../components/my_tasks/SortPanel";
 import FilterPanel from "../../components/my_tasks/FilterPanel";

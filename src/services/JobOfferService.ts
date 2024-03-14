@@ -3,19 +3,15 @@ import TaskStatus from "../models/TaskStatus";
 import QueryParams from "../models/QueryParams";
 import File from "../models/File";
 
-const getHomeTasks = async (pageNum = 1, params: QueryParams) : Promise<Response> => {
-    const URL = import.meta.env.VITE_API_URL+ "/tasks?"
+const getHomeJobOffers = async (pageNum = 1, params: QueryParams) : Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL+ "/jobs?"
         + (params.languages ? "languages=" + params.languages+ "&" : "")
         + (params.minCredits ? "minCredits=" + params.minCredits + "&" : "" )
         + (params.maxCredits ? "maxCredits=" + params.maxCredits + "&" : "")
-        + (params.timeLeft != null ? "timeLeft=" + params.timeLeft  + "&": "")
+        + (params.opensIn != null ? "opensIn=" + params.opensIn  + "&": "")
         + (params.sort != null ? "sort=" + params.sort  + "&": "")
         + "page=" + (pageNum - 1)
     ;
-
-    console.log(params)
-
-    console.log(URL)
 
     try {
         return await fetch(URL, {
@@ -41,8 +37,8 @@ const getUserTasks = (userId: string): TaskPreview[] => {
     ];
 }
 
-const getTaskById = async (taskId: string, token: string): Promise<Response> => {
-    const URL = import.meta.env.VITE_API_URL+ "/task/" + taskId;
+const getJobOfferById = async (jobOfferId: string, token: string): Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL+ "/job/" + jobOfferId;
     try {
         return await fetch(URL, {
             method: 'GET',
@@ -75,4 +71,4 @@ const submitSolution = async (taskId: string, files: File[], token: string) => {
 
 
 
-export  { getUserTasks, getTaskById, getHomeTasks, submitSolution }
+export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution }

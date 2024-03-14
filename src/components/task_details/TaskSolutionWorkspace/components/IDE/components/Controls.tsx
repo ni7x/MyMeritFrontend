@@ -2,7 +2,7 @@ import RunButton from "./RunButton";
 import React  from "react";
 import File from "../../../../../../models/File";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
-import {getHomeTasks, submitSolution} from "../../../../../../services/TaskService";
+import {getHomeJobOffers, submitSolution} from "../../../../../../services/JobOfferService";
 import {useAuth} from "../../../../../../hooks/useAuth";
 
 interface ControlsProps {
