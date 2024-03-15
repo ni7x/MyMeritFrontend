@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import MySlider from './MySlider';
 
-const InputWithSlider = ({ label, min, max, minValue: initialMinValue, maxValue: initialMaxValue, currency }) => {
+const InputWithSlider = ({ label, min, max, minValue: initialMinValue, maxValue: initialMaxValue, onInputChange, currency }) => {
     const [minValue, setMinValue] = useState(initialMinValue);
     const [maxValue, setMaxValue] = useState(initialMaxValue);
 
     const handleMinValueChange = (e) => {
         const value = parseFloat(e.currentTarget.value);
         setMinValue(value);
+
     };
 
     const handleMaxValueChange = (e) => {
@@ -18,6 +19,7 @@ const InputWithSlider = ({ label, min, max, minValue: initialMinValue, maxValue:
     const handleSliderChange = (e) => {
         setMinValue(e.minValue);
         setMaxValue(e.maxValue);
+        onInputChange(e);
     };
 
     return (

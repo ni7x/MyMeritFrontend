@@ -10,7 +10,7 @@ const SortPanel = ({ sortValue, onSortChange }) => {
             id="sort-by"
             name="sort-by"
             defaultValue={sortValue}
-            className="text-center appearance-none text-sm font-medium outline-none py-3 px-5 rounded bg-main-lighter-2"
+            className="appearance-none text-sm font-medium outline-none py-3 px-3 rounded bg-main-lighter-2"
             onChange={handleSortChange}
         >
             <option value="reward,asc">Reward Ascending</option>

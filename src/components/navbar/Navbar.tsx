@@ -1,9 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./navbar.css";
 import { useAuth } from "../../hooks/useAuth";
-import MainWrapper from "../MainWrapper";
-import SecondWrapper from "../SecondWrapper";
 
 const Navbar: React.FC = () => {
   const { user, signOut } = useAuth();
@@ -14,7 +11,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className="fixed w-full top-0 h-14 flex items-center bg-main-bg-color text-base border-b-[1px] border-main-border border-solid">
+    <nav className="fixed w-full top-0 h-14 flex items-center bg-secondary-bg-color text-base border-b-[1px] border-main-border border-solid">
       <div className="w-[90%] mx-auto">
         <ul className="flex flex-row gap-8 w-full xl:w-[60%] mx-auto list-none">
           <li>

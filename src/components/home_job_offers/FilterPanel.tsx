@@ -4,7 +4,6 @@ import {faX} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import QueryParams from "../../models/QueryParams";
 import SortPanel from "./SortPanel";
-import MySlider from "../my_slider/MySlider";
 import InputWithSlider from "../my_slider/InputWithSlider";
 
 
@@ -14,6 +13,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
     const [selectedLanguages, setSelectedLanguages] = useState<string []>(queryParams.languages ? queryParams.languages.split(",") : []);
     const [minCredits, setMinCredits] = useState<number>(queryParams.minCredits ? queryParams.minCredits : 0);
     const [maxCredits, setMaxCredits] = useState<number>(queryParams.maxCredits ? queryParams.maxCredits : 1000);
+    console.log(minCredits)
     const [minSalary, setMinSalary] = useState<number>(queryParams.minSalary ? queryParams.minSalary : 0);
     const [maxSalary, setMaxSalary] = useState<number>(queryParams.maxSalary ? queryParams.maxSalary : 40000);
 
@@ -90,6 +90,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                             minValue={minCredits}
                             maxValue={maxCredits}
                             onInputChange={(e) => {
+                                console.log(e)
                                 setMinCredits(e.minValue);
                                 setMaxCredits(e.maxValue);
                             }}
@@ -100,7 +101,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                         <div className="flex lg:justify-center">
                             <select id="time-left"
                                     name="time-left"
-                                    className="text-center pr-8 pl-2 outline-none p-2 w-[100%] lg:w-[100%] rounded bg-main-lighter-2"
+                                    className="pr-8 pl-2 outline-none p-2 w-[100%] lg:w-[100%] rounded bg-main-lighter-2"
                                     value={opensIn === null ? "" : opensIn}
                                     onChange={(e) => setOpensIn(parseInt(e.currentTarget.value))}>
                                 <option value="1">1 hour</option>
