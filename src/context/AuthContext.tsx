@@ -73,7 +73,6 @@ const useAuthProvider = () => {
   const cookies = new Cookies();
 
   const isAuthenticated = (): boolean => {
-    console.log(user)
     return user !== undefined && user.decodedTokenInfo.sub !== null && user.decodedTokenInfo.sub !== "";
   };
 

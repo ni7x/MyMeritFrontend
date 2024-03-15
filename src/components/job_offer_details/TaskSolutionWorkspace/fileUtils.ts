@@ -1,10 +1,16 @@
 import File from "../../../models/File";
 import JSZip from "jszip";
 import languagesData from "./languages.json";
+import file from "../../../models/File";
 
 const getFileExtension = (fileName: string): string => {
     const parts = fileName.split(".");
     return parts.length > 1 ? parts[parts.length - 1] : "plaintext";
+};
+
+const getFileNameWithoutExtension = (fileName: string): string => {
+    const lastDotIndex = fileName.lastIndexOf(".");
+    return lastDotIndex !== -1 ? fileName.substring(0, lastDotIndex) : fileName;
 };
 
 const getLanguageFromFileExtension = (fileExtension: string) : string =>{
@@ -19,6 +25,8 @@ const getLanguageFromFileExtension = (fileExtension: string) : string =>{
             return "c";
         case "py":
             return "python";
+        case "kt":
+            return "kotlin";
         default:
             return "plaintext"
     }
@@ -45,24 +53,24 @@ interface Script {
     content: string;
 }
 
-const generateScriptsContent2 = (languages, mainFileName) : Script[] => {
-    const fileExtension = getLanguageFromFileName(mainFileName)
+const generateScriptsContent = (languages, mainFileName) : Script[] => {
+    const fileExtension = getFileExtension(mainFileName)
+    console.log(fileExtension)
     const language = languagesData[fileExtension];
-    console.log(language)
+
     if (!language) {
         console.error(`Language not found for file extension: ${fileExtension}`);
-        return [];
     }
 
     const { compile, run, source_file } = language;
 
-    if (!compile || !run) {
-        console.error(`Compile or run command not defined for language: ${source_file}`);
+    if (!compile && !run) {
+        console.error(`Compile and run command not defined for language: ${source_file}`);
         return [];
     }
 
-    const compileScriptContent = compile.replace(source_file, " *." + fileExtension).replace(" %s ", "") ;
-    const runScriptContent = run.replace(source_file, mainFileName);
+    const compileScriptContent = compile?.replace(source_file, " *." + fileExtension).replace(" %s ", "") ;
+    const runScriptContent = run?.replace(getFileNameWithoutExtension(source_file), getFileNameWithoutExtension(mainFileName));
     console.log(compileScriptContent)
     console.log(runScriptContent)
 
@@ -72,7 +80,7 @@ const generateScriptsContent2 = (languages, mainFileName) : Script[] => {
     ];
 }
 
-const generateScriptsContent = (language, mainFileName) : Script[] => {
+const generateScriptsContent2 = (language, mainFileName) : Script[] => {
     let compileScriptContent,  runScriptContent;
     switch (language){
         case "java":
