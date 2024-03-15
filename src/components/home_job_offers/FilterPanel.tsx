@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowsLeftRight, faX} from "@fortawesome/free-solid-svg-icons";
+import {faX} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import QueryParams from "../../models/QueryParams";
 import SortPanel from "./SortPanel";
+import MySlider from "../my_slider/MySlider";
+import InputWithSlider from "../my_slider/InputWithSlider";
 
 
 const languages = ["Java", "Cpp", "C"];
@@ -12,6 +14,9 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
     const [selectedLanguages, setSelectedLanguages] = useState<string []>(queryParams.languages ? queryParams.languages.split(",") : []);
     const [minCredits, setMinCredits] = useState<number>(queryParams.minCredits ? queryParams.minCredits : 0);
     const [maxCredits, setMaxCredits] = useState<number>(queryParams.maxCredits ? queryParams.maxCredits : 1000);
+    const [minSalary, setMinSalary] = useState<number>(queryParams.minSalary ? queryParams.minSalary : 0);
+    const [maxSalary, setMaxSalary] = useState<number>(queryParams.maxSalary ? queryParams.maxSalary : 40000);
+
     const [opensIn, setOpensIn] = useState<number|null>(queryParams.opensIn ? queryParams.opensIn : null);
     const [sortValue, setSortValue] = useState<string>(queryParams.sort ? queryParams.sort : "opensIn,asc");
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
@@ -69,7 +74,7 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                                     <button
                                         onClick={()=>toggleLanguage(language)}
                                         key={language}
-                                        className={"px-5 py-2 rounded mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-rose-400 text-rose-400" :  " bg-main-lighter-2 border-2 border-main-lighter-2 ")}>
+                                        className={"px-5 py-2 rounded mr-2 mb-3 "+ (isSelected(language) ? " border-2 border-emerald-400 text-emerald-300" :  " bg-main-lighter-2 border-2 border-main-lighter-2 ")}>
                                         {language}
                                     </button>
                                 )
@@ -77,22 +82,18 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                             }
                         </div>
                     </div>
-                    <div className="flex flex-col pt-2 pb-2 lg:justify-center items-center lg:items-stretch">
-                        <label className="pb-5 lg:pb-2 text-sm font-medium">Merit Score</label>
-                        <div className="flex items-center">
-                            <input type="number" value={minCredits}
-                                   onChange={(e)=>setMinCredits(e.currentTarget.value)}
-                                   min="0"
-                                   max="20"
-                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-main-lighter-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
-                            <FontAwesomeIcon icon={faArrowsLeftRight} className="mx-5 text-main-lighter"/>
-                            <input type="number"
-                                   value={maxCredits}
-                                   onChange={(e)=>setMaxCredits(e.currentTarget.value)}
-                                   min="0"
-                                   max="20"
-                                   className="text-center outline-none p-2 w-[100%] lg:w-[40%] rounded bg-main-lighter-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"/>
-                        </div>
+                    <div className="flex flex-col pt-2 text-sm pb-2 lg:justify-center items-center lg:items-stretch">
+                        <InputWithSlider
+                            label="Merit Credits"
+                            min={0}
+                            max={1000}
+                            minValue={minCredits}
+                            maxValue={maxCredits}
+                            onInputChange={(e) => {
+                                setMinCredits(e.minValue);
+                                setMaxCredits(e.maxValue);
+                            }}
+                        />
                     </div>
                     <div className="flex flex-col pt-2 pb-2 items-center lg:items-stretch">
                         <label className="pb-5 lg:pb-2 text-sm font-medium">Opens in</label>
@@ -111,6 +112,20 @@ const FilterPanel : React.FC<{queryParams: QueryParams}> = ({queryParams}) => {
                                 <option value="">any</option>
                             </select>
                         </div>
+                    </div>
+                    <div className="flex flex-col pt-2 text-sm pb-2 lg:justify-center items-center lg:items-stretch">
+                        <InputWithSlider
+                            label="Salary"
+                            min={0}
+                            max={40000}
+                            minValue={minSalary}
+                            maxValue={maxSalary}
+                            currency="$"
+                            onInputChange={(e) => {
+                                setMinSalary(e.minValue);
+                                setMaxSalary(e.maxValue);
+                            }}
+                        />
                     </div>
                     <div className="flex flex-col pt-2 items-center lg:items-stretch">
                         <label className="pb-5 lg:pb-2 text-sm font-medium">Order</label>
