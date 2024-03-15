@@ -1,5 +1,6 @@
 import File from "../../../models/File";
 import JSZip from "jszip";
+import languagesData from "./languages.json";
 
 const getFileExtension = (fileName: string): string => {
     const parts = fileName.split(".");
@@ -42,6 +43,33 @@ export const decodeBase64 = (base64) => { //uzywanie samego atob nie konwerowalo
 interface Script {
     name: string;
     content: string;
+}
+
+const generateScriptsContent2 = (languages, mainFileName) : Script[] => {
+    const fileExtension = getLanguageFromFileName(mainFileName)
+    const language = languagesData[fileExtension];
+    console.log(language)
+    if (!language) {
+        console.error(`Language not found for file extension: ${fileExtension}`);
+        return [];
+    }
+
+    const { compile, run, source_file } = language;
+
+    if (!compile || !run) {
+        console.error(`Compile or run command not defined for language: ${source_file}`);
+        return [];
+    }
+
+    const compileScriptContent = compile.replace(source_file, " *." + fileExtension).replace(" %s ", "") ;
+    const runScriptContent = run.replace(source_file, mainFileName);
+    console.log(compileScriptContent)
+    console.log(runScriptContent)
+
+    return [
+        { name: "compile", content: compileScriptContent },
+        { name: "run", content: runScriptContent }
+    ];
 }
 
 const generateScriptsContent = (language, mainFileName) : Script[] => {
