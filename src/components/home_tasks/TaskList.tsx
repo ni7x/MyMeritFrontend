@@ -12,7 +12,7 @@ const TaskList: React.FC<{ tasks: TaskDTO[] }> = ({ tasks }) => {
     >
       {tasks.length === 0
         ? "No tasks"
-        : tasks.map((task) => <Task task={task} />)}
+        : tasks.map((task) => <Task task={task} key={task.id} />)}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TaskList from "../../components/home_tasks/TaskList";
 import Task from "../../models/Task";
 import { getHomeTasks } from "../../services/TaskService";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import Pagination from "../../components/home_tasks/Pagination";
 import FilterPanel from "../../components/home_tasks/FilterPanel";
 import QueryParams from "../../models/QueryParams";
@@ -10,7 +10,8 @@ import SortPanel from "../../components/home_tasks/SortPanel";
 import SecondWrapper from "../../components/SecondWrapper";
 
 const Home: React.FC = () => {
-  const searchParams = new URLSearchParams(useLocation().search);
+  // const searchParams = new URLSearchParams(useLocation().search);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get("page")
     ? parseInt(searchParams.get("page"), 10)
@@ -46,9 +47,8 @@ const Home: React.FC = () => {
   }, [page, languages, minCredits, maxCredits, timeLeft]);
 
   return (
-    // <div className="flex flex-col justify-between w-full xl:w-[60%] mx-auto">
     <SecondWrapper>
-      <div className="flex flex-col gap-x-10 h-full w-[100%]  items-center lg:items-baseline">
+      <div className="flex flex-col gap-x-10 h-full w-[100%] items-center lg:items-baseline">
         <div className="flex flex-col-reverse gap-x-10 lg:flex-row w-full">
           <div className="lg:w-[70%]">
             <TaskList tasks={tasks} />
@@ -58,11 +58,10 @@ const Home: React.FC = () => {
               queryParams={queryParams}
             />
           </div>
-          <FilterPanel queryParams={queryParams} tasks={tasks} />
+          <FilterPanel queryParams={queryParams} />
         </div>
       </div>
     </SecondWrapper>
-    // </div>
   );
 };
 

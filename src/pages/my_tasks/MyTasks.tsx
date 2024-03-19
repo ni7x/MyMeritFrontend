@@ -16,7 +16,6 @@ const MyTasks = () => {
   }, []);
 
   return (
-    // <SecondWrapper>
     <div className="flex flex-col justify-center md:flex-row gap-8">
       <div className="w-[100%] m-0 min-w-[150px] md:w-[25%] md:mx-8 lg:w-[15%]">
         <FilterPanel tasks={tasks} setFilteredTasks={setFilteredTasks} />
@@ -29,7 +28,6 @@ const MyTasks = () => {
         <TaskList tasks={filteredTasks} />
       </div>
     </div>
-    // </SecondWrapper>
   );
 };
 
