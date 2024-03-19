@@ -8,7 +8,7 @@ const AvailableRewards: React.FC<{
 }> = ({ rewards, currentBalance }) => {
   return (
     <div className="flex justify-center ">
-      <ul className="flex flex-wrap w-full gap-[2%]">
+      <ul className="w-full grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-8">
         {rewards.map((reward) => {
           return <Reward reward={reward} currentBalance={currentBalance} />;
         })}
