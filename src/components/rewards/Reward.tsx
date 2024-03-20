@@ -64,7 +64,7 @@ const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
         )}
       </div>
       <div className="flex justify-between absolute p-2 top-0 left-0 w-full">
-        <p className="bg-secondary-bg-color p-2 px-4 text-sm rounded  text-merit-credits-color font-semibold opacity-95">
+        <p className="bg-secondary-bg-color p-2 px-4 text-sm rounded  text-merit-credits-color font-semibold opacity-80">
           {reward.credits} MC
         </p>
         {!isPopupOpen ? (
@@ -102,7 +102,7 @@ const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
           </div>
         )}
       </div>
-      <div className="bg-secondary-bg-color p-5 absolute bottom-0 left-0 w-full opacity-95">
+      <div className="bg-secondary-bg-color p-5 absolute bottom-0 left-0 w-full opacity-80">
         <p className="font-semibold mb-1 text-md">{reward.name}</p>
         <p className="text-sm text-task-lighter overflow-hidden whitespace-nowrap block text-ellipsis">
           {reward.description}
