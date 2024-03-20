@@ -37,8 +37,13 @@ const JobOfferDetails: React.FC = () => {
         if(jobOffer.task){
             return (
                 <div className="flex flex-col gap-[2rem] lg:flex-row w-[80%] mx-auto ">
-                    <TaskInfo task={jobOffer.task}></TaskInfo>
-                    <TaskSolutionWorkspace task={jobOffer.task}></TaskSolutionWorkspace>
+                    <TaskInfo
+                        task={jobOffer.task}>
+                    </TaskInfo>
+                    <TaskSolutionWorkspace
+                        jobId={jobOffer.id}
+                        task={jobOffer.task}>
+                    </TaskSolutionWorkspace>
                 </div>
             );
         }else{

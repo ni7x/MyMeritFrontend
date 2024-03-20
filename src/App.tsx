@@ -16,10 +16,11 @@ import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import {useAuth} from "./hooks/useAuth";
 
+
 const App = () => {
-    const {token} = useAuth();
-    console.log(token)
-  return (
+    const { accessToken } = useAuth();
+    console.log(accessToken)
+    return (
     <>
       <Navbar />
       <MainWrapper>

@@ -11,11 +11,11 @@ const JobOfferInfo = ({jobOffer}) => {
         <div className="flex flex-col bg-terminal-color p-[1.5rem] p-x-[2rem] rounded w-[100%] lg:w-[45%] lg:max-w-[45rem]">
             <div>
                 <h3 className="text-xl font-bold leading-7 mb-3">{jobOffer.jobTitle}</h3>
-                <div className="flex gap-4">
-                    <p><FontAwesomeIcon icon={faUser} className="mr-3 text-purple-400"/>{jobOffer.experience.toLowerCase()}</p>
-                    <p><FontAwesomeIcon icon={faDollarSign} className="mr-3 text-purple-400"/>{jobOffer.salary} euro/month</p>
+                <div className="flex gap-3">
+                    <p><FontAwesomeIcon icon={faUser} className="mr-2 text-job-primary "/>{jobOffer.experience.toLowerCase()}</p>
+                    <p><FontAwesomeIcon icon={faDollarSign} className="mr-2 text-job-primary "/>{jobOffer.salary} euro/month</p>
                     <ul className="flex justify-center items-center">
-                        <FontAwesomeIcon icon={faLocationDot} className="mr-3 text-purple-400"/>
+                        <FontAwesomeIcon icon={faLocationDot} className="mr-2 text-job-primary "/>
                         {jobOffer.workLocations.map((location, index) => (
                             <li key={location}>
                                 {location}
@@ -35,13 +35,13 @@ const JobOfferInfo = ({jobOffer}) => {
                 <p className="py-3 font-medium">Must-haves</p>
                 <ul className="flex gap-2 mb-3">
                     {jobOffer.requiredSkills.map((skill)=>{
-                        return <li className="inline-block px-4 py-1.5 font-medium bg-purple-500 rounded-lg text-sm" key={skill}>{skill}</li>
+                        return <li className="inline-block px-4 py-1.5 font-medium bg-job-primary rounded-lg text-sm" key={skill}>{skill}</li>
                     })}
                 </ul>
                 <p className="py-3 font-medium">Nice-to-haves</p>
                 <ul className="flex gap-2 mb-3">
                     {jobOffer.preferredSkills.map((skill)=>{
-                        return <li className="inline-block px-4 py-1.5 font-medium bg-purple-500 rounded-lg text-sm" key={skill}>{skill}</li>
+                        return <li className="inline-block px-4 py-1.5 font-medium bg-job-primary  rounded-lg text-sm" key={skill}>{skill}</li>
                     })}
                 </ul>
 
@@ -54,7 +54,7 @@ const JobOfferInfo = ({jobOffer}) => {
                                     {jobOffer.company.name}
                                 </a>
                             </h2>
-                            <FontAwesomeIcon icon={faLocationDot}  className="mr-2 text-purple-400 font-medium text-sm"/> <span className="text-main-lighter font-medium text-sm">{jobOffer.company.location}</span>
+                            <FontAwesomeIcon icon={faLocationDot}  className="mr-2 text-job-primary  font-medium text-sm"/> <span className="text-main-lighter font-medium text-sm">{jobOffer.company.location}</span>
                         </div>
                         <p className="text">{jobOffer.company.description}</p>
                     </div>
@@ -64,13 +64,13 @@ const JobOfferInfo = ({jobOffer}) => {
                     {!offerEnded ?
                         <>
                             <p>Task opens in {formatDistance(new Date(), jobOffer.opensAt, { addSuffix: false })}</p>
-                            <button className="text-purple-400 p-3 px-5 bg-task-bck rounded">
-                                <FontAwesomeIcon icon={faBell} className="mr-1"/>Remind me
+                            <button className="text-job-primary  p-3 px-5 bg-task-bck rounded">
+                                <FontAwesomeIcon icon={faBell} className="mr-2"/>Remind me
                             </button>
                         </> :
                         <>
                             <p className="text-red-500">Closed</p>
-                            <button className="text-purple-400 p-3 px-5 bg-task-bck rounded">
+                            <button className="text-job-primary  p-3 px-5 bg-task-bck rounded">
                                 <FontAwesomeIcon icon={faBell} className="mr-2"/><span className="text-white">Stay updated on tasks from this company</span>
                             </button>
                         </>

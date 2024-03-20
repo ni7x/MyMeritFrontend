@@ -1,41 +1,36 @@
-import React, { useState } from 'react';
-import MySlider from './MySlider';
+import React, { useState, ChangeEvent } from 'react';
 
-const InputWithSlider = ({ label, min, max, minValue: initialMinValue, maxValue: initialMaxValue, onInputChange, currency }) => {
-    const [minValue, setMinValue] = useState(initialMinValue);
-    const [maxValue, setMaxValue] = useState(initialMaxValue);
+interface RangeInputProps {
+    label: string;
+    min: number;
+    max: number;
+    minValue: number;
+    maxValue: number;
+    onInputChange: (values: { minValue: number; maxValue: number }) => void;
+    currency?: string;
+}
 
-    const handleMinValueChange = (e) => {
+const RangeInput: React.FC<RangeInputProps> = ({ label, min, max, minValue: initialMinValue, maxValue: initialMaxValue, onInputChange, currency }) => {
+    const [minValue, setMinValue] = useState<number>(initialMinValue);
+    const [maxValue, setMaxValue] = useState<number>(initialMaxValue);
+
+    const handleMinValueChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = parseFloat(e.currentTarget.value);
         setMinValue(value);
+        onInputChange({ minValue: value, maxValue });
 
     };
 
-    const handleMaxValueChange = (e) => {
+    const handleMaxValueChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = parseFloat(e.currentTarget.value);
         setMaxValue(value);
-    };
-
-    const handleSliderChange = (e) => {
-        setMinValue(e.minValue);
-        setMaxValue(e.maxValue);
-        onInputChange(e);
+        onInputChange({ minValue, maxValue: value });
     };
 
     return (
         <div>
             <label className="pb-5 lg:pb-0 text-sm font-medium">{label}</label>
-            <div className="flex items-center w-full">
-                <MySlider
-                    min={min}
-                    max={max}
-                    minValue={minValue}
-                    maxValue={maxValue}
-                    onInputChange={handleSliderChange}
-                    step={5}
-                />
-            </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-1">
                 <div className="flex flex-col w-[45%]">
                     <p className="text-xs text-main-lighter font-medium">Min {currency && "(" + currency + ")"}</p>
                     <input
@@ -66,4 +61,4 @@ const InputWithSlider = ({ label, min, max, minValue: initialMinValue, maxValue:
     );
 };
 
-export default InputWithSlider;
+export default RangeInput;

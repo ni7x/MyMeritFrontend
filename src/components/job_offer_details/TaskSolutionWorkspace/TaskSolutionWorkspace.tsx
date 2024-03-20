@@ -1,17 +1,24 @@
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import File from "../../../models/File";
 import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
+import Cookies from "universal-cookie";
 
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 import {useAuth} from "../../../hooks/useAuth";
 import {submitSolution} from "../../../services/JobOfferService";
 
-const TaskSolutionWorkspace: React.FC<{ task: UserTaskDTO }> = ({ task }) => {
+const cookies = new Cookies();
 
-    const [files, setFiles] = useState<File[]>(() => {
-        if (task.solution) {
-            return task.solution.files.map((file) => new File(
+const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({ jobId, task }) => {
+    const {accessToken} = useAuth();
+    console.log(accessToken)
+    const [files, setFiles] = useState(() => {
+        const currentTask = cookies.get(task.id);
+        if (currentTask) {
+            return currentTask.files.map(file => new File(file.name, file.content, file.isMain));
+        } else if (task.solution) {
+            return task.solution.files.map(file => new File(
                 file.name,
                 file.content,
                 file.isMain
@@ -23,6 +30,22 @@ const TaskSolutionWorkspace: React.FC<{ task: UserTaskDTO }> = ({ task }) => {
 
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
     const currentFile = files[currentFileIndex];
+
+    useEffect(() => {
+        cookies.set(task.id, serializeFiles(files, task.id),  { expires: new Date(task.closesAt) });
+    }, [files]);
+
+
+    const serializeFiles = (files, taskId) => {
+        return JSON.stringify({
+            taskId: taskId,
+            files: files.map(file => ({
+                name: file.name,
+                content: file.content,
+                isMain: file.isMain
+            }))
+        });
+    };
 
     const getFileByName = (name: string) => {
         return files.find(file => file.name === name);
@@ -91,13 +114,11 @@ const TaskSolutionWorkspace: React.FC<{ task: UserTaskDTO }> = ({ task }) => {
         });
     }
 
-    const {authToken} = useAuth();
-
     const submit = () => {
         const fetchData = async () => {
             try {
-                if(authToken){
-                    const response = await submitSolution(taskId, files, authToken);
+                if(accessToken){
+                    const response = await submitSolution(jobId, files, accessToken);
                     if (response.ok) {
                         console.log(response)
                     }

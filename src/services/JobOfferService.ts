@@ -1,17 +1,11 @@
 import TaskPreview from "../models/TaskPreview";
 import TaskStatus from "../models/TaskStatus";
 import QueryParams from "../models/QueryParams";
-import File from "../models/File";
+import {File as MyFile} from "../models/File";
+import {buildURL} from "../components/home_job_offers/URLHelper";
 
-const getHomeJobOffers = async (pageNum = 1, params: QueryParams) : Promise<Response> => {
-    const URL = import.meta.env.VITE_API_URL+ "/jobs?"
-        + (params.languages ? "languages=" + params.languages+ "&" : "")
-        + (params.minCredits ? "minCredits=" + params.minCredits + "&" : "" )
-        + (params.maxCredits ? "maxCredits=" + params.maxCredits + "&" : "")
-        + (params.opensIn != null ? "opensIn=" + params.opensIn  + "&": "")
-        + (params.sort != null ? "sort=" + params.sort  + "&": "")
-        + "page=" + (pageNum - 1)
-    ;
+const getHomeJobOffers = async (params: QueryParams) : Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL + buildURL(params);
 
     try {
         return await fetch(URL, {
@@ -52,21 +46,34 @@ const getJobOfferById = async (jobOfferId: string, token: string): Promise<Respo
     }
 }
 
-const submitSolution = async (taskId: string, files: File[], token: string) => {
-    const URL = import.meta.env.VITE_API_URL + "/task/" + taskId + "/solution";
+const submitSolution = async (jobId: string, files: MyFile[], token: string) => {
+    const URL = import.meta.env.VITE_API_URL + "/job/solution/" + jobId;
+
+    const data = new FormData();
+    files.forEach((file, index) => {
+        const fileBlob = new Blob([file.content], { type: 'text/plain' });
+
+        const fileObject = new File([fileBlob], file.name);
+
+        data.append("files", fileObject);
+    });
+
+    console.log(...data);
     try {
         return await fetch(URL, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                //'Content-Type': 'multipart/form-data',
             },
-            body: JSON.stringify(files)
+            body: data
         });
     } catch (error) {
         console.error('Error:', error);
     }
 }
+
+
 
 
 

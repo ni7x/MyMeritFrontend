@@ -1,8 +1,15 @@
-const SortPanel = ({ sortValue, onSortChange }) => {
+import React, { ChangeEvent } from 'react';
 
-    const handleSortChange = (event) => {
-        const selectedValue = event.target.value;
-        onSortChange(selectedValue);
+interface SortPanelProps {
+    sortValue: string;
+    handleQueryParamChange: (key: string, value: string) => void;
+}
+
+const SortPanel: React.FC<SortPanelProps> = ({ sortValue, handleQueryParamChange }) => {
+    const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        handleQueryParamChange("sort", event.target.value);
+        handleQueryParamChange("page", "1");
+
     };
 
     return (
@@ -10,13 +17,13 @@ const SortPanel = ({ sortValue, onSortChange }) => {
             id="sort-by"
             name="sort-by"
             defaultValue={sortValue}
-            className="appearance-none text-sm font-medium outline-none py-3 px-3 rounded bg-main-lighter-2"
+            className="appearance-none text-sm font-medium outline-none rounded bg-secondary-bg-color p-3"
             onChange={handleSortChange}
         >
-            <option value="reward,asc">Reward Ascending</option>
-            <option value="reward,desc">Reward Descending</option>
-            <option value="opensIn,asc">Opens Ascending</option>
-            <option value="opensIn,desc">Opens Descending</option>
+            <option value="taskReward,asc">Reward Ascending</option>
+            <option value="taskReward,desc">Reward Descending</option>
+            <option value="taskOpensAt,asc">Opens Ascending</option>
+            <option value="taskOpensAt,desc">Opens Descending</option>
         </select>
     );
 };

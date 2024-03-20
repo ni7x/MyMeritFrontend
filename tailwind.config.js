@@ -19,7 +19,8 @@ export default {
         'merit-credits-color' : '#f7d94b',
         'terminal-color' : '#3a3b46',
         'ide-color': '#34353f',
-        'terminal-border': '#555764'
+        'terminal-border': '#555764',
+        'job-primary': '#9f5afd'
       },
     },
 

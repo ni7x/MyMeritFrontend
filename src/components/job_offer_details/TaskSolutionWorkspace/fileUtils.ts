@@ -1,7 +1,7 @@
 import File from "../../../models/File";
 import JSZip from "jszip";
-import languagesData from "./languages.json";
-import file from "../../../models/File";
+import languagesData from "./extension-scripts-map.json";
+import extensionToLanguage from "./language-extension-map.json";
 
 const getFileExtension = (fileName: string): string => {
     const parts = fileName.split(".");
@@ -14,22 +14,8 @@ const getFileNameWithoutExtension = (fileName: string): string => {
 };
 
 const getLanguageFromFileExtension = (fileExtension: string) : string =>{
-    switch (fileExtension){
-        case "js":
-            return "javascript";
-        case "cpp":
-            return "cpp";
-        case "java":
-            return "java";
-        case "c":
-            return "c";
-        case "py":
-            return "python";
-        case "kt":
-            return "kotlin";
-        default:
-            return "plaintext"
-    }
+    const language = extensionToLanguage[fileExtension];
+    return language ? language.toLowerCase() : "plaintext";
 }
 
 
