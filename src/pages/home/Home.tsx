@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobOfferList from "../../components/home_job_offers/JobOfferList";
 import {getHomeJobOffers} from "../../services/JobOfferService";
-import { useLocation } from "react-router-dom";
+import {useLocation, useSearchParams} from "react-router-dom";
 import Pagination from "../../components/home_job_offers/Pagination";
 import FilterPanel from "../../components/home_job_offers/FilterPanel";
 import {defaultQueryParams, QueryParams} from "../../models/QueryParams";
@@ -12,7 +12,7 @@ import SortPanel from "../../components/home_job_offers/SortPanel";
 
 const Home: React.FC = () => {
   // const searchParams = new URLSearchParams(useLocation().search);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const initializeQueryParams = (): QueryParams => ({
     search: searchParams.get("q") ? searchParams.get("q") : defaultQueryParams.search,
