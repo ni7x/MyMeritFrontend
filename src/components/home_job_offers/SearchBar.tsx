@@ -11,7 +11,7 @@ const SearchBar : React.FC= ({ searchValue, handleQueryParamChange }) => {
 
     const handleSearch = () => {
         handleQueryParamChange("search", searchTerm);
-        handleQueryParamChange("page", 1);
+        handleQueryParamChange("page", 0);
     };
 
     return (

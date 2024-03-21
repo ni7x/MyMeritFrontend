@@ -39,10 +39,10 @@ const buildURL = (params: QueryParams) => {
         url += "maxOpensIn=" + params.maxOpensIn + "&";
     }
 
-    if (params.page && params.page !== defaultQueryParams.page) {
+    if ((params.page) && params.page !== defaultQueryParams.page) {
         url += "page=" + params.page + "&";
     }
-
+    console.log(params.page)
     url = url.endsWith("&") ? url.slice(0, -1) : url;
     return url;
 };

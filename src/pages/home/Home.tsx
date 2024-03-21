@@ -20,8 +20,8 @@ const Home: React.FC = () => {
     maxCredits: searchParams.get("maxCredits") ? parseInt(searchParams.get("maxCredits")) : defaultQueryParams.maxCredits,
     minSalary: searchParams.get("minSalary") ? parseInt(searchParams.get("minSalary")) : defaultQueryParams.minSalary,
     maxSalary: searchParams.get("maxSalary") ? parseInt(searchParams.get("maxSalary")) : defaultQueryParams.maxSalary,
-    minOpensIn: searchParams.get("minOpensIn") ? parseInt(searchParams.get("minOpensIn")) : defaultQueryParams.minOpensIn,
-    maxOpensIn: searchParams.get("maxOpensIn") ? parseInt(searchParams.get("maxOpensIn")) : defaultQueryParams.maxOpensIn,
+    minOpensIn: searchParams.get("minOpensIn") ? (searchParams.get("minOpensIn")) : defaultQueryParams.minOpensIn,
+    maxOpensIn: searchParams.get("maxOpensIn") ? (searchParams.get("maxOpensIn")) : defaultQueryParams.maxOpensIn,
     sort: searchParams.get("sort") || defaultQueryParams.sort,
     page: searchParams.get("page") ? parseInt(searchParams.get("page")) : defaultQueryParams.page
   }) as QueryParams;
@@ -33,6 +33,7 @@ const Home: React.FC = () => {
   };
 
   const [maxPage, setMaxPage] = useState<number>(1);
+
   const [jobOffers, setJobOffers] = useState<JobOfferListedDTO[]>([]);
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const Home: React.FC = () => {
 
           setMaxPage(json.totalPages);
           setJobOffers(json.content);
+
         }
       } catch (error) {
         console.error("Error fetching jobOffers:", error);
@@ -53,7 +55,6 @@ const Home: React.FC = () => {
     fetchData();
   }, [queryParams]);
 
-  console.log(queryParams.search)
 
   return (
     // <div className="flex flex-col justify-between w-full xl:w-[60%] mx-auto">

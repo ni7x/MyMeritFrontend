@@ -18,7 +18,7 @@ class QueryParams {
         maxSalary: number = 40000,
         search: string = "",
         sort: string = "opensIn,asc",
-        page: number = 1,
+        page: number = 0,
         minOpensIn: Date = new Date(),
         maxOpensIn: Date = (() => {
             const date = new Date();

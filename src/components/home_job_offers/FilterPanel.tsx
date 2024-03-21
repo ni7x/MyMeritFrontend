@@ -24,7 +24,7 @@ const FilterPanel: React.FC<{ queryParams: QueryParams, handleChange: (key: stri
 
     const handleFilterChange = (key: string, value:any) => {
         handleChange(key, value);
-        handleChange("page", 1);
+        handleChange("page", 0);
     }
 
 
@@ -44,6 +44,7 @@ const FilterPanel: React.FC<{ queryParams: QueryParams, handleChange: (key: stri
     const isSelected = (language: string) => {
         return queryParams.languages?.includes(language);
     };
+    console.log(queryParams.minOpensIn);
 
     return (
         <div className="h-full w-[15rem]">
@@ -83,6 +84,7 @@ const FilterPanel: React.FC<{ queryParams: QueryParams, handleChange: (key: stri
                             type="date"
                             className="outline-none mt-1 p-2 px-3 w-[100%] rounded bg-main-lighter-2"
                             onChange={(e) => handleFilterChange("minOpensIn", e.target.value)}
+
                         />
                     </div>
 

@@ -120,13 +120,11 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                 if(accessToken){
                     const response = await submitSolution(jobId, files, accessToken);
                     if (response.ok) {
-                        console.log(response)
+                        alert("ok")
                     }
                 }else{
-                    console.log("no token provided")
+                    alert("error: no token")
                 }
-
-
             } catch (error) {
                 console.error("Error fetching tasks:", error);
             }

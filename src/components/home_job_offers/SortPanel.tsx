@@ -1,6 +1,4 @@
 import React, { ChangeEvent } from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSort} from "@fortawesome/free-solid-svg-icons";
 
 interface SortPanelProps {
     sortValue: string;
@@ -10,7 +8,7 @@ interface SortPanelProps {
 const SortPanel: React.FC<SortPanelProps> = ({ sortValue, handleQueryParamChange }) => {
     const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
         handleQueryParamChange("sort", event.target.value);
-        handleQueryParamChange("page", 1);
+        handleQueryParamChange("page", 0);
     };
 
     return (
