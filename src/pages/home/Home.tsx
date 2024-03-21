@@ -20,7 +20,8 @@ const Home: React.FC = () => {
     maxCredits: searchParams.get("maxCredits") ? parseInt(searchParams.get("maxCredits")) : defaultQueryParams.maxCredits,
     minSalary: searchParams.get("minSalary") ? parseInt(searchParams.get("minSalary")) : defaultQueryParams.minSalary,
     maxSalary: searchParams.get("maxSalary") ? parseInt(searchParams.get("maxSalary")) : defaultQueryParams.maxSalary,
-    opensIn: searchParams.get("opensIn") ? parseInt(searchParams.get("opensIn")) : defaultQueryParams.opensIn,
+    minOpensIn: searchParams.get("minOpensIn") ? parseInt(searchParams.get("minOpensIn")) : defaultQueryParams.minOpensIn,
+    maxOpensIn: searchParams.get("maxOpensIn") ? parseInt(searchParams.get("maxOpensIn")) : defaultQueryParams.maxOpensIn,
     sort: searchParams.get("sort") || defaultQueryParams.sort,
     page: searchParams.get("page") ? parseInt(searchParams.get("page")) : defaultQueryParams.page
   }) as QueryParams;
@@ -40,6 +41,7 @@ const Home: React.FC = () => {
         const response = await getHomeJobOffers(queryParams);
         if (response.ok) {
           const json = await response.json();
+
           setMaxPage(json.totalPages);
           setJobOffers(json.content);
         }

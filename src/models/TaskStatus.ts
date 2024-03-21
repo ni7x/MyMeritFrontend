@@ -1,6 +1,7 @@
 const TaskStatus = {
-    RATED: "rated",
-    UNRATED: "unrated",
+    OPEN: 'OPEN',
+    NOT_YET_OPEN: 'NOT_YET_OPEN',
+    EXPIRED: 'EXPIRED'
 };
 
 export default TaskStatus;

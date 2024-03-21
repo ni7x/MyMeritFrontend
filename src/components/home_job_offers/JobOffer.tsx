@@ -1,15 +1,14 @@
 import React from "react";
-import {formatDistance, differenceInMinutes } from "date-fns";
+import {differenceInMinutes, formatDistance} from "date-fns";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faTrophy, faCalendar, faBell} from "@fortawesome/free-solid-svg-icons";
+import {faBell, faCalendar, faClock, faTrophy} from "@fortawesome/free-solid-svg-icons";
 import logo from '../../assets/logo-placeholder.png';
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
+import TaskStatus from "../../models/TaskStatus";
 
 const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
-    const taskIsOpen = new Date(jobOffer.opensAt) <= new Date() && new Date(jobOffer.closesAt) >= new Date();
-    const offerEnded = new Date(jobOffer.closesAt) >= new Date();
     const solvingTime = differenceInMinutes( new Date(jobOffer.closesAt),  new Date(jobOffer.opensAt));
-
+    console.log(jobOffer.status === TaskStatus.OPEN)
     return (
         <div className="flex-column bg-secondary-bg-color rounded mb-5 xl:max-w-full">
             <div className="pt-2.5 px-4 text-sm">
@@ -28,8 +27,8 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                             <span className="flex items-center text-task-lighter  truncate max-w-[12rem] gap-1">
                             <FontAwesomeIcon icon={faCalendar} className="mr-1"/>
                             <p>
-                                <span className={`font-medium ${taskIsOpen ? "text-green-400" : offerEnded ? "text-red-500" : "text-white"}`}>
-                                    {taskIsOpen ? "open" : offerEnded ? "closed" : "opens in " + formatDistance(new Date(), jobOffer.opensAt, { addSuffix: false })}
+                                <span className={`font-medium ${jobOffer.status == TaskStatus.OPEN ? "text-green-400" : jobOffer.status == TaskStatus.EXPIRED ? "text-red-500" : "text-white"}`}>
+                                    {jobOffer.status == TaskStatus.OPEN ? "open" : jobOffer.status == TaskStatus.EXPIRED ? "closed" : "opens in " + formatDistance(new Date(), jobOffer.opensAt, { addSuffix: false })}
                                 </span>
                             </p>
                         </span>

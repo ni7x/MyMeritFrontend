@@ -23,7 +23,8 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
                 },
                 body: JSON.stringify({
                     fileName: file.name,
-                    fileContentBase64: await generateEncodedZip(files)
+                    fileContentBase64: await generateEncodedZip(files),
+                    memory_limit: 100
                 })
             });
             return await response.text();

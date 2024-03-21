@@ -1,6 +1,6 @@
 import TaskPreview from "../models/TaskPreview";
 import TaskStatus from "../models/TaskStatus";
-import QueryParams from "../models/QueryParams";
+import {QueryParams} from "../models/QueryParams";
 import {File as MyFile} from "../models/File";
 import {buildURL} from "../components/home_job_offers/URLHelper";
 
@@ -50,11 +50,9 @@ const submitSolution = async (jobId: string, files: MyFile[], token: string) => 
     const URL = import.meta.env.VITE_API_URL + "/job/solution/" + jobId;
 
     const data = new FormData();
-    files.forEach((file, index) => {
+    files.forEach((file) => {
         const fileBlob = new Blob([file.content], { type: 'text/plain' });
-
         const fileObject = new File([fileBlob], file.name);
-
         data.append("files", fileObject);
     });
 
@@ -64,7 +62,6 @@ const submitSolution = async (jobId: string, files: MyFile[], token: string) => 
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                //'Content-Type': 'multipart/form-data',
             },
             body: data
         });

@@ -4,7 +4,8 @@ class QueryParams {
     maxCredits: number;
     minSalary: number;
     maxSalary: number;
-    opensIn: number;
+    minOpensIn: Date;
+    maxOpensIn: Date;
     search: string;
     sort: string;
     page: number;
@@ -15,17 +16,24 @@ class QueryParams {
         maxCredits: number = 1000,
         minSalary: number = 0,
         maxSalary: number = 40000,
-        opensIn: number = 12,
         search: string = "",
         sort: string = "opensIn,asc",
         page: number = 1,
+        minOpensIn: Date = new Date(),
+        maxOpensIn: Date = (() => {
+            const date = new Date();
+            date.setFullYear(date.getFullYear() + 1);
+            return date;
+        })()
+
     ) {
         this.languages = languages;
         this.minCredits = minCredits;
         this.maxCredits = maxCredits;
         this.minSalary = minSalary;
         this.maxSalary = maxSalary;
-        this.opensIn = opensIn;
+        this.minOpensIn = minOpensIn;
+        this.maxOpensIn = maxOpensIn;
         this.search = search;
         this.sort = sort;
         this.page = page;

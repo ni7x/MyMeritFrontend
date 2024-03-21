@@ -31,8 +31,12 @@ const buildURL = (params: QueryParams) => {
         url += "sort=" + params.sort + "&";
     }
 
-    if (params.opensIn && params.opensIn !== defaultQueryParams.opensIn) {
-        url += "opensIn=" + params.opensIn + "&";
+    if (params.minOpensIn && params.minOpensIn !== defaultQueryParams.minOpensIn) {
+        url += "minOpensIn=" + params.minOpensIn + "&";
+    }
+
+    if (params.maxOpensIn && params.maxOpensIn !== defaultQueryParams.maxOpensIn) {
+        url += "maxOpensIn=" + params.maxOpensIn + "&";
     }
 
     if (params.page && params.page !== defaultQueryParams.page) {

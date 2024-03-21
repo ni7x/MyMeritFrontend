@@ -1,4 +1,5 @@
 import Company from "../Company";
+import TaskStatus from "../TaskStatus";
 
 interface JobOfferListedDTO {
     id: string;
@@ -9,6 +10,7 @@ interface JobOfferListedDTO {
     opensAt: Date;
     closesAt: Date;
     company: Company;
+    status: TaskStatus;
 }
 
 export default JobOfferListedDTO;

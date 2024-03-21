@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar : React.FC= ({ searchValue, handleQueryParamChange }) => {
-    const [searchTerm, setSearchTerm] = useState(searchValue);
+    const [searchTerm, setSearchTerm] = useState<string>(searchValue);
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -19,7 +19,7 @@ const SearchBar : React.FC= ({ searchValue, handleQueryParamChange }) => {
             <input
                 type="text"
                 placeholder="Search..."
-                value={searchValue}
+                value={searchTerm}
                 onChange={handleChange}
                 className="bg-secondary-bg-color outline-none flex-1"
             />

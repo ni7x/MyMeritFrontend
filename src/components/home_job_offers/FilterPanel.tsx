@@ -6,11 +6,13 @@ import { QueryParams } from "../../models/QueryParams";
 import RangeInput from "../range_input/RangeInput";
 import { buildURL } from "./URLHelper";
 
+
 const languages = ["Java", "Cpp", "C", "Python"];
 
 const FilterPanel: React.FC<{ queryParams: QueryParams, handleChange: (key: string, value: any) => (void) }> = ({ queryParams, handleChange }) => {
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
     const navigate = useNavigate();
+
 
     useEffect(() => {
         let URL = buildURL(queryParams);
@@ -76,23 +78,21 @@ const FilterPanel: React.FC<{ queryParams: QueryParams, handleChange: (key: stri
                         />
                     </div>
                     <div className="flex flex-col pt-2 pb-2 items-center lg:items-stretch">
-                        <label className="pb-5 lg:pb-2 text-sm font-medium">Opens in</label>
-                        <div className="flex lg:justify-center">
-                            <select id="time-left"
-                                    name="time-left"
-                                    className="pr-8 pl-2 outline-none p-2 w-[100%] lg:w-[100%] rounded bg-main-lighter-2"
-                                    value={queryParams.opensIn ? "" : queryParams.opensIn}
-                                    onChange={(e) => handleFilterChange("opensIn", parseInt(e.currentTarget.value))}
-                            >
-                                <option value="1">1 hour</option>
-                                <option value="6">6 hours</option>
-                                <option value="12">12 hours</option>
-                                <option value="24">1 day</option>
-                                <option value="72">3 days</option>
-                                <option value="168">1 week</option>
-                                <option value="">any</option>
-                            </select>
-                        </div>
+                        <label className="pb-5 lg:pb-2 text-sm font-medium">Opens From</label>
+                        <input
+                            type="date"
+                            className="outline-none mt-1 p-2 px-3 w-[100%] rounded bg-main-lighter-2"
+                            onChange={(e) => handleFilterChange("minOpensIn", e.target.value)}
+                        />
+                    </div>
+
+                    <div className="flex flex-col pt-2 pb-2 items-center lg:items-stretch">
+                        <label className="pb-5 lg:pb-2 text-sm font-medium">Opens To</label>
+                        <input
+                            type="date"
+                            className="outline-none mt-1 p-2 px-3 w-[100%] rounded bg-main-lighter-2"
+                            onChange={(e) => handleFilterChange("maxOpensIn", e.target.value)}
+                        />
                     </div>
                     <div className="flex flex-col pt-2 text-sm pb-2 lg:justify-center items-center lg:items-stretch">
                         <RangeInput
