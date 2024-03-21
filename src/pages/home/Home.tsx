@@ -1,64 +1,92 @@
 import React, { useEffect, useState } from "react";
-import TaskList from "../../components/home_tasks/TaskList";
-import Task from "../../models/Task";
-import { getHomeTasks } from "../../services/TaskService";
-import { useLocation, useSearchParams } from "react-router-dom";
-import Pagination from "../../components/home_tasks/Pagination";
-import FilterPanel from "../../components/home_tasks/FilterPanel";
-import QueryParams from "../../models/QueryParams";
-import SortPanel from "../../components/home_tasks/SortPanel";
+import JobOfferList from "../../components/home_job_offers/JobOfferList";
+import {getHomeJobOffers} from "../../services/JobOfferService";
+import { useLocation } from "react-router-dom";
+import Pagination from "../../components/home_job_offers/Pagination";
+import FilterPanel from "../../components/home_job_offers/FilterPanel";
+import {defaultQueryParams, QueryParams} from "../../models/QueryParams";
 import SecondWrapper from "../../components/SecondWrapper";
+import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
+import SearchBar from "../../components/home_job_offers/SearchBar";
+import SortPanel from "../../components/home_job_offers/SortPanel";
 
 const Home: React.FC = () => {
   // const searchParams = new URLSearchParams(useLocation().search);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = searchParams.get("page")
-    ? parseInt(searchParams.get("page"), 10)
-    : 1;
+  const initializeQueryParams = (): QueryParams => ({
+    search: searchParams.get("q") ? searchParams.get("q") : defaultQueryParams.search,
+    languages: searchParams.get("languages")?.split(",") || defaultQueryParams.languages,
+    minCredits: searchParams.get("minCredits") ? parseInt(searchParams.get("minCredits")) : defaultQueryParams.minCredits,
+    maxCredits: searchParams.get("maxCredits") ? parseInt(searchParams.get("maxCredits")) : defaultQueryParams.maxCredits,
+    minSalary: searchParams.get("minSalary") ? parseInt(searchParams.get("minSalary")) : defaultQueryParams.minSalary,
+    maxSalary: searchParams.get("maxSalary") ? parseInt(searchParams.get("maxSalary")) : defaultQueryParams.maxSalary,
+    minOpensIn: searchParams.get("minOpensIn") ? (searchParams.get("minOpensIn")) : defaultQueryParams.minOpensIn,
+    maxOpensIn: searchParams.get("maxOpensIn") ? (searchParams.get("maxOpensIn")) : defaultQueryParams.maxOpensIn,
+    sort: searchParams.get("sort") || defaultQueryParams.sort,
+    page: searchParams.get("page") ? parseInt(searchParams.get("page")) : defaultQueryParams.page
+  }) as QueryParams;
 
-  const languages = searchParams.get("languages");
+  const [queryParams, setQueryParams] = useState<QueryParams>(initializeQueryParams);
 
-  const minCredits = searchParams.get("minCredits")
-    ? parseInt(searchParams.get("minCredits"))
-    : undefined;
-  const maxCredits = searchParams.get("maxCredits")
-    ? parseInt(searchParams.get("maxCredits"))
-    : undefined;
-
-  const timeLeft = searchParams.get("timeLeft")
-    ? parseInt(searchParams.get("timeLeft"))
-    : undefined;
-
-  const [maxPage, setMaxPage] = useState<number>(1);
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  const queryParams: QueryParams = {
-    languages: languages,
-    minCredits: minCredits,
-    maxCredits: maxCredits,
-    timeLeft: timeLeft,
+  const handleQueryParamChange = (key: string, value: any) => {
+    setQueryParams(prevParams => ({ ...prevParams, [key]: value }));
   };
 
+  const [maxPage, setMaxPage] = useState<number>(1);
+
+  const [jobOffers, setJobOffers] = useState<JobOfferListedDTO[]>([]);
+
   useEffect(() => {
-    const tasks_json = getHomeTasks(page, queryParams);
-    setTasks(tasks_json._embedded.tasks);
-    setMaxPage(tasks_json.page.totalPages);
-  }, [page, languages, minCredits, maxCredits, timeLeft]);
+    const fetchData = async () => {
+      try {
+        const response = await getHomeJobOffers(queryParams);
+        if (response.ok) {
+          const json = await response.json();
+
+          setMaxPage(json.totalPages);
+          setJobOffers(json.content);
+
+        }
+      } catch (error) {
+        console.error("Error fetching jobOffers:", error);
+      }
+    };
+
+    fetchData();
+  }, [queryParams]);
+
 
   return (
     <SecondWrapper>
-      <div className="flex flex-col gap-x-10 h-full w-[100%] items-center lg:items-baseline">
-        <div className="flex flex-col-reverse gap-x-10 lg:flex-row w-full">
-          <div className="lg:w-[70%]">
-            <TaskList tasks={tasks} />
+      <div className="flex flex-col gap-x-10 h-full w-[100%]  items-center lg:items-baseline">
+        <div className="w-full flex flex-col-reverse gap-x-10 lg:flex-row justify-center">
+          <div className="w-full lg:w-[70%] lg:max-w-[40rem]">
+            <div className="flex justify-between mb-3 gap-4">
+              <SearchBar
+                  searchValue={queryParams.search}
+                  handleQueryParamChange={handleQueryParamChange}
+              />
+              <SortPanel
+                  sortValue={queryParams.sort}
+                  handleQueryParamChange={handleQueryParamChange}
+              />
+            </div>
+
+            <JobOfferList
+                jobOffers={jobOffers}
+            />
             <Pagination
-              page={page}
-              maxPages={maxPage}
-              queryParams={queryParams}
+                maxPages={maxPage}
+                queryParams={queryParams}
+                setQueryParams={setQueryParams}
             />
           </div>
-          <FilterPanel queryParams={queryParams} />
+          <FilterPanel
+              queryParams={queryParams}
+              tasks={jobOffers}
+              handleChange={handleQueryParamChange}
+          />
         </div>
       </div>
     </SecondWrapper>

@@ -1,22 +1,51 @@
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import File from "../../../models/File";
 import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
-import JSZip from "jszip";
-import {decodeBase64} from "./fileUtils";
-import CodeExecutionOutput from "../../../models/CodeExecutionOutput";
+import Cookies from "universal-cookie";
 
-const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
-    const code = `#include <iostream>\n#include "firstFile.h"\nusing namespace std;\nextern int add(int a, int b);\nint main() {\ncout << add(14, 16) << endl;\ncout << add(2, 3) << endl;\nreturn 0;\n}`;
+import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
+import {useAuth} from "../../../hooks/useAuth";
+import {submitSolution} from "../../../services/JobOfferService";
 
-    const [files, setFiles] = useState<File[]>([
-        new File("main.cpp", code, true),
-        new File("firstFile.h", "int add(int a, int b) { return a + b; }", false)
-    ]);
+const cookies = new Cookies();
+
+const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({ jobId, task }) => {
+    const {accessToken} = useAuth();
+    console.log(accessToken)
+    const [files, setFiles] = useState(() => {
+        const currentTask = cookies.get(task.id);
+        if (currentTask) {
+            return currentTask.files.map(file => new File(file.name, file.content, file.isMain));
+        } else if (task.solution) {
+            return task.solution.files.map(file => new File(
+                file.name,
+                file.content,
+                file.isMain
+            ));
+        } else {
+            return [new File("main.cpp", "", true)];
+        }
+    });
 
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
     const currentFile = files[currentFileIndex];
 
+    useEffect(() => {
+        cookies.set(task.id, serializeFiles(files, task.id),  { expires: new Date(task.closesAt) });
+    }, [files]);
+
+
+    const serializeFiles = (files, taskId) => {
+        return JSON.stringify({
+            taskId: taskId,
+            files: files.map(file => ({
+                name: file.name,
+                content: file.content,
+                isMain: file.isMain
+            }))
+        });
+    };
 
     const getFileByName = (name: string) => {
         return files.find(file => file.name === name);
@@ -45,9 +74,7 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
             return;
         }
         if (fileToRemove) {
-            if(currentFile == fileToRemove){
-                setCurrentFileIndex((index)=>index-1);
-            }
+            setCurrentFileIndex(0);
             setFiles(prevFiles => prevFiles.filter(file => file.name !== name));
             console.log("XD", files);
         } else {
@@ -87,12 +114,29 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
         });
     }
 
-    console.log(files)
+    const submit = () => {
+        const fetchData = async () => {
+            try {
+                if(accessToken){
+                    const response = await submitSolution(jobId, files, accessToken);
+                    if (response.ok) {
+                        alert("ok")
+                    }
+                }else{
+                    alert("error: no token")
+                }
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
+        };
+        fetchData();
+    };
+
 
     return (
-        <div className="task-solution-workspace w-[100%] lg:w[60%]">
+        <div className="flex flex-col w-[100%] lg:w-[67.5%] items-end">
             {currentFile &&
-                <div className="task-solution-workspace-wrapper">
+                <div className="w-full">
                     <FileTabManager
                         addFile={addFile}
                         removeFile={removeFile}
@@ -107,7 +151,14 @@ const TaskSolutionWorkspace: React.FC<{ taskId: string }> = ({ taskId }) => {
                          setFiles={setFiles}
                          addFile={addFile}
                          setAsMain={setAsMain}
+                         taskId={task.id}
                     />
+                    <button
+                        className="bg-blue-400 p-2 px-5 text-sm font-semibold float-right mt-3 rounded w-[10rem]"
+                        onClick={submit}
+                    >
+                        submit solution
+                    </button>
                 </div>
             }
         </div>

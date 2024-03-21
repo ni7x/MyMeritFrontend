@@ -14,6 +14,9 @@ export default {
         "task-lighter": "#8c8f9f",
         "merit-credits-color": "#ffcc00",
         "terminal-color": "#3a3b46",
+        'ide-color': '#34353f',
+        'terminal-border': '#555764',
+        'job-primary': '#9f5afd'
       },
       screens: {
         xlg: "1440px",

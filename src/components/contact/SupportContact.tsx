@@ -14,7 +14,7 @@ const SupportContact: React.FC = () => {
             title="Support"
             URL={import.meta.env.VITE_CONTACT_SUPPORT}
             fields={supportFields}
-            contactMail="supportMain@xd.com"
+            contactMail="support.mail@example.com"
         />
     );
 };

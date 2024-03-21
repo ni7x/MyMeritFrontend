@@ -9,7 +9,7 @@ import NotFound from "./pages/not_found/NotFound";
 import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
 import Register from "./pages/login/Register";
-import TaskDetails from "./pages/task_details/TaskDetails";
+import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainWrapper from "./components/MainWrapper";
 import Contact from "./pages/contact/Contact";
@@ -17,19 +17,20 @@ import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
 
 const App = () => {
-  return (
+
+    return (
     <>
       <Navbar />
       <MainWrapper>
         <Routes>
-          <Route path="/" element={<Navigate to="/tasks" />} />
-          <Route path="/tasks" element={<Home />} />
+          <Route path="/" element={<Navigate to="/jobs" />} />
+          <Route path="/jobs" element={<Home />} />
           <Route path="/mytasks/" element={<MyTasks />} />
           <Route
             path="/tasks/:id"
             element={
               <ProtectedRoute>
-                <TaskDetails />
+                <JobOfferDetails />
               </ProtectedRoute>
             }
           />

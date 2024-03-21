@@ -1,22 +1,29 @@
 import File from "../../../models/File";
 import JSZip from "jszip";
+import languagesData from "./extension-scripts-map.json";
+import extensionToLanguage from "./language-extension-map.json";
+
+interface Script {
+    name: string;
+    content: string;
+}
 
 const getFileExtension = (fileName: string): string => {
     const parts = fileName.split(".");
     return parts.length > 1 ? parts[parts.length - 1] : "plaintext";
 };
 
+const getFileNameWithoutExtension = (fileName: string): string => {
+    const lastDotIndex = fileName.lastIndexOf(".");
+    return lastDotIndex !== -1 ? fileName.substring(0, lastDotIndex) : fileName;
+};
+
 const getLanguageFromFileExtension = (fileExtension: string) : string =>{
-    switch (fileExtension){
-        case "js":
-            return "javascript";
-        case "cpp":
-            return "cpp";
-        case "java":
-            return "java";
-        default:
-            return "plaintext"
+    const language = extensionToLanguage[fileExtension];
+    if(language == "c++"){
+        return "cpp";
     }
+    return language ? language.toLowerCase() : "plaintext";
 }
 
 
@@ -35,27 +42,28 @@ export const decodeBase64 = (base64) => { //uzywanie samego atob nie konwerowalo
     return decoder.decode(bytes);
 }
 
-interface Script {
-    name: string;
-    content: string;
-}
 
-const generateScriptsContent = (language, mainFileName) : Script[] => {
-    let compileScriptContent,  runScriptContent;
-    switch (language){
-        case "java":
-             compileScriptContent = `#!/bin/bash\n\n/usr/local/openjdk13/bin/javac *.java\n`;
-             runScriptContent = `#!/bin/bash\n\n/usr/local/openjdk13/bin/java ${mainFileName}\n`;
-             break;
-        case "cpp":
-            compileScriptContent = `#!/bin/bash\n\n/usr/local/gcc-9.2.0/bin/g++ *.cpp -o ${mainFileName}_out\n`;
-            runScriptContent = `#!/bin/bash\n\nLD_LIBRARY_PATH=/usr/local/gcc-9.2.0/lib64 ./${mainFileName}_out\n`;
-            break;
-        default:
-            compileScriptContent = "";
-            runScriptContent = "";
-            break;
+const generateScriptsContent = (languages, mainFileName) : Script[] => {
+    const fileExtension = getFileExtension(mainFileName)
+    console.log(fileExtension)
+    const language = languagesData[fileExtension];
+
+    if (!language) {
+        console.error(`Language not found for file extension: ${fileExtension}`);
     }
+
+    const { compile, run, source_file } = language;
+
+    if (!compile && !run) {
+        console.error(`Compile and run command not defined for language: ${source_file}`);
+        return [];
+    }
+
+    const compileScriptContent = compile?.replace(source_file, " *." + fileExtension).replace(" %s ", "") ;
+    const runScriptContent = run?.replace(getFileNameWithoutExtension(source_file), getFileNameWithoutExtension(mainFileName));
+    console.log(compileScriptContent)
+    console.log(runScriptContent)
+
     return [
         { name: "compile", content: compileScriptContent },
         { name: "run", content: runScriptContent }
