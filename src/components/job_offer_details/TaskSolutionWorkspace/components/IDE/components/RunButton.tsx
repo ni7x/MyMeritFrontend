@@ -5,7 +5,8 @@ import {generateEncodedZip} from "../../../fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
 
-const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading}) => {
+const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput}) => {
+
     const compileCode = async () => {
         setLoading(true);
         const output: CodeExecutionOutput = await getToken().then(token => getCompilation(token));
@@ -13,9 +14,9 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
         setCodeOutput(output);
     }
 
-
     const getToken =  async () => {
         try {
+            const stdin = userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
             const response = await fetch("http://localhost:8080/token", {
                 method: "POST",
                 headers: {
@@ -24,7 +25,7 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
                 body: JSON.stringify({
                     fileName: file.name,
                     fileContentBase64: await generateEncodedZip(files),
-                    memory_limit: 100
+                    stdin : stdin
                 })
             });
             return await response.text();
@@ -50,7 +51,7 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
 
     return (
         <button
-            className="text-green-400"
+            className="text-emerald-400 py-2.5 w-full border-[3px] border-emerald-400 rounded"
             onClick={compileCode}
         >
            <FontAwesomeIcon icon={faPlay}/>

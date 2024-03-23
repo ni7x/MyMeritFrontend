@@ -11,7 +11,6 @@ import SearchBar from "../../components/home_job_offers/SearchBar";
 import SortPanel from "../../components/home_job_offers/SortPanel";
 
 const Home: React.FC = () => {
-  // const searchParams = new URLSearchParams(useLocation().search);
   const [searchParams] = useSearchParams();
 
   const initializeQueryParams = (): QueryParams => ({
@@ -28,14 +27,12 @@ const Home: React.FC = () => {
   }) as QueryParams;
 
   const [queryParams, setQueryParams] = useState<QueryParams>(initializeQueryParams);
+  const [maxPage, setMaxPage] = useState<number>(1);
+  const [jobOffers, setJobOffers] = useState<JobOfferListedDTO[]>([]);
 
   const handleQueryParamChange = (key: string, value: any) => {
     setQueryParams(prevParams => ({ ...prevParams, [key]: value }));
   };
-
-  const [maxPage, setMaxPage] = useState<number>(1);
-
-  const [jobOffers, setJobOffers] = useState<JobOfferListedDTO[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,19 +40,15 @@ const Home: React.FC = () => {
         const response = await getHomeJobOffers(queryParams);
         if (response.ok) {
           const json = await response.json();
-
           setMaxPage(json.totalPages);
           setJobOffers(json.content);
-
         }
       } catch (error) {
         console.error("Error fetching jobOffers:", error);
       }
     };
-
     fetchData();
   }, [queryParams]);
-
 
   return (
     <SecondWrapper>
@@ -72,7 +65,6 @@ const Home: React.FC = () => {
                   handleQueryParamChange={handleQueryParamChange}
               />
             </div>
-
             <JobOfferList
                 jobOffers={jobOffers}
             />

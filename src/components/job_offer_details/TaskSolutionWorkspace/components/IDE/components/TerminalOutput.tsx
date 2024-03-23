@@ -2,7 +2,7 @@ import React from "react";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
 import {decodeBase64} from "../../../fileUtils";
 
-const Terminal:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
+const TerminalOutput:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
 
     //[{"id":1,"description":"In Queue"},
     // {"id":2,"description":"Processing"},
@@ -14,6 +14,7 @@ const Terminal:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
 
    // console.log(output)
     function renderOutput(status) {
+        console.log(output)
         if (status === 1) {
             return "In queue";
         } else if (status === 2) {
@@ -32,19 +33,26 @@ const Terminal:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
             if(output.stderr)
                 return <span className="text-red-500">{decodeBase64(output.stderr)}</span>
         } else {
-            return null;
+            return output.status.description;
         }
     }
 
     return(
-        <div className="relative bg-terminal-color flex-1 h-[12rem] overflow-x-auto p-2 ">
+        <div className="flex flex-1 flex-col bg-terminal-color overflow-auto p-2 rounded">
             <p className="text-task-lighter text-xs font-normal mb-1">OUTPUT</p>
-            <pre className="leading-[1.25rem] font-sans font-normal text-sm">
-                {loading ?  "Loading please wait..." : renderOutput(output?.status?.id)
-                }
-            </pre>
+            <div className="flex flex-1 max-h-[27vh] overflow-auto bg-blue">
+                    <pre className="leading-[1.25rem] font-sans font-normal text-sm">
+                        {loading ?
+                            "Loading please wait..." :
+                            output ?
+                            renderOutput(output?.status?.id)
+                                : "xd"
+                        }
+                      </pre>
+            </div>
+
         </div>
     )
 }
 
-export default Terminal;
+export default TerminalOutput;

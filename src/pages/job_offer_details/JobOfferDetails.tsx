@@ -36,7 +36,7 @@ const JobOfferDetails: React.FC = () => {
     if(jobOffer){
         if(jobOffer.task){
             return (
-                <div className="flex flex-col gap-[2rem] lg:flex-row w-[80%] mx-auto ">
+                <div className="flex flex-col gap-[2rem] lg:flex-row w-[80%] mx-auto h-[calc(100vh-120px)]">
                     <TaskInfo
                         task={jobOffer.task}>
                     </TaskInfo>

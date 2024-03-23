@@ -12,7 +12,8 @@ const cookies = new Cookies();
 
 const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({ jobId, task }) => {
     const {accessToken} = useAuth();
-    console.log(accessToken)
+
+
     const [files, setFiles] = useState(() => {
         const currentTask = cookies.get(task.id);
         if (currentTask) {
@@ -134,9 +135,9 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
 
 
     return (
-        <div className="flex flex-col w-[100%] lg:w-[67.5%] items-end">
+        <div className="flex flex-col w-full lg:w-[67.5%] items-end h-auto">
             {currentFile &&
-                <div className="w-full">
+                <div className="flex flex-col w-full h-full">
                     <FileTabManager
                         addFile={addFile}
                         removeFile={removeFile}
@@ -146,19 +147,16 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                         getFileByName={(name) => getFileByName(name)}
                         setCurrentFileByName={setCurrentFileByName}
                     />
-                    <Ide files={files}
-                         currentFileIndex={currentFileIndex}
-                         setFiles={setFiles}
-                         addFile={addFile}
-                         setAsMain={setAsMain}
-                         taskId={task.id}
+                    <Ide
+                        files={files}
+                        currentFileIndex={currentFileIndex}
+                        setFiles={setFiles}
+                        addFile={addFile}
+                        setAsMain={setAsMain}
+                        taskId={task.id}
+                        submitSolution={submit}
+                        taskClosesAt={task.closesAt}
                     />
-                    <button
-                        className="bg-blue-400 p-2 px-5 text-sm font-semibold float-right mt-3 rounded w-[10rem]"
-                        onClick={submit}
-                    >
-                        submit solution
-                    </button>
                 </div>
             }
         </div>

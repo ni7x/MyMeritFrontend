@@ -10,7 +10,10 @@ html {
     --main-font-color: #fff;
     --main-border: #6a6c76;
     --main-bg-input: #44444f;
+
 }
+
+
 
 body .popup-open {
     overflow: hidden;
