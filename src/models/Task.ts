@@ -6,7 +6,9 @@ class Task {
         public opensAt: Date,
         public closesAt: Date,
         public reward: number,
-        public allowedLanguages: string[]
+        public allowedLanguages: string[],
+        public memoryLimit: number,
+        public timeLimit: number,
     ) {}
 }
 

@@ -3,7 +3,9 @@ class CodeExecutionOutput {
         public stdout: string,
         public stderr: number,
         public compile_output: string | null,
-        public status: Status
+        public status: Status,
+        public exit_code: number,
+        public time : number,
     ) {}
 }
 

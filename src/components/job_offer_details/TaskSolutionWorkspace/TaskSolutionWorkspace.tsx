@@ -135,7 +135,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
 
 
     return (
-        <div className="flex flex-col w-full lg:w-[67.5%] items-end h-auto">
+        <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
             {currentFile &&
                 <div className="flex flex-col w-full h-full">
                     <FileTabManager
@@ -156,6 +156,8 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                         taskId={task.id}
                         submitSolution={submit}
                         taskClosesAt={task.closesAt}
+                        taskTimeLimit={task.timeLimit}
+                        taskMemoryLimit={task.memoryLimit}
                     />
                 </div>
             }

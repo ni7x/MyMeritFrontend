@@ -19,8 +19,20 @@ body .popup-open {
     overflow: hidden;
     position:fixed;
     height: 100vh;
+
 }
 
+:root {
+    --color-fg-subtle: #7a838c;   /* Adjusted to be lighter */
+    --color-canvas-default: #2b3138;  /* Adjusted to be lighter */
+    --color-canvas-subtle: #373e47;   /* Adjusted to be lighter */
+    --color-border-default: #565e68;  /* Adjusted to be lighter */
+    --color-border-muted: red !important;    /* Adjusted to be lighter */
+}
+
+hr{
+    color: white;
+}
 .wrapper{
     margin: 3.5rem auto 0;
     width: 90%;

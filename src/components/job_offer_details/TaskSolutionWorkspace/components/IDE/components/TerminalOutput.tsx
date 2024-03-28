@@ -1,58 +1,59 @@
 import React from "react";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
-import {decodeBase64} from "../../../fileUtils";
+import { decodeBase64 } from "../../../fileUtils";
 
-const TerminalOutput:React.FC<{output:CodeExecutionOutput}> = ({output, loading}) => {
+const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput | null>> }> = ({ output, loading, setOutput }) => {
+    const renderErrorMessage = (message) => <span className="text-red-500">{message}</span>;
 
-    //[{"id":1,"description":"In Queue"},
-    // {"id":2,"description":"Processing"},
-    // {"id":3,"description":"Accepted"},
-    // {"id":4,"description":"Wrong Answer"},
-    // {"id":5,"description":"Time Limit Exceeded"},
-    // {"id":6,"description":"Compilation Error"},
-    // {"id":7,"description":"Runtime Error (SIGSEGV)"},{"id":8,"description":"Runtime Error (SIGXFSZ)"},{"id":9,"description":"Runtime Error (SIGFPE)"},{"id":10,"description":"Runtime Error (SIGABRT)"},{"id":11,"description":"Runtime Error (NZEC)"},{"id":12,"description":"Runtime Error (Other)"},{"id":13,"description":"Internal Error"},{"id":14,"description":"Exec Format Error"}]
+    const renderOutput = (output: CodeExecutionOutput) => {
+        const stdoutMessage = output.stdout ? decodeBase64(output.stdout) : null;
+        const compileOutputMessage = output.compile_output ? decodeBase64(output.compile_output) : null;
+        const stderrMessage = output.stderr ? decodeBase64(output.stderr) : null;
+        const defaultMessage = output.status.description;
 
-   // console.log(output)
-    function renderOutput(status) {
-        console.log(output)
-        if (status === 1) {
-            return "In queue";
-        } else if (status === 2) {
-            return "Processing";
-        } else if (status === 3) {
-            if(output.stdout)
-                return decodeBase64(output.stdout);
-        } else if (status === 4) {
-            return "Wrong answer";
-        } else if (status === 5) {
-            return "Time Limit Exceeded";
-        } else if (status === 6) {
-            if(output.compile_output)
-                return <span className="text-red-500">{decodeBase64(output.compile_output)}</span>
-        } else if (status >= 7){
-            if(output.stderr)
-                return <span className="text-red-500">{decodeBase64(output.stderr)}</span>
-        } else {
-            return output.status.description;
-        }
-    }
+        const allOutputsNull = !stdoutMessage && !compileOutputMessage && !stderrMessage;
 
-    return(
-        <div className="flex flex-1 flex-col bg-terminal-color overflow-auto p-2 rounded">
-            <p className="text-task-lighter text-xs font-normal mb-1">OUTPUT</p>
-            <div className="flex flex-1 max-h-[27vh] overflow-auto bg-blue">
-                    <pre className="leading-[1.25rem] font-sans font-normal text-sm">
-                        {loading ?
-                            "Loading please wait..." :
-                            output ?
-                            renderOutput(output?.status?.id)
-                                : "xd"
-                        }
-                      </pre>
+        return (
+            <div className="flex flex-col h-full justify-between">
+                <div>
+                    {stdoutMessage && <div>{stdoutMessage}</div>}
+                    {compileOutputMessage && <div>{renderErrorMessage(compileOutputMessage)}</div>}
+                    {stderrMessage && <div>{renderErrorMessage(stderrMessage)}</div>}
+                    {allOutputsNull && output.status.id > 3 && <div>{renderErrorMessage(defaultMessage)}</div>}
+                </div>
+                <div className="flex justify-between w-full">
+                    {output.time && (
+                        <div className="text-task-lighter">
+                            Execution time <span className="font-medium">{output.time}s</span>
+                        </div>
+                    )}
+                    {output.exit_code && (
+                        <div className="text-task-lighter">
+                            Exited with <span className="font-medium">{output.exit_code}</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    return (
+        <div className="flex flex-1 flex-col bg-terminal-color overflow-hidden rounded">
+            <div className="flex justify-between text-task-lighter text-xs font-normal mx-2 mt-2">
+                <p>OUTPUT</p>
+                <button onClick={() => setOutput(null)} className="text-merit-credits-color hover:underline">
+                    CLEAR
+                </button>
+            </div>
+            <div className="flex flex-1 max-h-[27vh] text-wrap bg-blue w-full text-wrap break-all">
+                <pre className="leading-[1.25rem] font-sans font-normal overflow-x-hidden overflow-y-auto text-sm w-full text-wrap break-all px-2 mt-1 mx-2 ml-0">
+                    {loading ? "Loading please wait..." : output ? renderOutput(output) : ""}
+                </pre>
+
             </div>
 
         </div>
-    )
-}
+    );
+};
 
 export default TerminalOutput;

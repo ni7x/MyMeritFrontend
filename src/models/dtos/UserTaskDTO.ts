@@ -1,6 +1,6 @@
 import Solution from "../Solution";
 
-class Task {
+class UserTaskDTO {
     constructor(
         public id: string,
         public title: string,
@@ -9,8 +9,10 @@ class Task {
         public closesAt: Date,
         public reward: number,
         public allowedLanguages: string[],
-        public solution: Solution
+        public solution: Solution,
+        public memoryLimit: number,
+        public timeLimit: number,
     ) {}
 }
 
-export default Task;
+export default UserTaskDTO;

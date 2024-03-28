@@ -5,7 +5,7 @@ import {generateEncodedZip} from "../../../fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
 
-const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput}) => {
+const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit}) => {
 
     const compileCode = async () => {
         setLoading(true);
@@ -25,7 +25,9 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
                 body: JSON.stringify({
                     fileName: file.name,
                     fileContentBase64: await generateEncodedZip(files),
-                    stdin : stdin
+                    stdin : stdin,
+                    timeLimit: timeLimit,
+                    memoryLimit: memoryLimit
                 })
             });
             return await response.text();
