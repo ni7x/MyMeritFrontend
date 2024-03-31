@@ -82,7 +82,8 @@ export enum ContentType {
 
 export const getContentType = (fileName: string): ContentType => {
     const fileExtension = getFileExtension(fileName).toLowerCase();
-    return ContentType[fileExtension] || ContentType.TXT;
+    const contentType = ContentType[fileExtension.toUpperCase() as keyof typeof ContentType];
+    return contentType || ContentType.TXT;
 };
 
 const generateScriptsContent = (languages, mainFileName) : Script[] => {
@@ -113,7 +114,7 @@ const generateScriptsContent = (languages, mainFileName) : Script[] => {
 }
 
 export const generateEncodedZip = (files: MyFile[]): Promise<string> => {
-    files = files.filter(f=>f.type === "text/plain");
+    files = files.filter(f=>f.type === ContentType.TXT);
     console.log(files)
     return new Promise((resolve, reject) => {
         const mainFileName = files[0].name;

@@ -8,9 +8,10 @@ interface MyEditorProps{
     files: MyFile[],
     currentFileIndex: number,
     setFiles: (files: MyFile[]) => void;
+    isMaxSize: boolean
 }
 
-const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) => {
+const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, isMaxSize}) => {
     const currentFile = files[currentFileIndex];
 
     const handleEditorChange = (value: string) => {
@@ -38,28 +39,29 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) 
         );
     }else{
         return (
-            <DocViewer
-                documents={[{
-                    uri: ("data:" + currentFile.type + ";base64," + currentFile.contentBase64),
-                    fileName: currentFile.name,
-                }]}
-                config={{
-                    header: {
-                        disableHeader: true,
-                    },
-                }}
-                theme= {{
-                    primary: "#8c8f9f",
-                    secondary: "#9f5afd",
-                    tertiary: "#3a3b46",
-                    textPrimary: "#ffffff",
-                    textSecondary: "#6ee7b7",
-                    textTertiary: "#fff",
-                    disableThemeScrollbar: false,
-                }}
-                style={{ maxHeight: "45vh" }}
-                pluginRenderers={DocViewerRenderers}
-            />
+                <DocViewer
+                    documents={[{
+                        uri: ("data:" + currentFile.type + ";base64," + currentFile.contentBase64),
+                        fileName: currentFile.name,
+                    }]}
+                    config={{
+                        header: {
+                            disableHeader: true,
+                        },
+                    }}
+                    theme= {{
+                        primary: "#8c8f9f",
+                        secondary: "#9f5afd",
+                        tertiary: "#3a3b46",
+                        textPrimary: "#ffffff",
+                        textSecondary: "#6ee7b7",
+                        textTertiary: "#fff",
+                        disableThemeScrollbar: false,
+                    }}
+                    style={{ }}
+                    pluginRenderers={DocViewerRenderers}
+                />
+
         )
     }
 

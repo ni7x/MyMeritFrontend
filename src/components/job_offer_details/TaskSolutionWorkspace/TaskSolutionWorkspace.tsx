@@ -96,13 +96,19 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
 
     const addFile = (name: string, content: string=atob(" ")) => {
         if (!getFileByName(name)) {
-            const newFile = new MyFile(name, getContentType(name), content);
-            setFiles(prevFiles => [...prevFiles, newFile]);
-            setCurrentFileIndex(files.length);
+            if(name.trim() != ""){
+                const newFile = new MyFile(name, getContentType(name), content);
+                setFiles(prevFiles => [...prevFiles, newFile]);
+                setCurrentFileIndex(files.length);
+            }else{
+                errorToast("File must have name")
+            }
         } else {
             errorToast("File with this name already exists")
         }
     };
+
+    console.log(files)
 
     const removeFile = (name: string) => {
         const fileToRemove = getFileByName(name);
