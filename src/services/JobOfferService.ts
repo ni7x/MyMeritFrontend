@@ -39,24 +39,13 @@ const b64toBlob = (base64, type = 'application/octet-stream') =>
 
 const submitSolution = async (jobId: string, files: MyFile[], token: string) => {
     const URL = import.meta.env.VITE_API_URL + "/job/solution/" + jobId;
-
     const data = new FormData();
+
     for (const file of files) {
         const fileBlob = await b64toBlob(file.contentBase64, file.type);
-
-
-        console.log(fileBlob)
         const fileObject = new File([fileBlob], file.name, {type: file.type});
-        console.log(fileObject)
-
         data.append("files", fileObject);
     }
-
-    // Log FormData entries
-    for (const entry of data.entries()) {
-        console.log(entry[0], entry[1]);
-    }
-
     try {
         return await fetch(URL, {
             method: 'POST',
@@ -85,9 +74,5 @@ const downloadFiles = async (jobId: string, token: string): Promise<Response> =>
         console.error('Error:', error);
     }
 }
-
-
-
-
 
 export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFiles }

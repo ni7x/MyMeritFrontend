@@ -1,12 +1,10 @@
 import MyEditor from "./components/MyEditor";
 import TerminalOutput from "./components/TerminalOutput";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import MyFile from "../../../../../models/MyFile";
 import TerminalInput from "./components/TerminalInput";
 import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
 import RunButton from "./components/RunButton";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import Timer from "./components/Timer";
 
 interface IdeProps {
@@ -24,14 +22,14 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
 
     return (
         <div className="flex flex-col lg:flex-col flex-grow flex-1 gap-3">
-                <div className="flex-1">
+                <div className="flex-1 min-h-[40vh]">
                     <MyEditor
                         files={files}
                         currentFileIndex={currentFileIndex}
                         setFiles={setFiles}
                     />
                 </div>
-                <div className="flex w-full gap-3 h-[40%]  flex-col md:flex-row">
+                <div className="flex w-full gap-3 h-[40%] flex-col md:flex-row">
                     <TerminalOutput
                         output={output}
                         loading={loading}

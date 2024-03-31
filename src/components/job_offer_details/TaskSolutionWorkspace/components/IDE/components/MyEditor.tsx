@@ -2,7 +2,7 @@ import React from "react";
 import Editor from '@monaco-editor/react';
 import MyFile from "../../../../../../models/MyFile";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import {getLanguageFromFileName} from "../../../utils/fileUtils";
+import {ContentType, getLanguageFromFileName} from "../../../utils/fileUtils";
 
 interface MyEditorProps{
     files: MyFile[],
@@ -19,21 +19,15 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) 
         setFiles(updatedFiles);
     }
 
-    if(currentFile.type === "text/plain"){
-        let editorValue = "";
-        try {
-            editorValue = atob(currentFile.contentBase64);
-        } catch (error) {
-            console.error("Error decoding base64 string:", error);
-        }
-
+    if(currentFile.type === ContentType.TXT){
         return (
             <Editor
                 theme="customTheme"
                 height="100%"
+                className="min-h-[40vh]"
                 path={currentFile.name}
                 language={getLanguageFromFileName(currentFile.name)}
-                value={editorValue}
+                value={atob(currentFile.contentBase64)}
                 onChange={handleEditorChange}
                 options={{
                     minimap: { enabled: false },
@@ -49,14 +43,11 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) 
                     uri: ("data:" + currentFile.type + ";base64," + currentFile.contentBase64),
                     fileName: currentFile.name,
                 }]}
-
                 config={{
                     header: {
                         disableHeader: true,
                     },
-
                 }}
-
                 theme= {{
                     primary: "#8c8f9f",
                     secondary: "#9f5afd",
@@ -66,7 +57,6 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles}) 
                     textTertiary: "#fff",
                     disableThemeScrollbar: false,
                 }}
-
                 style={{ maxHeight: "45vh" }}
                 pluginRenderers={DocViewerRenderers}
             />

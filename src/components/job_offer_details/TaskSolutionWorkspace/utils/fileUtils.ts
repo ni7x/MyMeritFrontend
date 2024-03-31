@@ -58,35 +58,32 @@ export const fileToBase64 = (file: File): Promise<string> => {
 
 
 
-export const getContentType = (fileName) => {
-    const fileExtension = getFileExtension(fileName);
-    //z https://www.npmjs.com/package/@cyntler/react-doc-viewer
-    const mimeTypes = {
-        bmp: 'image/bmp',
-        csv: 'text/csv',
-        odt: 'application/vnd.oasis.opendocument.text',
-        doc: 'application/msword',
-        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        gif: 'image/gif',
-        htm: 'text/htm',
-        html: 'text/html',
-        jpg: 'image/jpg',
-        jpeg: 'image/jpeg',
-        pdf: 'application/pdf',
-        png: 'image/png',
-        ppt: 'application/vnd.ms-powerpoint',
-        pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        tiff: 'image/tiff',
-        txt: 'text/plain',
-        xls: 'application/vnd.ms-excel',
-        xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        mp4: 'video/mp4'
-    };
-
-    const extension = fileExtension.toLowerCase();
-    return mimeTypes[extension] || 'text/plain';
+export enum ContentType {
+    BMP = 'image/bmp',
+    CSV = 'text/csv',
+    ODT = 'application/vnd.oasis.opendocument.text',
+    DOC = 'application/msword',
+    DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    GIF = 'image/gif',
+    HTM = 'text/htm',
+    HTML = 'text/html',
+    JPG = 'image/jpg',
+    JPEG = 'image/jpeg',
+    PDF = 'application/pdf',
+    PNG = 'image/png',
+    PPT = 'application/vnd.ms-powerpoint',
+    PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    TIFF = 'image/tiff',
+    TXT = 'text/plain',
+    XLS = 'application/vnd.ms-excel',
+    XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    MP4 = 'video/mp4'
 }
 
+export const getContentType = (fileName: string): ContentType => {
+    const fileExtension = getFileExtension(fileName).toLowerCase();
+    return ContentType[fileExtension] || ContentType.TXT;
+};
 
 const generateScriptsContent = (languages, mainFileName) : Script[] => {
     const fileExtension = getFileExtension(mainFileName)

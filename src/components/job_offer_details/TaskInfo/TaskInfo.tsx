@@ -34,9 +34,7 @@ const TaskInfo: React.FC<{task: Task}> = ({task}) => {
                 <div className="text-sm text-task-lighter flex gap-3">
                     <p>Memory limit <span className="text-white">{task.memoryLimit}kb</span></p>
                     <p>Time limit  <span className="text-white">{task.timeLimit}s</span></p>
-
                 </div>
-
                 <div className="my-5">
                     <div className="wmde-markdown-var">
                         <MDEditor.Markdown

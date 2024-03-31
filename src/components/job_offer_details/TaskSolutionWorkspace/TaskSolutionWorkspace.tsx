@@ -7,7 +7,7 @@ import Cookies from "universal-cookie";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 import {useAuth} from "../../../hooks/useAuth";
 import {downloadFiles, submitSolution} from "../../../services/JobOfferService";
-import {getContentType} from "./utils/fileUtils";
+import {ContentType, getContentType} from "./utils/fileUtils";
 import {errorToast, successToast} from "../../../main";
 
 const cookies = new Cookies();
@@ -41,7 +41,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                 setFiles(currentTaskCookies.files.map(file => new MyFile(file.name, file.type, file.contentBase64)));
                 setFilesFetched(true);
             }else{
-                setFiles([new MyFile("main.cpp", "text/plain", "")]);
+                setFiles([new MyFile("main.cpp", ContentType.TXT, "")]);
                 setFilesFetched(true);
             }
         };
@@ -68,7 +68,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
         });
 
         mergedFiles = mergedFiles.filter(file => {
-            return file.type !== "text/plain" || filesFromCookies.some(cookieFile => cookieFile.name === file.name);
+            return file.type !== ContentType.TXT || filesFromCookies.some(cookieFile => cookieFile.name === file.name);
         });
 
         return mergedFiles;
@@ -77,7 +77,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
     const serializeFiles = (files: MyFile[], jobId) => {
         return JSON.stringify({
             jobId: jobId,
-            files: files.filter(f => f.type === "text/plain" ).map(file => ({
+            files: files.filter(f => f.type === ContentType.TXT ).map(file => ({
                 name: file.name,
                 type: file.type,
                 contentBase64: file.contentBase64
@@ -108,13 +108,12 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
         const fileToRemove = getFileByName(name);
         console.log(name)
         if(files.length === 1){
-            console.log("Can't remove main file")
+            errorToast("Can't remove main file")
             return;
         }
         if (fileToRemove) {
             setCurrentFileIndex(0);
             setFiles(prevFiles => prevFiles.filter(file => file.name !== name));
-            console.log("XD", files);
         } else {
             console.log("File not found.");
         }

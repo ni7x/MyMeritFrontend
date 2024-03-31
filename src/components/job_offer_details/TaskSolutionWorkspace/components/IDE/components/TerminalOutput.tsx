@@ -10,7 +10,6 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; 
         const compileOutputMessage = output.compile_output ? decodeBase64(output.compile_output) : null;
         const stderrMessage = output.stderr ? decodeBase64(output.stderr) : null;
         const defaultMessage = output.status.description;
-        console.log(output)
         const allOutputsNull = !stdoutMessage && !compileOutputMessage && !stderrMessage;
 
         return (
@@ -49,9 +48,7 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; 
                 <pre className="leading-[1.25rem] font-sans font-normal overflow-x-hidden overflow-y-auto text-sm w-full text-wrap break-all md:px-2 md:mt-1 md:mx-2 md:ml-0 p-4 md:p-0">
                     {loading ? "Loading please wait..." : output ? renderOutput(output) : ""}
                 </pre>
-
             </div>
-
         </div>
     );
 };
