@@ -1,11 +1,11 @@
 import FileChangeButton from "./FileChangeButton";
 import React from "react";
-import File from "../../../../../../models/File";
+import MyFile from "../../../../../../models/MyFile";
 
 interface FileListProps {
-    files: File[];
+    files: MyFile[];
     setCurrentFileByName: (name: string) => void;
-    currentFile: File;
+    currentFile: MyFile;
     removeFile: (name: string) => void;
 }
 
@@ -16,7 +16,7 @@ const FileList: React.FC<FileListProps>= ({files, setCurrentFileByName, currentF
                 <FileChangeButton
                     key={file.name}
                     name={file.name}
-                    isMain={file.isMain}
+                    isMain={files[0].name == file.name}
                     setCurrentFileByName={setCurrentFileByName}
                     removeFile={removeFile}
                     renameFile={renameFile}

@@ -10,6 +10,18 @@ html {
     --main-font-color: #fff;
     --main-border: #6a6c76;
     --main-bg-input: #44444f;
+}
+
+:root{
+    --toastify-color-light: #fff;
+    --toastify-color-dark: #21222c;
+    --toastify-color-info: #3498db;
+    --toastify-color-success: #10b981;
+    --toastify-color-warning: #facc15;
+    --toastify-color-error: #ef4444;
+
+
+    --toastify-toast-width: 280px;
 
 }
 
@@ -19,15 +31,27 @@ body .popup-open {
     overflow: hidden;
     position:fixed;
     height: 100vh;
-
 }
 
-:root {
-    --color-fg-subtle: #7a838c;   /* Adjusted to be lighter */
-    --color-canvas-default: #2b3138;  /* Adjusted to be lighter */
-    --color-canvas-subtle: #373e47;   /* Adjusted to be lighter */
-    --color-border-default: #565e68;  /* Adjusted to be lighter */
-    --color-border-muted: red !important;    /* Adjusted to be lighter */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track styles */
+::-webkit-scrollbar-track {
+    background: #3a3b46;
+}
+
+/* Handle styles */
+::-webkit-scrollbar-thumb {
+    background: #555764;
+}
+
+/* Handle hover styles */
+::-webkit-scrollbar-thumb:hover {
+    background: #21222c;
 }
 
 hr{

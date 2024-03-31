@@ -23,15 +23,13 @@ const JobOfferDetails: React.FC = () => {
                 }else{
                     console.log("No token provided")
                 }
-
             } catch (error) {
                 console.error("Error fetching tasks:", error);
             }
         };
-
         fetchData();
     }, []);
-
+    console.log(jobOffer)
 
     if(jobOffer){
         if(jobOffer.task){

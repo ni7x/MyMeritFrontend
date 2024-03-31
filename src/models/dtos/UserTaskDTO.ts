@@ -9,9 +9,9 @@ class UserTaskDTO {
         public closesAt: Date,
         public reward: number,
         public allowedLanguages: string[],
-        public solution: Solution,
         public memoryLimit: number,
         public timeLimit: number,
+        public userSolution: Solution,
     ) {}
 }
 

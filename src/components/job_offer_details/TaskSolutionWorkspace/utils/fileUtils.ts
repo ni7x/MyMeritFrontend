@@ -1,4 +1,4 @@
-import File from "../../../models/File";
+import MyFile from "../../../../models/MyFile";
 import JSZip from "jszip";
 import languagesData from "./extension-scripts-map.json";
 import extensionToLanguage from "./language-extension-map.json";
@@ -8,7 +8,7 @@ interface Script {
     content: string;
 }
 
-const getFileExtension = (fileName: string): string => {
+export const getFileExtension = (fileName: string): string => {
     const parts = fileName.split(".");
     return parts.length > 1 ? parts[parts.length - 1] : "plaintext";
 };
@@ -23,7 +23,7 @@ const getLanguageFromFileExtension = (fileExtension: string) : string =>{
     if(language == "c++"){
         return "cpp";
     }
-    return language ? language.toLowerCase() : "plaintext";
+    return language ? language.toLowerCase() : fileExtension;
 }
 
 
@@ -40,6 +40,51 @@ export const decodeBase64 = (base64) => { //uzywanie samego atob nie konwerowalo
     }
     const decoder = new TextDecoder();
     return decoder.decode(bytes);
+}
+
+
+export const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            const base64String = reader.result?.toString() || '';
+            const base64Data = base64String.split(',')[1]; // Get the part after the comma
+            resolve(base64Data);
+        };
+        reader.onerror = error => reject(error);
+    });
+};
+
+
+
+export const getContentType = (fileName) => {
+    const fileExtension = getFileExtension(fileName);
+    //z https://www.npmjs.com/package/@cyntler/react-doc-viewer
+    const mimeTypes = {
+        bmp: 'image/bmp',
+        csv: 'text/csv',
+        odt: 'application/vnd.oasis.opendocument.text',
+        doc: 'application/msword',
+        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        gif: 'image/gif',
+        htm: 'text/htm',
+        html: 'text/html',
+        jpg: 'image/jpg',
+        jpeg: 'image/jpeg',
+        pdf: 'application/pdf',
+        png: 'image/png',
+        ppt: 'application/vnd.ms-powerpoint',
+        pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        tiff: 'image/tiff',
+        txt: 'text/plain',
+        xls: 'application/vnd.ms-excel',
+        xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        mp4: 'video/mp4'
+    };
+
+    const extension = fileExtension.toLowerCase();
+    return mimeTypes[extension] || 'text/plain';
 }
 
 
@@ -70,9 +115,11 @@ const generateScriptsContent = (languages, mainFileName) : Script[] => {
     ];
 }
 
-export const generateEncodedZip = (files: File[]): Promise<string> => {
+export const generateEncodedZip = (files: MyFile[]): Promise<string> => {
+    files = files.filter(f=>f.type === "text/plain");
+    console.log(files)
     return new Promise((resolve, reject) => {
-        const mainFileName = files.find((file) => file.isMain).name;
+        const mainFileName = files[0].name;
         if(!mainFileName){
             reject(new Error("No main file"));
         }
@@ -81,7 +128,7 @@ export const generateEncodedZip = (files: File[]): Promise<string> => {
         const zip = new JSZip();
 
         files.forEach(file => {
-            zip.file(file.name, file.content);
+            zip.file(file.name, atob(file.contentBase64));
         });
 
         generateScriptsContent(language, mainFileName).forEach((script) => {

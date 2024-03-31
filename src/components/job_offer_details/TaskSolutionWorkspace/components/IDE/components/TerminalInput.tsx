@@ -16,7 +16,7 @@ const TerminalInput: React.FC<{ setInput: (string) => void; input: string; }> = 
     };
 
     return (
-        <div className="flex flex-col bg-terminal-color flex-1 p-2 justify-between">
+        <div className="flex flex-col bg-terminal-color min-h-[5rem] flex-1 p-2 justify-between">
             <div className="flex gap-2">
                 <p className="text-task-lighter text-xs font-normal">INPUT</p>
             </div>

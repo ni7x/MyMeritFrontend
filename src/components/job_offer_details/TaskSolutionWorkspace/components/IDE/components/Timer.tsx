@@ -31,7 +31,7 @@ const Timer = ({taskClosesAt}) => {
     }, [taskClosesAt]);
 
     return(
-        <div className="flex gap-5 w-[70%] bg-terminal-color rounded h-full justify-center items-center font-medium">
+        <div className="flex gap-5 w-full bg-terminal-color rounded h-full justify-center items-center font-medium">
             <p>
                 <FontAwesomeIcon icon={faClock} className="mr-1 text-slate-200"/> {timeRemaining}
             </p>

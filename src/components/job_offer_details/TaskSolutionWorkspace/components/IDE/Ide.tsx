@@ -1,21 +1,19 @@
 import MyEditor from "./components/MyEditor";
 import TerminalOutput from "./components/TerminalOutput";
 import React, {useEffect, useState} from "react";
-import File from "../../../../../models/File";
+import MyFile from "../../../../../models/MyFile";
 import TerminalInput from "./components/TerminalInput";
 import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
 import RunButton from "./components/RunButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock} from "@fortawesome/free-regular-svg-icons";
+import {faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import Timer from "./components/Timer";
 
 interface IdeProps {
-    files: File[];
+    files: MyFile[];
     currentFileIndex: number;
-    setFiles: (files: File[]) => void;
+    setFiles: (files: MyFile[]) => void;
     addFile: (name: string, language: string, content?: string) => void;
-    setAsMain: (name: string) => void;
-
 }
 
 const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit}) => {
@@ -33,18 +31,16 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
                         setFiles={setFiles}
                     />
                 </div>
-
-                <div className="flex w-full gap-3 h-[40%] box-border">
+                <div className="flex w-full gap-3 h-[40%]  flex-col md:flex-row">
                     <TerminalOutput
                         output={output}
                         loading={loading}
                         setOutput={setCodeOutput}
                     />
-
-                    <div className="flex flex-col w-1/2 gap-3 h-full">
+                    <div className="flex md:flex-col flex-col-reverse w-full md:w-1/2 gap-3 h-full">
                         <div className="flex gap-3 flex-1">
                             <div className="flex w-[60%] items-center gap-3 h-full text-sm  justify-center rounded border-task-lighter">
-                                <div className="flex flex-1 h-full rounded ">
+                                <div className="flex w-[2.5rem] h-full rounded ">
                                     <RunButton
                                         file={currentFile}
                                         setCodeOutput={setCodeOutput}
@@ -55,12 +51,15 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
                                         memoryLimit={taskMemoryLimit}
                                     />
                                 </div>
-                                <Timer
-                                    taskClosesAt={taskClosesAt}
-                                />
+                                <div className="flex bg-terminal-color h-full flex-1 py-2.5 ">
+                                    <Timer
+                                        taskClosesAt={taskClosesAt}
+                                    />
+                                </div>
+
                             </div>
                             <button
-                                className="bg-blue-450 text-xs font-semibold rounded w-1/2 text-white"
+                                className="bg-blue-450 text-xs font-semibold rounded w-1/2 text-white hover:bg-blue-500"
                                 onClick={submitSolution}
                             >
                                 SUBMIT SOLUTION

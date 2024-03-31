@@ -1,6 +1,7 @@
 import Company from '../Company';
 import UserTaskDTO from "./UserTaskDTO";
 import {EmploymentType, Experience} from "../JobOffer";
+import Solution from "../Solution";
 
 interface JobOfferDetailsDTO {
     id: string;
@@ -15,7 +16,7 @@ interface JobOfferDetailsDTO {
     opensAt: Date;
     closesAt: Date;
     company: Company;
-    task: UserTaskDTO | null;
+    task: UserTaskDTO;
 }
 
 

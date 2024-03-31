@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className="fixed w-full top-0 h-14 flex items-center bg-secondary-bg-color text-base border-b-[1px] border-main-border border-solid">
+    <nav className="fixed w-full top-0 h-14 z-[1000] flex items-center bg-secondary-bg-color text-base border-b-[1px] border-main-border border-solid">
       <div className="w-[90%] mx-auto">
         <ul className="flex flex-row gap-8 w-full xl:w-[60%] mx-auto list-none">
           <li>

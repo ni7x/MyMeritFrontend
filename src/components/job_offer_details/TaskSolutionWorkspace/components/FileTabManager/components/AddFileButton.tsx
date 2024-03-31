@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from "react";
-import {getLanguageFromFileName} from "../../../fileUtils";
+import React, {useState} from "react";
+import {fileToBase64} from "../../../utils/fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileUpload, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
     const [name, setName] = useState("");
-    const [language, setLanguage] = useState("plaintext");
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
     const [error, setError] = useState<string>("");
 
     const createFile = () => {
         if(!getFileByName(name)){
-            addFile(name, language);
+            addFile(name);
             setIsPopUpOpen(false);
         }else{
             setError("File already exists.")
@@ -35,43 +34,64 @@ const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
         const file = event.target.files?.[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = (event) => {
-                const fileContent = event.target?.result as string;
+            reader.onload = async () => {
+                const fileContent = await fileToBase64(file);
                 const fileName = file.name;
-                const fileLanguage = "plaintext";
-                addFile(fileName, fileLanguage, fileContent);
+                addFile(fileName, fileContent);
                 setIsPopUpOpen(false);
             };
             reader.readAsText(file);
         }
     };
 
-    useEffect(() => {
-        setLanguage(getLanguageFromFileName(name))
-    }, [name]);
-
     return (
-        <div>
-            <div className='w-screen h-screen bg-black bg-opacity-60 fixed z-[1] top-0 left-0 justify-center items-center' style={{display: isPopUpOpen? "flex":"none" }}>
+        <div className="h-full flex items-center">
+            <div className='w-screen h-screen bg-black bg-opacity-60 fixed z-[1001] top-0 left-0 justify-center items-center z-[1001]' style={{display: isPopUpOpen? "flex":"none" }}>
                 <div className="flex flex-col justify-center items-center bg-main-bg-color p-5 rounded">
                     {error != "" && <p className="pb-4 text-sm text-orange-400">{error}</p>}
-                    <div className="mb-3 bg-secondary-bg-color rounded p-3">
-                        <input className="bg-secondary-bg-color outline-0 rounded text-sm px-1" placeholder="enter file name" type={"text"} name={"name"} value={name} onChange={(e) => setName(e.target.value)} onKeyDown={handleKeyDown}/>
-                        <button className="bg-secondary-bg-color rounded" onClick={createFile}><FontAwesomeIcon icon={faPlus}/></button>
+                    <div className="mb-3 bg-secondary-bg-color rounded p-3 py-3">
+                        <input
+                            className="bg-secondary-bg-color outline-0 rounded text-sm"
+                            placeholder="enter file name"
+                            type="text"
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
+                        <button
+                            className="hover:bg-main-lighter-2 w-[1.5rem] h-[1.5rem] rounded"
+                            onClick={createFile}
+                        >
+                            <FontAwesomeIcon icon={faPlus}/>
+                        </button>
                     </div>
 
                     <div className="flex flex-row w-full">
-                        <label htmlFor="fileInput" className="bg-secondary-bg-color w-[20%] mr-2 rounded p-3 text-center">
+                        <button
+                            className="p-3 bg-secondary-bg-color font-bold text-xs text-task-lighter rounded w-[80%] hover:bg-red-500 hover:text-white hover:duration-150"
+                            onClick={togglePopup}
+                        >
+                            CANCEL
+                        </button>
+                        <label htmlFor="fileInput" className="bg-emerald-500 w-[20%] ml-2 rounded p-3 text-center">
                             <FontAwesomeIcon icon={faFileUpload} />
-                            <input id="fileInput" type="file"  className="hidden " onChange={addLocalFile} />
+                            <input
+                                id="fileInput"
+                                type="file"
+                                className="hidden"
+                                onChange={addLocalFile}
+                            />
                         </label>
-                        <button className="p-3 bg-red-500 rounded w-[80%]" onClick={togglePopup}>Cancel</button>
                     </div>
 
 
                 </div>
             </div>
-            <button onClick={togglePopup} className="bg-secondary-bg-color text-sm font-bold w-7 h-7 ml-2 rounded-full">
+            <button
+                onClick={togglePopup}
+                className="bg-secondary-bg-color text-sm font-bold w-[1.75rem] h-[1.75rem] ml-[0.5rem] mb-1 rounded-full mr-2"
+            >
                 +
             </button>
         </div>

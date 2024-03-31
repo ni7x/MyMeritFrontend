@@ -1,11 +1,11 @@
 import React from "react";
-import File from "../../../../../../models/File";
+import MyFile from "../../../../../../models/MyFile";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
-import {generateEncodedZip} from "../../../fileUtils";
+import {generateEncodedZip} from "../../../utils/fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
 
-const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit}) => {
+const RunButton: React.FC<{file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit}) => {
 
     const compileCode = async () => {
         setLoading(true);
@@ -53,7 +53,7 @@ const RunButton: React.FC<{file:File, setCodeOutput: (output: CodeExecutionOutpu
 
     return (
         <button
-            className="text-emerald-400 py-2.5 w-full border-[3px] border-emerald-400 rounded"
+            className="text-emerald-400 py-2.5 w-full border-[3px] border-emerald-400 rounded hover:bg-emerald-400 hover:text-black hover:duration-150 "
             onClick={compileCode}
         >
            <FontAwesomeIcon icon={faPlay}/>

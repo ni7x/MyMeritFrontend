@@ -1,49 +1,86 @@
 import React, {useEffect, useState} from "react";
-import File from "../../../models/File";
+import MyFile from "../../../models/MyFile";
 import Ide from "./components/IDE/Ide";
 import FileTabManager from "./components/FileTabManager/FileTabManager";
 import Cookies from "universal-cookie";
 
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 import {useAuth} from "../../../hooks/useAuth";
-import {submitSolution} from "../../../services/JobOfferService";
+import {downloadFiles, submitSolution} from "../../../services/JobOfferService";
+import {getContentType} from "./utils/fileUtils";
+import {errorToast, successToast} from "../../../main";
 
 const cookies = new Cookies();
 
 const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({ jobId, task }) => {
     const {accessToken} = useAuth();
-
-
-    const [files, setFiles] = useState(() => {
-        const currentTask = cookies.get(task.id);
-        if (currentTask) {
-            return currentTask.files.map(file => new File(file.name, file.content, file.isMain));
-        } else if (task.solution) {
-            return task.solution.files.map(file => new File(
-                file.name,
-                file.content,
-                file.isMain
-            ));
-        } else {
-            return [new File("main.cpp", "", true)];
-        }
-    });
-
+    const [files, setFiles] = useState<MyFile[]>([]);
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
+    const [filesFetched, setFilesFetched] = useState(false);
+
     const currentFile = files[currentFileIndex];
+    const currentTaskCookies = cookies.get(jobId);
 
     useEffect(() => {
-        cookies.set(task.id, serializeFiles(files, task.id),  { expires: new Date(task.closesAt) });
-    }, [files]);
+        const initializeFiles = async () => {
+            if (task.userSolution) {
+                try {
+                    const response = await downloadFiles(jobId, accessToken);
+                    if (response.ok) {
+                        const fetchedFiles = await response.json();
+                        const mergedFiles = currentTaskCookies ? mergeFilesWithCookies(fetchedFiles) : fetchedFiles;
+                        setFiles(mergedFiles);
+                        setFilesFetched(true);
+                    } else {
+                        console.error('Error downloading files:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching solution files:', error);
+                }
+            } else if (currentTaskCookies) {
+                setFiles(currentTaskCookies.files.map(file => new MyFile(file.name, file.type, file.contentBase64)));
+                setFilesFetched(true);
+            }else{
+                setFiles([new MyFile("main.cpp", "text/plain", "")]);
+                setFilesFetched(true);
+            }
+        };
 
+        initializeFiles();
+    }, [task, accessToken]);
 
-    const serializeFiles = (files, taskId) => {
+    useEffect(() => {
+        if (filesFetched) {
+            cookies.set(jobId, serializeFiles(files, jobId),  { expires: new Date(task.closesAt) });
+        }
+    }, [files, jobId, filesFetched]);
+
+    const mergeFilesWithCookies = (fetchedFiles) => {
+        const filesFromCookies = currentTaskCookies.files;
+        let mergedFiles = [...fetchedFiles];
+        filesFromCookies.forEach(cookieFile => {
+            const index = mergedFiles.findIndex(fetchedFile => fetchedFile.name === cookieFile.name);
+            if (index !== -1) {
+                mergedFiles[index] = new MyFile(cookieFile.name, cookieFile.type, cookieFile.contentBase64);
+            } else {
+                mergedFiles.push(new MyFile(cookieFile.name, cookieFile.type, cookieFile.contentBase64));
+            }
+        });
+
+        mergedFiles = mergedFiles.filter(file => {
+            return file.type !== "text/plain" || filesFromCookies.some(cookieFile => cookieFile.name === file.name);
+        });
+
+        return mergedFiles;
+    };
+
+    const serializeFiles = (files: MyFile[], jobId) => {
         return JSON.stringify({
-            taskId: taskId,
-            files: files.map(file => ({
+            jobId: jobId,
+            files: files.filter(f => f.type === "text/plain" ).map(file => ({
                 name: file.name,
-                content: file.content,
-                isMain: file.isMain
+                type: file.type,
+                contentBase64: file.contentBase64
             }))
         });
     };
@@ -57,20 +94,20 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
         setCurrentFileIndex(index);
     };
 
-    const addFile = (name: string, language: string, content: string="") => {
+    const addFile = (name: string, content: string=atob(" ")) => {
         if (!getFileByName(name)) {
-            const newFile = new File(name, content, false);
+            const newFile = new MyFile(name, getContentType(name), content);
             setFiles(prevFiles => [...prevFiles, newFile]);
             setCurrentFileIndex(files.length);
         } else {
-            console.log("This file already exists.");
+            errorToast("File with this name already exists")
         }
     };
 
     const removeFile = (name: string) => {
         const fileToRemove = getFileByName(name);
         console.log(name)
-        if(fileToRemove.isMain){
+        if(files.length === 1){
             console.log("Can't remove main file")
             return;
         }
@@ -101,33 +138,19 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
         }
     }
 
-
-
-    const setAsMain = (name: string) => {
-        console.log("XD")
-        setFiles(prevFiles => {
-            return prevFiles.map(file => {
-                if (file.name === name) {
-                    return {...file, isMain: true};
-                }
-                return {...file, isMain: false};
-            });
-        });
-    }
-
     const submit = () => {
         const fetchData = async () => {
             try {
                 if(accessToken){
                     const response = await submitSolution(jobId, files, accessToken);
                     if (response.ok) {
-                        alert("ok")
+                        successToast("Solution submitted");
                     }
                 }else{
-                    alert("error: no token")
+                    errorToast("Invalid access token");
                 }
             } catch (error) {
-                console.error("Error fetching tasks:", error);
+                errorToast("Credentials expired");
             }
         };
         fetchData();
@@ -152,7 +175,6 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                         currentFileIndex={currentFileIndex}
                         setFiles={setFiles}
                         addFile={addFile}
-                        setAsMain={setAsMain}
                         taskId={task.id}
                         submitSolution={submit}
                         taskClosesAt={task.closesAt}

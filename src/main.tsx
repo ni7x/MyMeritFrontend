@@ -1,12 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 
 import  { loader } from '@monaco-editor/react';
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import App from "./App.tsx";
 
 loader.init().then((monaco) => {
     monaco.editor.defineTheme("customTheme", {
@@ -20,6 +23,18 @@ loader.init().then((monaco) => {
     });
 });
 
+export const successToast = (message) => {
+    toast.success(message, {
+        className: 'toast-success',
+    });
+};
+
+export const errorToast = (errorMessage) => {
+    toast.error(errorMessage, {
+        className: 'toast-error',
+    });
+};
+
 const queryClient = new QueryClient({});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -28,6 +43,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <App />
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                theme="dark"
+            />
         </AuthProvider>
       </QueryClientProvider>
     </React.StrictMode>
