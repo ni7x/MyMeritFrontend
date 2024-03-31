@@ -4,50 +4,26 @@ import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
 import {generateEncodedZip} from "../../../utils/fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
+import {errorToast} from "../../../../../../main";
+import {getCompilation, getToken} from "../../../../../../services/JobOfferService";
 
-const RunButton: React.FC<{file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit}) => {
+const RunButton: React.FC<{file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit, mainFileIndex}) => {
 
     const compileCode = async () => {
         setLoading(true);
-        const output: CodeExecutionOutput = await getToken().then(token => getCompilation(token));
-        setLoading(false)
-        setCodeOutput(output);
-    }
-
-    const getToken =  async () => {
         try {
-            const stdin = userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
-            const response = await fetch("http://localhost:8080/token", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    fileName: file.name,
-                    fileContentBase64: await generateEncodedZip(files),
-                    stdin : stdin,
-                    timeLimit: timeLimit,
-                    memoryLimit: memoryLimit
-                })
-            });
-            return await response.text();
+            const token = await getToken(userInput, files, mainFileIndex, file, timeLimit, memoryLimit);
+            if (!token) {
+                return;
+            }
+            const output = await getCompilation(token);
+            if(output){
+                setCodeOutput(output);
+            }
         } catch (error) {
-            console.error(error);
-        }
-    }
-
-    const getCompilation = async (token:string) => {
-        console.log(token)
-        try {
-            const response = await fetch("http://localhost:8080/token/" + token, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            });
-            return await response.json() as CodeExecutionOutput;
-        } catch (error) {
-            console.error(error);
+            errorToast("Error compiling code");
+        } finally {
+            setLoading(false);
         }
     }
 

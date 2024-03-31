@@ -15,11 +15,11 @@ const cookies = new Cookies();
 const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({ jobId, task }) => {
     const {accessToken} = useAuth();
     const [files, setFiles] = useState<MyFile[]>([]);
-    const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
     const [filesFetched, setFilesFetched] = useState(false);
-
-    const currentFile = files[currentFileIndex];
     const currentTaskCookies = cookies.get(jobId);
+    const [mainFileIndex, setMainFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
+    const [currentFileIndex, setCurrentFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
+    const currentFile = files[currentFileIndex];
 
     useEffect(() => {
         const initializeFiles = async () => {
@@ -53,7 +53,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
         if (filesFetched) {
             cookies.set(jobId, serializeFiles(files, jobId),  { expires: new Date(task.closesAt) });
         }
-    }, [files, jobId, filesFetched]);
+    }, [files, jobId, filesFetched, mainFileIndex]);
 
     const mergeFilesWithCookies = (fetchedFiles) => {
         const filesFromCookies = currentTaskCookies.files;
@@ -77,11 +77,13 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
     const serializeFiles = (files: MyFile[], jobId) => {
         return JSON.stringify({
             jobId: jobId,
+            mainFileIndex: mainFileIndex,
             files: files.filter(f => f.type === ContentType.TXT ).map(file => ({
                 name: file.name,
                 type: file.type,
                 contentBase64: file.contentBase64
-            }))
+            })
+            )
         });
     };
 
@@ -108,12 +110,10 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
         }
     };
 
-    console.log(files)
-
     const removeFile = (name: string) => {
         const fileToRemove = getFileByName(name);
-        console.log(name)
-        if(files.length === 1){
+        const fileIndex = files.findIndex(f => f.name === fileToRemove.name);
+        if(files.length === 1 || fileIndex == mainFileIndex){
             errorToast("Can't remove main file")
             return;
         }
@@ -122,6 +122,13 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
             setFiles(prevFiles => prevFiles.filter(file => file.name !== name));
         } else {
             console.log("File not found.");
+        }
+    };
+
+    const setAsMain = (name: string) => {
+        const fileIndex = files.findIndex(f => f.name === name);
+        if (fileIndex !== -1) {
+            setMainFileIndex(fileIndex);
         }
     };
 
@@ -164,7 +171,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
 
     return (
         <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
-            {currentFile &&
+            {(currentFile ) &&
                 <div className="flex flex-col w-full h-full">
                     <FileTabManager
                         addFile={addFile}
@@ -172,6 +179,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                         renameFile={renameFile}
                         currentFile={currentFile}
                         files={files}
+                        mainFileIndex={mainFileIndex}
                         getFileByName={(name) => getFileByName(name)}
                         setCurrentFileByName={setCurrentFileByName}
                     />
@@ -181,7 +189,9 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                         setFiles={setFiles}
                         addFile={addFile}
                         taskId={task.id}
+                        mainFileIndex={mainFileIndex}
                         submitSolution={submit}
+                        setAsMain={setAsMain}
                         taskClosesAt={task.closesAt}
                         taskTimeLimit={task.timeLimit}
                         taskMemoryLimit={task.memoryLimit}

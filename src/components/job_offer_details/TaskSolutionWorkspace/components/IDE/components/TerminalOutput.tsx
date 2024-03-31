@@ -11,13 +11,13 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; 
         const stderrMessage = output.stderr ? decodeBase64(output.stderr) : null;
         const defaultMessage = output.status.description;
         const allOutputsNull = !stdoutMessage && !compileOutputMessage && !stderrMessage;
-
+        console.log(output)
         return (
             <div className="flex flex-col h-full justify-between">
                 <div>
                     {stdoutMessage && <div>{stdoutMessage}</div>}
                     {compileOutputMessage && <div>{renderErrorMessage(compileOutputMessage)}</div>}
-                    {stderrMessage && <div>{renderErrorMessage(output.status.id === 11 ? "Memory limit exceeded " : stderrMessage)}</div>}
+                    {stderrMessage && <div>{renderErrorMessage(stderrMessage)}</div>}
                     {allOutputsNull && output.status.id > 3 && <div>{renderErrorMessage(defaultMessage)}</div>}
                 </div>
                 <div className="flex justify-between w-full">

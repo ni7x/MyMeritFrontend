@@ -9,14 +9,14 @@ interface FileListProps {
     removeFile: (name: string) => void;
 }
 
-const FileList: React.FC<FileListProps>= ({files, setCurrentFileByName, currentFile, removeFile, renameFile}) => {
+const FileList: React.FC<FileListProps>= ({files, setCurrentFileByName, currentFile, removeFile, renameFile, mainFileIndex}) => {
     return(
         <div className="overflow-auto flex">
             {files.map(file =>
                 <FileChangeButton
                     key={file.name}
                     name={file.name}
-                    isMain={files[0].name == file.name}
+                    isMain={files[mainFileIndex].name == file.name}
                     setCurrentFileByName={setCurrentFileByName}
                     removeFile={removeFile}
                     renameFile={renameFile}

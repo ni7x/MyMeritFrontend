@@ -9,6 +9,8 @@ import Timer from "./components/Timer";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons/faUpRightAndDownLeftFromCenter";
 import {faDownLeftAndUpRightToCenter} from "@fortawesome/free-solid-svg-icons/faDownLeftAndUpRightToCenter";
+import {faShield} from "@fortawesome/free-solid-svg-icons";
+import {ContentType} from "../../utils/fileUtils";
 
 interface IdeProps {
     files: MyFile[];
@@ -17,7 +19,7 @@ interface IdeProps {
     addFile: (name: string, language: string, content?: string) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit}) => {
+const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex}) => {
     const [output, setCodeOutput] = useState<CodeExecutionOutput>(null);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -33,15 +35,28 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
                         setFiles={setFiles}
                         isMaxSize={isMaxSize}
                     />
-                    <button
-                        className="hidden lg:block relative top-[-2.5rem] bg-task-bck p-2 left-[calc(100%-2.5rem)] rounded shadow-md hover:bg-main-lighter-2"
-                        onClick={()=>setIsMaxSize(!isMaxSize)}
-                    >
-                        <FontAwesomeIcon
-                            icon={isMaxSize ? faDownLeftAndUpRightToCenter : faUpRightAndDownLeftFromCenter}
-                            />
-                    </button>
 
+                    <div className="relative">
+                        <button
+                            className="hidden lg:block absolute bg-task-bck top-[-2.5rem] left-[calc(100%-2.5rem)]  p-2 rounded shadow-md hover:bg-main-lighter-2"
+                            onClick={() => setIsMaxSize(!isMaxSize)}
+                        >
+                            <FontAwesomeIcon
+                                icon={isMaxSize ? faDownLeftAndUpRightToCenter : faUpRightAndDownLeftFromCenter}
+                            />
+                        </button>
+                        {currentFile.type == ContentType.TXT &&
+                            <button
+                                disabled={(currentFileIndex === mainFileIndex)}
+                                className={"absolute left-[calc(100%-2.5rem)] bg-task-bck top-[-2.5rem] lg:left-[calc(100%-5rem)] p-2 rounded shadow-md hover:bg-main-lighter-2 " + ((currentFileIndex === mainFileIndex) ? " text-emerald-400" : "")}
+                                onClick={() => setAsMain(currentFile.name)}
+                            >
+                                <FontAwesomeIcon
+                                    icon={faShield}
+                                />
+                            </button>
+                        }
+                    </div>
                 </div>
                 <div className={"flex w-full gap-3 h-[40%] flex-col md:flex-row " + (isMaxSize ? " flex lg:hidden " : " flex")}>
                     <TerminalOutput
@@ -61,6 +76,7 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
                                         userInput={input}
                                         timeLimit={taskTimeLimit}
                                         memoryLimit={taskMemoryLimit}
+                                        mainFileIndex={mainFileIndex}
                                     />
                                 </div>
                                 <div className="flex bg-terminal-color h-full flex-1 py-2.5 ">

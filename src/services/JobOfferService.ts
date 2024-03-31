@@ -2,6 +2,9 @@ import TaskPreview from "../models/TaskPreview";
 import {QueryParams} from "../models/QueryParams";
 import MyFile from "../models/MyFile";
 import {buildURL} from "../components/home_job_offers/URLHelper";
+import {generateEncodedZip} from "../components/job_offer_details/TaskSolutionWorkspace/utils/fileUtils";
+import {errorToast} from "../main";
+import CodeExecutionOutput from "../models/CodeExecutionOutput";
 
 const getHomeJobOffers = async (params: QueryParams) : Promise<Response> => {
     const URL = import.meta.env.VITE_API_URL + buildURL(params);
@@ -33,6 +36,65 @@ const getJobOfferById = async (jobOfferId: string, token: string): Promise<Respo
         console.error('Error:', error);
     }
 }
+
+export const getToken = async (userInput: string, files: MyFile[], mainFileIndex: number, file: MyFile, timeLimit: number, memoryLimit: number) => {
+    try {
+        const stdin = userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
+        let fileContentBase64;
+        try {
+            fileContentBase64 = await generateEncodedZip(files, files[mainFileIndex]);
+        } catch (zipError) {
+            errorToast("Main file is not compilable");
+            return null;
+        }
+
+        const response = await fetch("http://localhost:8080/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fileName: file.name,
+                fileContentBase64: fileContentBase64,
+                stdin: stdin,
+                timeLimit: timeLimit,
+                memoryLimit: memoryLimit
+            })
+        });
+
+        if (!response.ok) {
+            errorToast("Error fetching token");
+            return null;
+        }
+
+        return await response.text();
+    } catch (error) {
+        errorToast("Error fetching token");
+        return null;
+    }
+};
+
+export const getCompilation = async (token: string) => {
+    try {
+        const response = await fetch("http://localhost:8080/token/" + token, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        if (!response.ok) {
+            errorToast("Compilation problem");
+            return null;
+        }
+
+        return await response.json() as CodeExecutionOutput;
+    } catch (error) {
+        errorToast("Compilation problem");
+        return null;
+    }
+};
+
 
 const b64toBlob = (base64, type = 'application/octet-stream') =>
     fetch(`data:${type};base64,${base64}`).then(res => res.blob())

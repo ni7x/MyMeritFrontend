@@ -88,14 +88,13 @@ export const getContentType = (fileName: string): ContentType => {
 
 const generateScriptsContent = (languages, mainFileName) : Script[] => {
     const fileExtension = getFileExtension(mainFileName)
-    console.log(fileExtension)
     const language = languagesData[fileExtension];
 
     if (!language) {
-        console.error(`Language not found for file extension: ${fileExtension}`);
+        throw new Error(`Language not found for file extension: ${fileExtension}`);
     }
 
-    const { compile, run, source_file } = language;
+    const {compile, run, source_file} = language;
 
     if (!compile && !run) {
         console.error(`Compile and run command not defined for language: ${source_file}`);
@@ -104,8 +103,6 @@ const generateScriptsContent = (languages, mainFileName) : Script[] => {
 
     const compileScriptContent = compile?.replace(source_file, " *." + fileExtension).replace(" %s ", "") ;
     const runScriptContent = run?.replace(getFileNameWithoutExtension(source_file), getFileNameWithoutExtension(mainFileName));
-    console.log(compileScriptContent)
-    console.log(runScriptContent)
 
     return [
         { name: "compile", content: compileScriptContent },
@@ -113,11 +110,11 @@ const generateScriptsContent = (languages, mainFileName) : Script[] => {
     ];
 }
 
-export const generateEncodedZip = (files: MyFile[]): Promise<string> => {
+export const generateEncodedZip = (files: MyFile[], mainFile: MyFile): Promise<string> => {
     files = files.filter(f=>f.type === ContentType.TXT);
     console.log(files)
     return new Promise((resolve, reject) => {
-        const mainFileName = files[0].name;
+        const mainFileName = mainFile.name;
         if(!mainFileName){
             reject(new Error("No main file"));
         }
