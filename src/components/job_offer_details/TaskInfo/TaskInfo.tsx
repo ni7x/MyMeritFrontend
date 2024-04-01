@@ -4,6 +4,7 @@ import MDEditor from '@uiw/react-md-editor/nohighlight';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faClock} from "@fortawesome/free-solid-svg-icons";
 import { differenceInHours } from 'date-fns';
+import {faTrophy} from "@fortawesome/free-solid-svg-icons";
 
 const TaskInfo: React.FC<{task: Task, solutionId: string | undefined}> = ({task, solutionId}) => {
     const customStyles = {
@@ -21,7 +22,12 @@ const TaskInfo: React.FC<{task: Task, solutionId: string | undefined}> = ({task,
             <div className="p-[1.5rem]">
                 <div className="flex flex-row w-100 text-sm font-medium gap-4">
                     <div>
-                        <p className="inline-block text-merit-credits-color"><span>{task.reward} MC</span></p>
+                        <p className="inline-block text-merit-credits-color">
+                            <span>
+                                <FontAwesomeIcon icon={faTrophy} className="mr-1.5"/>
+                                {task.reward} MC
+                            </span>
+                        </p>
                     </div>
                     <div className="flex justify-center items-center">
                         <p className="inline-block text-task-lighter">

@@ -18,7 +18,7 @@ interface IdeProps {
     setFiles: (files: MyFile[]) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex}) => {
+const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex, isEditable}) => {
     const [output, setCodeOutput] = useState<CodeExecutionOutput>(null);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -34,6 +34,7 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
                         currentFileIndex={currentFileIndex}
                         setFiles={setFiles}
                         isMaxSize={isMaxSize}
+                        isEditable={isEditable}
                     />
 
                     <div className="relative">

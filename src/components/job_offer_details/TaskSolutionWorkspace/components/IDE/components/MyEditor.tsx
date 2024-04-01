@@ -11,7 +11,7 @@ interface MyEditorProps{
     isMaxSize: boolean
 }
 
-const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, isMaxSize}) => {
+const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, isEditable}) => {
     const currentFile = files[currentFileIndex];
 
     const handleEditorChange = (value: string) => {
@@ -24,6 +24,7 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, i
         return (
             <Editor
                 theme="customTheme"
+
                 height="100%"
                 className="min-h-[40vh]"
                 path={currentFile.name}
@@ -34,6 +35,7 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, i
                     minimap: { enabled: false },
                     overviewRulerBorder: false,
                     hideCursorInOverviewRuler: true,
+                    readOnly: !isEditable
                 }}
             />
         );

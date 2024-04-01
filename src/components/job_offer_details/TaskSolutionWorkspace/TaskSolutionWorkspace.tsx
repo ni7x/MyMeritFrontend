@@ -207,6 +207,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                         taskClosesAt={task.closesAt}
                         taskTimeLimit={task.timeLimit}
                         taskMemoryLimit={task.memoryLimit}
+                        isEditable={isEditable}
                     />
                 </div>
             )}
