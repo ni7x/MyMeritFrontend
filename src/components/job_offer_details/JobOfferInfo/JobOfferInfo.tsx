@@ -1,83 +1,74 @@
 import React from "react";
-import {faLocationDot, faDollarSign, faUser, faBell} from "@fortawesome/free-solid-svg-icons";
+import {faLocationDot, faDollarSign, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import logo from '../../../assets/logo-placeholder.png';
-import {formatDistance} from "date-fns";
+import logoPlaceholder from "../../../assets/logo-placeholder.png";
+import TaskStatusDisplay from "../TaskInfo/TaskStatusDisplay";
+import JobOfferDetailsDTO from "../../../models/dtos/JobOfferDetailsDTO";
 
-const JobOfferInfo = ({jobOffer}) => {
-    const offerEnded = new Date() < new Date(jobOffer.closesAt) ;
-
+const JobOfferInfo:React.FC<{jobOffer: JobOfferDetailsDTO}> = ({jobOffer}) => {
     return (
-        <div className="flex flex-col bg-terminal-color p-[1.5rem] p-x-[2rem] rounded w-[100%] lg:w-[45%] lg:max-w-[45rem]">
-            <div>
-                <h3 className="text-xl font-bold leading-7 mb-3">{jobOffer.jobTitle}</h3>
-                <div className="flex gap-3">
-                    <p><FontAwesomeIcon icon={faUser} className="mr-2 text-job-primary "/>{jobOffer.experience.toLowerCase()}</p>
-                    <p><FontAwesomeIcon icon={faDollarSign} className="mr-2 text-job-primary "/>{jobOffer.salary} euro/month</p>
-                    <ul className="flex justify-center items-center">
-                        <FontAwesomeIcon icon={faLocationDot} className="mr-2 text-job-primary "/>
-                        {jobOffer.workLocations.map((location, index) => (
-                            <li key={location}>
-                                {location}
-                                {index !== jobOffer.workLocations.length - 1 &&
-                                    <span className="mx-1">/</span>
-                                }
-                            </li>
-                        ))}
+        <div className="flex flex-col w-[100%] lg:w-[45%] lg:max-w-[45rem]">
 
-                    </ul>
-                </div>
+            <TaskStatusDisplay
+                status={jobOffer.status}
+                opensAt={jobOffer.opensAt}
+                closesAt={jobOffer.closesAt}
+            />
 
-                <p className="leading-6 my-5 mb-3">
-                    {jobOffer.description}
-                </p>
+            <div className="flex flex-col gap-8">
+                <div className="flex mt-5 gap-5">
+                    <img src={logoPlaceholder} className="w-[8rem] h-[8rem] rounded"/>
+                    <div className="flex flex-col gap-3">
+                        <p className="flex gap-3 items-center">
+                            {jobOffer.company.name}
+                            <a
+                                href={""}
+                                className="text-xs font-semibold text-emerald-400">
+                                SEE MORE ABOUT THIS COMPANY
+                            </a>
+                        </p>
+                        <h3 className="text-3xl font-bold leading-7 mb-1">
+                            {jobOffer.jobTitle}
+                        </h3>
+                        <div className="flex gap-3 w-full h-full flex-wrap">
+                            <p className="flex justify-center items-center gap-2 bg-task-bck px-3 py-1.5 rounded text-sm font-semibold">
+                                <FontAwesomeIcon icon={faUser}/> {jobOffer.experience}
+                            </p>
 
-                <p className="py-3 font-medium">Must-haves</p>
-                <ul className="flex gap-2 mb-3">
-                    {jobOffer.requiredSkills.map((skill)=>{
-                        return <li className="inline-block px-4 py-1.5 font-medium bg-job-primary rounded-lg text-sm" key={skill}>{skill}</li>
-                    })}
-                </ul>
-                <p className="py-3 font-medium">Nice-to-haves</p>
-                <ul className="flex gap-2 mb-3">
-                    {jobOffer.preferredSkills.map((skill)=>{
-                        return <li className="inline-block px-4 py-1.5 font-medium bg-job-primary  rounded-lg text-sm" key={skill}>{skill}</li>
-                    })}
-                </ul>
+                            <p className="flex justify-center items-center gap-2 bg-task-bck px-3 py-1.5 rounded text-sm font-semibold">
+                                <FontAwesomeIcon icon={faDollarSign}/> {jobOffer.salary}$/month
+                            </p>
 
-                <div className="flex mt-8">
-                    <img className="h-16 w-16 rounded mr-3" src={logo}/>
-                    <div>
-                        <div className="flex items-center">
-                            <h2>
-                                <a href={"/company/" + jobOffer.company.id} className="text-lg font-semibold mr-5">
-                                    {jobOffer.company.name}
-                                </a>
-                            </h2>
-                            <FontAwesomeIcon icon={faLocationDot}  className="mr-2 text-job-primary  font-medium text-sm"/> <span className="text-main-lighter font-medium text-sm">{jobOffer.company.location}</span>
+                            {jobOffer.workLocations.map((location) => (
+                                <p key={location} className="flex justify-center items-center gap-2 bg-task-bck px-3 py-1.5 rounded text-sm font-semibold">
+                                    <FontAwesomeIcon icon={faLocationDot}/>
+                                    {location}
+                                </p>
+                            ))}
                         </div>
-                        <p className="text">{jobOffer.company.description}</p>
                     </div>
                 </div>
-
-                <div className=" flex justify-between items-center mt-5 rounded">
-                    {!offerEnded ?
-                        <>
-                            <p>Task opens in {formatDistance(new Date(), jobOffer.opensAt, { addSuffix: false })}</p>
-                            <button className="text-job-primary  p-3 px-5 bg-task-bck rounded">
-                                <FontAwesomeIcon icon={faBell} className="mr-2"/>Remind me
-                            </button>
-                        </> :
-                        <>
-                            <p className="text-red-500">Closed</p>
-                            <button className="text-job-primary  p-3 px-5 bg-task-bck rounded">
-                                <FontAwesomeIcon icon={faBell} className="mr-2"/><span className="text-white">Stay updated on tasks from this company</span>
-                            </button>
-                        </>
-                    }
-
+                <p className="leading-7">
+                    {jobOffer.description}
+                </p>
+                <div>
+                    <h3 className="text-sm text-main-lighter font-semibold mb-3">MUST HAVE SKILLS</h3>
+                    <ul className="flex gap-3 flex-wrap">
+                        {jobOffer.requiredSkills.map((skill)=>{
+                            return <li className="inline-block px-3 py-1.5 font-medium bg-transparent border-2 border-job-primary rounded text-sm text-job-primary" key={skill}>{skill}</li>
+                        })}
+                    </ul>
+                </div>
+                <div>
+                    <h3 className="text-sm text-main-lighter font-semibold mb-3">NICE TO HAVE SKILLS</h3>
+                    <ul className="flex gap-3 flex-wrap">
+                        {jobOffer.preferredSkills.map((skill)=>{
+                            return <li className="inline-block px-3 py-1.5 font-medium bg-transparent border-2 border-job-primary rounded text-sm text-job-primary" key={skill}>{skill}</li>
+                        })}
+                    </ul>
                 </div>
             </div>
+
         </div>
     );
 }

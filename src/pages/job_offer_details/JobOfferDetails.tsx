@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
-import TaskInfo from "../../components/job_offer_details/TaskInfo/TaskInfo";
-import TaskSolutionWorkspace from "../../components/job_offer_details/TaskSolutionWorkspace/TaskSolutionWorkspace";
-import {getJobOfferById} from "../../services/JobOfferService";
-import {useAuth} from "../../hooks/useAuth";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
+import {useAuth} from "../../hooks/useAuth";
+import {getJobOfferById} from "../../services/JobOfferService";
 import JobOfferInfo from "../../components/job_offer_details/JobOfferInfo/JobOfferInfo";
 
-const JobOfferDetails: React.FC = () => {
+const JobOfferDetails = () => {
     const { id } = useParams<{ id: string }>();
     const [ jobOffer, setJobOffer ] = useState<JobOfferDetailsDTO>();
     const { accessToken } = useAuth();
@@ -29,32 +27,13 @@ const JobOfferDetails: React.FC = () => {
         };
         fetchData();
     }, []);
-    console.log(jobOffer)
-
-    if(jobOffer){
-        if(jobOffer.task){
-            return (
-                <div className="flex flex-col gap-[2rem] lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
-                    <TaskInfo
-                        task={jobOffer.task}>
-                    </TaskInfo>
-                    <TaskSolutionWorkspace
-                        jobId={jobOffer.id}
-                        task={jobOffer.task}>
-                    </TaskSolutionWorkspace>
-                </div>
-            );
-        }else{
-            return (
-                <div className="flex w-[100%] justify-center">
-                    <JobOfferInfo jobOffer={jobOffer}/>
-                </div>
-
-            );
-        }
-
-    }
-
-};
+    return(
+        <div className="flex w-[100%] justify-center">
+            {jobOffer &&
+                <JobOfferInfo jobOffer={jobOffer}/>
+            }
+        </div>
+    )
+}
 
 export default JobOfferDetails;

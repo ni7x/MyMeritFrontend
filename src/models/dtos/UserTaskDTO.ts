@@ -1,4 +1,5 @@
 import Solution from "../Solution";
+import TaskStatus from "../TaskStatus";
 
 class UserTaskDTO {
     constructor(
@@ -11,6 +12,7 @@ class UserTaskDTO {
         public allowedLanguages: string[],
         public memoryLimit: number,
         public timeLimit: number,
+        public status: TaskStatus,
         public userSolution: Solution,
     ) {}
 }

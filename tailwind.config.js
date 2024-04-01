@@ -5,6 +5,7 @@ export default {
       colors: {
         "main-bg-color": "#2c2d37",
         "blue-450": "#4E94F8",
+        "emerald-450": "#22C68D",
         "secondary-bg-color": "#3a3b46",
         "main-lighter": "#737485",
         "main-lighter-2": "#555764",
@@ -17,7 +18,7 @@ export default {
         "terminal-color": "#3a3b46",
         'ide-color': '#34353f',
         'terminal-border': '#555764',
-        'job-primary': '#9f5afd'
+        'job-primary': '#22C68D'
       },
       screens: {
         xlg: "1440px",

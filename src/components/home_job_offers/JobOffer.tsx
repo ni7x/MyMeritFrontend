@@ -38,7 +38,7 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                     </div>
                 </div>
                 <h3 className="text-xl font-bold  w-full">
-                    <a href={"tasks/" + jobOffer.id}>
+                    <a href={"job/" + jobOffer.id + (jobOffer.status === TaskStatus.NOT_YET_OPEN ? "" : "/solution")}>
                         {jobOffer.jobTitle}
                     </a>
                 </h3>

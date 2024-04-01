@@ -9,12 +9,13 @@ import NotFound from "./pages/not_found/NotFound";
 import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
 import Register from "./pages/login/Register";
-import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
+import JobOfferSolutionDetails from "./pages/job_offer_solution_details/JobOfferSolutionDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainWrapper from "./components/MainWrapper";
 import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
+import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
 
 const App = () => {
 
@@ -27,7 +28,7 @@ const App = () => {
           <Route path="/jobs" element={<Home />} />
           <Route path="/mytasks/" element={<MyTasks />} />
           <Route
-            path="/tasks/:id"
+            path="/job/:id"
             element={
               <ProtectedRoute>
                 <JobOfferDetails />
@@ -35,7 +36,17 @@ const App = () => {
             }
           />
 
-          <Route path="/users/:id" element={<UserProfile />} />
+            <Route
+                path="/job/:id/solution"
+                element={
+                    <ProtectedRoute>
+                        <JobOfferSolutionDetails />
+                    </ProtectedRoute>
+                }
+            />
+
+
+            <Route path="/users/:id" element={<UserProfile />} />
 
           <Route
             path="/rewards/"

@@ -12,7 +12,7 @@ import {errorToast, successToast} from "../../../main";
 
 const cookies = new Cookies();
 
-const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({ jobId, task }) => {
+const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEditable: boolean }> = ({ jobId, task, isEditable }) => {
     const {accessToken} = useAuth();
     const [files, setFiles] = useState<MyFile[]>([]);
     const [filesFetched, setFilesFetched] = useState(false);
@@ -54,6 +54,18 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
             cookies.set(jobId, serializeFiles(files, jobId),  { expires: new Date(task.closesAt) });
         }
     }, [files, jobId, filesFetched, mainFileIndex]);
+
+    const withErrorHandling = (func) => (...args) => {
+        try {
+            if (!isEditable) {
+                errorToast("Solution is read only");
+                return;
+            }
+            func(...args);
+        } catch (error) {
+            errorToast("An error occurred while executing the operation");
+        }
+    };
 
     const mergeFilesWithCookies = (fetchedFiles) => {
         const filesFromCookies = currentTaskCookies.files;
@@ -171,12 +183,12 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
 
     return (
         <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
-            {(currentFile ) &&
+            {currentFile && (
                 <div className="flex flex-col w-full h-full">
                     <FileTabManager
-                        addFile={addFile}
-                        removeFile={removeFile}
-                        renameFile={renameFile}
+                        addFile={withErrorHandling(addFile)}
+                        removeFile={withErrorHandling(removeFile)}
+                        renameFile={withErrorHandling(renameFile)}
                         currentFile={currentFile}
                         files={files}
                         mainFileIndex={mainFileIndex}
@@ -186,18 +198,18 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO }> = ({
                     <Ide
                         files={files}
                         currentFileIndex={currentFileIndex}
-                        setFiles={setFiles}
-                        addFile={addFile}
+                        setFiles={withErrorHandling(setFiles)}
+                        addFile={withErrorHandling(addFile)}
                         taskId={task.id}
                         mainFileIndex={mainFileIndex}
-                        submitSolution={submit}
-                        setAsMain={setAsMain}
+                        submitSolution={withErrorHandling(submit)}
+                        setAsMain={withErrorHandling(setAsMain)}
                         taskClosesAt={task.closesAt}
                         taskTimeLimit={task.timeLimit}
                         taskMemoryLimit={task.memoryLimit}
                     />
                 </div>
-            }
+            )}
         </div>
     );
 };

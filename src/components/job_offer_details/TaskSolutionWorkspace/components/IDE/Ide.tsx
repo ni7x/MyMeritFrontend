@@ -16,7 +16,6 @@ interface IdeProps {
     files: MyFile[];
     currentFileIndex: number;
     setFiles: (files: MyFile[]) => void;
-    addFile: (name: string, language: string, content?: string) => void;
 }
 
 const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex}) => {
@@ -24,6 +23,7 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [isMaxSize, setIsMaxSize] = useState(false);
+    const [isClosed, setIsClosed] = useState(false);
     const currentFile = files[currentFileIndex];
 
     return (
@@ -82,13 +82,15 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
                                 <div className="flex bg-terminal-color h-full flex-1 py-2.5 ">
                                     <Timer
                                         taskClosesAt={taskClosesAt}
+                                        setIsClosed={setIsClosed}
                                     />
                                 </div>
 
                             </div>
                             <button
-                                className="bg-blue-450 text-xs font-semibold rounded w-1/2 text-white hover:bg-blue-500"
+                                className="bg-blue-450 text-xs font-semibold rounded w-1/2 text-white hover:bg-blue-500 disabled:bg-terminal-color"
                                 onClick={submitSolution}
+                                disabled={isClosed}
                             >
                                 SUBMIT SOLUTION
                             </button>

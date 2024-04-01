@@ -2,10 +2,10 @@ import React from "react";
 import Task from "../../../models/Task";
 import MDEditor from '@uiw/react-md-editor/nohighlight';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock} from "@fortawesome/free-solid-svg-icons";
+import {faChevronRight, faClock} from "@fortawesome/free-solid-svg-icons";
 import { differenceInHours } from 'date-fns';
 
-const TaskInfo: React.FC<{task: Task}> = ({task}) => {
+const TaskInfo: React.FC<{task: Task, solutionId: string | undefined}> = ({task, solutionId}) => {
     const customStyles = {
         '--color-fg-subtle': '#8a949d',
         '--color-canvas-default': '#444c56',
@@ -17,8 +17,8 @@ const TaskInfo: React.FC<{task: Task}> = ({task}) => {
     };
 
     return (
-        <div className="flex flex-col bg-terminal-color p-[1.5rem] rounded w-[100%] lg:flex-1 justify-between h-full overflow-x-auto">
-            <div>
+        <div className="flex flex-col bg-terminal-color rounded w-[100%]    lg:flex-1 justify-between h-full overflow-x-auto">
+            <div className="p-[1.5rem]">
                 <div className="flex flex-row w-100 text-sm font-medium gap-4">
                     <div>
                         <p className="inline-block text-merit-credits-color"><span>{task.reward} MC</span></p>
@@ -48,6 +48,15 @@ const TaskInfo: React.FC<{task: Task}> = ({task}) => {
                         return <li className="inline-block text-sm rounded-lg bg-transparent p-1.5 px-3 border-[1px] border-task-lighter text-task-lighter font-medium" key={language}>{language}</li>
                     })}
                 </ul>
+                <div className="flex mt-5">
+                    <a className="flex bg-emerald-500 gap-2 p-2 px-3 text-center text-sm rounded-b rounded text-xs  font-semibold text-white" href={`/job/${solutionId}`}>
+                        SEE RELATED JOB OFFER
+                        <div>
+                            <FontAwesomeIcon icon={faChevronRight} />
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     );
