@@ -8,13 +8,11 @@ import JobOfferDetailsDTO from "../../../models/dtos/JobOfferDetailsDTO";
 const JobOfferInfo:React.FC<{jobOffer: JobOfferDetailsDTO}> = ({jobOffer}) => {
     return (
         <div className="flex flex-col w-[100%] lg:w-[45%] lg:max-w-[45rem]">
-
             <TaskStatusDisplay
                 status={jobOffer.status}
                 opensAt={jobOffer.opensAt}
                 closesAt={jobOffer.closesAt}
             />
-
             <div className="flex flex-col gap-8">
                 <div className="flex mt-5 gap-5">
                     <img src={logoPlaceholder} className="w-[8rem] h-[8rem] rounded"/>

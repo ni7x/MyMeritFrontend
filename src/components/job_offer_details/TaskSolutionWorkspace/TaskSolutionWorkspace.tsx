@@ -9,6 +9,7 @@ import {useAuth} from "../../../hooks/useAuth";
 import {downloadFiles, submitSolution} from "../../../services/JobOfferService";
 import {ContentType, getContentType} from "./utils/fileUtils";
 import {errorToast, successToast} from "../../../main";
+import {mergeFilesWithCookies, serializeFiles} from "./solutionFunctions";
 
 const cookies = new Cookies();
 
@@ -28,7 +29,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                     const response = await downloadFiles(jobId, accessToken);
                     if (response.ok) {
                         const fetchedFiles = await response.json();
-                        const mergedFiles = currentTaskCookies ? mergeFilesWithCookies(fetchedFiles) : fetchedFiles;
+                        const mergedFiles = currentTaskCookies ? mergeFilesWithCookies(fetchedFiles, currentTaskCookies) : fetchedFiles;
                         setFiles(mergedFiles);
                         setFilesFetched(true);
                     } else {
@@ -45,13 +46,12 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                 setFilesFetched(true);
             }
         };
-
         initializeFiles();
     }, [task, accessToken]);
 
     useEffect(() => {
         if (filesFetched) {
-            cookies.set(jobId, serializeFiles(files, jobId),  { expires: new Date(task.closesAt) });
+            cookies.set(jobId, serializeFiles(files, jobId, mainFileIndex),  { expires: new Date(task.closesAt) });
         }
     }, [files, jobId, filesFetched, mainFileIndex]);
 
@@ -65,38 +65,6 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
         } catch (error) {
             errorToast("An error occurred while executing the operation");
         }
-    };
-
-    const mergeFilesWithCookies = (fetchedFiles) => {
-        const filesFromCookies = currentTaskCookies.files;
-        let mergedFiles = [...fetchedFiles];
-        filesFromCookies.forEach(cookieFile => {
-            const index = mergedFiles.findIndex(fetchedFile => fetchedFile.name === cookieFile.name);
-            if (index !== -1) {
-                mergedFiles[index] = new MyFile(cookieFile.name, cookieFile.type, cookieFile.contentBase64);
-            } else {
-                mergedFiles.push(new MyFile(cookieFile.name, cookieFile.type, cookieFile.contentBase64));
-            }
-        });
-
-        mergedFiles = mergedFiles.filter(file => {
-            return file.type !== ContentType.TXT || filesFromCookies.some(cookieFile => cookieFile.name === file.name);
-        });
-
-        return mergedFiles;
-    };
-
-    const serializeFiles = (files: MyFile[], jobId) => {
-        return JSON.stringify({
-            jobId: jobId,
-            mainFileIndex: mainFileIndex,
-            files: files.filter(f => f.type === ContentType.TXT ).map(file => ({
-                name: file.name,
-                type: file.type,
-                contentBase64: file.contentBase64
-            })
-            )
-        });
     };
 
     const getFileByName = (name: string) => {
@@ -180,7 +148,6 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
         fetchData();
     };
 
-
     return (
         <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
             {currentFile && (
@@ -192,8 +159,8 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                         currentFile={currentFile}
                         files={files}
                         mainFileIndex={mainFileIndex}
-                        getFileByName={(name) => getFileByName(name)}
-                        setCurrentFileByName={setCurrentFileByName}
+                        getFileByName={getFileByName}
+                        setCurrentFileByName={withErrorHandling(setCurrentFileByName)}
                     />
                     <Ide
                         files={files}

@@ -16,18 +16,20 @@ const TerminalInput: React.FC<{ setInput: (string) => void; input: string; }> = 
     };
 
     return (
-        <div className="flex flex-col bg-terminal-color min-h-[5rem] flex-1 p-2 justify-between">
-            <div className="flex gap-2">
-                <p className="text-task-lighter text-xs font-normal">INPUT</p>
-            </div>
-            <div className="flex flex-1 items-end">
-                <textarea
-                    className="w-full resize-none bg-transparent h-auto overflow-hidden border-none outline-none text-sm text-white caret-white"
-                    value={input}
-                    onChange={handleChange}
-                    placeholder="> enter input"
-                    rows={1}
-                />
+        <div className="flex h-full">
+            <div className="flex flex-col bg-terminal-color min-h-[5rem] flex-1 p-2 justify-between">
+                <div className="flex gap-2">
+                    <p className="text-task-lighter text-xs font-normal">INPUT</p>
+                </div>
+                <div className="flex flex-1 items-end">
+                    <textarea
+                        className="w-full resize-none bg-transparent h-auto overflow-hidden border-none outline-none text-sm text-white caret-white"
+                        value={input}
+                        onChange={handleChange}
+                        placeholder="> enter input"
+                        rows={1}
+                    />
+                </div>
             </div>
         </div>
     );

@@ -8,7 +8,6 @@ import TaskStatus from "../../models/TaskStatus";
 
 const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
     const solvingTime = differenceInMinutes( new Date(jobOffer.closesAt),  new Date(jobOffer.opensAt));
-    console.log(jobOffer.status === TaskStatus.OPEN)
     return (
         <div className="flex-column bg-secondary-bg-color rounded mb-5 xl:max-w-full">
             <div className="pt-2.5 px-4 text-sm">
@@ -44,13 +43,15 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                 </h3>
             </div>
             <ul className="flex py-5 pb-6 px-4">
-                {jobOffer.technologies.map((technology)=>{
-                    return <li
-                                className="mr-3 px-4 py-1 text-sm rounded-lg bg-transparent border-[1px] border-task-lighter text-task-lighter font-medium"
-                                key={technology}
-                            >
-                                {technology}
-                            </li>
+                {jobOffer.technologies.map((technology) => {
+                    return (
+                        <li
+                            className="mr-3 px-4 py-1 text-sm rounded-lg bg-transparent border-[1px] border-task-lighter text-task-lighter font-medium"
+                            key={technology}
+                        >
+                            {technology}
+                        </li>
+                    )
                 })}
             </ul>
             <div className="flex items-center justify-between text-sm pb-2.5 px-4 w-full font-medium" >
@@ -60,7 +61,7 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                 </div>
                 <ul className="flex text-task-lighter">
                     {jobOffer.workLocations.map((location, index) => (
-                        <li  key={location}>
+                        <li key={location}>
                             {location}
                             {index !== jobOffer.workLocations.length - 1 &&
                                 <span className="mx-1">/</span>

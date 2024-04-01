@@ -5,7 +5,6 @@ import TaskSolutionWorkspace from "../../components/job_offer_details/TaskSoluti
 import {getJobOfferById} from "../../services/JobOfferService";
 import {useAuth} from "../../hooks/useAuth";
 import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
-import JobOfferInfo from "../../components/job_offer_details/JobOfferInfo/JobOfferInfo";
 import TaskStatus from "../../models/TaskStatus";
 
 const JobOfferSolutionDetails: React.FC = () => {
@@ -30,7 +29,6 @@ const JobOfferSolutionDetails: React.FC = () => {
         };
         fetchData();
     }, []);
-    console.log(jobOffer)
 
     if(jobOffer){
         if(!jobOffer.task){
@@ -55,7 +53,6 @@ const JobOfferSolutionDetails: React.FC = () => {
             </div>
         );
     }
-
 };
 
 export default JobOfferSolutionDetails;
