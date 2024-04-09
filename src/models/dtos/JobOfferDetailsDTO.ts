@@ -17,6 +17,7 @@ interface JobOfferDetailsDTO {
     closesAt: Date;
     company: Company;
     task: UserTaskDTO;
+    solutions: string[];
     status: TaskStatus
 }
 

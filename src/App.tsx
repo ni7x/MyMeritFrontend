@@ -16,8 +16,10 @@ import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
 import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
+import {useAuth} from "./hooks/useAuth";
 
 const App = () => {
+    const {isAuthenticatedCompany} = useAuth();
 
     return (
     <>
@@ -30,20 +32,18 @@ const App = () => {
           <Route
             path="/job/:id"
             element={
-              <ProtectedRoute>
-                <JobOfferDetails />
-              </ProtectedRoute>
+              <ProtectedRoute userContent={<JobOfferSolutionDetails/>}/>
             }
           />
-
-            <Route
-                path="/job/:id/solution"
-                element={
-                    <ProtectedRoute>
-                        <JobOfferSolutionDetails />
-                    </ProtectedRoute>
-                }
-            />
+         <Route
+            path="/job/:id/solution"
+            element={
+                <ProtectedRoute
+                    userContent={<JobOfferSolutionDetails/>}
+                    //companyContent={"abc"}
+                />
+            }
+         />
 
 
             <Route path="/users/:id" element={<UserProfile />} />
