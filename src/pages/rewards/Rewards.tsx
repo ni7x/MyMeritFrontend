@@ -45,7 +45,7 @@ const Rewards: React.FC = () => {
         <h2 className="text-center h-10 bg-secondary-bg-color flex items-center p-3 px-9 rounded">
           {" "}
           Balance:{" "}
-          <span class="text-merit-credits-color ml-2 font-semibold">
+          <span className="text-merit-credits-color ml-2 font-semibold">
             {currentBalance} MC
           </span>
         </h2>

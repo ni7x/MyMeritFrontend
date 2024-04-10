@@ -51,9 +51,9 @@ const App = () => {
           <Route
             path="/rewards/"
             element={
-              <ProtectedRoute>
-                <Rewards />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <Rewards />
+              // </ProtectedRoute>
             }
           />
 
