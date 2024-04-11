@@ -1,51 +1,62 @@
 import Reward from "../models/Reward";
 import PurchasedReward from "../models/PurchasedReward";
 
-const getRewards = (): Reward[] => {
-  return [
-    new Reward(
-      "1",
-      "Sample Reward 1",
-      "Description of sample reward 1 Description of sample reward 1",
-      100,
-      "img1.jpg"
-    ),
-    new Reward(
-      "2",
-      "Sample Reward 2",
-      "Description of sample reward 2",
-      200,
-      "img2.jpg"
-    ),
-    new Reward(
-      "3",
-      "Sample Reward 3",
-      "Description of sample reward 3",
-      300,
-      "img3.jpg"
-    ),
-    new Reward(
-      "3",
-      "Sample Reward 4",
-      "Description of sample reward 3",
-      200,
-      "img3.jpg"
-    ),
-    new Reward(
-      "3",
-      "Sample Reward 5",
-      "Description of sample reward 3",
-      100,
-      "img3.jpg"
-    ),
-    new Reward(
-      "3",
-      "Sample Reward 6",
-      "Description of sample reward 3",
-      400,
-      "img3.jpg"
-    ),
-  ];
+import { httpCall } from "../api/HttpClient";
+
+// const getRewards = (): Reward[] => {
+//   return [
+//     new Reward(
+//       "1",
+//       "Sample Reward 1",
+//       "Description of sample reward 1 Description of sample reward 1",
+//       100,
+//       "img1.jpg"
+//     ),
+//     new Reward(
+//       "2",
+//       "Sample Reward 2",
+//       "Description of sample reward 2",
+//       200,
+//       "img2.jpg"
+//     ),
+//     new Reward(
+//       "3",
+//       "Sample Reward 3",
+//       "Description of sample reward 3",
+//       300,
+//       "img3.jpg"
+//     ),
+//     new Reward(
+//       "3",
+//       "Sample Reward 4",
+//       "Description of sample reward 3",
+//       200,
+//       "img3.jpg"
+//     ),
+//     new Reward(
+//       "3",
+//       "Sample Reward 5",
+//       "Description of sample reward 3",
+//       100,
+//       "img3.jpg"
+//     ),
+//     new Reward(
+//       "3",
+//       "Sample Reward 6",
+//       "Description of sample reward 3",
+//       400,
+//       "img3.jpg"
+//     ),
+//   ];
+// };
+
+const getRewards = async (): Promise<any[]> => {
+  const data = await httpCall<any[]>({
+    url: import.meta.env.VITE_API_URL + "/rewards",
+    method: "GET",
+  });
+
+  return data;
 };
 
 const getPurchaseHistory = (): PurchasedReward[] => {
@@ -67,5 +78,12 @@ const getPurchaseHistory = (): PurchasedReward[] => {
     ),
   ];
 };
+
+// const getPurchaseHistory = (): Promise<any[]> => {
+//   return httpCall<any[]>({
+//     url: import.meta.env.VITE_API_URL + "/rewards-history/purchase-history",
+//     method: "GET",
+//   });
+// };
 
 export { getRewards, getPurchaseHistory };

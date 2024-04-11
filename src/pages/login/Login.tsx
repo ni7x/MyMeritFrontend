@@ -1,5 +1,5 @@
-import { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, FormEvent, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
@@ -13,10 +13,12 @@ import AuthSubmit from "../../components/login/AuthSubmit";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn, isAuthenticated } = useAuth();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -24,6 +26,12 @@ const Login = () => {
 
     signIn({ email, password });
   };
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <AuthBox>

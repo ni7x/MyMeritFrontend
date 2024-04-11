@@ -6,9 +6,13 @@ import SecondWrapper from "../../components/SecondWrapper";
 import PurchaseHistory from "../../components/rewards/PurchaseHistory";
 import PurchasedReward from "../../models/PurchasedReward";
 
+import { useAuth } from "../../hooks/useAuth";
+
 const Rewards: React.FC = () => {
-  const [availableRewards, setAvailableRewards] = useState<Reward[]>([]);
+  const [availableRewards, setAvailableRewards] = useState<any[]>([]);
   const [purchaseHistory, setPurchaseHistory] = useState<PurchasedReward[]>([]);
+
+  const { isAuthenticated, user } = useAuth();
 
   const currentBalance = 200;
 
@@ -17,7 +21,10 @@ const Rewards: React.FC = () => {
   const purchaseReward = () => {};
 
   useEffect(() => {
-    setAvailableRewards(getRewards);
+    getRewards().then((rewards) => {
+      setAvailableRewards(rewards);
+    });
+
     setPurchaseHistory(getPurchaseHistory);
   }, []);
 

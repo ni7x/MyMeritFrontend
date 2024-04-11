@@ -19,7 +19,7 @@ type JwtDecodedToken = {
   sub: string;
   iat: number;
   exp: number;
-}
+};
 
 type JwtEncodedUser = {
   decodedTokenInfo: JwtDecodedToken;
@@ -50,6 +50,7 @@ type AuthContext = {
   isAuthenticated: () => boolean;
   // isAuthenticatedCompany: () => boolean;
   signIn: ({ email, password }: UserSignIn) => boolean;
+  signInWithToken: (token: string) => void;
   signUp: ({ username, email, password, code }: UserSignUp) => boolean;
   signOut: () => void;
   //TODO: Add Google Auth
@@ -75,7 +76,9 @@ const useAuthProvider = () => {
   const isAuthenticated = (): boolean => {
     const isTokenExpired = () => {
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      return user?.decodedTokenInfo.exp ? currentTimestamp >= user.decodedTokenInfo.exp : true;
+      return user?.decodedTokenInfo.exp
+        ? currentTimestamp >= user.decodedTokenInfo.exp
+        : true;
     };
 
     return user != undefined && !isTokenExpired();
@@ -107,11 +110,7 @@ const useAuthProvider = () => {
 
       if (response.success) {
         console.log("zalogowano", response.data.token);
-        const decodedToken = jwtDecode<JwtDecodedToken>(response.data.token);
-        const userInfo = { decodedTokenInfo: decodedToken, accessToken: response.data.token };
-        setUser(userInfo);
-        cookies.set("user", userInfo);
-        navigation("/");
+        signInWithToken(response.data.token);
       } else {
         setIsError({ type: "SignIn", message: response.message });
       }
@@ -157,6 +156,17 @@ const useAuthProvider = () => {
     },
   });
 
+  const signInWithToken = (token: string) => {
+    try {
+      const decodedToken = jwtDecode<JwtDecodedToken>(token);
+      const userInfo = { decodedTokenInfo: decodedToken, accessToken: token };
+      setUser(userInfo);
+      cookies.set("user", userInfo, { path: "/" });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     if (cookies.get("user")) {
       setUser(cookies.get("user"));
@@ -184,6 +194,7 @@ const useAuthProvider = () => {
     accessToken: user ? user.accessToken : null,
     isAuthenticated,
     signIn,
+    signInWithToken,
     signUp,
     signOut,
     isLoading,

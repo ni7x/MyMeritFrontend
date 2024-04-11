@@ -2,16 +2,19 @@ import { Reward as RewardDTO } from "../../models/Reward";
 import React, { useState } from "react";
 import rewardImg from "../../assets/reward-placeholder.png";
 import steamImg from "../../assets/steam-reward.jpg";
+import baseImg from "../../assets/reward-base.jpg";
 import amazonImg from "../../assets/amazon-reward.png";
 import paypalImg from "../../assets/paypal-reward.png";
 
-const randomImages = [steamImg, amazonImg, paypalImg];
+// const randomImages = [steamImg, amazonImg, paypalImg];
 
 const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
   reward,
   currentBalance,
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  console.log(reward);
 
   return (
     <li
@@ -23,7 +26,7 @@ const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
         className="w-full h-full bg-cover bg-center rounded group-hover:scale-105 transition-all duration-200 ease-linear"
         style={{
           backgroundImage: `url(${
-            randomImages[Math.floor(Math.random() * randomImages.length)]
+            reward.imageUrl == "" ? baseImg : reward.imageUrl
           })`,
         }}
       ></div>
@@ -32,14 +35,14 @@ const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
           <button
             className={
               "font-medium text-sm py-2 px-4 rounded opacity-0 group-hover:opacity-95 transition-all duration-200 ease-linear" +
-              (currentBalance < reward.credits
+              (currentBalance < reward.cost
                 ? " pointer-events-none bg-red-400 text-gray-200"
                 : " bg-emerald-500 text-white")
             }
-            disabled={currentBalance < reward.credits}
+            disabled={currentBalance < reward.cost}
             onClick={() => setIsPopupOpen(true)}
           >
-            {currentBalance < reward.credits
+            {currentBalance < reward.cost
               ? "Can't purchase "
               : "Click to purchase"}
           </button>
@@ -65,20 +68,20 @@ const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
       </div>
       <div className="flex justify-between absolute p-2 top-0 left-0 w-full">
         <p className="bg-secondary-bg-color p-2 px-4 text-sm rounded  text-merit-credits-color font-semibold opacity-80">
-          {reward.credits} MC
+          {reward.cost} MC
         </p>
         {!isPopupOpen ? (
           <button
             className={
               "font-medium text-sm py-2 px-4 rounded md:hidden" +
-              (currentBalance < reward.credits
+              (currentBalance < reward.cost
                 ? " pointer-events-none bg-red-400 text-gray-200"
                 : " bg-emerald-500 text-white")
             }
-            disabled={currentBalance < reward.credits}
+            disabled={currentBalance < reward.cost}
             onClick={() => setIsPopupOpen(true)}
           >
-            {currentBalance < reward.credits
+            {currentBalance < reward.cost
               ? "Can't purchase "
               : "Click to purchase"}
           </button>

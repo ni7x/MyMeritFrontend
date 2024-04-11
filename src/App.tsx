@@ -16,10 +16,10 @@ import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
 import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
+import OAuth2 from "./pages/OAuth2/OAuth2";
 
 const App = () => {
-
-    return (
+  return (
     <>
       <Navbar />
       <MainWrapper>
@@ -36,17 +36,16 @@ const App = () => {
             }
           />
 
-            <Route
-                path="/job/:id/solution"
-                element={
-                    <ProtectedRoute>
-                        <JobOfferSolutionDetails />
-                    </ProtectedRoute>
-                }
-            />
+          <Route
+            path="/job/:id/solution"
+            element={
+              <ProtectedRoute>
+                <JobOfferSolutionDetails />
+              </ProtectedRoute>
+            }
+          />
 
-
-            <Route path="/users/:id" element={<UserProfile />} />
+          <Route path="/users/:id" element={<UserProfile />} />
 
           <Route
             path="/rewards/"
@@ -60,6 +59,7 @@ const App = () => {
           <Route path="/contact/" element={<Contact />} />
           <Route path="/login/" element={<Login />} />
           <Route path="/register/" element={<Register />} />
+          <Route path="/oauth2/redirect" element={<OAuth2 />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainWrapper>
