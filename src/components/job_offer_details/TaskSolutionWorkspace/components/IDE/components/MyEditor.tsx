@@ -1,9 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Editor from '@monaco-editor/react';
 import { DiffEditor } from '@monaco-editor/react';
 import MyFile from "../../../../../../models/MyFile";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import {ContentType, getLanguageFromFileName} from "../../../utils/fileUtils";
+import {getLanguageFromFileName} from "../../../utils/fileUtils";
 
 interface MyEditorProps{
     files: MyFile[],
@@ -12,8 +11,9 @@ interface MyEditorProps{
     isEditable: boolean;
 }
 
-const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, isEditable}) => {
+const MyEditor: React.FC<MyEditorProps> = ({isFeedbackView, userFiles, files, currentFileIndex, setFiles, isEditable}) => {
     const currentFile = files[currentFileIndex];
+    const [modifiedContent, setModifiedContent] = useState(atob(currentFile.contentBase64));
 
     const handleEditorChange = (value: string) => {
         const updatedFiles = [...files];
@@ -21,6 +21,40 @@ const MyEditor: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, i
         setFiles(updatedFiles);
     }
 
+    const handleEditorMount = (editor) => {
+        const modifiedEditor = editor.getModifiedEditor();
+        modifiedEditor.onDidChangeModelContent(() => {
+            setModifiedContent(modifiedEditor.getValue())
+        });
+    };
+
+    useEffect(()=>{
+        handleEditorChange(modifiedContent);
+    }, [modifiedContent])
+
+
+    if(isFeedbackView){
+        const currentUserFile = userFiles[currentFileIndex];
+        return(
+            <DiffEditor
+                theme="customTheme"
+
+                height="100%"
+                className="min-h-[40vh]"
+                path={currentFile.name}
+                language={getLanguageFromFileName(currentFile.name)}
+                modified={atob(currentFile.contentBase64)}
+                original={atob(currentUserFile.contentBase64)}
+                onMount={handleEditorMount}
+                options={{
+                    minimap: { enabled: false },
+                    overviewRulerBorder: false,
+                    hideCursorInOverviewRuler: true,
+                }}
+
+            />
+        )
+    }
     return (
         <Editor
             theme="customTheme"

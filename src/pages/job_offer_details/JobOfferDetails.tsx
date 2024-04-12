@@ -5,7 +5,7 @@ import {useAuth} from "../../hooks/useAuth";
 import {getJobOfferById} from "../../services/JobOfferService";
 import JobOfferInfo from "../../components/job_offer_details/JobOfferInfo/JobOfferInfo";
 
-const JobOfferDetails = ({isCompany: boolean}) => {
+const JobOfferDetails = () => {
     const { id } = useParams<{ id: string }>();
     const [ jobOffer, setJobOffer ] = useState<JobOfferDetailsDTO>();
     const { accessToken } = useAuth();

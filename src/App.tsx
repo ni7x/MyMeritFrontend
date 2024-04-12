@@ -16,55 +16,58 @@ import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
 import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
-import {useAuth} from "./hooks/useAuth";
+import JobOfferSolutionsCompany from "./pages/job_offer_solutions_company/JobOfferSolutionsCompany";
 
 const App = () => {
-    const {isAuthenticatedCompany} = useAuth();
-
     return (
-    <>
-      <Navbar />
-      <MainWrapper>
-        <Routes>
-          <Route path="/" element={<Navigate to="/jobs" />} />
-          <Route path="/jobs" element={<Home />} />
-          <Route path="/mytasks/" element={<MyTasks />} />
-          <Route
-            path="/job/:id"
-            element={
-              <ProtectedRoute userContent={<JobOfferSolutionDetails/>}/>
-            }
-          />
-         <Route
-            path="/job/:id/solution"
-            element={
-                <ProtectedRoute
-                    userContent={<JobOfferSolutionDetails/>}
-                    //companyContent={"abc"}
-                />
-            }
-         />
-
-
-            <Route path="/users/:id" element={<UserProfile />} />
-
-          <Route
-            path="/rewards/"
-            element={
-              <ProtectedRoute>
-                <Rewards />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route path="/contact/" element={<Contact />} />
-          <Route path="/login/" element={<Login />} />
-          <Route path="/register/" element={<Register />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </MainWrapper>
-    </>
-  );
+        <>
+            <Navbar />
+            <MainWrapper>
+                <Routes>
+                    <Route path="/" element={<Navigate to="/jobs" />} />
+                    <Route path="/jobs" element={<Home />} />
+                    <Route path="/mytasks/" element={<MyTasks />} />
+                    <Route
+                        path="/job/:id"
+                        element={
+                            <ProtectedRoute userContent={<JobOfferDetails />} />
+                        }
+                    />
+                    <Route
+                        path="/job/:id/solution"
+                        element={
+                            <ProtectedRoute
+                                userContent={<JobOfferSolutionDetails />}
+                                //companyContent={"abc"}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/job/:jobId/solution/:solutionId"
+                        element={
+                            <ProtectedRoute
+                                companyContent={<JobOfferSolutionsCompany />}
+                                //companyContent={"abc"}
+                            />
+                        }
+                    />
+                    <Route path="/users/:id" element={<UserProfile />} />
+                    <Route
+                        path="/rewards/"
+                        element={
+                            <ProtectedRoute>
+                                <Rewards />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path="/contact/" element={<Contact />} />
+                    <Route path="/login/" element={<Login />} />
+                    <Route path="/register/" element={<Register />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </MainWrapper>
+        </>
+    );
 };
 
 export default App;

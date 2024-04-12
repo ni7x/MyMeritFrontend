@@ -2,13 +2,15 @@ import React from "react";
 import RunButton from "./RunButton";
 import Timer from "./Timer";
 
-const SolutionControls = ({currentFile, setCodeOutput, setLoading, files, input, taskTimeLimit, taskMemoryLimit, mainFileIndex, taskClosesAt, setIsClosed, submitSolution, isClosed,}) => {
+const SolutionControls = ({isFeedbackView, userFiles, currentFile, setCodeOutput, setLoading, files, input, taskTimeLimit, taskMemoryLimit, mainFileIndex, taskClosesAt, setIsClosed, submitSolution, isClosed,}) => {
     return (
         <div className="flex gap-3 flex-1">
             <div className="flex w-[60%] items-center gap-3 h-full text-sm justify-center rounded border-task-lighter">
                 <div className="flex w-[2.5rem] h-full rounded ">
                     <RunButton
                         file={currentFile}
+                        isFeedbackView={isFeedbackView}
+                        userFiles={userFiles}
                         setCodeOutput={setCodeOutput}
                         setLoading={setLoading}
                         files={files}
@@ -27,7 +29,7 @@ const SolutionControls = ({currentFile, setCodeOutput, setLoading, files, input,
                 onClick={submitSolution}
                 disabled={isClosed}
             >
-                SUBMIT SOLUTION
+                {isFeedbackView ? "SUBMIT FEEDBACK" : "SUBMIT SOLUTION"}
             </button>
         </div>
     );

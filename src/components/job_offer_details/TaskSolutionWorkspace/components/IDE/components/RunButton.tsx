@@ -7,12 +7,14 @@ import {faPlay} from "@fortawesome/free-solid-svg-icons";
 import {errorToast} from "../../../../../../main";
 import {getCompilation, getToken} from "../../../../../../services/JobOfferService";
 
-const RunButton: React.FC<{file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit, mainFileIndex}) => {
+const RunButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({isFeedbackView, userFiles, file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit, mainFileIndex}) => {
 
     const compileCode = async () => {
         setLoading(true);
         try {
-            const token = await getToken(userInput, files, mainFileIndex, file, timeLimit, memoryLimit);
+            const compiledFiles = isFeedbackView ? userFiles : files;
+            console.log(compiledFiles)
+            const token = await getToken(userInput, compiledFiles, mainFileIndex, file, timeLimit, memoryLimit);
             if (!token) {
                 return;
             }

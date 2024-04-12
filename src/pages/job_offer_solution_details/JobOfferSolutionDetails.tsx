@@ -1,76 +1,64 @@
-import React, {useEffect, useState} from "react";
-import {Navigate, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import TaskInfo from "../../components/job_offer_details/TaskInfo/TaskInfo";
 import TaskSolutionWorkspace from "../../components/job_offer_details/TaskSolutionWorkspace/TaskSolutionWorkspace";
-import {getJobOfferById} from "../../services/JobOfferService";
-import {useAuth} from "../../hooks/useAuth";
+import { getJobOfferById } from "../../services/JobOfferService";
+import { useAuth } from "../../hooks/useAuth";
 import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
 import TaskStatus from "../../models/TaskStatus";
+import CompanySolutions from "../../components/job_offer_details/CompanySolutions/CompanySolutions";
 
 const JobOfferSolutionDetails: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const [ jobOffer, setJobOffer ] = useState<JobOfferDetailsDTO>();
+    const { id: jobOfferId } = useParams<{ id: string }>();
+    const [jobOffer, setJobOffer] = useState<JobOfferDetailsDTO | null>(null);
     const { accessToken } = useAuth();
-    console.log(jobOffer);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if(accessToken){
-                    const response = await getJobOfferById(id!, accessToken);
+                if (accessToken && jobOfferId) {
+                    const response = await getJobOfferById(jobOfferId, accessToken);
                     if (response.ok) {
-                        setJobOffer(await response.json());
+                        const data = await response.json();
+                        setJobOffer(data);
                     }
-                }else{
-                    console.log("No token provided")
+                } else {
+                    console.log("No access token provided or job offer ID missing");
                 }
             } catch (error) {
-                console.error("Error fetching tasks:", error);
+                console.error("Error fetching job offer details:", error);
             }
         };
         fetchData();
-    }, []);
+    }, [accessToken, jobOfferId]);
 
-    if(jobOffer){
-        if(!jobOffer.task){
-            return <Navigate to={`/job/${id}`} />;
-        }
-        if(!jobOffer.task.userSolution && jobOffer.task.status !==  TaskStatus.OPEN){
-            return <Navigate to={`/job/${id}`} />;
-        }
-
-        if(jobOffer.solutions) {
-            return (
-                <div className="flex flex-col gap-[2rem] lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
-                    <TaskInfo
-                        task={jobOffer.task}
-                        solutionId={id}
-                    >
-                    </TaskInfo>
-                    {jobOffer.solutions.map(s => {
-                        return <p>{s}</p>
-                    })}
-
-                </div>
-            )
-        }
-
-        return (
-            <div className="flex flex-col gap-[2rem] lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
-                <TaskInfo
-                    task={jobOffer.task}
-                    solutionId={id}
-                >
-                </TaskInfo>
-                <TaskSolutionWorkspace
-                    jobId={jobOffer.id}
-                    task={jobOffer.task}
-                    isEditable={jobOffer.task.status == TaskStatus.OPEN}
-                >
-                </TaskSolutionWorkspace>
-            </div>
-        );
+    if (!jobOffer) {
+        return <p>Loading...</p>;
     }
+
+    const { task, solutions } = jobOffer;
+
+    if (!task || (task.status !== TaskStatus.OPEN && !task.userSolution)) {
+        return <Navigate to={`/job/${jobOfferId}`} />;
+    }
+
+    return (
+        <div className="flex flex-col gap-[2rem] lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
+            <TaskInfo task={task} solutionId={jobOfferId} />
+            {solutions ? (
+                <CompanySolutions
+                    solutions={solutions}
+                />
+            )
+            : (
+                <TaskSolutionWorkspace
+                    jobId={jobOfferId!}
+                    task={task}
+                    isEditable={task.status === TaskStatus.OPEN}
+                />
+            )}
+        </div>
+    );
 };
 
 export default JobOfferSolutionDetails;

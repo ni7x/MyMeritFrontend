@@ -11,16 +11,18 @@ interface MyEditorProps{
     isEditable: boolean;
 }
 
-const EditorAndViewer: React.FC<MyEditorProps> = ({files, currentFileIndex, setFiles, isEditable}) => {
+const EditorAndViewer: React.FC<MyEditorProps> = ({isFeedbackView, userFiles, files, currentFileIndex, setFiles, isEditable}) => {
     const currentFile = files[currentFileIndex];
 
     if(currentFile.type === ContentType.TXT){
         return (
             <MyEditor
                 currentFileIndex={currentFileIndex}
+                userFiles={userFiles}
                 setFiles={setFiles}
                 isEditable={isEditable}
                 files={files}
+                isFeedbackView={isFeedbackView}
             />
         )
     }else{

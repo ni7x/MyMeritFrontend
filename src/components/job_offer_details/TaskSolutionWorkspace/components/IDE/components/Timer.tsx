@@ -6,6 +6,10 @@ const Timer = ({taskClosesAt, setIsClosed}) => {
     const [timeRemaining, setTimeRemaining] = useState("");
 
     useEffect(() => {
+        if(!timeRemaining){
+            setTimeRemaining("Closed");
+            return;
+        }
         const updateTimeRemaining = () => {
             const differenceInSeconds = Math.ceil(
                 (new Date(taskClosesAt) - new Date()) / 1000
@@ -30,10 +34,11 @@ const Timer = ({taskClosesAt, setIsClosed}) => {
         return () => clearInterval(intervalId);
     }, [taskClosesAt, setTimeRemaining]);
 
+
     return(
         <div className="flex gap-5 w-full bg-terminal-color rounded h-full justify-center items-center font-medium">
             <p>
-                <FontAwesomeIcon icon={faClock} className="mr-1 text-slate-200"/> {timeRemaining}
+                <FontAwesomeIcon icon={faClock} className="mr-1 text-slate-200"/>{timeRemaining}
             </p>
         </div>
     )

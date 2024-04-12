@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 
-const ProtectedRoute = ({ userContent, companyContent }: { userContent: React.ReactNode, companyContent?: React.ReactNode  }) => {
+const ProtectedRoute = ({ userContent, companyContent }: { userContent?: React.ReactNode, companyContent?: React.ReactNode  }) => {
   const { isAuthenticated, isAuthenticatedCompany } = useAuth();
   useEffect(() => {
     if (!isAuthenticated()) {

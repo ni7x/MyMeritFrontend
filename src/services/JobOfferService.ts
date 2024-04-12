@@ -121,6 +121,28 @@ const submitSolution = async (jobId: string, files: MyFile[], token: string) => 
     }
 }
 
+const submitFeedback = async (solutionId: string, files: MyFile[], credits: number, token: string) => {
+    const URL = import.meta.env.VITE_API_URL + "/solution/" + solutionId;
+    const data = new FormData();
+    for (const file of files) {
+        const fileBlob = await b64toBlob(file.contentBase64, file.type);
+        const fileObject = new File([fileBlob], file.name, {type: file.type});
+        data.append("files", fileObject);
+    }
+    data.append("credits", credits.toString());
+    try {
+        return await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: data
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 
 const downloadFiles = async (jobId: string, token: string): Promise<Response> => {
     const URL = import.meta.env.VITE_API_URL+ "/job/solutions/" + jobId;
@@ -137,4 +159,19 @@ const downloadFiles = async (jobId: string, token: string): Promise<Response> =>
     }
 }
 
-export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFiles }
+const downloadSolutionFiles = async (solutionId: string, token: string): Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL+ "/solution/" + solutionId;
+    try {
+        return await fetch(URL, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFiles, downloadSolutionFiles, submitFeedback }

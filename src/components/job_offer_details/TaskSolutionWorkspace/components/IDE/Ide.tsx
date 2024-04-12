@@ -13,7 +13,7 @@ interface IdeProps {
     setFiles: (files: MyFile[]) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex, isEditable}) => {
+const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex, isEditable, isFeedback}) => {
     const [output, setCodeOutput] = useState<CodeExecutionOutput>(null);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -23,13 +23,15 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
 
     return (
         <div className="flex flex-col md:flex-col flex-grow flex-1 gap-3 h-full max-h-[calc(100%-40px)] ">
-                <div className={"min-h-[40vh] flex-1"}>
+                <div className="min-h-[40vh] flex-1">
                     <EditorAndViewer
                         files={files}
+                        userFiles={userFiles}
                         currentFileIndex={currentFileIndex}
                         setFiles={setFiles}
                         isMaxSize={isMaxSize}
                         isEditable={isEditable}
+                        isFeedbackView={isFeedbackView}
                     />
                     <FileControls
                         currentFile={currentFile}
@@ -58,6 +60,8 @@ const Ide: React.FC<IdeProps>= ({files, currentFileIndex, setFiles, submitSoluti
                             mainFileIndex={mainFileIndex}
                             taskClosesAt={taskClosesAt}
                             setIsClosed={setIsClosed}
+                            isFeedbackView={isFeedbackView}
+                            userFiles={userFiles}
                             submitSolution={submitSolution}
                             isClosed={isClosed}
                         />
