@@ -14,6 +14,8 @@ class UserTaskDTO {
         public timeLimit: number,
         public status: TaskStatus,
         public userSolution: Solution,
+        public testData: Map<string, string>,
+        public testFileContentBase64: string
     ) {}
 }
 

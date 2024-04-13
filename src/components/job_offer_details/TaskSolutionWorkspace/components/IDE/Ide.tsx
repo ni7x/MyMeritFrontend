@@ -13,7 +13,7 @@ interface IdeProps {
     setFiles: (files: MyFile[]) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex, isEditable, isFeedback}) => {
+const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIndex, setFiles, submitSolution, taskClosesAt, taskMemoryLimit, taskTimeLimit, setAsMain, mainFileIndex, isEditable,  taskTestFileContent, taskTestDataMap, taskId}) => {
     const [output, setCodeOutput] = useState<CodeExecutionOutput>(null);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -40,6 +40,7 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIn
                         setIsMaxSize={setIsMaxSize}
                         setAsMain={setAsMain}
                         isMaxSize={isMaxSize}
+
                     />
                 </div>
                 <div className={"flex w-full gap-3 h-[40%] flex-col md:flex-row " + (isMaxSize ? " flex lg:hidden " : " flex")}>
@@ -64,6 +65,9 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIn
                             userFiles={userFiles}
                             submitSolution={submitSolution}
                             isClosed={isClosed}
+                            taskTestDataMap={taskTestDataMap}
+                            taskId={taskId}
+                            taskTestFileContent={taskTestFileContent}
                         />
                         <TerminalInput
                             setInput={setInput}

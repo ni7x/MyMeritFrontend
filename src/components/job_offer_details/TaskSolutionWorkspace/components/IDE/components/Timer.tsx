@@ -6,10 +6,7 @@ const Timer = ({taskClosesAt, setIsClosed}) => {
     const [timeRemaining, setTimeRemaining] = useState("");
 
     useEffect(() => {
-        if(!timeRemaining){
-            setTimeRemaining("Closed");
-            return;
-        }
+
         const updateTimeRemaining = () => {
             const differenceInSeconds = Math.ceil(
                 (new Date(taskClosesAt) - new Date()) / 1000

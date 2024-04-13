@@ -21,7 +21,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
     const [mainFileIndex, setMainFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
     const currentFile = files[currentFileIndex];
-
+    console.log(task)
     useEffect(() => {
         const initializeFiles = async () => {
             if (task.userSolution) {
@@ -173,8 +173,11 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                         setAsMain={withErrorHandling(setAsMain)}
                         taskClosesAt={task.closesAt}
                         taskTimeLimit={task.timeLimit}
-                        taskMemoryLimit={task.memoryLimit}
+                        taskMemoryLimit={task.memoryLimit} //zamienic na jeden task to wszystko
+                        taskTestFileContent={task.testFileContentBase64}
+                        taskTestDataMap={task.testData}
                         isEditable={isEditable}
+
                     />
                 </div>
             )}

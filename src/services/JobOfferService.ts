@@ -2,7 +2,7 @@ import TaskPreview from "../models/TaskPreview";
 import {QueryParams} from "../models/QueryParams";
 import MyFile from "../models/MyFile";
 import {buildURL} from "../components/home_job_offers/URLHelper";
-import {generateEncodedZip} from "../components/job_offer_details/TaskSolutionWorkspace/utils/fileUtils";
+import {ContentType, generateEncodedZip} from "../components/job_offer_details/TaskSolutionWorkspace/utils/fileUtils";
 import {errorToast} from "../main";
 import CodeExecutionOutput from "../models/CodeExecutionOutput";
 
@@ -36,6 +36,43 @@ const getJobOfferById = async (jobOfferId: string, token: string): Promise<Respo
         console.error('Error:', error);
     }
 }
+
+export const getTestToken = async (files: MyFile[], testFileContent: string, taskId: string) => {
+    try {
+        const testFile = new MyFile("testmain.cpp", ContentType.TXT ,testFileContent)
+        const filesToCompile = [...files, testFile]
+
+        let fileContentBase64;
+        try {
+            fileContentBase64 = await generateEncodedZip(filesToCompile, testFile);
+        } catch (zipError) {
+            errorToast("Main file is not compilable");
+            return null;
+        }
+
+        const response = await fetch("http://localhost:8080/test/task/" + taskId, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fileName: "testmain.cpp",
+                fileContentBase64: fileContentBase64,
+            })
+        });
+
+        if (!response.ok) {
+            console.log(response)
+            errorToast("Error fetching token");
+            return null;
+        }
+
+        return await response.text();
+    } catch (error) {
+        errorToast("Error fetching token");
+        return null;
+    }
+};
 
 export const getToken = async (userInput: string, files: MyFile[], mainFileIndex: number, file: MyFile, timeLimit: number, memoryLimit: number) => {
     try {
