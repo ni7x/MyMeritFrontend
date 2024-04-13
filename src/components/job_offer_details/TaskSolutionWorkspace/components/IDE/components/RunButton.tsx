@@ -1,20 +1,19 @@
 import React from "react";
 import MyFile from "../../../../../../models/MyFile";
 import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
-import {generateEncodedZip} from "../../../utils/fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
 import {errorToast} from "../../../../../../main";
 import {getCompilation, getTestToken, getToken} from "../../../../../../services/JobOfferService";
 
-const RunButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({isFeedbackView, userFiles, file, files, setCodeOutput, setLoading, userInput, timeLimit, memoryLimit, mainFileIndex, taskTestFileContent, taskId}) => {
+const RunButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({isFeedbackView, userFiles, file, files, setCodeOutput, setLoading, userInput,  mainFileIndex, task}) => {
 
     const compileCode = async () => {
         setLoading(true);
         try {
             const compiledFiles = isFeedbackView ? userFiles : files;
             console.log(compiledFiles)
-            const token = await getToken(userInput, compiledFiles, mainFileIndex, file, timeLimit, memoryLimit);
+            const token = await getToken(userInput, compiledFiles, mainFileIndex, file, task.timeLimit, task.memoryLimit);
             if (!token) {
                 return;
             }
@@ -33,7 +32,7 @@ const RunButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (
         setLoading(true);
         try {
             const compiledFiles = isFeedbackView ? userFiles : files;
-            const response = await getTestToken(compiledFiles, taskTestFileContent, taskId);
+            const response = await getTestToken(compiledFiles, task.testFileContentBase64, task.id);
 
             console.log(response)
         } catch (error) {

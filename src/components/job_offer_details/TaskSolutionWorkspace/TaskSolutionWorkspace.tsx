@@ -15,13 +15,15 @@ const cookies = new Cookies();
 
 const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEditable: boolean }> = ({ jobId, task, isEditable }) => {
     const {accessToken} = useAuth();
+    const currentTaskCookies = cookies.get(jobId);
+
     const [files, setFiles] = useState<MyFile[]>([]);
     const [filesFetched, setFilesFetched] = useState(false);
-    const currentTaskCookies = cookies.get(jobId);
     const [mainFileIndex, setMainFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
     const [currentFileIndex, setCurrentFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
+
     const currentFile = files[currentFileIndex];
-    console.log(task)
+
     useEffect(() => {
         const initializeFiles = async () => {
             if (task.userSolution) {
@@ -167,17 +169,11 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                         currentFileIndex={currentFileIndex}
                         setFiles={withErrorHandling(setFiles)}
                         addFile={withErrorHandling(addFile)}
-                        taskId={task.id}
                         mainFileIndex={mainFileIndex}
                         submitSolution={withErrorHandling(submit)}
                         setAsMain={withErrorHandling(setAsMain)}
-                        taskClosesAt={task.closesAt}
-                        taskTimeLimit={task.timeLimit}
-                        taskMemoryLimit={task.memoryLimit} //zamienic na jeden task to wszystko
-                        taskTestFileContent={task.testFileContentBase64}
-                        taskTestDataMap={task.testData}
+                        task={task}
                         isEditable={isEditable}
-
                     />
                 </div>
             )}

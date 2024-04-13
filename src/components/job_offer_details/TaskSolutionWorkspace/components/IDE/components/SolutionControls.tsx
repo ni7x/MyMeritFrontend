@@ -2,7 +2,7 @@ import React from "react";
 import RunButton from "./RunButton";
 import Timer from "./Timer";
 
-const SolutionControls = ({isFeedbackView, userFiles, currentFile, setCodeOutput, setLoading, files, input, taskTimeLimit, taskMemoryLimit, mainFileIndex, taskClosesAt, setIsClosed, submitSolution, isClosed,taskTestFileContent, taskTestDataMap, taskId}) => {
+const SolutionControls = ({isFeedbackView, userFiles, currentFile, setCodeOutput, setLoading, files, input, mainFileIndex, taskClosesAt, setIsClosed, submitSolution, isClosed, task}) => {
     return (
         <div className="flex gap-3 flex-1">
             <div className="flex w-[60%] items-center gap-3 h-full text-sm justify-center rounded border-task-lighter">
@@ -15,12 +15,8 @@ const SolutionControls = ({isFeedbackView, userFiles, currentFile, setCodeOutput
                         setLoading={setLoading}
                         files={files}
                         userInput={input}
-                        timeLimit={taskTimeLimit}
-                        memoryLimit={taskMemoryLimit}
                         mainFileIndex={mainFileIndex}
-                        taskTestDataMap={taskTestDataMap}
-                        taskTestFileContent={taskTestFileContent}
-                        taskId={taskId}
+                        task={task}
                     />
                 </div>
                 <div className="flex bg-terminal-color h-full flex-1 py-2.5">

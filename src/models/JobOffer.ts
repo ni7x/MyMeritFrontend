@@ -28,4 +28,4 @@ class JobOffer {
     ) {}
 }
 
-export default JobOffer;
+export default     JobOffer;
