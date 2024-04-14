@@ -16,6 +16,8 @@ import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
 import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
+import TaskAddingBasic from "./pages/add_task/TaskAddingBasic";
+import TaskAddingExtra from "./pages/add_task/TaskAddingExtra";
 
 const App = () => {
 
@@ -60,6 +62,8 @@ const App = () => {
           <Route path="/contact/" element={<Contact />} />
           <Route path="/login/" element={<Login />} />
           <Route path="/register/" element={<Register />} />
+          <Route path="/newtask/" element={<TaskAddingBasic />} />
+          <Route path="/newtaskextra/" element={<TaskAddingExtra />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainWrapper>

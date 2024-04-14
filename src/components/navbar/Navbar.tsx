@@ -36,6 +36,12 @@ const Navbar: React.FC = () => {
             </li>
           )}
 
+          {user && (
+              <li>
+                <Link to="/newtask">new task</Link>
+              </li>
+          )}
+
           <li className="ml-auto">
             {user ? (
               <button onClick={signOut}>sign out</button>
