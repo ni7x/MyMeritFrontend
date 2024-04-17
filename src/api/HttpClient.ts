@@ -1,3 +1,5 @@
+import Cookies from "universal-cookie";
+
 export type HttpResponse<T> = {
   success: boolean;
   data: T[];
@@ -14,13 +16,18 @@ type HttpCallParams<T extends HttpMethod = HttpMethod> = {
   body?: T extends RequiredBodyHttpMethod ? unknown : undefined;
 };
 
-export async function httpCall<Data>({
+export async function httpCall<HttpResponse>({
   url,
   method,
   body,
-}: HttpCallParams): Promise<Data> {
+}: HttpCallParams): Promise<HttpResponse> {
+  const cookies = new Cookies();
+  const user = cookies.get("user");
+  const accessToken = user?.accessToken;
+
   const headers = {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${accessToken}`,
   };
 
   const response = await fetch(url, {
@@ -29,6 +36,10 @@ export async function httpCall<Data>({
     credentials: "include",
     body: JSON.stringify(body),
   });
+
+  if (!response.ok) {
+    throw new Error("Error");
+  }
 
   return await response.json();
 }
