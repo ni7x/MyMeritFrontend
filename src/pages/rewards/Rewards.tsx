@@ -1,31 +1,43 @@
 import React, { useEffect, useState } from "react";
-import Reward from "../../models/Reward";
 import AvailableRewards from "../../components/rewards/AvailableRewards";
 import { getPurchaseHistory, getRewards } from "../../services/RewardService";
+import { getUser } from "../../services/UserService";
+import User from "../../types/User";
 import SecondWrapper from "../../components/SecondWrapper";
 import PurchaseHistory from "../../components/rewards/PurchaseHistory";
-import PurchasedReward from "../../models/PurchasedReward";
-
+import Reward from "../../types/Reward";
+import PurchasedReward from "../../types/PurchasedReward";
 import { useAuth } from "../../hooks/useAuth";
+import { purchaseReward } from "../../services/RewardService";
 
-const Rewards: React.FC = () => {
-  const [availableRewards, setAvailableRewards] = useState<any[]>([]);
+const Rewards = () => {
+  const [availableRewards, setAvailableRewards] = useState<Reward[]>([]);
   const [purchaseHistory, setPurchaseHistory] = useState<PurchasedReward[]>([]);
-
-  const { isAuthenticated, user } = useAuth();
-
-  const currentBalance = 200;
-
   const [isHistoryTab, setIsHistoryTab] = useState(false);
+  const [user, setUser] = useState<User | undefined>();
 
-  const purchaseReward = () => {};
+  const onPurchase = (rewardId: string) => {
+    purchaseReward(rewardId).then(() => {
+      getUser().then((user) => setUser(user));
+      getRewards().then((rewards) => {
+        setAvailableRewards(rewards);
+      });
+      getPurchaseHistory().then((history) => {
+        setPurchaseHistory(history);
+      });
+    });
+  };
 
   useEffect(() => {
+    getUser().then((user) => setUser(user));
+
     getRewards().then((rewards) => {
       setAvailableRewards(rewards);
     });
 
-    setPurchaseHistory(getPurchaseHistory);
+    getPurchaseHistory().then((history) => {
+      setPurchaseHistory(history);
+    });
   }, []);
 
   return (
@@ -53,7 +65,7 @@ const Rewards: React.FC = () => {
           {" "}
           Balance:{" "}
           <span className="text-merit-credits-color ml-2 font-semibold">
-            {currentBalance} MC
+            {user ? user.points : ""} MC
           </span>
         </h2>
       </div>
@@ -63,7 +75,8 @@ const Rewards: React.FC = () => {
       ) : (
         <AvailableRewards
           rewards={availableRewards}
-          currentBalance={currentBalance}
+          currentBalance={user ? user.points : 0}
+          onPurchase={onPurchase}
         />
       )}
     </SecondWrapper>

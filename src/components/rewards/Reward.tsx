@@ -1,21 +1,13 @@
-import { Reward as RewardDTO } from "../../models/Reward";
+import { Reward as RewardDTO } from "../../types/Reward";
 import React, { useState } from "react";
-import rewardImg from "../../assets/reward-placeholder.png";
-import steamImg from "../../assets/steam-reward.jpg";
 import baseImg from "../../assets/reward-base.jpg";
-import amazonImg from "../../assets/amazon-reward.png";
-import paypalImg from "../../assets/paypal-reward.png";
 
-// const randomImages = [steamImg, amazonImg, paypalImg];
-
-const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
-  reward,
-  currentBalance,
-}) => {
+const Reward: React.FC<{
+  reward: RewardDTO;
+  currentBalance: number;
+  onPurchase: (rewardsId: string) => void;
+}> = ({ reward, currentBalance, onPurchase }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  console.log(reward);
-
   return (
     <li
       className={
@@ -51,7 +43,7 @@ const Reward: React.FC<{ reward: RewardDTO; currentBalance: number }> = ({
             <button
               className="font-medium text-sm py-2 mr-1 px-4 rounded bg-emerald-500"
               onClick={() => {
-                alert("xd");
+                onPurchase(reward.id);
                 setIsPopupOpen(false);
               }}
             >

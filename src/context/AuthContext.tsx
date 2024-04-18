@@ -47,6 +47,7 @@ type Error = {
 
 type AuthContext = {
   user: CookieUser;
+  accessToken: string | null;
   isAuthenticated: () => boolean;
   // isAuthenticatedCompany: () => boolean;
   signIn: ({ email, password }: UserSignIn) => boolean;

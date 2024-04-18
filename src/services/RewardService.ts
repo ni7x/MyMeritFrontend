@@ -1,57 +1,10 @@
-import Reward from "../models/Reward";
-import PurchasedReward from "../models/PurchasedReward";
+import Reward from "../types/Reward";
+import PurchasedReward from "../types/PurchasedReward";
 
 import { httpCall } from "../api/HttpClient";
 
-// const getRewards = (): Reward[] => {
-//   return [
-//     new Reward(
-//       "1",
-//       "Sample Reward 1",
-//       "Description of sample reward 1 Description of sample reward 1",
-//       100,
-//       "img1.jpg"
-//     ),
-//     new Reward(
-//       "2",
-//       "Sample Reward 2",
-//       "Description of sample reward 2",
-//       200,
-//       "img2.jpg"
-//     ),
-//     new Reward(
-//       "3",
-//       "Sample Reward 3",
-//       "Description of sample reward 3",
-//       300,
-//       "img3.jpg"
-//     ),
-//     new Reward(
-//       "3",
-//       "Sample Reward 4",
-//       "Description of sample reward 3",
-//       200,
-//       "img3.jpg"
-//     ),
-//     new Reward(
-//       "3",
-//       "Sample Reward 5",
-//       "Description of sample reward 3",
-//       100,
-//       "img3.jpg"
-//     ),
-//     new Reward(
-//       "3",
-//       "Sample Reward 6",
-//       "Description of sample reward 3",
-//       400,
-//       "img3.jpg"
-//     ),
-//   ];
-// };
-
-const getRewards = async (): Promise<any[]> => {
-  const data = await httpCall<any[]>({
+const getRewards = async (): Promise<Reward[]> => {
+  const data = await httpCall<Reward[]>({
     url: import.meta.env.VITE_API_URL + "/rewards",
     method: "GET",
   });
@@ -59,31 +12,18 @@ const getRewards = async (): Promise<any[]> => {
   return data;
 };
 
-const getPurchaseHistory = (): PurchasedReward[] => {
-  return [
-    new PurchasedReward(
-      "1",
-      new Reward("1", "Reward 1", "Description 1", 100, "img1.jpg"),
-      new Date("2024-01-01")
-    ),
-    new PurchasedReward(
-      "2",
-      new Reward("2", "Reward 2", "Description 2", 200, "img2.jpg"),
-      new Date("2024-01-02")
-    ),
-    new PurchasedReward(
-      "3",
-      new Reward("3", "Reward 3", "Description 3", 300, "img3.jpg"),
-      new Date("2024-01-03")
-    ),
-  ];
+const getPurchaseHistory = (): Promise<PurchasedReward[]> => {
+  return httpCall<PurchasedReward[]>({
+    url: import.meta.env.VITE_API_URL + "/me/rewards",
+    method: "GET",
+  });
 };
 
-// const getPurchaseHistory = (): Promise<any[]> => {
-//   return httpCall<any[]>({
-//     url: import.meta.env.VITE_API_URL + "/rewards-history/purchase-history",
-//     method: "GET",
-//   });
-// };
+const purchaseReward = (rewardId: string): Promise<any> => {
+  return httpCall<any>({
+    url: import.meta.env.VITE_API_URL + `/me/purchase/${rewardId}`,
+    method: "POST",
+  });
+};
 
-export { getRewards, getPurchaseHistory };
+export { getRewards, getPurchaseHistory, purchaseReward };
