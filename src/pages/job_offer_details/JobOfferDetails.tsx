@@ -14,9 +14,7 @@ const JobOfferDetails = () => {
             try {
                 if(accessToken){
                     const response = await getJobOfferById(id!, accessToken);
-                    if (response.ok) {
-                        setJobOffer(await response.json());
-                    }
+                    setJobOffer(response);
                 }else{
                     console.log("No token provided")
                 }

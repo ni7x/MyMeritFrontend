@@ -7,11 +7,11 @@ import { useAuth } from "../../hooks/useAuth";
 import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
 import TaskStatus from "../../models/TaskStatus";
 import CompanySolutions from "../../components/job_offer_details/solution_list/CompanySolutions";
-import TaskFeedbackDetails from "../job_offer_solutions_company/TaskFeedbackDetails";
 import TaskFeedbackWorkspace from "../../components/job_offer_details/feedback_workspace/TaskFeedbackWorkspace";
 
 const TaskSolutionDetails: React.FC = () => {
     const {id: jobOfferId} = useParams<{ id: string }>();
+    const {solutionId: solutionId} = useParams<{ solutionId: string }>();
     const [jobOffer, setJobOffer] = useState<JobOfferDetailsDTO | null>(null);
     const {accessToken} = useAuth();
 
@@ -20,10 +20,7 @@ const TaskSolutionDetails: React.FC = () => {
             try {
                 if (accessToken && jobOfferId) {
                     const response = await getJobOfferById(jobOfferId, accessToken);
-                    if (response.ok) {
-                        const data = await response.json();
-                        setJobOffer(data);
-                    }
+                    setJobOffer(response);
                 } else {
                     console.log("No access token provided or job offer ID missing");
                 }
@@ -63,7 +60,7 @@ const TaskSolutionDetails: React.FC = () => {
                         task={task}
                         isEditable={false}
                         originalUserFiles={task.userSolution}
-                    />
+                     solutionId={solutionId!}/>
                 )
                 :(
                     <TaskSolutionWorkspace

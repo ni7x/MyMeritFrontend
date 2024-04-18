@@ -38,11 +38,8 @@ const Home: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await getHomeJobOffers(queryParams);
-        if (response.ok) {
-          const json = await response.json();
-          setMaxPage(json.totalPages);
-          setJobOffers(json.content);
-        }
+        setMaxPage(response.totalPages);
+        setJobOffers(response.content);
       } catch (error) {
         console.error("Error fetching jobOffers:", error);
       }

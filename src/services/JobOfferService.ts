@@ -5,16 +5,15 @@ import {buildURL} from "../components/home_job_offers/URLHelper";
 import {ContentType, generateEncodedZip} from "../components/editor_workspace/utils/fileUtils";
 import {errorToast} from "../main";
 import CodeExecutionOutput from "../models/CodeExecutionOutput";
+import {httpCall, httpCallWithAuthorization} from "../api/HttpClient";
+import JobOfferDetailsDTO from "../models/dtos/JobOfferDetailsDTO";
 
 const getHomeJobOffers = async (params: QueryParams) : Promise<Response> => {
     const URL = import.meta.env.VITE_API_URL + buildURL(params);
-    try {
-        return await fetch(URL, {
-            method: 'GET',
-        });
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    return await httpCall<Response>({
+        url: URL,
+        method: 'GET',
+    });
 };
 
 
@@ -22,20 +21,16 @@ const getUserTasks = (userId: string): TaskPreview[] => {
     return [];
 }
 
-const getJobOfferById = async (jobOfferId: string, token: string): Promise<Response> => {
-    const URL = import.meta.env.VITE_API_URL+ "/job/" + jobOfferId;
-    try {
-        return await fetch(URL, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-        });
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
+const getJobOfferById = async (jobOfferId: string, token: string): Promise<JobOfferDetailsDTO> => {
+    const URL = import.meta.env.VITE_API_URL + '/job/' + jobOfferId;
+
+    return await httpCallWithAuthorization<JobOfferDetailsDTO>({
+        token,
+        url: URL,
+        method: 'GET',
+    });
+
+};
 
 export const getTestToken = async (files: MyFile[], testFileContent: string, taskId: string) => {
     try {
@@ -137,7 +132,7 @@ const b64toBlob = (base64, type = 'application/octet-stream') =>
     fetch(`data:${type};base64,${base64}`).then(res => res.blob())
 
 const submitSolution = async (jobId: string, files: MyFile[], token: string) => {
-    const URL = import.meta.env.VITE_API_URL + "/job/solution/" + jobId;
+    const URL = import.meta.env.VITE_API_URL + "/job/" + jobId + "/solution";
     const data = new FormData();
 
     for (const file of files) {
@@ -182,7 +177,7 @@ const submitFeedback = async (solutionId: string, files: MyFile[], credits: numb
 
 
 const downloadFiles = async (jobId: string, token: string): Promise<Response> => {
-    const URL = import.meta.env.VITE_API_URL+ "/job/solutions/" + jobId;
+    const URL = import.meta.env.VITE_API_URL+ "/job/" + jobId + "/solution";
     try {
         return await fetch(URL, {
             method: 'GET',

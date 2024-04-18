@@ -20,11 +20,9 @@ const TaskFeedbackDetails: React.FC = () => {
             try {
                 if (accessToken && solutionId) {
                     const response = await downloadSolutionFiles(solutionId, accessToken);
-                    if (response.ok) {
+                    if (response) {
                         const fetchedFiles = await response.json();
                         setSolutionFiles(fetchedFiles);
-                    } else {
-                        console.error('Error downloading files:', response.statusText);
                     }
                 } else {
                     console.log("No access token provided or solution ID missing");
@@ -41,9 +39,9 @@ const TaskFeedbackDetails: React.FC = () => {
             try {
                 if (accessToken && jobId) {
                     const response = await getJobOfferById(jobId, accessToken);
-                    if (response.ok) {
-                        const data = await response.json();
-                        setTask(data.task);
+                    if (response) {
+
+                        setTask(response.task);
                     }
                 } else {
                     console.log("No access token provided or job offer ID missing");

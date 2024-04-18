@@ -63,6 +63,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
             try {
                 if(accessToken){
                     const response = await submitSolution(jobId, files, accessToken);
+                    console.log(response)
                     if (response.ok) {
                         successToast("Solution submitted");
                     }

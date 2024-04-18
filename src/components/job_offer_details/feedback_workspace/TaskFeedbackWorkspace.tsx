@@ -54,7 +54,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ originalU
                 if(accessToken){
                     const response = await submitFeedback(solutionId, files, 0, accessToken);
                     if (response.ok) {
-                        successToast("Solution submitted");
+                        successToast("Feedback submitted");
                     }
                 }else{
                     errorToast("Invalid access token");
@@ -67,7 +67,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ originalU
     };
 
     return (
-        <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
+        <div className="flex flex-col w-full  items-end h-auto">
             {currentFile && (
                 <div className="flex flex-col w-full h-full">
                     <EditorWorkspace

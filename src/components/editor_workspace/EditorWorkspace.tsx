@@ -113,7 +113,7 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({files,
     };
 
     return (
-        <div className="flex flex-col w-full items-end h-auto">
+        <div className="flex flex-col w-full items-end h-full ">
             {currentFile && (
                 <div className="flex flex-col w-full h-full">
                     <FileTabManager

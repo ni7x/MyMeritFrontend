@@ -1,8 +1,9 @@
 import React from "react";
 import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
 import { decodeBase64 } from "../../../utils/fileUtils";
+import TestOutput from "../../../../../models/TestOutput";
 
-const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput | null>> }> = ({ output, loading, setOutput }) => {
+const TerminalOutput: React.FC<{ output: CodeExecutionOutput; testOutput: TestOutput; loading: boolean; setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput | null>> }> = ({ output, testOutput, loading, setOutput }) => {
     const renderErrorMessage = (message) => <span className="text-red-500">{message}</span>;
 
     const renderOutput = (output: CodeExecutionOutput) => {
@@ -11,7 +12,6 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; 
         const stderrMessage = output.stderr ? decodeBase64(output.stderr) : null;
         const defaultMessage = output.status.description;
         const allOutputsNull = !stdoutMessage && !compileOutputMessage && !stderrMessage;
-        console.log(output)
         return (
             <div className="flex flex-col h-full justify-between">
                 <div>
@@ -36,6 +36,14 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; 
         );
     };
 
+    const renderTestOutput = (testOutput: TestOutput) => {
+        return (
+            <div className="flex flex-col h-full justify-between">
+              Test <b>{testOutput.name}</b> {testOutput.passed ? "passed": "failed"}
+            </div>
+        );
+    };
+
     return (
         <div className="flex flex-1 flex-col bg-terminal-color overflow-hidden rounded">
             <div className="flex justify-between text-task-lighter text-xs font-normal mx-4 mt-4 md:mx-2 md:mt-2">
@@ -46,7 +54,14 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; 
             </div>
             <div className="flex flex-1 max-h-[27vh] text-wrap bg-blue w-full text-wrap break-all">
                 <pre className="leading-[1.25rem] font-sans font-normal overflow-x-hidden overflow-y-auto text-sm w-full text-wrap break-all md:px-2 md:mt-1 md:mx-2 md:ml-0 p-4 md:p-0">
-                    {loading ? "Loading please wait..." : output ? renderOutput(output) : ""}
+                    {loading ?
+                        "Loading please wait..." :
+                        testOutput ?
+                            renderTestOutput(testOutput) :
+                            output ?
+                                renderOutput(output) :
+                                ""
+                    }
                 </pre>
             </div>
         </div>

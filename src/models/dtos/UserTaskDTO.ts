@@ -1,6 +1,7 @@
 import Solution from "../Solution";
 import TaskStatus from "../TaskStatus";
 import Feedback from "../Feedback";
+import Test from "../Test";
 
 class UserTaskDTO {
     constructor(
@@ -16,8 +17,7 @@ class UserTaskDTO {
         public status: TaskStatus,
         public userSolution: Solution,
         public companyFeedback: Feedback,
-        public testData: Map<string, string>,
-        public testFileContentBase64: string
+        public tests: Test[]
     ) {}
 }
 

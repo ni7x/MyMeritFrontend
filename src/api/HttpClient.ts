@@ -1,3 +1,5 @@
+import {errorToast} from "../main";
+
 export type HttpResponse<T> = {
   success: boolean;
   data: T[];
@@ -13,11 +15,17 @@ type HttpCallParams<T extends HttpMethod = HttpMethod> = {
   method: T;
   body?: T extends RequiredBodyHttpMethod ? unknown : undefined;
 };
+type HttpCallWithAuthorizationParams<T extends HttpMethod = HttpMethod> = {
+  url: string;
+  method: T;
+  body?: T extends RequiredBodyHttpMethod ? unknown : undefined;
+  token?: string;
+};
 
 export async function httpCall<Data>({
   url,
   method,
-  body,
+  body, //token
 }: HttpCallParams): Promise<Data> {
   const headers = {
     "Content-Type": "application/json",
@@ -32,3 +40,31 @@ export async function httpCall<Data>({
 
   return await response.json();
 }
+
+export async function httpCallWithAuthorization<Data>({
+                                       token,
+                                       url,
+                                       method,
+                                       body,
+
+                                     }: HttpCallWithAuthorizationParams): Promise<Data> {
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization" : `Bearer ${token}`
+  };
+
+  const response = await fetch(url, {
+    method: method,
+    headers,
+    credentials: "include",
+    body: JSON.stringify(body),
+  });
+
+  if(!response.ok){
+    errorToast(response.status)
+    return;
+  }
+
+  return await response.json();
+}
+

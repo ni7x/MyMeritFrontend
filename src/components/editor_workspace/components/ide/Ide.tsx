@@ -9,6 +9,9 @@ import FileControls from "./components/FileControls";
 import RunButton from "./components/RunButton";
 import Timer from "./components/Timer";
 import TestButton from "./components/TestButton";
+import TestsAndInput from "./components/TestsAndInput";
+import TestInterface from "./components/TestInterface";
+import TestOutput from "../../../../models/TestOutput";
 
 interface IdeProps {
     files: MyFile[];
@@ -18,6 +21,8 @@ interface IdeProps {
 
 const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent, files, currentFileIndex, setFiles, submitSolution, setAsMain, mainFileIndex, isEditable, task}) => {
     const [output, setCodeOutput] = useState<CodeExecutionOutput>(null);
+    const [testOutput, setTestOutput] = useState<TestOutput>(null);
+
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [isMaxSize, setIsMaxSize] = useState(false);
@@ -49,6 +54,7 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent,
                     <TerminalOutput
                         output={output}
                         loading={loading}
+                        testOutput={testOutput}
                         setOutput={setCodeOutput}
                     />
                     <div className="flex md:flex-col flex-col-reverse w-full md:w-1/2 gap-3 h-full">
@@ -73,21 +79,21 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent,
                                />
                            }
                            submitButton={submitComponent}
-                           testButton={
-                                <TestButton
-                                   file={currentFile}
-                                   isFeedbackView={isFeedbackView}
-                                   originalFiles={originalFiles}
-                                   setCodeOutput={setCodeOutput}
-                                   setLoading={setLoading}
-                                   files={files}
-                                   task={task}
-                               />
-                           }
                         />
-                        <TerminalInput
-                            setInput={setInput}
-                            input={input}
+                        <TestsAndInput
+                            terminalInput={
+                                <TerminalInput
+                                    setInput={setInput}
+                                    input={input}
+                                />}
+                            testInterface={
+                                <TestInterface
+                                    files={files}
+                                    setTestOutput={setTestOutput}
+                                    setLoading={setLoading}
+                                    task={task}
+                                />
+                            }
                         />
                     </div>
                 </div>
