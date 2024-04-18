@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AvailableRewards from "../../components/rewards/AvailableRewards";
 import { getPurchaseHistory, getRewards } from "../../services/RewardService";
 import { getUser } from "../../services/UserService";

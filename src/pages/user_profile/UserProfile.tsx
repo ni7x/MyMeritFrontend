@@ -1,21 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getUserById, getUserSocials } from "../../services/UserService";
+import { getUser, getUserSocials } from "../../services/UserService";
 import UserInfo from "../../components/user_profile/UserInfo";
 import UserRewards from "../../components/user_profile/UserRewards";
 import UserTasks from "../../components/user_profile/UserTasks";
 import SecondWrapper from "../../components/SecondWrapper";
-
-type User = {
-  id_user: string;
-  username: string;
-  email: string;
-  points: number;
-  role: string;
-  description: string;
-  image_small: string;
-  image_big: string;
-};
+import User from "../../types/User";
 
 type Social = {
   id_social_user: string;
@@ -28,15 +18,18 @@ type Social = {
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [socials, setSocials] = useState<Social[] | null>(null);
 
-  if (!id) return <p>User not found</p>;
-
   useEffect(() => {
-    setUser(getUserById(id));
-    setSocials(getUserSocials(id));
+    getUser().then((user) => {
+      if (user === null) {
+        navigate("/login");
+        return;
+      }
+      setUser(user);
+      // setSocials(getUserSocials(user.id));
+    });
   }, []);
 
   if (user === null) return <p>User not found</p>;
@@ -45,7 +38,7 @@ const UserProfile = () => {
     <SecondWrapper>
       <div className="p-8">
         <div className="grid md:grid-cols-2 gap-8 mb-8">
-          <UserInfo user={user} socials={socials} />
+          <UserInfo user={user} />
           <UserRewards user={user} />
         </div>
         <UserTasks />

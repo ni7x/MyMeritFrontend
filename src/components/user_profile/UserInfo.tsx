@@ -1,17 +1,7 @@
 import UserHeader from "./UserHeader";
 import UserBody from "./UserBody";
 import UserSection from "./UserSection";
-
-type User = {
-  id_user: string;
-  username: string;
-  email: string;
-  points: number;
-  role: string;
-  description: string;
-  image_small: string;
-  image_big: string;
-};
+import User from "../../types/User";
 
 type Social = {
   id_social_user: string;
@@ -27,18 +17,19 @@ const UserInfo = ({
   socials,
 }: {
   user: User;
-  socials: Social[] | null;
+  socials?: Social[] | undefined;
 }) => {
   return (
     <UserSection>
       <UserHeader
-        imageSmall={user.image_small}
-        imageBig={user.image_big}
+        imageSmall={user.imageUrl}
+        // imageBig={user.imageBig}
         username={user.username}
         email={user.email}
         role={user.role}
+        points={user.points}
       />
-      <UserBody description={user.description} socials={socials} />
+      <UserBody description={user.description} />
     </UserSection>
   );
 };

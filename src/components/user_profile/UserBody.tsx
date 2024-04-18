@@ -22,7 +22,7 @@ const UserBody = ({
   socials,
 }: {
   description: string;
-  socials: Social[] | null;
+  socials?: Social[] | undefined;
 }) => {
   const getSocialIcon = (id_icon: string) => {
     switch (id_icon) {
@@ -38,10 +38,10 @@ const UserBody = ({
   };
 
   return (
-    <div className="px-12 py-4">
-      <div className="w-full justify-start align-center flex flex-row gap-4 py-2">
-        {socials !== null &&
-          socials.map((social: Social) => {
+    <>
+      {socials != undefined && (
+        <div className="w-full justify-start align-center flex flex-row gap-4 py-6 px-6">
+          {socials.map((social: Social) => {
             return (
               <a
                 href={social.social_media_link}
@@ -57,17 +57,22 @@ const UserBody = ({
               </a>
             );
           })}
-      </div>
-      <p className="text-sm text-gray-400 py-2">
-        {description.substring(0, DESCRIPTION_LENGTH)}{" "}
-        {description.length >= DESCRIPTION_LENGTH && "..."}
-      </p>
+        </div>
+      )}
+
+      {description != undefined && (
+        <p className="text-sm text-gray-400 py-6 px-6">
+          {description.substring(0, DESCRIPTION_LENGTH)}{" "}
+          {description.length >= DESCRIPTION_LENGTH && "..."}
+        </p>
+      )}
+
       <div className="absolute top-0 right-0 p-4">
         <button className="text-md leading-none opacity-70 bg-main-darker p-2 rounded-lg text-gray-200 hover:text-main-darker hover:bg-white hover:opacity-100 transition-all">
           <FontAwesomeIcon icon={faEdit} />
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
