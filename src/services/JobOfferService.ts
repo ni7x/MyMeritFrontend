@@ -2,7 +2,7 @@ import TaskPreview from "../models/TaskPreview";
 import {QueryParams} from "../models/QueryParams";
 import MyFile from "../models/MyFile";
 import {buildURL} from "../components/home_job_offers/URLHelper";
-import {ContentType, generateEncodedZip} from "../components/job_offer_details/TaskSolutionWorkspace/utils/fileUtils";
+import {ContentType, generateEncodedZip} from "../components/editor_workspace/utils/fileUtils";
 import {errorToast} from "../main";
 import CodeExecutionOutput from "../models/CodeExecutionOutput";
 

@@ -1,4 +1,4 @@
-import MyFile from "../../../../models/MyFile";
+import MyFile from "../../../models/MyFile";
 import JSZip from "jszip";
 import languagesData from "./extension-scripts-map.json";
 import extensionToLanguage from "./language-extension-map.json";

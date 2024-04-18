@@ -9,14 +9,14 @@ import NotFound from "./pages/not_found/NotFound";
 import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
 import Register from "./pages/login/Register";
-import JobOfferSolutionDetails from "./pages/job_offer_solution_details/JobOfferSolutionDetails";
+import TaskSolutionDetails from "./pages/job_offer_solution_details/TaskSolutionDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainWrapper from "./components/MainWrapper";
 import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
 import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
-import JobOfferSolutionsCompany from "./pages/job_offer_solutions_company/JobOfferSolutionsCompany";
+import TaskFeedbackDetails from "./pages/job_offer_solutions_company/TaskFeedbackDetails";
 
 const App = () => {
     return (
@@ -37,7 +37,7 @@ const App = () => {
                         path="/job/:id/solution"
                         element={
                             <ProtectedRoute
-                                userContent={<JobOfferSolutionDetails />}
+                                userContent={<TaskSolutionDetails />}
                                 //companyContent={"abc"}
                             />
                         }
@@ -46,7 +46,7 @@ const App = () => {
                         path="/job/:jobId/solution/:solutionId"
                         element={
                             <ProtectedRoute
-                                companyContent={<JobOfferSolutionsCompany />}
+                                companyContent={<TaskFeedbackDetails />}
                                 //companyContent={"abc"}
                             />
                         }

@@ -2,7 +2,7 @@ import React from "react";
 import {faLocationDot, faDollarSign, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import logoPlaceholder from "../../../assets/logo-placeholder.png";
-import TaskStatusDisplay from "../TaskInfo/TaskStatusDisplay";
+import TaskStatusDisplay from "../task_info/TaskStatusDisplay";
 import JobOfferDetailsDTO from "../../../models/dtos/JobOfferDetailsDTO";
 
 const JobOfferInfo:React.FC<{jobOffer: JobOfferDetailsDTO}> = ({jobOffer}) => {

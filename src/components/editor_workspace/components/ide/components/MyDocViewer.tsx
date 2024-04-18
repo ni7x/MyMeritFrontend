@@ -1,5 +1,5 @@
 import React from "react";
-import MyFile from "../../../../../../models/MyFile";
+import MyFile from "../../../../../models/MyFile";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 interface MyDocViewerProps{

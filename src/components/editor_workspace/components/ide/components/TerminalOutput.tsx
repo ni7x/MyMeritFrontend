@@ -1,5 +1,5 @@
 import React from "react";
-import CodeExecutionOutput from "../../../../../../models/CodeExecutionOutput";
+import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
 import { decodeBase64 } from "../../../utils/fileUtils";
 
 const TerminalOutput: React.FC<{ output: CodeExecutionOutput; loading: boolean; setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput | null>> }> = ({ output, loading, setOutput }) => {

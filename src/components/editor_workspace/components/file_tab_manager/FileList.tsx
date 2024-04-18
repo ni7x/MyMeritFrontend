@@ -1,6 +1,6 @@
 import FileChangeButton from "./FileChangeButton";
 import React from "react";
-import MyFile from "../../../../../../models/MyFile";
+import MyFile from "../../../../models/MyFile";
 
 interface FileListProps {
     files: MyFile[];

@@ -1,61 +1,30 @@
+import MyFile from "../../models/MyFile";
+import UserTaskDTO from "../../models/dtos/UserTaskDTO";
 import React, {useEffect, useState} from "react";
-import MyFile from "../../../models/MyFile";
-import Ide from "./components/IDE/Ide";
-import FileTabManager from "./components/FileTabManager/FileTabManager";
-import Cookies from "universal-cookie";
+import {getContentType} from "./utils/fileUtils";
+import FileTabManager from "./components/file_tab_manager/FileTabManager";
+import Ide from "./components/ide/Ide";
+import {errorToast} from "../../main";
 
-import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
-import {useAuth} from "../../../hooks/useAuth";
-import {downloadFiles, submitSolution} from "../../../services/JobOfferService";
-import {ContentType, getContentType} from "./utils/fileUtils";
-import {errorToast, successToast} from "../../../main";
-import {mergeFilesWithCookies, serializeFiles} from "./solutionFunctions";
+interface EditorWorkspaceProps {
+    files: MyFile[];
+    originalFiles?: MyFile[];
+    task?: UserTaskDTO;
+    isEditable: boolean;
+    isFeedbackView: boolean;
+}
 
-const cookies = new Cookies();
-
-const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEditable: boolean }> = ({ jobId, task, isEditable }) => {
-    const {accessToken} = useAuth();
-    const currentTaskCookies = cookies.get(jobId);
-
-    const [files, setFiles] = useState<MyFile[]>([]);
-    const [filesFetched, setFilesFetched] = useState(false);
-    const [mainFileIndex, setMainFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
-    const [currentFileIndex, setCurrentFileIndex] = useState<number>(currentTaskCookies ? currentTaskCookies.mainFileIndex : 0);
-
+const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({files,
+                                                          setFiles,
+                                                          originalFiles,
+                                                          isEditable,
+                                                          isFeedbackView = false,
+                                                          task,
+                                                          submitComponent
+                                                         }) => {
+    const [currentFileIndex, setCurrentFileIndex] = useState<number>(0);
+    const [mainFileIndex, setMainFileIndex] = useState<number>(0);
     const currentFile = files[currentFileIndex];
-
-    useEffect(() => {
-        const initializeFiles = async () => {
-            if (task.userSolution) {
-                try {
-                    const response = await downloadFiles(jobId, accessToken);
-                    if (response.ok) {
-                        const fetchedFiles = await response.json();
-                        const mergedFiles = currentTaskCookies ? mergeFilesWithCookies(fetchedFiles, currentTaskCookies) : fetchedFiles;
-                        setFiles(mergedFiles);
-                        setFilesFetched(true);
-                    } else {
-                        console.error('Error downloading files:', response.statusText);
-                    }
-                } catch (error) {
-                    console.error('Error fetching solution files:', error);
-                }
-            } else if (currentTaskCookies) {
-                setFiles(currentTaskCookies.files.map(file => new MyFile(file.name, file.type, file.contentBase64)));
-                setFilesFetched(true);
-            }else{
-                setFiles([new MyFile("main.cpp", ContentType.TXT, "")]);
-                setFilesFetched(true);
-            }
-        };
-        initializeFiles();
-    }, [task, accessToken]);
-
-    useEffect(() => {
-        if (filesFetched) {
-            cookies.set(jobId, serializeFiles(files, jobId, mainFileIndex),  { expires: new Date(task.closesAt) });
-        }
-    }, [files, jobId, filesFetched, mainFileIndex]);
 
     const withErrorHandling = (func) => (...args) => {
         try {
@@ -135,44 +104,39 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
     const submit = () => {
         const fetchData = async () => {
             try {
-                if(accessToken){
-                    const response = await submitSolution(jobId, files, accessToken);
-                    if (response.ok) {
-                        successToast("Solution submitted");
-                    }
-                }else{
-                    errorToast("Invalid access token");
-                }
+                // Logic to submit solution or feedback based on isFeedbackView
             } catch (error) {
-                errorToast("Credentials expired");
+                errorToast("An error occurred while submitting");
             }
         };
         fetchData();
     };
 
     return (
-        <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
+        <div className="flex flex-col w-full items-end h-auto">
             {currentFile && (
                 <div className="flex flex-col w-full h-full">
                     <FileTabManager
-                        addFile={withErrorHandling(addFile)}
+                        addFile={addFile}
                         removeFile={withErrorHandling(removeFile)}
                         renameFile={withErrorHandling(renameFile)}
                         currentFile={currentFile}
                         files={files}
                         mainFileIndex={mainFileIndex}
-                        getFileByName={getFileByName}
+                        getFileByName={withErrorHandling(getFileByName)}
                         setCurrentFileByName={withErrorHandling(setCurrentFileByName)}
                     />
                     <Ide
                         files={files}
+                        originalFiles={originalFiles}
+                        isFeedbackView={isFeedbackView}
                         currentFileIndex={currentFileIndex}
-                        setFiles={withErrorHandling(setFiles)}
-                        addFile={withErrorHandling(addFile)}
+                        setFiles={setFiles}
+                        submitComponent={submitComponent}
                         mainFileIndex={mainFileIndex}
-                        submitSolution={withErrorHandling(submit)}
-                        setAsMain={withErrorHandling(setAsMain)}
+                        submitSolution={submit}
                         task={task}
+                        setAsMain={setAsMain}
                         isEditable={isEditable}
                     />
                 </div>
@@ -181,4 +145,4 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
     );
 };
 
-export default TaskSolutionWorkspace;
+export default EditorWorkspace;

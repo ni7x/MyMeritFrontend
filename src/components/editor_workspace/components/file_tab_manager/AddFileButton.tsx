@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {fileToBase64} from "../../../utils/fileUtils";
+import {fileToBase64} from "../../utils/fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileUpload, faPlus} from "@fortawesome/free-solid-svg-icons";
 

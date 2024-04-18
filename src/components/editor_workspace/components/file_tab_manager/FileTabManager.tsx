@@ -1,5 +1,5 @@
-import FileList from "./components/FileList";
-import AddFileButton from "./components/AddFileButton";
+import FileList from "./FileList";
+import AddFileButton from "./AddFileButton";
 
 const FileTabManager = ({files, currentFile, setCurrentFileByName, addFile, removeFile, getFileByName, renameFile, mainFileIndex}) => {
     return(

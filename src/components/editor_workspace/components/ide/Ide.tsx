@@ -1,11 +1,14 @@
 import EditorAndViewer from "./components/EditorAndViewer";
 import TerminalOutput from "./components/TerminalOutput";
 import React, {useState} from "react";
-import MyFile from "../../../../../models/MyFile";
+import MyFile from "../../../../models/MyFile";
 import TerminalInput from "./components/TerminalInput";
-import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
+import CodeExecutionOutput from "../../../../models/CodeExecutionOutput";
 import SolutionControls from "./components/SolutionControls";
 import FileControls from "./components/FileControls";
+import RunButton from "./components/RunButton";
+import Timer from "./components/Timer";
+import TestButton from "./components/TestButton";
 
 interface IdeProps {
     files: MyFile[];
@@ -13,7 +16,7 @@ interface IdeProps {
     setFiles: (files: MyFile[]) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIndex, setFiles, submitSolution, setAsMain, mainFileIndex, isEditable, task}) => {
+const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent, files, currentFileIndex, setFiles, submitSolution, setAsMain, mainFileIndex, isEditable, task}) => {
     const [output, setCodeOutput] = useState<CodeExecutionOutput>(null);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -26,7 +29,7 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIn
                 <div className="min-h-[40vh] flex-1">
                     <EditorAndViewer
                         files={files}
-                        userFiles={userFiles}
+                        originalFiles={originalFiles}
                         currentFileIndex={currentFileIndex}
                         setFiles={setFiles}
                         isMaxSize={isMaxSize}
@@ -50,18 +53,37 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, userFiles, files, currentFileIn
                     />
                     <div className="flex md:flex-col flex-col-reverse w-full md:w-1/2 gap-3 h-full">
                         <SolutionControls
-                            currentFile={currentFile}
-                            setCodeOutput={setCodeOutput}
-                            setLoading={setLoading}
-                            files={files}
-                            input={input}
-                            mainFileIndex={mainFileIndex}
-                            setIsClosed={setIsClosed}
-                            isFeedbackView={isFeedbackView}
-                            userFiles={userFiles}
-                            submitSolution={submitSolution}
-                            isClosed={isClosed}
-                            task={task}
+                           timer={
+                                <Timer
+                                    taskClosesAt={task.closesAt}
+                                    setIsClosed={setIsClosed}
+                                />
+                           }
+                           runButton={
+                                <RunButton
+                                   file={currentFile}
+                                   isFeedbackView={isFeedbackView}
+                                   originalFiles={originalFiles}
+                                   setCodeOutput={setCodeOutput}
+                                   setLoading={setLoading}
+                                   files={files}
+                                   userInput={input}
+                                   mainFileIndex={mainFileIndex}
+                                   task={task}
+                               />
+                           }
+                           submitButton={submitComponent}
+                           testButton={
+                                <TestButton
+                                   file={currentFile}
+                                   isFeedbackView={isFeedbackView}
+                                   originalFiles={originalFiles}
+                                   setCodeOutput={setCodeOutput}
+                                   setLoading={setLoading}
+                                   files={files}
+                                   task={task}
+                               />
+                           }
                         />
                         <TerminalInput
                             setInput={setInput}
