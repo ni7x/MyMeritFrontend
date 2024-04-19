@@ -3,7 +3,7 @@ import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
 import { decodeBase64 } from "../../../utils/fileUtils";
 import TestOutput from "../../../../../models/TestOutput";
 
-const TerminalOutput: React.FC<{ output: CodeExecutionOutput; testOutput: TestOutput; loading: boolean; setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput | null>> }> = ({ output, testOutput, loading, setOutput }) => {
+const TerminalOutput: React.FC<{ output: CodeExecutionOutput; testOutput: TestOutput[]; loading: boolean; setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput | null>> }> = ({ output, testOutput, loading, setOutput }) => {
     const renderErrorMessage = (message) => <span className="text-red-500">{message}</span>;
 
     const renderOutput = (output: CodeExecutionOutput) => {
@@ -36,10 +36,20 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; testOutput: TestOu
         );
     };
 
-    const renderTestOutput = (testOutput: TestOutput) => {
+    const renderTestOutput = (testOutput: TestOutput[]) => {
+        const totalPassed = testOutput.filter(test => test.passed).length;
         return (
-            <div className="flex flex-col h-full justify-between">
-              Test <b>{testOutput.name}</b> {testOutput.passed ? "passed": "failed"}
+            <div className="flex flex-col h-full gap-3">
+                {totalPassed} / {testOutput.length} passed
+                {testOutput.map((test)=>{
+                    return (
+                        <p className={"w-full flex gap-3 " + (test.passed ? "text-emerald-400": "text-red-500")}>
+                            <span>Test <span className="font-medium">{test.name}</span></span>
+                            {test.passed ? "passed": "failed"}
+                        </p>
+                    )
+
+                })}
             </div>
         );
     };

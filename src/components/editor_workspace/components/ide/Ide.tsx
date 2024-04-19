@@ -20,14 +20,24 @@ interface IdeProps {
 }
 
 const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent, files, currentFileIndex, setFiles, submitSolution, setAsMain, mainFileIndex, isEditable, task}) => {
-    const [output, setCodeOutput] = useState<CodeExecutionOutput>(null);
-    const [testOutput, setTestOutput] = useState<TestOutput>(null);
+    const [output, setCOutput] = useState<CodeExecutionOutput>(null);
+    const [testOutput, setTOutput] = useState<TestOutput[]>(null);
 
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [isMaxSize, setIsMaxSize] = useState(false);
     const [isClosed, setIsClosed] = useState(false);
     const currentFile = files[currentFileIndex];
+
+    const setCodeOutput = (inp) =>{
+        setCOutput(inp);
+        setTOutput(null);
+    }
+
+    const setTestOutput = (inp) =>{
+        setTOutput(inp);
+        setCOutput(null);
+    }
 
     return (
         <div className="flex flex-col md:flex-col flex-grow flex-1 gap-3 h-full max-h-[calc(100%-40px)] ">
@@ -92,6 +102,7 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent,
                                     setTestOutput={setTestOutput}
                                     setLoading={setLoading}
                                     task={task}
+                                    mainFileIndex={mainFileIndex}
                                 />
                             }
                         />

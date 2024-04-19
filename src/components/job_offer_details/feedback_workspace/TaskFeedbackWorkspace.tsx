@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MyFile from "../../../models/MyFile";
 import {errorToast, successToast} from "../../../main";
-import {submitFeedback} from "../../../services/JobOfferService";
+import {downloadFeedbackFiles, downloadSolutionFiles, submitFeedback} from "../../../services/JobOfferService";
 import {mergeFilesWithCookies, serializeFiles} from "../../editor_workspace/utils/cookieFunctions";
 import {useAuth} from "../../../hooks/useAuth";
 import Cookies from "universal-cookie";
@@ -10,7 +10,7 @@ import FeedbackButton from "./FeedbackButton";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 
 interface TaskFeedbackWorkspaceProps {
-    originalUserFiles: MyFile[];
+
     solutionId: string;
     isEditable: boolean;
     task: UserTaskDTO;
@@ -18,9 +18,9 @@ interface TaskFeedbackWorkspaceProps {
 
 const cookies = new Cookies();
 
-const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ originalUserFiles, solutionId, isEditable, task }) => {
+const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionId, isEditable, task }) => {
     const [files, setFiles] = useState<MyFile[]>([]);
-    const [originalFiles] = useState<MyFile[]>(originalUserFiles);
+    const [originalFiles, setOriginalFiles] = useState<MyFile[]>([]);
     const [filesFetched, setFilesFetched] = useState(false);
     const [mainFileIndex] = useState<number>( 0);
     const [currentFileIndex] = useState<number>( 0);
@@ -30,20 +30,34 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ originalU
 
     useEffect(() => {
         const initializeFiles = async () => {
+            const response = await downloadSolutionFiles(solutionId, accessToken);
+            const feedback = await downloadFeedbackFiles(solutionId, accessToken);
+            if (response.ok) {
+                const fetchedFiles = await response.json();
+                console.log(fetchedFiles)
+                setOriginalFiles(fetchedFiles);
+            }
+            if (feedback.ok) {
+                const fetchedFiles = await feedback.json();
+                setFiles(fetchedFiles);
+            }
+
             const currentFeedbackCookies = cookies.get("solution-" + solutionId)
             if (currentFeedbackCookies) {
                     setFiles(currentFeedbackCookies.files.map(file => new MyFile(file.name, file.type, file.contentBase64)));
                     setFilesFetched(true)
-            }else{
-                setFiles(originalUserFiles);
-                setFilesFetched(true)
+            }
+
+            if(files.length == 0){
+                setFiles(originalFiles)
             }
         };
         initializeFiles();
     }, [solutionId, accessToken]);
 
     useEffect(() => {
-        if(filesFetched)
+        console.log(originalFiles)
+        if(filesFetched && files)
             cookies.set("solution-" + solutionId, serializeFiles(files, solutionId, mainFileIndex), { });
     }, [files, mainFileIndex]);
 
@@ -78,9 +92,15 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ originalU
                         originalFiles={originalFiles}
                         task={task}
                         submitComponent={
-                            <FeedbackButton
-                                submit={submit}
-                            />
+                            isEditable ?
+                                <FeedbackButton
+                                    submit={submit}
+                                />
+                                :
+                                <p className="flex  gap-1 justify-center items-center bg-terminal-color text-sm font-medium rounded w-1/2 text-white"
+                                >
+                                     <span className="text-merit-credits-color">{task.companyFeedback?.credits}  MC</span>
+                                </p>
                         }
                     />
                 </div>

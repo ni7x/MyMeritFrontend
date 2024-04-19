@@ -3,7 +3,7 @@ import MyFile from "../../../../../models/MyFile";
 import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
 
 import {errorToast} from "../../../../../main";
-import {getTestToken} from "../../../../../services/JobOfferService";
+import {testAll} from "../../../../../services/JobOfferService";
 
 const TestButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({isFeedbackView, originalFiles, files, setCodeOutput, setLoading, task}) => {
 
@@ -11,7 +11,7 @@ const TestButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: 
         setLoading(true);
         try {
             const compiledFiles = isFeedbackView ? originalFiles : files;
-            const response = await getTestToken(compiledFiles, task.testFileContentBase64, task.id);
+            const response = await testAll(compiledFiles, task.testFileContentBase64, task.id);
             console.log(response)
         } catch (error) {
             errorToast("Error compiling code");

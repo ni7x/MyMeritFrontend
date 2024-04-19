@@ -29,7 +29,7 @@ const RunButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (
     }
 
     return (
-        <div class="flex w-full gap-2">
+        <div className="flex w-full gap-2">
             <button
                 className="text-emerald-400 py-2.5 w-full border-[3px] border-emerald-400 rounded hover:bg-emerald-400 hover:text-black hover:duration-150 "
                 onClick={compileCode}

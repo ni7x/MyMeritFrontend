@@ -1,7 +1,7 @@
 class Feedback {
     constructor(
         public files: string[],
-        public points: number,
+        public credits: number,
     ) {}
 }
 

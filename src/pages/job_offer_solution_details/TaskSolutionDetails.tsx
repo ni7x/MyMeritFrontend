@@ -11,7 +11,6 @@ import TaskFeedbackWorkspace from "../../components/job_offer_details/feedback_w
 
 const TaskSolutionDetails: React.FC = () => {
     const {id: jobOfferId} = useParams<{ id: string }>();
-    const {solutionId: solutionId} = useParams<{ solutionId: string }>();
     const [jobOffer, setJobOffer] = useState<JobOfferDetailsDTO | null>(null);
     const {accessToken} = useAuth();
 
@@ -59,8 +58,8 @@ const TaskSolutionDetails: React.FC = () => {
                         jobId={jobOfferId!}
                         task={task}
                         isEditable={false}
-                        originalUserFiles={task.userSolution}
-                     solutionId={solutionId!}/>
+                        solutionId={task.userSolution.id}
+                    />
                 )
                 :(
                     <TaskSolutionWorkspace

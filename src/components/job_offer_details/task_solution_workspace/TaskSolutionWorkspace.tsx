@@ -77,6 +77,8 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
         fetchData();
     };
 
+    console.log(task)
+
     return (
         <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
             {currentFile && (
@@ -85,7 +87,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                         files={files}
                         setFiles={setFiles}
                         isEditable={isEditable}
-                        isFeedbackView={false}
+                        isFeedbackView={task.companyFeedback !== null}
                         task={task}
                         submitComponent={
                             <SubmitButton

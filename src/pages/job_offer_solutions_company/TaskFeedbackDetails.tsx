@@ -13,26 +13,6 @@ const TaskFeedbackDetails: React.FC = () => {
     const { jobId } = useParams<{ jobId: string }>();
     const [ task, setTask] = useState<UserTaskDTO>();
     const { accessToken } = useAuth();
-    const [ solutionFiles, setSolutionFiles] = useState<MyFile[]>();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (accessToken && solutionId) {
-                    const response = await downloadSolutionFiles(solutionId, accessToken);
-                    if (response) {
-                        const fetchedFiles = await response.json();
-                        setSolutionFiles(fetchedFiles);
-                    }
-                } else {
-                    console.log("No access token provided or solution ID missing");
-                }
-            } catch (error) {
-                console.error("Error fetching job offer details:", error);
-            }
-        };
-        fetchData();
-    }, [accessToken, solutionId]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,7 +20,6 @@ const TaskFeedbackDetails: React.FC = () => {
                 if (accessToken && jobId) {
                     const response = await getJobOfferById(jobId, accessToken);
                     if (response) {
-
                         setTask(response.task);
                     }
                 } else {
@@ -54,11 +33,10 @@ const TaskFeedbackDetails: React.FC = () => {
     }, [accessToken, jobId]);
 
 
-    if(solutionFiles && task){
+    if(task){
         return(
             <div className="flex flex-col gap-[2rem] lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
                 <TaskFeedbackWorkspace
-                    originalUserFiles={solutionFiles}
                     solutionId={solutionId!}
                     isEditable={true}
                     task={task}

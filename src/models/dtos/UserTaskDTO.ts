@@ -16,8 +16,9 @@ class UserTaskDTO {
         public timeLimit: number,
         public status: TaskStatus,
         public userSolution: Solution,
-        public companyFeedback: Feedback,
-        public tests: Test[]
+        public tests: Test[],
+        public companyFeedback?: Feedback,
+
     ) {}
 }
 

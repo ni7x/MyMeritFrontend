@@ -32,10 +32,12 @@ const getJobOfferById = async (jobOfferId: string, token: string): Promise<JobOf
 
 };
 
-export const getTestToken = async (files: MyFile[], testFileContent: string, taskId: string) => {
+export const testAll = async (files: MyFile[], testFileContent: string, taskId: string, language: string, mainFileIndex: number) => {
     try {
+        const filez = [...files];
+        filez.splice(mainFileIndex, 1);
         const testFile = new MyFile("testmain.cpp", ContentType.TXT ,testFileContent)
-        const filesToCompile = [...files, testFile]
+        const filesToCompile = [...filez, testFile]
 
         let fileContentBase64;
         try {
@@ -45,14 +47,14 @@ export const getTestToken = async (files: MyFile[], testFileContent: string, tas
             return null;
         }
 
-        const response = await fetch("http://localhost:8080/test/task/" + taskId, {
+        const response = await fetch("http://localhost:8080/test/task/" + taskId + "/language/" + language, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 fileName: "testmain.cpp",
-                fileContentBase64: fileContentBase64,
+                fileContentBase64: fileContentBase64
             })
         });
 
@@ -62,7 +64,7 @@ export const getTestToken = async (files: MyFile[], testFileContent: string, tas
             return null;
         }
 
-        return await response.text();
+        return await response.json();
     } catch (error) {
         errorToast("Error fetching token");
         return null;
@@ -206,4 +208,21 @@ const downloadSolutionFiles = async (solutionId: string, token: string): Promise
     }
 }
 
-export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFiles, downloadSolutionFiles, submitFeedback }
+const downloadFeedbackFiles = async (solutionId: string, token: string): Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL+ "/solution/" + solutionId + "/feedback";
+    try {
+        return await fetch(URL, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+
+export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFiles, downloadSolutionFiles, submitFeedback, downloadFeedbackFiles }

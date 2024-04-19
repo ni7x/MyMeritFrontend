@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobOfferList from "../../components/home_job_offers/JobOfferList";
 import {getHomeJobOffers} from "../../services/JobOfferService";
-import {useLocation, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import Pagination from "../../components/home_job_offers/Pagination";
 import FilterPanel from "../../components/home_job_offers/FilterPanel";
 import {defaultQueryParams, QueryParams} from "../../models/QueryParams";
