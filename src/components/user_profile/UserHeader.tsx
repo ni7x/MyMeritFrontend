@@ -1,4 +1,6 @@
 import myMeritLogo from "../../assets/mymerit_logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const UserHeader = ({
   imageSmall,
@@ -22,7 +24,7 @@ const UserHeader = ({
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-main-darker"></div>
           <div className="absolute top-0 left-0 p-4 flex flex-col gap-2">
             <div className="px-2 py-1 opacity-80 rounded-lg text-sm font-semibold text-black bg-white">
-              Points: {points}
+              Points: {points ?? 0}
             </div>
           </div>
           <div className="h-40">
@@ -33,15 +35,24 @@ const UserHeader = ({
             />
           </div>
           <div className="absolute w-full flex justify-left px-4 align-center bottom-[-3.5rem]">
-            <img
-              src={imageSmall ?? myMeritLogo}
-              alt="avatar"
-              className="h-28 w-28 rounded-full border-2 border-main-darker border-solid object-cover"
-            />
+            <div className="h-24 w-24 rounded-full">
+              {imageSmall ? (
+                <img
+                  src={imageSmall}
+                  alt="avatar"
+                  className="w-full h-full rounded-full border-2 border-main-darker border-solid object-cover"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  className="w-full h-full text-6xl text-white"
+                  icon={faCircleUser}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
-      <div className="w-full text-left px-4">
+      <div className="w-full text-left px-4 pt-2">
         <div className="text-2xl text-white font-semibold flex flex-row gap-2 items-center">
           <p>{username}</p>
           <p

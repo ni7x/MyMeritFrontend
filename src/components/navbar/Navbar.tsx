@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { getUser } from "../../services/UserService";
@@ -9,15 +9,23 @@ import {
   faCircleUser,
   faClockRotateLeft,
   faRightToBracket,
+  faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
-import myMeritLogo from "../../assets/mymerit_logo.png";
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const { isAuthenticated, userData, signOut } = useAuth();
+  // const { user, setUser } = useState<User | null>(null);
   const location = useLocation();
 
+  // useEffect(() => {
+  //   getUser().then((user: User) => {
+  //     setUser(user);
+  //     console.log(user);
+  //   });
+  // }, []);
+
   if (location.pathname === "/login" || location.pathname === "/register") {
-    return null;
+    return;
   }
 
   return (
@@ -90,7 +98,7 @@ const Navbar: React.FC = () => {
                       className="w-full hover:translate-x-1 transition-all w-max transition-duration-200 flex flex-row gap-2 justify-left items-center"
                     >
                       <FontAwesomeIcon
-                        className="max-w-full"
+                        className="w-4 h-4"
                         icon={faCircleUser}
                       />
                       <p className="text-sm whitespace-nowrap">Your account</p>
@@ -99,7 +107,8 @@ const Navbar: React.FC = () => {
                       to="/rewards"
                       className="w-full hover:translate-x-1 transition-all transition-duration-200 flex flex-row gap-2 justify-left items-center"
                     >
-                      <FontAwesomeIcon icon={faClockRotateLeft} />
+                      {/* <FontAwesomeIcon icon={faClockRotateLeft} /> */}
+                      <FontAwesomeIcon icon={faReceipt} className="w-4 h-4" />
                       <p className="text-sm whitespace-nowrap">
                         Purchase history
                       </p>

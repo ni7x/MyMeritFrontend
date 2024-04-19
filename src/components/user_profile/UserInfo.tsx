@@ -15,9 +15,11 @@ type Social = {
 const UserInfo = ({
   user,
   socials,
+  onEdit,
 }: {
   user: User;
   socials?: Social[] | undefined;
+  onEdit: () => void;
 }) => {
   return (
     <UserSection>
@@ -29,7 +31,7 @@ const UserInfo = ({
         role={user.role}
         points={user.points}
       />
-      <UserBody description={user.description} />
+      <UserBody description={user.description} onEdit={onEdit} />
     </UserSection>
   );
 };

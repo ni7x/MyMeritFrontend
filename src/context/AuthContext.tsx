@@ -171,6 +171,9 @@ const useAuthProvider = () => {
   useEffect(() => {
     if (cookies.get("user")) {
       setUser(cookies.get("user"));
+      getUser().then((userData) => {
+        setUserData(userData);
+      });
     }
   }, []);
 

@@ -27,13 +27,13 @@ const UserRewards = ({ user }: { user: User }) => {
         </div>
         <div className="w-full relative">
           <p className="text-sm text-gray-500 py-2">
-            {purchaseHistory.length &&
+            {purchaseHistory.length != 0 &&
               purchaseHistory.slice(0, 2).map((purchasedReward, index) => {
                 return (
                   <PurchasedReward key={index} purchase={purchasedReward} />
                 );
               })}
-            {purchaseHistory.length && (
+            {purchaseHistory.length != 0 && (
               <div className="absolute w-full h-32 bottom-5 left-0 bg-gradient-to-b from-transparent to-main-darker"></div>
             )}
             {purchaseHistory.length === 0 && (
