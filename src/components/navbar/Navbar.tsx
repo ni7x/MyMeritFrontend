@@ -95,7 +95,7 @@ const Navbar = () => {
 
                     <Link
                       to="/profile"
-                      className="w-full hover:translate-x-1 transition-all w-max transition-duration-200 flex flex-row gap-2 justify-left items-center"
+                      className="hover:opacity-70 transition-all w-max transition-duration-200 flex flex-row gap-2 justify-left items-center"
                     >
                       <FontAwesomeIcon
                         className="w-4 h-4"
@@ -105,7 +105,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/rewards"
-                      className="w-full hover:translate-x-1 transition-all transition-duration-200 flex flex-row gap-2 justify-left items-center"
+                      className="hover:opacity-70 transition-all transition-duration-200 w-max flex flex-row gap-2 justify-left items-center"
                     >
                       {/* <FontAwesomeIcon icon={faClockRotateLeft} /> */}
                       <FontAwesomeIcon icon={faReceipt} className="w-4 h-4" />
@@ -117,14 +117,20 @@ const Navbar = () => {
                   </>
                 )}
                 {isAuthenticated() ? (
-                  <button onClick={() => signOut()} className="w-full">
+                  <button
+                    onClick={() => signOut()}
+                    className="w-full hover:opacity-70 transition-opacity duration-200"
+                  >
                     {/* <FontAwesomeIcon icon={faRightFromBracket} /> */}
                     <p className="text-sm whitespace-nowrap text-center">
                       Sign out
                     </p>
                   </button>
                 ) : (
-                  <Link to="/login" className="w-full">
+                  <Link
+                    to="/login"
+                    className="w-full hover:opacity-70 transition-opacity duration-200"
+                  >
                     {/* <FontAwesomeIcon icon={faRightToBracket} /> */}
                     <p className="text-sm whitespace-nowrap text-center">
                       Sign in
