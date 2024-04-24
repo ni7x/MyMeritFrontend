@@ -18,7 +18,7 @@ const Reward: React.FC<{
         className="w-full h-full bg-cover bg-center rounded group-hover:scale-105 transition-all duration-200 ease-linear"
         style={{
           backgroundImage: `url(${
-            reward.imageUrl == "" ? baseImg : reward.imageUrl
+            reward.imageBase64 == "" ? baseImg : "data:image/png;base64," + reward.imageBase64
           })`,
         }}
       ></div>
