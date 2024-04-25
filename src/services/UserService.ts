@@ -29,7 +29,7 @@ const updateUser = async (
   imageUrl: string
 ) => {
   return httpCall<User>({
-    url: import.meta.env.VITE_API_URL + "/me/update/",
+    url: import.meta.env.VITE_API_URL + "/me/update",
     method: "POST",
     body: {
       username,

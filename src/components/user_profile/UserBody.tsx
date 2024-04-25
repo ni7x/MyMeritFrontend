@@ -72,7 +72,7 @@ const UserBody = ({
       <div className="absolute top-0 right-0 p-4">
         <button
           onClick={onEdit}
-          className="text-md leading-none opacity-70 bg-main-darker p-2 rounded-lg text-gray-200 hover:text-main-darker hover:bg-white hover:opacity-100 transition-all"
+          className="text-md leading-none opacity-70 bg-main-darker p-2 rounded-lg text-gray-200 hover:text-main-darker  hover:bg-white hover:opacity-100 transition-all"
         >
           <FontAwesomeIcon icon={faEdit} />
         </button>

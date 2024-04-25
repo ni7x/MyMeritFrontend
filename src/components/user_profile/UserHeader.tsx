@@ -23,7 +23,7 @@ const UserHeader = ({
         <div className="relative">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-main-darker"></div>
           <div className="absolute top-0 left-0 p-4 flex flex-col gap-2">
-            <div className="px-2 py-1 opacity-80 rounded-lg text-sm font-semibold text-black bg-white">
+            <div className="px-2 py-1 opacity-70 rounded-lg text-sm font-semibold text-white bg-main-darker">
               Points: {points ?? 0}
             </div>
           </div>
@@ -31,11 +31,13 @@ const UserHeader = ({
             <img
               src={imageBig ?? myMeritLogo}
               alt="background"
-              className="h-full w-full object-cover rounded-t-xl"
+              className={`h-full w-full object-contain rounded-t-xl ${
+                imageBig ?? "bg-white "
+              }`}
             />
           </div>
           <div className="absolute w-full flex justify-left px-4 align-center bottom-[-3.5rem]">
-            <div className="h-24 w-24 rounded-full">
+            <div className="h-28 w-28 rounded-full">
               {imageSmall ? (
                 <img
                   src={imageSmall}
@@ -56,7 +58,7 @@ const UserHeader = ({
         <div className="text-2xl text-white font-semibold flex flex-row gap-2 items-center">
           <p>{username}</p>
           <p
-            className={`px-2 py-1 opacity-80 leading-2 flex justify-center rounded-lg text-sm lowercase h-max font-semibold text-white ${
+            className={`px-2 py-1 leading-2 flex justify-center rounded-lg text-sm lowercase h-max font-semibold text-white ${
               role === "user" && "bg-green-700"
             } ${role === "company" && "bg-blue-500"}`}
           >
