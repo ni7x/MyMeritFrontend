@@ -19,13 +19,13 @@ type JwtDecodedToken = {
   sub: string;
   iat: number;
   exp: number;
-};
+  role: string;
+}
 
 type JwtEncodedUser = {
   decodedTokenInfo: JwtDecodedToken;
   accessToken: string;
-  //TODO
-  //isCompany: boolean;
+  isCompany: boolean;
 };
 
 type UserSignIn = {
@@ -85,10 +85,11 @@ const useAuthProvider = () => {
     return user != undefined && !isTokenExpired();
   };
 
-  //TODO
-  // const isAuthenticatedCompany = () => {
-  //   return user.isCompany;
-  // };
+
+   const isAuthenticatedCompany = () => {
+     return user? user.isCompany : false;
+   }
+
 
   const signInMutation = useMutation({
     mutationFn: async ({ email, password }: UserSignIn) => {
@@ -111,7 +112,11 @@ const useAuthProvider = () => {
 
       if (response.success) {
         console.log("zalogowano", response.data.token);
-        signInWithToken(response.data.token);
+        const decodedToken = jwtDecode<JwtDecodedToken>(response.data.token);
+        const userInfo = { decodedTokenInfo: decodedToken, accessToken: response.data.token, isCompany: decodedToken.role.toUpperCase() !== "USER" };
+        setUser(userInfo);
+        cookies.set("user", userInfo);
+        navigation("/");
       } else {
         setIsError({ type: "SignIn", message: response.message });
       }
@@ -194,6 +199,7 @@ const useAuthProvider = () => {
     user,
     accessToken: user ? user.accessToken : null,
     isAuthenticated,
+    isAuthenticatedCompany,
     signIn,
     signInWithToken,
     signUp,

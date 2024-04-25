@@ -3,21 +3,18 @@ import {useParams} from "react-router-dom";
 import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
 import {useAuth} from "../../hooks/useAuth";
 import {getJobOfferById} from "../../services/JobOfferService";
-import JobOfferInfo from "../../components/job_offer_details/JobOfferInfo/JobOfferInfo";
+import JobOfferInfo from "../../components/job_offer_details/job_offer_info/JobOfferInfo";
 
 const JobOfferDetails = () => {
     const { id } = useParams<{ id: string }>();
     const [ jobOffer, setJobOffer ] = useState<JobOfferDetailsDTO>();
     const { accessToken } = useAuth();
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 if(accessToken){
                     const response = await getJobOfferById(id!, accessToken);
-                    if (response.ok) {
-                        setJobOffer(await response.json());
-                    }
+                    setJobOffer(response);
                 }else{
                     console.log("No token provided")
                 }

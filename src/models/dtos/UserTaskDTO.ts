@@ -1,5 +1,7 @@
 import Solution from "../Solution";
 import TaskStatus from "../TaskStatus";
+import Feedback from "../Feedback";
+import Test from "../Test";
 
 class UserTaskDTO {
     constructor(
@@ -14,6 +16,9 @@ class UserTaskDTO {
         public timeLimit: number,
         public status: TaskStatus,
         public userSolution: Solution,
+        public tests: Test[],
+        public companyFeedback?: Feedback,
+
     ) {}
 }
 

@@ -13,7 +13,7 @@ import App from "./App.tsx";
 
 loader.init().then((monaco) => {
     monaco.editor.defineTheme("customTheme", {
-        base: 'vs-dark',
+        base: 'hc-black',
         inherit: true,
         rules: [],
         colors: {

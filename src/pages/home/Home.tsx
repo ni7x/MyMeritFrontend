@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobOfferList from "../../components/home_job_offers/JobOfferList";
 import {getHomeJobOffers} from "../../services/JobOfferService";
-import {useLocation, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import Pagination from "../../components/home_job_offers/Pagination";
 import FilterPanel from "../../components/home_job_offers/FilterPanel";
 import {defaultQueryParams, QueryParams} from "../../models/QueryParams";
@@ -38,11 +38,8 @@ const Home: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await getHomeJobOffers(queryParams);
-        if (response.ok) {
-          const json = await response.json();
-          setMaxPage(json.totalPages);
-          setJobOffers(json.content);
-        }
+        setMaxPage(response.totalPages);
+        setJobOffers(response.content);
       } catch (error) {
         console.error("Error fetching jobOffers:", error);
       }
