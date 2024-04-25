@@ -22,14 +22,13 @@ type HttpCallWithAuthorizationParams<T extends HttpMethod = HttpMethod> = {
   token?: string;
 };
 
-export async function httpCall<HttpResponse>({
+export async function httpCall<HttpCallParams>({
   url,
   method,
-  body, //token
+  body, //token? //pewnie byloby git ale rozbilem na 2 funkcje narazie
 }: HttpCallParams): Promise<Data> {
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`,
   };
 
   const response = await fetch(url, {
@@ -51,7 +50,6 @@ export async function httpCallWithAuthorization<Data>({
                                        url,
                                        method,
                                        body,
-
                                      }: HttpCallWithAuthorizationParams): Promise<Data> {
   const headers = {
     "Content-Type": "application/json",
