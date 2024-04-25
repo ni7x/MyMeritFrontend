@@ -71,12 +71,52 @@ export const testAll = async (files: MyFile[], testFileContent: string, taskId: 
     }
 };
 
+export const testSingle = async (files: MyFile[], testFileContent: string, taskId: string, language: string, mainFileIndex: number, testIndex: number) => {
+    try {
+        const filez = [...files];
+        filez.splice(mainFileIndex, 1);
+        const testFile = new MyFile("testmain.cpp", ContentType.TXT ,testFileContent)
+        const filesToCompile = [...filez, testFile]
+
+        let fileContentBase64;
+        try {
+            fileContentBase64 = await generateEncodedZip(filesToCompile, testFile);
+        } catch (zipError) {
+            errorToast("Main file is not compilable");
+            return null;
+        }
+
+        const response = await fetch("http://localhost:8080/test/task/" + taskId + "/language/" + language + "/" + testIndex, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fileName: "testmain.cpp",
+                fileContentBase64: fileContentBase64
+            })
+        });
+
+        if (!response.ok) {
+            console.log(response)
+            errorToast("Error fetching token");
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        errorToast("Error fetching token");
+        return null;
+    }
+};
+
 export const getToken = async (userInput: string, files: MyFile[], mainFileIndex: number, file: MyFile, timeLimit: number, memoryLimit: number) => {
     try {
         const stdin = userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
         let fileContentBase64;
         try {
             fileContentBase64 = await generateEncodedZip(files, files[mainFileIndex]);
+            console.log(fileContentBase64)
         } catch (zipError) {
             errorToast("Main file is not compilable");
             return null;
@@ -155,7 +195,7 @@ const submitSolution = async (jobId: string, files: MyFile[], token: string) => 
     }
 }
 
-const submitFeedback = async (solutionId: string, files: MyFile[], credits: number, token: string) => {
+const submitFeedback = async (solutionId: string, files: MyFile[], reward: number, comment: string, token: string) => {
     const URL = import.meta.env.VITE_API_URL + "/solution/" + solutionId;
     const data = new FormData();
     for (const file of files) {
@@ -163,7 +203,8 @@ const submitFeedback = async (solutionId: string, files: MyFile[], credits: numb
         const fileObject = new File([fileBlob], file.name, {type: file.type});
         data.append("files", fileObject);
     }
-    data.append("credits", credits.toString());
+    data.append("reward", reward.toString());
+    data.append("comment", comment);
     try {
         return await fetch(URL, {
             method: 'POST',

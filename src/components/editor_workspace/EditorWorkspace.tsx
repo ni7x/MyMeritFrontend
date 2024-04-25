@@ -124,7 +124,7 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({files,
                         files={files}
                         mainFileIndex={mainFileIndex}
                         getFileByName={withErrorHandling(getFileByName)}
-                        setCurrentFileByName={withErrorHandling(setCurrentFileByName)}
+                        setCurrentFileByName={setCurrentFileByName}
                     />
                     <Ide
                         files={files}

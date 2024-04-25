@@ -4,7 +4,6 @@ import {ContentType} from "../../../utils/fileUtils";
 import MyDocViewer from "./MyDocViewer";
 import MyEditor from "./MyEditor";
 import MyDiffEditor from "./MyDiffEditor";
-import {set} from "react-hook-form";
 
 interface MyEditorProps{
     files: MyFile[],
@@ -39,7 +38,9 @@ const EditorAndViewer: React.FC<MyEditorProps> = ({isFeedbackView, originalFiles
         )
     }else{
         return (
-            <MyDocViewer currentFile={currentFile}/>
+            <MyDocViewer
+                currentFile={currentFile}
+            />
         )
     }
 

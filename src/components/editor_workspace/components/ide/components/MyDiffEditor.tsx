@@ -49,7 +49,9 @@ const MyDiffEditor: React.FC<MyEditorProps> = ({originalFiles, files, currentFil
                 minimap: { enabled: false },
                 overviewRulerBorder: false,
                 hideCursorInOverviewRuler: true,
-                readOnly: !isEditable
+                readOnly: !isEditable,
+
+              renderOverviewRuler:false
             }}
 
         />

@@ -39,17 +39,21 @@ const TerminalOutput: React.FC<{ output: CodeExecutionOutput; testOutput: TestOu
     const renderTestOutput = (testOutput: TestOutput[]) => {
         const totalPassed = testOutput.filter(test => test.passed).length;
         return (
-            <div className="flex flex-col h-full gap-3">
-                {totalPassed} / {testOutput.length} passed
-                {testOutput.map((test)=>{
-                    return (
-                        <p className={"w-full flex gap-3 " + (test.passed ? "text-emerald-400": "text-red-500")}>
-                            <span>Test <span className="font-medium">{test.name}</span></span>
-                            {test.passed ? "passed": "failed"}
-                        </p>
-                    )
+            <div className="flex flex-col h-full gap-1 justify-between">
+                <div>
+                    {testOutput.map((test)=>{
+                        return (
+                            <p className={"w-full flex gap-1 " + (test.passed ? "text-emerald-400": "text-red-500")}>
+                                <span><span className="font-medium text-xs italic">{test.name.toUpperCase()}</span></span>
+                                {test.passed ? "passed": "failed"}
+                            </p>
+                        )
 
-                })}
+                    })}
+                </div>
+                <div className="flex justify-between w-full text-task-lighter text-xs">
+                    <p className={totalPassed == testOutput.length ? "text-emerald-400" : "text-red-500"}>TESTS {totalPassed}/{testOutput.length} PASSED</p>
+                </div>
             </div>
         );
     };

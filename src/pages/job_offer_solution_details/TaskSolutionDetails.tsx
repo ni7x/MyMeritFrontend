@@ -8,6 +8,8 @@ import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
 import TaskStatus from "../../models/TaskStatus";
 import CompanySolutions from "../../components/job_offer_details/solution_list/CompanySolutions";
 import TaskFeedbackWorkspace from "../../components/job_offer_details/feedback_workspace/TaskFeedbackWorkspace";
+import FeedbackMessage from "../../components/job_offer_details/task_info/FeedbackMessage";
+
 
 const TaskSolutionDetails: React.FC = () => {
     const {id: jobOfferId} = useParams<{ id: string }>();
@@ -34,7 +36,7 @@ const TaskSolutionDetails: React.FC = () => {
         return <p>Loading...</p>;
     }
 
-    const { task, solutions } = jobOffer;
+    const {task, solutions} = jobOffer;
     const feedback = task.companyFeedback;
 
     if (!task || (task.status !== TaskStatus.OPEN && !task.userSolution)) {
@@ -42,33 +44,44 @@ const TaskSolutionDetails: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col gap-[2rem] lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
-            <TaskInfo
-                task={task}
-                solutionId={jobOfferId}
-            />
-            {solutions ? (
-                <CompanySolutions
-                    solutions={solutions}
-                />
-            )
-            : (
-                feedback ? (
-                    <TaskFeedbackWorkspace
-                        jobId={jobOfferId!}
+        <div className="flex flex-col gap-3 lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
+            <div className="w-[100%] lg:flex-1 h-full">
+                <div className="h-full flex flex-col">
+                    <TaskInfo
                         task={task}
-                        isEditable={false}
-                        solutionId={task.userSolution.id}
+                        jobId={jobOfferId}
+                        feedbackElement={
+                            feedback ? (
+                                <FeedbackMessage feedback={feedback}/>
+                                ) : null
+                        }
                     />
-                )
-                :(
-                    <TaskSolutionWorkspace
-                        jobId={jobOfferId!}
-                        task={task}
-                        isEditable={task.status === TaskStatus.OPEN}
-                    />
-                )
-            )}
+                </div>
+            </div>
+                {solutions ? (
+                        <CompanySolutions
+                            solutions={solutions}
+                        />
+                    )
+                    : (
+                        feedback ? (
+                                <>
+                                    <TaskFeedbackWorkspace
+                                        jobId={jobOfferId!}
+                                        task={task}
+                                        isEditable={false}
+                                        solutionId={task.userSolution.id}
+                                    />
+                                </>
+                            )
+                            :(
+                                <TaskSolutionWorkspace
+                                    jobId={jobOfferId!}
+                                    task={task}
+                                    isEditable={task.status === TaskStatus.OPEN}
+                                />
+                            )
+                    )}
         </div>
     );
 };

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import {downloadSolutionFiles, getJobOfferById} from "../../services/JobOfferService";
-import { useAuth } from "../../hooks/useAuth";
+import {getJobOfferById} from "../../services/JobOfferService";
+import {useAuth} from "../../hooks/useAuth";
 import TaskFeedbackWorkspace from "../../components/job_offer_details/feedback_workspace/TaskFeedbackWorkspace";
-import MyFile from "../../models/MyFile";
 import UserTaskDTO from "../../models/dtos/UserTaskDTO";
+import TaskInfo from "../../components/job_offer_details/task_info/TaskInfo";
 
 
 const TaskFeedbackDetails: React.FC = () => {
@@ -32,10 +32,16 @@ const TaskFeedbackDetails: React.FC = () => {
         fetchData();
     }, [accessToken, jobId]);
 
-
+    console.log(task)
     if(task){
         return(
-            <div className="flex flex-col gap-[2rem] lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
+            <div className="flex flex-col gap-3 lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
+                <div className="w-[100%] lg:flex-1 ">
+                    <TaskInfo
+                        task={task}
+                        jobId={jobId}
+                    />
+                </div>
                 <TaskFeedbackWorkspace
                     solutionId={solutionId!}
                     isEditable={true}
