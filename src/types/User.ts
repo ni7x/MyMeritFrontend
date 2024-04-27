@@ -2,7 +2,7 @@ type User = {
   id: string;
   username: string;
   email: string;
-  points: number;
+  credits: number;
   isCompany: boolean;
   description: string;
   // imageSmall: string;

@@ -29,7 +29,7 @@ const UserInfo = ({
         username={user.username}
         email={user.email}
         role={user.role}
-        points={user.points}
+        points={user.credits}
       />
       <UserBody description={user.description} onEdit={onEdit} />
     </UserSection>
