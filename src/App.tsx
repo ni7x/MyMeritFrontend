@@ -51,7 +51,14 @@ const App = () => {
                             />
                         }
                     />
-                    <Route path="/users/:id" element={<UserProfile />} />
+                    <Route
+                      path="/profile/"
+                      element={
+                        <ProtectedRoute>
+                          <UserProfile />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route
                         path="/rewards/"
                         element={

@@ -1,9 +1,7 @@
-type Reward = {
+export type Reward = {
   id: string;
   name: string;
   description: string;
   cost: number;
-  imageUrl: string;
+  imageBase64: string;
 };
-
-export default Reward;

@@ -5,10 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "universal-cookie";
 
-import User from "../models/User.ts";
+import User from "../types/User.ts";
 // import Company from '../models/Company.tsx';
 // import { JwtEncodedUser } from '../types';
 import { httpCall } from "../api/HttpClient.ts";
+import { getUser } from "../services/UserService.ts";
 
 // type UserSignIn = Partial<z.infer<typeof UserModel>>;
 // type UserSignUp = Partial<z.infer<typeof UserModel> & { passwordRepeat: string }>;
@@ -47,17 +48,13 @@ type Error = {
 
 type AuthContext = {
   user: CookieUser;
+  userData: User;
   accessToken: string | null;
   isAuthenticated: () => boolean;
-  // isAuthenticatedCompany: () => boolean;
   signIn: ({ email, password }: UserSignIn) => boolean;
   signInWithToken: (token: string) => void;
   signUp: ({ username, email, password, code }: UserSignUp) => boolean;
   signOut: () => void;
-  //TODO: Add Google Auth
-  //   signInWithGoogle: () => void;
-  //TODO Add GitHub Auth
-  //   signInWithGitHub: () => void;
   isLoading: boolean;
   isError?: Error;
 };
@@ -70,6 +67,7 @@ const getUserFromCookie = () => {
 const useAuthProvider = () => {
   const navigation = useNavigate();
   const [user, setUser] = useState<CookieUser>(getUserFromCookie());
+  const [userData, setUserData] = useState<User>({} as User);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState<Error | undefined>(undefined);
   const cookies = new Cookies();
@@ -162,12 +160,14 @@ const useAuthProvider = () => {
     },
   });
 
-  const signInWithToken = (token: string) => {
+  const signInWithToken = async (token: string) => {
     try {
       const decodedToken = jwtDecode<JwtDecodedToken>(token);
       const userInfo = { decodedTokenInfo: decodedToken, accessToken: token };
       setUser(userInfo);
       cookies.set("user", userInfo, { path: "/" });
+      const userData = await getUser();
+      setUserData(userData);
     } catch (e) {
       console.error(e);
     }
@@ -176,6 +176,9 @@ const useAuthProvider = () => {
   useEffect(() => {
     if (cookies.get("user")) {
       setUser(cookies.get("user"));
+      getUser().then((userData) => {
+        setUserData(userData);
+      });
     }
   }, []);
 
@@ -197,6 +200,7 @@ const useAuthProvider = () => {
 
   return {
     user,
+    userData,
     accessToken: user ? user.accessToken : null,
     isAuthenticated,
     isAuthenticatedCompany,

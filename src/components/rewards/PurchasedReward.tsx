@@ -1,4 +1,4 @@
-import { PurchasedReward as PurchasedRewardDTO } from "../../models/PurchasedReward";
+import { PurchasedReward as PurchasedRewardDTO } from "../../types/PurchasedReward";
 import React from "react";
 import rewardImg from "../../assets/reward-placeholder.png";
 
@@ -10,7 +10,9 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
       <div
         className="w-[5rem] bg-cover bg-center"
         style={{
-          backgroundImage: `url(${purchase.reward.imageUrl ?? rewardImg})`,
+          backgroundImage: `url(${
+            purchase.reward.imageUrl ? purchase.reward.imageUrl : rewardImg
+          })`,
         }}
       >
         {/* <img

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AvailableRewards from "../../components/rewards/AvailableRewards";
 import { getPurchaseHistory, getRewards } from "../../services/RewardService";
 import { getUser } from "../../services/UserService";
@@ -65,7 +65,7 @@ const Rewards = () => {
           {" "}
           Balance:{" "}
           <span className="text-merit-credits-color ml-2 font-semibold">
-            {user ? user.points : ""} MC
+            {user ? user.credits : ""} MC
           </span>
         </h2>
       </div>
@@ -75,7 +75,7 @@ const Rewards = () => {
       ) : (
         <AvailableRewards
           rewards={availableRewards}
-          currentBalance={user ? user.points : 0}
+          currentBalance={user ? user.credits : 0}
           onPurchase={onPurchase}
         />
       )}

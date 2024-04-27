@@ -16,11 +16,27 @@ const getUserSocials = (userId: string) => {
   return socials;
 };
 
-const getUser = (): Promise<User> => {
+const getUser = async () => {
   return httpCall<User>({
     url: import.meta.env.VITE_API_URL + "/me",
     method: "GET",
   });
 };
 
-export { getUsers, getUserById, getUserSocials, getUser };
+const updateUser = async (
+  username: string,
+  description: string,
+  imageUrl: string
+) => {
+  return httpCall<User>({
+    url: import.meta.env.VITE_API_URL + "/me/update",
+    method: "POST",
+    body: {
+      username,
+      description,
+      imageUrl,
+    },
+  });
+};
+
+export { getUsers, getUserById, getUserSocials, getUser, updateUser };
