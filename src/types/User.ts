@@ -3,12 +3,9 @@ type User = {
   username: string;
   email: string;
   credits: number;
-  isCompany: boolean;
   description: string;
-  // imageSmall: string;
-  // imageBig: string;
+  imageBase64: string;
   role: string;
-  imageUrl: string;
 };
 
 export default User;

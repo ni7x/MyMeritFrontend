@@ -26,7 +26,7 @@ const getUser = async () => {
 const updateUser = async (
   username: string,
   description: string,
-  imageUrl: string
+  imageBase64: string
 ) => {
   return httpCall<User>({
     url: import.meta.env.VITE_API_URL + "/me/update",
@@ -34,7 +34,7 @@ const updateUser = async (
     body: {
       username,
       description,
-      imageUrl,
+      imageBase64,
     },
   });
 };

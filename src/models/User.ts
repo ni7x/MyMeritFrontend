@@ -4,7 +4,7 @@ class User {
     public username: string,
     public email: string,
     public password: string,
-    public points: number,
+    public credits: number,
     public isCompany: boolean,
     public description: string,
     public imageSmall: string,

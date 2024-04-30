@@ -1,4 +1,5 @@
-import {errorToast} from "../main";
+import { errorToast } from "../main";
+import Cookies from "universal-cookie";
 
 export type HttpResponse<T> = {
   success: boolean;
@@ -22,13 +23,18 @@ type HttpCallWithAuthorizationParams<T extends HttpMethod = HttpMethod> = {
   token?: string;
 };
 
-export async function httpCall<HttpCallParams>({
+export async function httpCall<HttpResponse>({
   url,
   method,
-  body, //token? //pewnie byloby git ale rozbilem na 2 funkcje narazie
-}: HttpCallParams): Promise<Data> {
+  body,
+}: HttpCallParams): Promise<HttpResponse> {
+  const cookies = new Cookies();
+  const user = cookies.get("user");
+  const accessToken = user?.accessToken;
+
   const headers = {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${accessToken}`,
   };
 
   const response = await fetch(url, {
@@ -46,14 +52,14 @@ export async function httpCall<HttpCallParams>({
 }
 
 export async function httpCallWithAuthorization<Data>({
-                                       token,
-                                       url,
-                                       method,
-                                       body,
-                                     }: HttpCallWithAuthorizationParams): Promise<Data> {
+  token,
+  url,
+  method,
+  body,
+}: HttpCallWithAuthorizationParams): Promise<Data> {
   const headers = {
     "Content-Type": "application/json",
-    "Authorization" : `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
 
   const response = await fetch(url, {
@@ -63,8 +69,8 @@ export async function httpCallWithAuthorization<Data>({
     body: JSON.stringify(body),
   });
 
-  if(!response.ok){
-    errorToast(response.status)
+  if (!response.ok) {
+    errorToast(response.status);
     return;
   }
 

@@ -21,7 +21,7 @@ type JwtDecodedToken = {
   iat: number;
   exp: number;
   role: string;
-}
+};
 
 type JwtEncodedUser = {
   decodedTokenInfo: JwtDecodedToken;
@@ -51,6 +51,7 @@ type AuthContext = {
   userData: User;
   accessToken: string | null;
   isAuthenticated: () => boolean;
+  isAuthenticatedCompany: () => boolean;
   signIn: ({ email, password }: UserSignIn) => boolean;
   signInWithToken: (token: string) => void;
   signUp: ({ username, email, password, code }: UserSignUp) => boolean;
@@ -83,11 +84,9 @@ const useAuthProvider = () => {
     return user != undefined && !isTokenExpired();
   };
 
-
-   const isAuthenticatedCompany = () => {
-     return user? user.isCompany : false;
-   }
-
+  const isAuthenticatedCompany = () => {
+    return user ? user.isCompany : false;
+  };
 
   const signInMutation = useMutation({
     mutationFn: async ({ email, password }: UserSignIn) => {
@@ -111,7 +110,11 @@ const useAuthProvider = () => {
       if (response.success) {
         console.log("zalogowano", response.data.token);
         const decodedToken = jwtDecode<JwtDecodedToken>(response.data.token);
-        const userInfo = { decodedTokenInfo: decodedToken, accessToken: response.data.token, isCompany: decodedToken.role.toUpperCase() !== "USER" };
+        const userInfo = {
+          decodedTokenInfo: decodedToken,
+          accessToken: response.data.token,
+          isCompany: decodedToken.role.toUpperCase() !== "USER",
+        };
         setUser(userInfo);
         cookies.set("user", userInfo);
         navigation("/");

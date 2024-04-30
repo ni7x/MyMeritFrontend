@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const ProfilePicture = ({
   register,
@@ -14,17 +15,22 @@ const ProfilePicture = ({
 }) => {
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { ref: registerRef, ...rest } = register("imageUrl");
+  const [imageBase64, setImageBase64] = useState<string>("");
+
+  const { ref: registerRef, ...rest } = register("image");
 
   const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = event.target;
 
-    if (fileInput) {
-      const file = fileInput.files?.[0];
-      if (file) {
-        const urlImage = URL.createObjectURL(file);
-        setPreview(urlImage);
-      }
+    // make base64 from file
+    const file = fileInput.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreview(e.target?.result as string);
+        setImageBase64(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -38,6 +44,8 @@ const ProfilePicture = ({
   return (
     <div className="w-full flex flex-col">
       <label className="pb-2">Profile picture</label>
+
+      <input type="hidden" name="imageBase64" value={imageBase64} />
 
       <input
         className="hidden"

@@ -1,24 +1,25 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ProfilePicture from "./ProfilePicture";
 import { updateUser } from "../../../services/UserService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 type FormValues = {
   username: string;
   description: string;
-  imageUrl: string;
 };
 
 const EditProfileForm = ({
   username,
   description,
-  imageUrl,
+  imageBase64,
   className,
   closeForm,
 }: {
   username: string;
   description: string;
-  imageUrl: string;
+  imageBase64: string;
   className?: string;
   closeForm?: () => void;
 }) => {
@@ -30,33 +31,78 @@ const EditProfileForm = ({
     defaultValues: {
       username: username,
       description: description,
-      imageUrl: imageUrl,
     },
   });
 
-  const [preview, setPreview] = useState<string>(imageUrl);
+  const [preview, setPreview] = useState<string>(imageBase64);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    let { username, description, imageUrl } = data;
+    let { username, description } = data;
     if (description == null) description = "";
-    updateUser(username, description, imageUrl).then(() => {
-      console.log("User updated");
-      setPreview(imageUrl);
+    updateUser(username, description, preview).then(() => {
       if (closeForm) closeForm();
     });
   };
-  // console.log(errors);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileInput = event.target;
+
+    // make base64 from file
+    const file = fileInput.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const onUpload = (e) => {
+    e.preventDefault();
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className={`flex flex-col gap-4 ${className}`}
     >
-      <ProfilePicture
-        register={register}
-        preview={preview}
-        setPreview={setPreview}
-      />
+      <div className="w-full flex flex-col">
+        <label className="pb-2">Profile picture</label>
+
+        <input
+          className="hidden"
+          type="file"
+          ref={inputRef}
+          name="image"
+          onChange={handleUploadedFile}
+        />
+
+        <button
+          onClick={onUpload}
+          className="group relative hover:opacity-70 transition-opacity duration-200 w-max flex justify-center items-center"
+        >
+          <div className="w-16 h-16 rounded-full">
+            {preview ? (
+              <img src={preview} className="w-full h-full rounded-full" />
+            ) : (
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                className="w-full h-full text-6xl text-white"
+              />
+            )}
+          </div>
+          <FontAwesomeIcon
+            icon={faPenToSquare}
+            className="opacity-0 absolute flex group-hover:opacity-100 transition-opacity duration-200 justify-center items-center text-white text-sm"
+          />
+        </button>
+      </div>
 
       <div>
         <label>Username</label>

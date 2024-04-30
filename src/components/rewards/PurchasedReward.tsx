@@ -11,7 +11,9 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
         className="w-[5rem] bg-cover bg-center"
         style={{
           backgroundImage: `url(${
-            purchase.reward.imageUrl ? purchase.reward.imageUrl : rewardImg
+            purchase.reward.imageBase64 == ""
+              ? rewardImg
+              : "data:image/png;base64," + purchase.reward.imageBase64
           })`,
         }}
       >

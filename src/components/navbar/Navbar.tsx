@@ -55,17 +55,17 @@ const Navbar = () => {
 
           <li className="ml-auto">
             <div className="w-8 h-8 rounded-full flex justify-center items-center group relative">
-              {isAuthenticated() && userData?.imageUrl && (
+              {isAuthenticated() && userData?.imageBase64 && (
                 <Link to="/profile">
                   <img
-                    src={userData.imageUrl}
+                    src={userData.imageBase64}
                     alt="avatar"
                     className="w-full h-full rounded-full"
                   />
                 </Link>
               )}
 
-              {isAuthenticated() && !userData?.imageUrl && (
+              {isAuthenticated() && !userData?.imageBase64 && (
                 <Link to="/profile">
                   <FontAwesomeIcon
                     className="w-full h-full"

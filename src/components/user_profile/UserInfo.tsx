@@ -24,8 +24,7 @@ const UserInfo = ({
   return (
     <UserSection>
       <UserHeader
-        imageSmall={user.imageUrl}
-        // imageBig={user.imageBig}
+        imageBase64={user.imageBase64}
         username={user.username}
         email={user.email}
         role={user.role}

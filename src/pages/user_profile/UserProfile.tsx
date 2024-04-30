@@ -67,7 +67,7 @@ const UserProfile = () => {
           <EditProfileForm
             username={user.username}
             description={user.description}
-            imageUrl={user.imageUrl}
+            imageBase64={user.imageBase64}
             closeForm={() => setShowForm(false)}
           />
         </div>

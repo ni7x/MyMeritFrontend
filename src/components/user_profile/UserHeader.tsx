@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const UserHeader = ({
-  imageSmall,
+  imageBase64,
   imageBig,
   username,
   email,
   role,
   points,
 }: {
-  imageSmall?: string;
+  imageBase64?: string;
   imageBig?: string;
   username: string;
   email: string;
@@ -24,7 +24,7 @@ const UserHeader = ({
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-main-darker"></div>
           <div className="absolute top-0 left-0 p-4 flex flex-col gap-2">
             <div className="px-2 py-1 opacity-70 rounded-lg text-sm font-semibold text-white bg-main-darker">
-              Points: {points ?? 0}
+              Credits: {points ?? 0}
             </div>
           </div>
           <div className="h-40">
@@ -38,9 +38,9 @@ const UserHeader = ({
           </div>
           <div className="absolute w-full flex justify-left px-4 align-center bottom-[-3.5rem]">
             <div className="h-28 w-28 rounded-full">
-              {imageSmall ? (
+              {imageBase64 ? (
                 <img
-                  src={imageSmall}
+                  src={imageBase64}
                   alt="avatar"
                   className="w-full h-full rounded-full border-2 border-main-darker border-solid object-cover"
                 />
