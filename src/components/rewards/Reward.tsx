@@ -1,6 +1,7 @@
 import { Reward as RewardDTO } from "../../types/Reward";
 import React, { useState } from "react";
 import baseImg from "../../assets/reward-base.jpg";
+import meritCoin from "../../assets/meritcoin.png";
 
 const Reward: React.FC<{
   reward: RewardDTO;
@@ -18,7 +19,9 @@ const Reward: React.FC<{
         className="w-full h-full bg-cover bg-center rounded group-hover:scale-105 transition-all duration-200 ease-linear"
         style={{
           backgroundImage: `url(${
-            reward.imageBase64 == "" ? baseImg : "data:image/png;base64," + reward.imageBase64
+            reward.imageBase64 == ""
+              ? baseImg
+              : "data:image/png;base64," + reward.imageBase64
           })`,
         }}
       ></div>
@@ -59,9 +62,11 @@ const Reward: React.FC<{
         )}
       </div>
       <div className="flex justify-between absolute p-2 top-0 left-0 w-full">
-        <p className="bg-secondary-bg-color p-2 px-4 text-sm rounded  text-merit-credits-color font-semibold opacity-80">
-          {reward.cost} MC
+        <p className="bg-secondary-bg-color p-2 px-4 text-sm rounded flex flex-row items-center justify-center  text-merit-credits-color font-semibold opacity-80">
+          {reward.cost}
+          <img src={meritCoin} alt="meritcoin" className="h-4 w-4 ml-1" />
         </p>
+
         {!isPopupOpen ? (
           <button
             className={
