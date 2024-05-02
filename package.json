@@ -27,6 +27,7 @@
     "react-date-range": "^2.0.0-alpha.4",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
+    "react-loading-skeleton": "^3.4.0",
     "react-router-dom": "^6.21.1",
     "react-toastify": "^10.0.5",
     "universal-cookie": "^7.0.2"

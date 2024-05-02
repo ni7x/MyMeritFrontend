@@ -1,6 +1,7 @@
 import myMeritLogo from "../../assets/mymerit_logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import meritCoin from "../../assets/meritcoin.png";
 
 const UserHeader = ({
   imageBase64,
@@ -23,8 +24,9 @@ const UserHeader = ({
         <div className="relative">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-main-darker"></div>
           <div className="absolute top-0 left-0 p-4 flex flex-col gap-2">
-            <div className="px-2 py-1 opacity-70 rounded-lg text-sm font-semibold text-white bg-main-darker">
-              Credits: {points ?? 0}
+            <div className="px-2 py-1 opacity-70 rounded-lg text-merit-credits-color text-sm font-semibold bg-main-darker flex flex-row items-center justify-center">
+              {points ?? 0}
+              <img src={meritCoin} alt="meritcoin" className="h-4 w-4 ml-1" />
             </div>
           </div>
           <div className="h-40">

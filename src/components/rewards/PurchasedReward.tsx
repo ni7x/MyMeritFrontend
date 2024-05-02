@@ -1,6 +1,7 @@
 import { PurchasedReward as PurchasedRewardDTO } from "../../types/PurchasedReward";
 import React from "react";
 import rewardImg from "../../assets/reward-placeholder.png";
+import meritCoin from "../../assets/meritcoin.png";
 
 const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
   purchase,
@@ -8,7 +9,7 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
   return (
     <li className="w-[100%] h-[5rem] bg-secondary-bg-color mb-4 rounded flex">
       <div
-        className="w-[5rem] bg-cover bg-center"
+        className="w-[5rem] bg-cover bg-center rounded-l"
         style={{
           backgroundImage: `url(${
             purchase.reward.imageBase64 == ""
@@ -16,13 +17,8 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
               : "data:image/png;base64," + purchase.reward.imageBase64
           })`,
         }}
-      >
-        {/* <img
-          src={purchase.reward.imageUrl ?? rewardImg}
-          className="max-w-full"
-        /> */}
-      </div>
-      <div className="flex justify-between w-full items-center px-10">
+      ></div>
+      <div className="flex justify-between w-full h-full items-center px-4">
         <div className="flex-col">
           <p className="text-xs text-task-lighter">name</p>
           <p className="mt-1 font-medium">{purchase.reward.name}</p>
@@ -33,12 +29,18 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
             {new Date(purchase.datePurchase).toLocaleDateString()}
           </p>
         </div>
-        <div className="flex-col">
-          <p className="text-xs text-task-lighter">MC</p>
-          <p className="mt-1 font-medium text-merit-credits-color">
-            {/* {purchase.reward.credits} */}
-            {/* TODO add credits to PurchasedReward */}
+        <div className="flex flex-col">
+          <p className="text-xs text-task-lighter">cost</p>
+          <p className="mt-1 font-semibold text-merit-credits-color flex flex-row gap-1 items-center justify-center">
             {purchase.reward.cost}
+            <img
+              title="merit coin"
+              alt="merit coin"
+              src={meritCoin}
+              width="16"
+              height="16"
+              className="max-w-full h-4 w-4"
+            />
           </p>
         </div>
       </div>

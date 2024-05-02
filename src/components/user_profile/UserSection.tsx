@@ -7,7 +7,7 @@ const UserSection = ({
 }) => {
   return (
     <div
-      className={`bg-main-darker rounded-xl select-none relative ${
+      className={`bg-main-darker rounded-xl select-none relative h-[300px] shadow-md ${
         className ? className : ""
       }`}
     >

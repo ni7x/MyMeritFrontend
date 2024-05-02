@@ -7,8 +7,8 @@ import SecondWrapper from "../../components/SecondWrapper";
 import PurchaseHistory from "../../components/rewards/PurchaseHistory";
 import Reward from "../../types/Reward";
 import PurchasedReward from "../../types/PurchasedReward";
-import { useAuth } from "../../hooks/useAuth";
 import { purchaseReward } from "../../services/RewardService";
+import meritCoin from "../../assets/meritcoin.png";
 
 const Rewards = () => {
   const [availableRewards, setAvailableRewards] = useState<Reward[]>([]);
@@ -41,45 +41,22 @@ const Rewards = () => {
   }, []);
 
   return (
-    <SecondWrapper>
-      <div className="flex justify-between mb-3 text-main-lighter text-sm font-medium flex-wrap">
-        <div className="h-10 mb-2 md:sm-0">
-          <button
-            onClick={() => setIsHistoryTab(true)}
-            className={`mr-2 bg-secondary-bg-color p-3 px-6 rounded ${
-              isHistoryTab ? "text-white" : ""
-            }`}
-          >
-            History
-          </button>
-          <button
-            onClick={() => setIsHistoryTab(false)}
-            className={`bg-secondary-bg-color p-3 px-6 rounded ${
-              !isHistoryTab ? "text-white" : ""
-            }`}
-          >
-            Rewards
-          </button>
-        </div>
-        <h2 className="text-center h-10 bg-secondary-bg-color flex items-center p-3 px-9 rounded">
-          {" "}
-          Balance:{" "}
-          <span className="text-merit-credits-color ml-2 font-semibold">
-            {user ? user.credits : ""} MC
-          </span>
-        </h2>
+    <>
+      <div className="flex justify-end mb-3 text-main-lighter text-sm font-medium flex-wrap">
+        {user && (
+          <div className="px-4 py-3 rounded-lg text-merit-credits-color text-base font-semibold bg-secondary-bg-color flex flex-row items-center justify-center">
+            {user.credits ?? 0}
+            <img src={meritCoin} alt="meritcoin" className="h-4 w-4 ml-1" />
+          </div>
+        )}
       </div>
 
-      {isHistoryTab ? (
-        <PurchaseHistory history={purchaseHistory} />
-      ) : (
-        <AvailableRewards
-          rewards={availableRewards}
-          currentBalance={user ? user.credits : 0}
-          onPurchase={onPurchase}
-        />
-      )}
-    </SecondWrapper>
+      <AvailableRewards
+        rewards={availableRewards}
+        currentBalance={user ? user.credits : 0}
+        onPurchase={onPurchase}
+      />
+    </>
   );
 };
 

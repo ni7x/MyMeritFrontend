@@ -16,18 +16,21 @@ const MyTasks = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center md:flex-row gap-8">
-      <div className="w-[100%] m-0 min-w-[150px] md:w-[25%] md:mx-8 lg:w-[15%]">
+    <>
+      <header className="pb-2">
+        <h1 className="text-2xl">Your tasks</h1>
+      </header>
+      <div className="flex flex-col md:grid grid-cols-[200px_1fr] justify-center gap-8">
         <FilterPanel tasks={tasks} setFilteredTasks={setFilteredTasks} />
+        <div className="list-none flex flex-col">
+          <SortPanel
+            filteredTasks={filteredTasks}
+            setFilteredTasks={setFilteredTasks}
+          />
+          <TaskList tasks={filteredTasks} />
+        </div>
       </div>
-      <div className="list-none flex flex-col w-full md:w-[60%] lg:w-[50%]">
-        <SortPanel
-          filteredTasks={filteredTasks}
-          setFilteredTasks={setFilteredTasks}
-        />
-        <TaskList tasks={filteredTasks} />
-      </div>
-    </div>
+    </>
   );
 };
 
