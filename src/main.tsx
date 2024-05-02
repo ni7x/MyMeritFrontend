@@ -43,7 +43,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <App />
-          <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            theme="dark"
+          />
         </AuthProvider>
       </QueryClientProvider>
     </React.StrictMode>

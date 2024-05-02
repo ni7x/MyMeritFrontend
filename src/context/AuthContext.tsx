@@ -11,6 +11,8 @@ import User from "../types/User.ts";
 import { httpCall } from "../api/HttpClient.ts";
 import { getUser } from "../services/UserService.ts";
 
+import { errorToast, successToast } from "../main";
+
 // type UserSignIn = Partial<z.infer<typeof UserModel>>;
 // type UserSignUp = Partial<z.infer<typeof UserModel> & { passwordRepeat: string }>;
 
@@ -109,6 +111,7 @@ const useAuthProvider = () => {
 
       if (response.success) {
         console.log("zalogowano", response.data.token);
+        successToast("Logged in successfully");
         const decodedToken = jwtDecode<JwtDecodedToken>(response.data.token);
         const userInfo = {
           decodedTokenInfo: decodedToken,
@@ -120,11 +123,14 @@ const useAuthProvider = () => {
         navigation("/");
       } else {
         setIsError({ type: "SignIn", message: response.message });
+        errorToast(response.message);
       }
     },
     onError: async (response: string) => {
+      console.log(response);
       setIsLoading(false);
       setIsError({ type: "SignIn", message: response });
+      errorToast("Could not log in. Please try again.");
     },
   });
 
@@ -152,14 +158,18 @@ const useAuthProvider = () => {
       setIsLoading(false);
       if (response.success) {
         console.log("zarejestrowano");
+        successToast("Registered successfully");
         navigation("/login");
       } else {
         navigation("/register");
+        setIsError({ type: "SignUp", message: response.message });
+        errorToast("Could not register. Please try again.");
       }
     },
     onError: async (response: string) => {
       setIsLoading(false);
       setIsError({ type: "SignUp", message: response });
+      errorToast("Could not register. Please try again.");
     },
   });
 
@@ -171,8 +181,11 @@ const useAuthProvider = () => {
       cookies.set("user", userInfo, { path: "/" });
       const userData = await getUser();
       setUserData(userData);
+      successToast("Logged in successfully");
+      navigation("/");
     } catch (e) {
       console.error(e);
+      errorToast("Could not log in. Please try again.");
     }
   };
 

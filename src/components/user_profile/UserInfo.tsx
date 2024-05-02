@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUser, getUserSocials } from "../../services/UserService";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { useAuth } from "../../hooks/useAuth";
 
 const UserInfo = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
