@@ -182,6 +182,7 @@ const submitSolution = async (jobId: string, files: MyFile[], token: string) => 
         const fileObject = new File([fileBlob], file.name, {type: file.type});
         data.append("files", fileObject);
     }
+    data.append("language", "c++");
     try {
         return await fetch(URL, {
             method: 'POST',

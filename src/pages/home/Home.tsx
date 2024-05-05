@@ -69,8 +69,8 @@ const Home: React.FC = () => {
   }, [queryParams]);
 
   return (
-    <div className="flex flex-col md:grid-cols-[200px_1fr] gap-x-10 h-full w-full items-center lg:items-baseline">
-      <div className="w-full flex flex-col gap-x-10 lg:flex-row justify-center">
+    <div className="flex flex-col md:grid-cols-[200px_1fr] gap-x-4 h-full w-full items-center lg:items-baseline">
+      <div className="w-full flex flex-col gap-x-4 lg:flex-row justify-center">
         <FilterPanel
           queryParams={queryParams}
           tasks={jobOffers}

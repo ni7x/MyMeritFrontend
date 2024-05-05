@@ -57,7 +57,7 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
             <div className="flex items-center justify-between text-sm pb-2.5 px-4 w-full font-medium" >
                 <div className="flex justify-center items-center">
                     <img className="h-6 w-6 rounded mr-2" src={logo}/>
-                    <a href={"/company/" + jobOffer.company.id} className="truncate">{jobOffer.company.name}</a>
+                    <a href={"/company/" + jobOffer.company.id} className="truncate">{jobOffer.company.username}</a>
                 </div>
                 <ul className="flex text-task-lighter">
                     {jobOffer.workLocations.map((location, index) => (
