@@ -23,16 +23,49 @@ loader.init().then((monaco) => {
   });
 });
 
-export const successToast = (message) => {
-  toast.success(message, {
-    className: "toast-success",
-  });
+export const loadingToast = (message, id = null) => {
+  if (id) {
+    toast.update(id, {
+      render: message,
+      className: "toast-loading",
+      isLoading: true,
+      autoClose: false
+    });
+    return id;
+  } else {
+    return toast.loading(message, {
+      className: "toast-loading",
+      autoClose: false
+    });
+  }
 };
 
-export const errorToast = (errorMessage) => {
-  toast.error(errorMessage, {
-    className: "toast-error",
-  });
+
+export const updateToast = (message, type, id = null) => {
+  if (id) {
+    toast.update(id, {
+      render: message,
+      type: type,
+      className: `toast-${type}`,
+      isLoading: false,
+      autoClose: 1000
+    });
+  } else {
+    toast[type](message, {
+      className: `toast-${type}`,
+      autoClose: 5000
+    });
+  }
+};
+
+
+export const successToast = (message, id = null) => {
+  updateToast(message, "success", id);
+};
+
+
+export const errorToast = (message, id = null) => {
+  updateToast(message, "error", id);
 };
 
 const queryClient = new QueryClient({});

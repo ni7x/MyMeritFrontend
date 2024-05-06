@@ -19,7 +19,7 @@ interface IdeProps {
     setFiles: (files: MyFile[]) => void;
 }
 
-const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent, files, currentFileIndex, setFiles, submitSolution, setAsMain, mainFileIndex, isEditable, task}) => {
+const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent, files, currentFileIndex, setFiles, currentLanguage, setAsMain, mainFileIndex, isEditable, task}) => {
     const [output, setCOutput] = useState<CodeExecutionOutput>(null);
     const [testOutput, setTOutput] = useState<TestOutput[]>(null);
 
@@ -103,6 +103,7 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent,
                                     setLoading={setLoading}
                                     task={task}
                                     mainFileIndex={mainFileIndex}
+                                    currentLanguage={currentLanguage}
                                 />
                             }
                         />

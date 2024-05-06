@@ -29,7 +29,6 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
     const {accessToken} = useAuth();
     const [isModalOpen, setModalOpen] = useState(false);
 
-
     useEffect(() => {
         const initializeFiles = async () => {
             const response = await downloadSolutionFiles(solutionId, accessToken);

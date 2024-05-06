@@ -18,7 +18,7 @@ class UserTaskDTO {
         public userSolution: Solution,
         public tests: Test[],
         public companyFeedback?: Feedback,
-
+        public templateFiles? : Map<string, string[]>
     ) {}
 }
 

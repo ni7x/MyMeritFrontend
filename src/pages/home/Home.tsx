@@ -69,15 +69,15 @@ const Home: React.FC = () => {
   }, [queryParams]);
 
   return (
-    <div className="flex flex-col md:grid-cols-[200px_1fr] gap-x-4 h-full w-full items-center lg:items-baseline">
-      <div className="w-full flex flex-col gap-x-4 lg:flex-row justify-center">
+    <div className="flex flex-col md:grid-cols-[200px_1fr] gap-4 h-full w-full items-center lg:items-baseline">
+      <div className="w-full flex flex-col gap-4 lg:flex-row justify-center">
         <FilterPanel
           queryParams={queryParams}
           tasks={jobOffers}
           handleChange={handleQueryParamChange}
         />
-        <div className="w-full">
-          <div className="flex justify-between mb-3 gap-4">
+        <div className="w-full flex flex-col gap-4">
+          <div className="flex justify-between gap-4">
             <SearchBar
               searchValue={queryParams.search}
               handleQueryParamChange={handleQueryParamChange}

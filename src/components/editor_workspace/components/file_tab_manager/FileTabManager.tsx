@@ -3,7 +3,7 @@ import AddFileButton from "./AddFileButton";
 
 const FileTabManager = ({files, currentFile, setCurrentFileByName, addFile, removeFile, getFileByName, renameFile, mainFileIndex}) => {
     return(
-        <div className="flex items-center ">
+        <div className="flex items-center overflow-auto">
             <FileList
                 files={files}
                 currentFile={currentFile}

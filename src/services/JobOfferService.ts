@@ -173,7 +173,7 @@ export const getCompilation = async (token: string) => {
 const b64toBlob = (base64, type = 'application/octet-stream') =>
     fetch(`data:${type};base64,${base64}`).then(res => res.blob())
 
-const submitSolution = async (jobId: string, files: MyFile[], token: string) => {
+const submitSolution = async (jobId: string, files: MyFile[], token: string, language: string, mainFileName: string) => {
     const URL = import.meta.env.VITE_API_URL + "/job/" + jobId + "/solution";
     const data = new FormData();
 
@@ -182,7 +182,8 @@ const submitSolution = async (jobId: string, files: MyFile[], token: string) => 
         const fileObject = new File([fileBlob], file.name, {type: file.type});
         data.append("files", fileObject);
     }
-    data.append("language", "c++");
+    data.append("language", language);
+    data.append("mainFileName", mainFileName);
     try {
         return await fetch(URL, {
             method: 'POST',
@@ -220,7 +221,7 @@ const submitFeedback = async (solutionId: string, files: MyFile[], reward: numbe
 }
 
 
-const downloadFiles = async (jobId: string, token: string): Promise<Response> => {
+const downloadFilesForJob = async (jobId: string, token: string): Promise<Response> => {
     const URL = import.meta.env.VITE_API_URL+ "/job/" + jobId + "/solution";
     try {
         return await fetch(URL, {
@@ -234,6 +235,26 @@ const downloadFiles = async (jobId: string, token: string): Promise<Response> =>
         console.error('Error:', error);
     }
 }
+
+const downloadFiles = async (fileIds: string[], token: string): Promise<Response> => {
+    const URL = import.meta.env.VITE_API_URL+ "/file/download/";
+    try {
+        return await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fileIDS: fileIds
+            })
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
 
 const downloadSolutionFiles = async (solutionId: string, token: string): Promise<Response> => {
     const URL = import.meta.env.VITE_API_URL+ "/solution/" + solutionId;
@@ -267,4 +288,4 @@ const downloadFeedbackFiles = async (solutionId: string, token: string): Promise
 
 
 
-export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFiles, downloadSolutionFiles, submitFeedback, downloadFeedbackFiles }
+export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFilesForJob, downloadSolutionFiles, submitFeedback, downloadFeedbackFiles, downloadFiles }

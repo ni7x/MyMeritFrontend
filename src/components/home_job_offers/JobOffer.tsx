@@ -9,7 +9,7 @@ import TaskStatus from "../../models/TaskStatus";
 const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
     const solvingTime = differenceInMinutes( new Date(jobOffer.closesAt),  new Date(jobOffer.opensAt));
     return (
-        <div className="flex-column bg-secondary-bg-color rounded mb-5 xl:max-w-full">
+        <div className="flex-column bg-secondary-bg-color rounded xl:max-w-full">
             <div className="pt-2.5 px-4 text-sm">
                 <div className="font-semibold mt-1 pb-3 flex justify-between items-center flex-wrap gap-2">
                     <div className="flex-row items-center ">
