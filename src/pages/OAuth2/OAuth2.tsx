@@ -7,10 +7,10 @@ const OAuth2 = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { signInWithToken, isAuthenticated, isLoading } = useAuth();
+  const { signInWithToken, isAuthenticated, user } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated() && !isLoading) {
+    if (!user && searchParams.has("token")) {
       const token = searchParams.get("token");
       if (token) {
         signInWithToken(token);

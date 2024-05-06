@@ -9,17 +9,16 @@ export type User = {
 };
 
 export type Task = {
-  id: string;
   title: string;
   instructions: string;
   opensAt: Date;
   closesAt: Date;
   reward: number;
   allowedLanguages: string[];
-  memoryLimit: number;
-  timeLimit: number;
-  tests: CodeTest[];
-  solutions: Solution[];
+  memoryLimit?: number;
+  timeLimit?: number;
+  tests?: CodeTest[];
+  solutions?: Solution[];
 };
 
 export type Solution = {
@@ -88,3 +87,17 @@ export enum EmploymentType {
   REMOTE = "REMOTE",
   MIXED = "MIXED",
 }
+
+export type JobOffer = {
+  jobTitle: string;
+  description: string;
+  requiredSkills: string[];
+  preferredSkills: string[];
+  workLocations: string[];
+  technologies: string[];
+  experience: Experience;
+  task: Task;
+  user: User;
+  salary: number;
+  employmentType: EmploymentType;
+};

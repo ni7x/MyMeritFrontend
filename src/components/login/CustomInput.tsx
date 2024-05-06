@@ -50,22 +50,6 @@ const CustomInput = ({
           {error}
         </p>
       )}
-      {/* {error && (
-        <>
-          <a
-            data-tooltip-id="error-tooltip"
-            data-tooltip-content={error}
-            data-tooltip-variant="error"
-            className="absolute top-0 -right-12 h-full flex items-center cursor-pointer"
-          >
-            <FontAwesomeIcon
-              className="text-[#ff4d4f] text-lg"
-              icon={faCircleExclamation}
-            />
-          </a>
-          <Tooltip id="error-tooltip" place="right" />
-        </>
-      )} */}
     </div>
   );
 };

@@ -29,10 +29,20 @@ export const successToast = (message) => {
   });
 };
 
+export const loadingToast = (message) => {
+  toast.loading(message, {
+    className: "toast-loading",
+  });
+};
+
 export const errorToast = (errorMessage) => {
   toast.error(errorMessage, {
     className: "toast-error",
   });
+};
+
+export const toastDismiss = () => {
+  toast.dismiss();
 };
 
 const queryClient = new QueryClient({});

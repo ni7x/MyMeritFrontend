@@ -8,3 +8,26 @@
   display: flex;
   flex-direction: column;
 }
+
+.rti--container {
+  --rti-bg: #44444f !important;
+  --rti-border: #44444f !important;
+  --rti-main: #44444f !important;
+  --rti-radius: 0.2rem !important;
+  --rti-s: 1rem !important;
+  --rti-tag: transparent !important;
+  --rti-tag-remove: #e53e3e;
+}
+
+.error .rti--container {
+  border: 1px solid #fc8181 !important;
+}
+
+.rti--input {
+  background-color: #44444f;
+}
+
+.rti--container:focus-within {
+  border-color: var(--rti-main);
+  box-shadow: none !important;
+}

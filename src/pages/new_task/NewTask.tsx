@@ -5,99 +5,86 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, KeyboardEventHandler } from "react";
 import { Experience, EmploymentType } from "../../types";
 import CustomInput from "../../components/login/CustomInput";
-import CreatableSelect from "react-select/creatable";
-import ControlledSelect from "../../components/form/ControlledSelect";
 import { TagsInput } from "react-tag-input-component";
 import AuthSubmit from "../../components/form/AuthSubmit";
 import MDEditor, { selectWord } from "@uiw/react-md-editor";
+import { useAuth } from "../../hooks/useAuth";
+
+import { submitJobOffer } from "../../services/JobOfferService";
+import { useNavigate } from "react-router-dom";
 
 const jobOfferSchema = z.object({
   jobTitle: z.string().min(5),
   description: z.string().nonempty("Required").max(300),
-  //   requiredSkills: z.array(z.string()),
-  //   preferredSkills: z.array(z.string()),
-  //   workLocations: z.array(z.string()),
-  //   technologies: z.array(z.string()),
+  requiredSkills: z
+    .string()
+    .array()
+    .nonempty("At least one required skill is required"),
+  preferredSkills: z
+    .string()
+    .array()
+    .nonempty("At least one preferred skill is required"),
+  workLocations: z
+    .string()
+    .array()
+    .nonempty("At least one work location is required"),
+  technologies: z
+    .string()
+    .array()
+    .nonempty("At least one technology is required"),
   experience: z.nativeEnum(Experience),
-  salary: z.coerce.number(),
+  salary: z.coerce.number().int(),
   employmentType: z.nativeEnum(EmploymentType),
 });
 
 const taskSchema = z.object({
   title: z.string().min(5),
-  instructions: z.string().nonempty("Required").max(300),
-  opensAt: z.date(),
-  closesAt: z.date(),
-  reward: z.number().int(),
-  allowedLanguages: z.array(z.string()),
+  instructions: z.string().nonempty("Instructions are required").max(1000),
+  opensAt: z.coerce.date(),
+  closesAt: z.coerce.date(),
+  reward: z.coerce.number().int(),
+  allowedLanguages: z
+    .string()
+    .array()
+    .nonempty("At least one language is required"),
 });
 
 type JobOfferFields = z.infer<typeof jobOfferSchema>;
 type TaskFields = z.infer<typeof taskSchema>;
 
-interface Option {
-  readonly label: string;
-  readonly value: string;
-}
-
-const requiredSkills: Option[] = [
-  { label: "Required Skill 1", value: "Required Skill 1" },
-  { label: "Required Skill 2", value: "Required Skill 2" },
-  { label: "Required Skill 3", value: "Required Skill 3" },
-];
-
-const PreferredSkills: Option[] = [
-  { label: "Preferred Skill 1", value: "Preferred Skill 1" },
-  { label: "Preferred Skill 2", value: "Preferred Skill 2" },
-  { label: "Preferred Skill 3", value: "Preferred Skill 3" },
-];
-
-const WorkLocations: Option[] = [
-  { label: "Work Location 1", value: "Work Location 1" },
-  { label: "Work Location 2", value: "Work Location 2" },
-  { label: "Work Location 3", value: "Work Location 3" },
-];
-
-const Technologies: Option[] = [
-  { label: "Technology 1", value: "Technology 1" },
-  { label: "Technology 2", value: "Technology 2" },
-  { label: "Technology 3", value: "Technology 3" },
-];
-
-const components = {
-  DropdownIndicator: null,
-};
-
-const createOption = (label: string) => ({
-  label,
-  value: label,
-});
-
 const NewTask = () => {
-  const [jobOfferData, setJobOfferData] = useState<JobOfferFields | null>(null);
-  const [taskData, setTaskData] = useState<TaskFields | null>(null);
+  const [jobOfferData, setJobOfferData] = useState<JobOfferFields>(
+    {} as JobOfferFields
+  );
+  const [taskData, setTaskData] = useState<TaskFields>({} as TaskFields);
 
-  const [requiredSkills, setRequiredSkills] = useState<String[]>([]);
-  const [preferredSkills, setPreferredSkills] = useState<String[]>([]);
-  const [workLocations, setWorkLocations] = useState<String[]>([]);
-  const [technologies, setTechnologies] = useState<String[]>([]);
+  const [requiredSkills, setRequiredSkills] = useState<string[]>([]);
+  const [preferredSkills, setPreferredSkills] = useState<string[]>([]);
+  const [workLocations, setWorkLocations] = useState<string[]>([]);
+  const [technologies, setTechnologies] = useState<string[]>([]);
 
   const [instructions, setInstructions] = useState<string>("");
+  const [allowedLanguages, setAllowedLanguages] = useState<string[]>([]);
+
+  const [activeStep, setActiveStep] = useState<number>(0);
+
+  const { userData } = useAuth();
+  const navigate = useNavigate();
 
   const {
-    control: controlJobOffer,
     register: registerJobOffer,
     handleSubmit: handleSubmitJobOffer,
     setError: setErrorJobOffer,
+    setValue: setValueJobOffer,
     formState: { errors: errorsJobOffer, isSubmiting: isSubmitingJobOffer },
   } = useForm<JobOfferFields>({
     defaultValues: {
       jobTitle: "",
       description: "",
-      // requiredSkills: [],
-      // preferredSkills: [],
-      // workLocations: [],
-      // technologies: [],
+      requiredSkills: [],
+      preferredSkills: [],
+      workLocations: [],
+      technologies: [],
       experience: Experience.INTERN,
       salary: 0,
       employmentType: EmploymentType.REMOTE,
@@ -109,6 +96,7 @@ const NewTask = () => {
     register: registerTask,
     handleSubmit: handleSubmitTask,
     setError: setErrorTask,
+    setValue: setValueTask,
     formState: { errors: errorsTask, isSubmiting: isSubmitingTask },
   } = useForm<TaskFields>({
     defaultValues: {
@@ -123,25 +111,34 @@ const NewTask = () => {
   });
 
   const onSubmitJobOffer = (data: JobOfferFields) => {
-    console.log(data);
     setJobOfferData(data);
+    setActiveStep(1);
   };
 
-  const onSubmitTask = (data: TaskFields) => {
+  const onSubmitTask = async (data: TaskFields) => {
     setTaskData(data);
+    submitJobOffer({
+      ...jobOfferData,
+      task: data,
+      user: userData,
+    }).then((res) => {
+      if (res.id) {
+        successToast("Job Offer created successfully");
+        setTimeout(() => navigate("/job/" + res.id), 1000);
+      }
+    });
   };
 
   return (
     <div>
       <h1>Create a new Job Offer</h1>
       <h2 className="mb-4">
-        {jobOfferData === null
+        {activeStep == 0
           ? "Step 1 - Job Offer information"
-          : taskData === null
-          ? "Step 2 - Task information"
-          : "Job Offer and Task created"}
+          : "Step 2 - Task information"}
       </h2>
-      {jobOfferData === null ? (
+      {/* {jobOfferData === null ? ( */}
+      {activeStep == 0 ? (
         <form
           onSubmit={handleSubmitJobOffer(onSubmitJobOffer)}
           className="flex flex-col gap-4"
@@ -156,26 +153,145 @@ const NewTask = () => {
           <CustomInput
             id="description"
             label="Description"
-            type="text"
+            type="textarea"
             register={registerJobOffer}
             error={errorsJobOffer?.description?.message}
           />
 
-          <TagsInput
-            value={requiredSkills}
-            onChange={setRequiredSkills}
-            placeholder="Add required skills"
-            name="requiredSkills"
-            className="bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold focus-visible:outline-none"
-          />
+          <div
+            className={`relative ${
+              errorsJobOffer?.requiredSkills?.message
+                ? "animate-shake error"
+                : ""
+            }`}
+          >
+            <label htmlFor="requiredSkills" className="text-white text-sm">
+              Required Skills
+            </label>
+            <TagsInput
+              value={requiredSkills}
+              onChange={(newRequiredSkills) => {
+                setRequiredSkills(newRequiredSkills);
+                setValueJobOffer("requiredSkills", newRequiredSkills);
+              }}
+              name="requiredSkills"
+              placeHolder="enter required skills and press enter"
+            />
+            {errorsJobOffer?.requiredSkills?.message && (
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsJobOffer?.requiredSkills?.message}
+              </p>
+            )}
+          </div>
 
-          <CustomInput
-            id="experience"
-            label="Experience"
-            type="select"
-            register={registerJobOffer}
-            error={errorsJobOffer?.experience?.message}
-          />
+          <div
+            className={`relative ${
+              errorsJobOffer?.preferredSkills?.message
+                ? "animate-shake error"
+                : ""
+            }`}
+          >
+            <label htmlFor="preferredSkills" className="text-white text-sm">
+              Preferred Skills
+            </label>
+
+            <TagsInput
+              value={preferredSkills}
+              onChange={(newPreferredSkills) => {
+                setPreferredSkills(newPreferredSkills);
+                setValueJobOffer("preferredSkills", newPreferredSkills);
+              }}
+              name="preferredSkills"
+              placeHolder="enter preferred skills and press enter"
+            />
+            {errorsJobOffer?.preferredSkills?.message && (
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsJobOffer?.preferredSkills?.message}
+              </p>
+            )}
+          </div>
+
+          <div
+            className={`relative ${
+              errorsJobOffer?.workLocations?.message
+                ? "animate-shake error"
+                : ""
+            }`}
+          >
+            <label htmlFor="workLocations" className="text-white text-sm">
+              Work Locations
+            </label>
+            <TagsInput
+              value={workLocations}
+              onChange={(newWorkLocations) => {
+                setWorkLocations(newWorkLocations);
+                setValueJobOffer("workLocations", newWorkLocations);
+              }}
+              name="workLocations"
+              placeHolder="enter work locations and press enter"
+            />
+            {errorsJobOffer?.workLocations?.message && (
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsJobOffer?.workLocations?.message}
+              </p>
+            )}
+          </div>
+
+          <div
+            className={`relative ${
+              errorsJobOffer?.technologies?.message ? "animate-shake error" : ""
+            }`}
+          >
+            <label htmlFor="technologies" className="text-white text-sm">
+              Technologies
+            </label>
+            <TagsInput
+              value={technologies}
+              onChange={(newTechnologies) => {
+                setTechnologies(newTechnologies);
+                setValueJobOffer("technologies", newTechnologies);
+              }}
+              name="technologies"
+              placeHolder="enter technologies and press enter"
+            />
+            {errorsJobOffer?.technologies?.message && (
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsJobOffer?.technologies?.message}
+              </p>
+            )}
+          </div>
+
+          <div
+            className={`relative ${
+              errorsJobOffer?.experience?.message ? "error" : ""
+            }`}
+          >
+            <label htmlFor="experience" className="text-white text-sm">
+              Experience
+            </label>
+            <select
+              {...registerJobOffer("experience")}
+              className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
+                errorsJobOffer?.experience?.message
+                  ? " border-[#FC8181]"
+                  : "border-[#44444f]"
+              }`}
+            >
+              {Object.values(Experience).map((experience) => (
+                <option key={experience} value={experience}>
+                  {experience}
+                </option>
+              ))}
+            </select>
+            {errorsJobOffer?.experience?.message && (
+              // <p className="bg-[#b94a48] text-white font-semibold p-2 rounded-b w-full text-xs">
+              //   {error}
+              // </p>
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsJobOffer?.experience?.message}
+              </p>
+            )}
+          </div>
 
           <CustomInput
             id="salary"
@@ -185,16 +301,39 @@ const NewTask = () => {
             error={errorsJobOffer?.salary?.message}
           />
 
-          <CustomInput
-            id="employmentType"
-            label="Employment Type"
-            type="select"
-            register={registerJobOffer}
-            error={errorsJobOffer?.employmentType?.message}
-          />
-          <AuthSubmit>Next</AuthSubmit>
+          <div className="relative">
+            <label htmlFor="employmentType" className="text-white text-sm">
+              Employment type
+            </label>
+            <select
+              {...registerJobOffer("employmentType")}
+              className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
+                errorsJobOffer?.employmentType?.message
+                  ? " border-[#FC8181]"
+                  : "border-[#44444f]"
+              }`}
+            >
+              {Object.values(EmploymentType).map((employmentType) => (
+                <option key={employmentType} value={employmentType}>
+                  {employmentType}
+                </option>
+              ))}
+            </select>
+            {errorsJobOffer?.employmentType?.message && (
+              // <p className="bg-[#b94a48] text-white font-semibold p-2 rounded-b w-full text-xs">
+              //   {error}
+              // </p>
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsJobOffer?.employmentType?.message}
+              </p>
+            )}
+          </div>
+          <div className="flex w-full justify-end">
+            <AuthSubmit>Next</AuthSubmit>
+          </div>
         </form>
-      ) : taskData === null ? (
+      ) : // ) : taskData === null ? (
+      activeStep == 1 ? (
         <form
           onSubmit={handleSubmitTask(onSubmitTask)}
           className="flex flex-col gap-4"
@@ -206,19 +345,35 @@ const NewTask = () => {
             register={registerTask}
             error={errorsTask?.title?.message}
           />
-          {/* <CustomInput
-            id="instructions"
-            label="Instructions"
-            type="text"
-            register={registerTask}
-            error={errorsTask?.instructions?.message}
-          /> */}
-          <MDEditor
-            height={200}
-            // value={instructions}
-            // onChange={setInstructions}
-            {...registerTask("instructions")}
-          />
+          <div
+            className={`relative ${
+              errorsTask?.instructions?.message ? "animate-shake" : ""
+            }`}
+          >
+            <label htmlFor="instructions" className="text-white text-sm">
+              Instructions
+            </label>
+
+            <MDEditor
+              height={400}
+              value={instructions}
+              onChange={(newInstructions) => {
+                setInstructions(newInstructions);
+                setValueTask("instructions", newInstructions);
+              }}
+              className={`border-[1px] border-solid ${
+                errorsTask?.instructions?.message
+                  ? "border-[#FC8181]"
+                  : "border-[#44444f] bg-[#44444f]"
+              }`}
+            />
+
+            {errorsTask?.instructions?.message && (
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsTask?.instructions?.message}
+              </p>
+            )}
+          </div>
 
           <CustomInput
             id="opensAt"
@@ -241,14 +396,35 @@ const NewTask = () => {
             register={registerTask}
             error={errorsTask?.reward?.message}
           />
-          <CustomInput
-            id="allowedLanguages"
-            label="Allowed Languages"
-            type="select"
-            register={registerTask}
-            error={errorsTask?.allowedLanguages?.message}
-          />
-          <AuthSubmit>Create Task</AuthSubmit>
+
+          <div className="relative">
+            <label htmlFor="allowedLanguages" className="text-white text-sm">
+              Allowed languages
+            </label>
+            <TagsInput
+              value={allowedLanguages}
+              onChange={(newAllowedLanguages) => {
+                setAllowedLanguages(newAllowedLanguages);
+                setValueTask("allowedLanguages", newAllowedLanguages);
+              }}
+              name="allowedLanguages"
+              placeHolder="enter allowed languages"
+            />
+            {errorsTask?.allowedLanguages?.message && (
+              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+                {errorsTask?.allowedLanguages?.message}
+              </p>
+            )}
+          </div>
+          <div className="flex justify-between gap-4 w-full">
+            <button
+              onClick={() => setActiveStep(0)}
+              className="bg-red-800 p-4 rounded"
+            >
+              Back
+            </button>
+            <AuthSubmit>Create Task</AuthSubmit>
+          </div>
         </form>
       ) : (
         <div>

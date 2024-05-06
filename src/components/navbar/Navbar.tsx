@@ -34,7 +34,13 @@ const Navbar = () => {
 
             {isAuthenticated() && <MeritLink to="/rewards">Rewards</MeritLink>}
 
-            <li className="ml-auto z-[1000]">
+            {isAuthenticated() && (
+              <MeritLink className="ml-auto" to="/job/new">
+                New job offer
+              </MeritLink>
+            )}
+
+            <li className={`z-[1000] ${isAuthenticated() ? "" : "ml-auto"}`}>
               <div className="w-8 h-8 rounded-full flex justify-center items-center group relative">
                 <Link to={`${isAuthenticated() ? "/profile" : "/login"}`}>
                   {userData?.imageBase64 ? (
