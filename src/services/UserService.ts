@@ -1,7 +1,7 @@
 import { users } from "../common/users";
 import { socials } from "../common/socials";
 
-import { httpCall } from "../api/HttpClient";
+import { HttpResponse, httpCall } from "../api/HttpClient";
 import User from "../types/User";
 import Task from "../types/Task";
 
@@ -30,7 +30,6 @@ const getUserTasks = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    errorToast("Could not fetch tasks. Please try again.");
   }
 };
 
@@ -44,7 +43,6 @@ const getUser = async () => {
     return data;
   } catch (error) {
     console.error(error);
-    errorToast("Could not fetch user. Please try again.");
   }
 };
 
@@ -54,7 +52,7 @@ const updateUser = async (
   imageBase64: string
 ) => {
   try {
-    const data = await httpCall<User>({
+    return await httpCall<HttpResponse<any>>({
       url: import.meta.env.VITE_API_URL + "/me/update",
       method: "POST",
       body: {
@@ -63,12 +61,7 @@ const updateUser = async (
         imageBase64,
       },
     });
-    successToast("User updated successfully");
-    return data;
-  } catch (error) {
-    console.error(error);
-    errorToast("Could not update user. Please try again.");
-  }
+  } catch (error) {}
 };
 
 export {

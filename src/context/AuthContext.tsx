@@ -4,11 +4,12 @@ import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "universal-cookie";
+import { useCookies } from "react-cookie";
 
 import User from "../types/User.ts";
 // import Company from '../models/Company.tsx';
 // import { JwtEncodedUser } from '../types';
-import { httpCall } from "../api/HttpClient.ts";
+import { HttpResponse, httpCall } from "../api/HttpClient.ts";
 import { getUser } from "../services/UserService.ts";
 
 import { errorToast, successToast } from "../main";
@@ -16,19 +17,17 @@ import { errorToast, successToast } from "../main";
 // type UserSignIn = Partial<z.infer<typeof UserModel>>;
 // type UserSignUp = Partial<z.infer<typeof UserModel> & { passwordRepeat: string }>;
 
-type CookieUser = JwtEncodedUser | undefined;
+type CookieUser = {
+  decodedTokenInfo: JwtDecodedToken;
+  accessToken: string;
+  isCompany: boolean;
+};
 
 type JwtDecodedToken = {
   sub: string;
   iat: number;
   exp: number;
   role: string;
-};
-
-type JwtEncodedUser = {
-  decodedTokenInfo: JwtDecodedToken;
-  accessToken: string;
-  isCompany: boolean;
 };
 
 type UserSignIn = {
@@ -44,13 +43,14 @@ type UserSignUp = {
 };
 
 type Error = {
-  type: "SignIn" | "SignUp" | "SignInCompany";
+  type: "SignIn" | "SignUp" | "SignInCompany" | "VerifyEmail" | "VerifyCode";
   message: string;
 };
 
 type AuthContext = {
   user: CookieUser;
   userData: User;
+  setUserData: (userData: User) => void;
   accessToken: string | null;
   isAuthenticated: () => boolean;
   isAuthenticatedCompany: () => boolean;
@@ -58,6 +58,8 @@ type AuthContext = {
   signInWithToken: (token: string) => void;
   signUp: ({ username, email, password, code }: UserSignUp) => boolean;
   signOut: () => void;
+  verifyEmail: (email: string) => HttpResponse<any>;
+  verifyCode: (email: string, code: string) => HttpResponse<any>;
   isLoading: boolean;
   isError?: Error;
 };
@@ -69,11 +71,11 @@ const getUserFromCookie = () => {
 
 const useAuthProvider = () => {
   const navigation = useNavigate();
-  const [user, setUser] = useState<CookieUser>(getUserFromCookie());
-  const [userData, setUserData] = useState<User>({} as User);
+  const [user, setUser] = useState<CookieUser | undefined>(getUserFromCookie());
+  const [userData, setUserData] = useState<User | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState<Error | undefined>(undefined);
-  const cookies = new Cookies();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const isAuthenticated = (): boolean => {
     const isTokenExpired = () => {
@@ -119,7 +121,7 @@ const useAuthProvider = () => {
           isCompany: decodedToken.role.toUpperCase() !== "USER",
         };
         setUser(userInfo);
-        cookies.set("user", userInfo);
+        setCookie("user", userInfo, { path: "/" });
         navigation("/");
       } else {
         setIsError({ type: "SignIn", message: response.message });
@@ -173,12 +175,62 @@ const useAuthProvider = () => {
     },
   });
 
+  const verifyEmailMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const data = await httpCall<any[]>({
+        url: import.meta.env.VITE_ROUTE_AUTH_CODE,
+        method: "POST",
+        body: {
+          email: email,
+        },
+      });
+
+      return data;
+    },
+    onMutate: async () => {
+      setIsLoading(true);
+    },
+    onSuccess: async (response: any) => {
+      setIsLoading(false);
+    },
+    onError: async (response: string) => {
+      setIsLoading(false);
+    },
+  });
+
+  const verifyCodeMutation = useMutation({
+    mutationFn: async ({ email, code }: { email: string; code: string }) => {
+      const data = await httpCall<any[]>({
+        url: import.meta.env.VITE_ROUTE_AUTH_CODE + "?verify=" + code,
+        method: "POST",
+        body: {
+          email: email,
+        },
+      });
+
+      return data;
+    },
+    onMutate: async () => {
+      setIsLoading(true);
+    },
+    onSuccess: async (response: any) => {
+      setIsLoading(false);
+    },
+    onError: async (response: string) => {
+      setIsLoading(false);
+    },
+  });
+
   const signInWithToken = async (token: string) => {
     try {
       const decodedToken = jwtDecode<JwtDecodedToken>(token);
-      const userInfo = { decodedTokenInfo: decodedToken, accessToken: token };
+      const userInfo = {
+        decodedTokenInfo: decodedToken,
+        accessToken: token,
+        isCompany: decodedToken.role.toUpperCase() !== "USER",
+      };
       setUser(userInfo);
-      cookies.set("user", userInfo, { path: "/" });
+      setCookie("user", userInfo, { path: "/" });
       const userData = await getUser();
       setUserData(userData);
       successToast("Logged in successfully");
@@ -188,15 +240,6 @@ const useAuthProvider = () => {
       errorToast("Could not log in. Please try again.");
     }
   };
-
-  useEffect(() => {
-    if (cookies.get("user")) {
-      setUser(cookies.get("user"));
-      getUser().then((userData) => {
-        setUserData(userData);
-      });
-    }
-  }, []);
 
   const signIn = ({ email, password }: UserSignIn) => {
     signInMutation.mutate({ email, password });
@@ -209,14 +252,32 @@ const useAuthProvider = () => {
   };
 
   const signOut = () => {
-    cookies.remove("user");
+    removeCookie("user", { path: "/" });
     setUser(undefined);
     window.location.reload();
   };
 
+  const verifyEmail = async (email: string) => {
+    return await verifyEmailMutation.mutateAsync(email);
+  };
+
+  const verifyCode = async (email: string, code: string) => {
+    return await verifyCodeMutation.mutateAsync({ email, code });
+  };
+
+  useEffect(() => {
+    if (cookies["user"]) {
+      setUser(cookies["user"]);
+      getUser().then((userData) => {
+        setUserData(userData);
+      });
+    }
+  }, []);
+
   return {
     user,
     userData,
+    setUserData,
     accessToken: user ? user.accessToken : null,
     isAuthenticated,
     isAuthenticatedCompany,
@@ -224,6 +285,8 @@ const useAuthProvider = () => {
     signInWithToken,
     signUp,
     signOut,
+    verifyEmail,
+    verifyCode,
     isLoading,
     isError,
   };

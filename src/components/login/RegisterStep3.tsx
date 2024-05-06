@@ -1,54 +1,50 @@
 import { FormEvent } from "react";
+import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
 
-import Input from "../../components/login/Input";
 import AuthSubTitle from "./AuthSubTitle";
 import AuthForm from "./AuthForm";
-import AuthSubmit from "./AuthSubmit";
+import AuthSubmit from "../form/AuthSubmit";
+import CustomInput from "./CustomInput";
+import Loading from "../Loading";
 
 const RegisterStep3 = ({
-  username,
-  setUsername,
-  password1,
-  setPassword1,
-  password2,
-  setPassword2,
+  register,
+  errors,
   onSubmit,
+  isLoading,
 }: {
-  username: string;
-  setUsername: (username: string) => void;
-  password1: string;
-  setPassword1: (password1: string) => void;
-  password2: string;
-  setPassword2: (password2: string) => void;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors<FieldValues> | undefined;
   onSubmit: (e: FormEvent) => void;
+  isLoading: boolean;
 }) => {
   return (
     <>
       <AuthSubTitle>Step 3 - fill your data</AuthSubTitle>
       <AuthForm handleSubmit={onSubmit}>
-        <Input
+        <CustomInput
+          id="username"
           type="text"
-          placeholder="username"
-          name="username"
-          onChange={(e) => setUsername(e.currentTarget.value)}
-          value={username}
+          placeholder="Username"
+          register={register}
+          error={errors?.username?.message}
         />
-        <Input
+        <CustomInput
+          id="password"
           type="password"
-          placeholder="password"
-          name="password1"
-          onChange={(e) => setPassword1(e.currentTarget.value)}
-          value={password1}
+          placeholder="Password"
+          register={register}
+          error={errors?.password?.message}
         />
-        <Input
+        <CustomInput
+          id="password2"
           type="password"
-          placeholder="repeat password"
-          name="password2"
-          onChange={(e) => setPassword2(e.currentTarget.value)}
-          value={password2}
+          placeholder="Confirm password"
+          register={register}
+          error={errors?.password2?.message}
         />
 
-        <AuthSubmit>Register</AuthSubmit>
+        <AuthSubmit>{isLoading ? <Loading /> : "Register"}</AuthSubmit>
       </AuthForm>
     </>
   );

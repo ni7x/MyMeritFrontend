@@ -44,8 +44,9 @@ export async function httpCall<HttpResponse>({
     body: JSON.stringify(body),
   });
 
-  if (!response.ok) {
-    throw new Error("Error");
+  if (response.status >= 500) {
+    errorToast("Server error. Please try again later.");
+    return {} as HttpResponse;
   }
 
   return await response.json();
@@ -71,7 +72,7 @@ export async function httpCallWithAuthorization<Data>({
 
   if (!response.ok) {
     errorToast(response.status);
-    return;
+    return {} as Data;
   }
 
   return await response.json();

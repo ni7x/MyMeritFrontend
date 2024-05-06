@@ -1,5 +1,5 @@
-import { useState, FormEvent, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
@@ -12,18 +12,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useAuth } from "../../hooks/useAuth";
 import AuthForm from "../../components/login/AuthForm";
-import AuthSubmit from "../../components/login/AuthSubmit";
+import AuthSubmit from "../../components/form/AuthSubmit";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Loading from "../../components/Loading";
+import CustomInput from "../../components/login/CustomInput";
 
 const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(5),
+  email: z.string().nonempty("Required"),
+  password: z.string().nonempty("Required"),
 });
 
 type FormFields = z.infer<typeof schema>;
+
+// type FormFields = {
+//   email: string;
+//   password: string;
+// };
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,47 +67,27 @@ const Login = () => {
     <AuthBox>
       <AuthTitle>Welcome back!</AuthTitle>
       <AuthForm handleSubmit={handleSubmit(onSubmit)}>
-        <div className={`relative ${errors.email && "mb-4"}`}>
-          <input
-            type="text"
-            id="email"
-            placeholder="email"
-            className="bg-main-bg-input bg-[#44444f] rounded border-none p-4 text-sm text-white box-border w-full font-semibold focus-visible:border-none focus-visible:outline-none"
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-[#ff4d4f] text-xs absolute top-full left-0">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-        <div className={`relative ${errors.password && "mb-4"}`}>
-          <input
-            type={processedPassword}
-            id="password"
-            placeholder="password"
-            className="bg-main-bg-input bg-[#44444f] rounded border-none p-4 text-sm text-white box-border w-full font-semibold focus-visible:border-none focus-visible:outline-none"
-            {...register("password")}
-          />
+        <CustomInput
+          id="email"
+          type="text"
+          placeholder="email"
+          register={register}
+          error={errors.email && errors.email.message}
+        />
 
-          <FontAwesomeIcon
-            className="absolute top-0 bottom-0 right-4 m-auto w-5 h-auto text-main-lighter"
-            icon={showPassword ? faEyeSlash : faEye}
-            onClick={handleShowPassword}
-          />
-
-          {errors.password && (
-            <p className="text-[#ff4d4f] text-xs absolute top-full left-0">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        <CustomInput
+          id="password"
+          type={processedPassword}
+          placeholder="password"
+          register={register}
+          error={errors.password && errors.password.message}
+        />
 
         <a className=" w-max ml-auto text-white font-bold text-xs" href="#">
           forgot password?
         </a>
 
-        <AuthSubmit>{isLoading ? "Loading.." : "Log In"}</AuthSubmit>
+        <AuthSubmit>{isLoading ? <Loading /> : "Log In"}</AuthSubmit>
       </AuthForm>
       <Divider>or</Divider>
       <OAuthLogin />

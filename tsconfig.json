@@ -21,6 +21,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@api/*": ["src/api/*"],
+      "@types": ["src/types/index.ts"]
+    },
+    "baseUrl": "./",
 
     "checkJs": true
   },
