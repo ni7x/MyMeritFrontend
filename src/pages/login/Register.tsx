@@ -22,7 +22,7 @@ const schema1 = z.object({
 });
 
 const schema2 = z.object({
-  code: z.string().min(4),
+  code: z.number().min(4),
 });
 
 const schema3 = z
