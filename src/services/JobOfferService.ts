@@ -243,6 +243,29 @@ const submitSolution = async (
   }
 };
 
+const submitFeedback = async (solutionId: string, files: MyFile[], reward: number, comment: string, token: string) => {
+  const URL = import.meta.env.VITE_API_URL + "/solution/" + solutionId;
+  const data = new FormData();
+  for (const file of files) {
+      const fileBlob = await b64toBlob(file.contentBase64, file.type);
+      const fileObject = new File([fileBlob], file.name, {type: file.type});
+      data.append("files", fileObject);
+  }
+  data.append("reward", reward.toString());
+  data.append("comment", comment);
+  try {
+      return await fetch(URL, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+          },
+          body: data
+      });
+  } catch (error) {
+      console.error('Error:', error);
+  }
+}
+
 const downloadFilesForJob = async (jobId: string, token: string): Promise<Response> => {
     const URL = import.meta.env.VITE_API_URL+ "/job/" + jobId + "/solution";
     try {
@@ -270,23 +293,6 @@ const downloadFiles = async (fileIds: string[], token: string): Promise<Response
             body: JSON.stringify({
                 fileIDS: fileIds
             })
-        });
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-
-
-const downloadSolutionFiles = async (solutionId: string, token: string): Promise<Response> => {
-    const URL = import.meta.env.VITE_API_URL+ "/solution/" + solutionId;
-    try {
-        return await fetch(URL, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
         });
     } catch (error) {
         console.error('Error:', error);
