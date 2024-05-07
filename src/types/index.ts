@@ -88,6 +88,17 @@ export enum EmploymentType {
   MIXED = "MIXED",
 }
 
+export enum AllowedLanguages {
+  KOTLIN = "KOTLIN",
+  JAVA = "JAVA",
+  CPP = "CPP",
+  TYPESCRIPT = "TYPESCRIPT",
+  GO = "GO",
+  PYTHON = "PYTHON",
+  JAVASCRIPT = "JAVASCRIPT",
+  PHP = "PHP",
+}
+
 export type JobOffer = {
   jobTitle: string;
   description: string;

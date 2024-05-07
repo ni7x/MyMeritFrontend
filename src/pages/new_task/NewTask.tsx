@@ -3,7 +3,7 @@ import { errorToast, successToast } from "../../main";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, KeyboardEventHandler } from "react";
-import { Experience, EmploymentType } from "../../types";
+import { Experience, EmploymentType, AllowedLanguages } from "../../types";
 import CustomInput from "../../components/login/CustomInput";
 import { TagsInput } from "react-tag-input-component";
 import AuthSubmit from "../../components/form/AuthSubmit";
@@ -43,10 +43,7 @@ const taskSchema = z.object({
   opensAt: z.coerce.date(),
   closesAt: z.coerce.date(),
   reward: z.coerce.number().int(),
-  allowedLanguages: z
-    .string()
-    .array()
-    .nonempty("At least one language is required"),
+  allowedLanguages: z.nativeEnum(AllowedLanguages).array().nonempty("At least one language is required"),
 });
 
 type JobOfferFields = z.infer<typeof jobOfferSchema>;
@@ -397,19 +394,28 @@ const NewTask = () => {
             error={errorsTask?.reward?.message}
           />
 
-          <div className="relative">
-            <label htmlFor="allowedLanguages" className="text-white text-sm">
+          <div
+            className={`relative ${
+              errorsTask?.allowedLanguages?.message ? "error" : ""
+            }`}
+          >
+            <label htmlFor="experience" className="text-white text-sm">
               Allowed languages
             </label>
-            <TagsInput
-              value={allowedLanguages}
-              onChange={(newAllowedLanguages) => {
-                setAllowedLanguages(newAllowedLanguages);
-                setValueTask("allowedLanguages", newAllowedLanguages);
-              }}
-              name="allowedLanguages"
-              placeHolder="enter allowed languages"
-            />
+            <select multiple
+              {...registerTask("allowedLanguages")}
+              className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
+                errorsTask?.allowedLanguages?.message
+                  ? " border-[#FC8181]"
+                  : "border-[#44444f]"
+              }`}
+            >
+              {Object.values(AllowedLanguages).map((allowedLanguage) => (
+                <option key={allowedLanguage} value={allowedLanguage}>
+                  {allowedLanguage}
+                </option>
+              ))}
+            </select>
             {errorsTask?.allowedLanguages?.message && (
               <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
                 {errorsTask?.allowedLanguages?.message}
