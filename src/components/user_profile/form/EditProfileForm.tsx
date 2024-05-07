@@ -1,14 +1,25 @@
 import React, { useRef, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import ProfilePicture from "./ProfilePicture";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { updateUser } from "../../../services/UserService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import User from "src/types/User";
+import { successToast } from "../../../main";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import CustomInput from "../../login/CustomInput";
 
-type FormValues = {
-  username: string;
-  description: string;
-};
+const schema = z.object({
+  username: z.string().min(5),
+  description: z.string().max(300),
+});
+
+type FormValues = z.infer<typeof schema> & { imageBase64?: string };
+
+// type FormValues = {
+//   username: string;
+//   description: string;
+// };
 
 const EditProfileForm = ({
   username,
@@ -16,32 +27,46 @@ const EditProfileForm = ({
   imageBase64,
   className,
   closeForm,
+  setUserData,
 }: {
   username: string;
   description: string;
   imageBase64: string;
   className?: string;
   closeForm?: () => void;
+  setUserData: (data: any) => void;
 }) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      username: username,
-      description: description,
-    },
+  } = useForm<FormValues>({
+    defaultValues: { username, description },
+    resolver: zodResolver(schema),
   });
 
   const [preview, setPreview] = useState<string>(imageBase64);
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     let { username, description } = data;
     if (description == null) description = "";
-    updateUser(username, description, preview).then(() => {
+
+    const result = await updateUser(username, description, preview);
+
+    if (result && result.success) {
+      setUserData((prev: User) => ({
+        ...prev,
+        username: username,
+        description: description,
+        imageBase64: preview,
+      }));
+
+      successToast("Profile updated successfully");
       if (closeForm) closeForm();
-    });
+    } else if (result) {
+      setError("root", { message: result.message });
+    }
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -70,8 +95,13 @@ const EditProfileForm = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`flex flex-col gap-4 ${className}`}
+      className={`flex flex-col gap-4 relative ${className ? className : ""}`}
     >
+      {errors?.root?.message && (
+        <p className="w-full font-semibold text-sm text-[#b94a48] animate-shake">
+          {errors?.root?.message}
+        </p>
+      )}
       <div className="w-full flex flex-col">
         <label className="pb-2">Profile picture</label>
 
@@ -104,23 +134,21 @@ const EditProfileForm = ({
         </button>
       </div>
 
-      <div>
-        <label>Username</label>
-        <input
-          type="text"
-          placeholder="username"
-          className="bg-main-bg-input bg-[#44444f] rounded border-none p-4 text-sm text-white box-border w-full font-semibold focus-visible:border-none focus-visible:outline-none"
-          {...register("username", { required: true })}
-        />
-      </div>
+      <CustomInput
+        id="username"
+        label="Username"
+        type="text"
+        register={register}
+        error={errors.username?.message}
+      />
 
-      <div>
-        <label>Description</label>
-        <textarea
-          className="bg-main-bg-input bg-[#44444f] rounded border-none p-4 text-sm text-white box-border w-full font-semibold focus-visible:border-none focus-visible:outline-none"
-          {...register("description", { max: 300, maxLength: 100 })}
-        />
-      </div>
+      <CustomInput
+        id="description"
+        label="Description"
+        type="textarea"
+        register={register}
+        error={errors.description?.message}
+      />
 
       <button
         type="submit"

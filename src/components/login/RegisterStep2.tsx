@@ -1,31 +1,38 @@
 import { FormEvent } from "react";
+import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
 
-import Input from "../../components/login/Input";
 import AuthSubTitle from "./AuthSubTitle";
 import AuthForm from "./AuthForm";
-import AuthSubmit from "./AuthSubmit";
+import AuthSubmit from "../form/AuthSubmit";
+import CustomInput from "./CustomInput";
+import Loading from "../Loading";
 
 const RegisterStep2 = ({
-  code,
-  setCode,
+  register,
+  errors,
   onSubmit,
+  isLoading,
 }: {
-  code: string;
-  setCode: (code: string) => void;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors<FieldValues> | undefined;
   onSubmit: (e: FormEvent) => void;
+  isLoading: boolean;
 }) => {
   return (
     <>
       <AuthSubTitle>Step 2 - verify your email</AuthSubTitle>
       <AuthForm handleSubmit={onSubmit}>
-        <Input
+        <CustomInput
+          id="code"
           type="text"
-          placeholder="code"
-          name="code"
-          onChange={(e) => setCode(e.currentTarget.value)}
-          value={code}
+          placeholder="Code"
+          register={register}
+          error={errors?.code?.message}
         />
-        <AuthSubmit>Next</AuthSubmit>
+        <p className="m-0 text-xs opacity-70">
+          Please put here verification code sent to your email.
+        </p>
+        <AuthSubmit>{isLoading ? <Loading /> : "Next"}</AuthSubmit>
       </AuthForm>
     </>
   );

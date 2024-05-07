@@ -7,20 +7,22 @@ const OAuth2 = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { signInWithToken, isAuthenticated } = useAuth();
+  const { signInWithToken, isAuthenticated, user } = useAuth();
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    if (token) {
-      signInWithToken(token);
+    if (!user && searchParams.has("token")) {
+      const token = searchParams.get("token");
+      if (token) {
+        signInWithToken(token);
+      }
     }
   }, []);
 
-  useEffect(() => {
-    if (isAuthenticated()) {
-      navigate("/");
-    }
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated()) {
+  //     navigate("/");
+  //   }
+  // }, [isAuthenticated]);
 
   return <div>OAuth2</div>;
 };

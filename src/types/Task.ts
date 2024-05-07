@@ -1,7 +1,7 @@
 import CodeTest from "./CodeTest";
 import Solution from "./Solution";
 
-type User = {
+type Task = {
   id: string;
   title: string;
   instructions: string;
@@ -15,4 +15,4 @@ type User = {
   solutions: Solution[];
 };
 
-export default User;
+export default Task;

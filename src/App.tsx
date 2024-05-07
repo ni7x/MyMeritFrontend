@@ -21,6 +21,7 @@ import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
 import TaskFeedbackDetails from "./pages/job_offer_solutions_company/TaskFeedbackDetails";
 import OAuth2 from "./pages/OAuth2/OAuth2";
 import Footer from "./components/Footer";
+import NewTask from "./pages/new_task/NewTask";
 
 const App = () => {
   return (
@@ -52,6 +53,10 @@ const App = () => {
                   //companyContent={"abc"}
                 />
               }
+            />
+            <Route
+              path="/job/new"
+              element={<ProtectedRoute userContent={<NewTask />} />}
             />
             <Route
               path="/profile/"

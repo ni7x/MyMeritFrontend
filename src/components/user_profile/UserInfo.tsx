@@ -10,39 +10,44 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUser, getUserSocials } from "../../services/UserService";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { useAuth } from "../../hooks/useAuth";
 
 const UserInfo = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const { setUserData, userData } = useAuth();
 
-  useEffect(() => {
-    getUser().then((user) => {
-      if (user === null) {
-        navigate("/login");
-        return;
-      }
-      setUser(user);
-      setIsLoading(false);
-    });
-  }, [showForm]);
+  if (userData == undefined) {
+    return;
+  }
+
+  // useEffect(() => {
+  //   getUser().then((user) => {
+  //     if (user === null) {
+  //       navigate("/login");
+  //       return;
+  //     }
+  //     setUser(user);
+  //     setIsLoading(false);
+  //   });
+  // }, [showForm]);
 
   return (
     <UserSection>
       <>
-        {user != null ? (
+        {userData != undefined ? (
           <>
             <UserHeader
-              imageBase64={user.imageBase64}
-              username={user.username}
-              email={user.email}
-              role={user.role}
-              points={user.credits}
+              imageBase64={userData.imageBase64}
+              username={userData.username}
+              email={userData.email}
+              role={userData.role}
+              points={userData.credits}
             />
 
             <UserBody
-              description={user.description}
+              description={userData.description}
               onEdit={() => setShowForm(true)}
             />
           </>
@@ -52,7 +57,7 @@ const UserInfo = () => {
       </>
 
       <>
-        {user != null && (
+        {userData != undefined && (
           <div
             className={`fixed ${
               !showForm && `opacity-0 invisible`
@@ -72,10 +77,11 @@ const UserInfo = () => {
                 <FontAwesomeIcon icon={faXmark} />
               </button>
               <EditProfileForm
-                username={user.username}
-                description={user.description}
-                imageBase64={user.imageBase64}
+                username={userData.username}
+                description={userData.description}
+                imageBase64={userData.imageBase64}
                 closeForm={() => setShowForm(false)}
+                setUserData={setUserData}
               />
             </div>
           </div>

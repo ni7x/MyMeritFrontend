@@ -1,5 +1,5 @@
-import { useState, FormEvent, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
@@ -7,24 +7,54 @@ import Input from "../../components/login/Input";
 import Divider from "../../components/login/Divider";
 import OAuthLogin from "../../components/login/OAuthLogin";
 
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useAuth } from "../../hooks/useAuth";
 import AuthForm from "../../components/login/AuthForm";
-import AuthSubmit from "../../components/login/AuthSubmit";
+import AuthSubmit from "../../components/form/AuthSubmit";
+
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import Loading from "../../components/Loading";
+import CustomInput from "../../components/login/CustomInput";
+
+const schema = z.object({
+  email: z.string().nonempty("Required"),
+  password: z.string().nonempty("Required"),
+});
+
+type FormFields = z.infer<typeof schema>;
+
+// type FormFields = {
+//   email: string;
+//   password: string;
+// };
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn, isAuthenticated } = useAuth();
+  const { signIn, isAuthenticated, isLoading, isError } = useAuth();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmiting },
+  } = useForm<FormFields>({
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    console.log("Form submitted");
+  const handleShowPassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
-    signIn({ email, password });
+  const processedPassword = showPassword ? "text" : "password";
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    signIn(data);
   };
 
   useEffect(() => {
@@ -36,29 +66,28 @@ const Login = () => {
   return (
     <AuthBox>
       <AuthTitle>Welcome back!</AuthTitle>
-      <AuthForm handleSubmit={onSubmit}>
-        <Input
-          type="text"
+      <AuthForm handleSubmit={handleSubmit(onSubmit)}>
+        <CustomInput
           id="email"
-          name="email"
+          type="text"
           placeholder="email"
-          onChange={(e) => setEmail(e.currentTarget.value)}
-          value={email}
+          register={register}
+          error={errors.email && errors.email.message}
         />
-        <Input
-          type="password"
+
+        <CustomInput
           id="password"
-          name="password"
+          type={processedPassword}
           placeholder="password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-          value={password}
+          register={register}
+          error={errors.password && errors.password.message}
         />
 
         <a className=" w-max ml-auto text-white font-bold text-xs" href="#">
           forgot password?
         </a>
 
-        <AuthSubmit>Log In</AuthSubmit>
+        <AuthSubmit>{isLoading ? <Loading /> : "Log In"}</AuthSubmit>
       </AuthForm>
       <Divider>or</Divider>
       <OAuthLogin />

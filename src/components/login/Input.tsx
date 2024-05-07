@@ -9,6 +9,7 @@ interface InputProps {
   onChange?: (e: FormEvent<HTMLInputElement>) => void;
   value?: string;
   id?: string;
+  error?: string | undefined;
 }
 
 const Input = ({
@@ -18,6 +19,7 @@ const Input = ({
   onChange,
   value,
   id,
+  error,
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,6 +50,7 @@ const Input = ({
           onClick={handleShowPassword}
         />
       )}
+      {error && <p className="text-[#ff4d4f] text-xs">{error}</p>}
     </div>
   );
 };

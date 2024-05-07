@@ -1,9 +1,11 @@
 import { users } from "../common/users";
 import { socials } from "../common/socials";
 
-import { httpCall } from "../api/HttpClient";
+import { HttpResponse, httpCall } from "../api/HttpClient";
 import User from "../types/User";
 import Task from "../types/Task";
+
+import { errorToast, successToast } from "../main";
 
 const getUsers = () => {
   return users;
@@ -18,17 +20,30 @@ const getUserSocials = (userId: string) => {
 };
 
 const getUserTasks = async () => {
-  return httpCall<Task[]>({
-    url: import.meta.env.VITE_API_URL + "/me/mytasks",
-    method: "GET",
-  });
+  try {
+    const data = await httpCall<Task[]>({
+      url: import.meta.env.VITE_API_URL + "/me/mytasks",
+      method: "GET",
+    });
+    // successToast("Tasks fetched successfully");
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const getUser = async () => {
-  return httpCall<User>({
-    url: import.meta.env.VITE_API_URL + "/me",
-    method: "GET",
-  });
+  try {
+    const data = await httpCall<User>({
+      url: import.meta.env.VITE_API_URL + "/me",
+      method: "GET",
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const updateUser = async (
@@ -36,15 +51,17 @@ const updateUser = async (
   description: string,
   imageBase64: string
 ) => {
-  return httpCall<User>({
-    url: import.meta.env.VITE_API_URL + "/me/update",
-    method: "POST",
-    body: {
-      username,
-      description,
-      imageBase64,
-    },
-  });
+  try {
+    return await httpCall<HttpResponse<any>>({
+      url: import.meta.env.VITE_API_URL + "/me/update",
+      method: "POST",
+      body: {
+        username,
+        description,
+        imageBase64,
+      },
+    });
+  } catch (error) {}
 };
 
 export {

@@ -40,7 +40,6 @@ export const loadingToast = (message, id = null) => {
   }
 };
 
-
 export const updateToast = (message, type, id = null) => {
   if (id) {
     toast.update(id, {
@@ -65,7 +64,11 @@ export const successToast = (message, id = null) => {
 
 
 export const errorToast = (message, id = null) => {
-  updateToast(message, "error", id);
+  updateToast(message, "error", id)
+};
+
+export const toastDismiss = () => {
+  toast.dismiss();
 };
 
 const queryClient = new QueryClient({});
@@ -76,7 +79,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <App />
-          <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            theme="dark"
+          />
         </AuthProvider>
       </QueryClientProvider>
     </React.StrictMode>

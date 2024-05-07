@@ -9,22 +9,21 @@ import Reward from "../../types/Reward";
 import PurchasedReward from "../../types/PurchasedReward";
 import { purchaseReward } from "../../services/RewardService";
 import meritCoin from "../../assets/meritcoin.png";
+import { loadingToast, successToast, toastDismiss } from "../../main";
+import { set } from "date-fns";
 
 const Rewards = () => {
   const [availableRewards, setAvailableRewards] = useState<Reward[]>([]);
-  const [purchaseHistory, setPurchaseHistory] = useState<PurchasedReward[]>([]);
-  const [isHistoryTab, setIsHistoryTab] = useState(false);
   const [user, setUser] = useState<User | undefined>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const onPurchase = (rewardId: string) => {
-    purchaseReward(rewardId).then(() => {
-      getUser().then((user) => setUser(user));
-      getRewards().then((rewards) => {
-        setAvailableRewards(rewards);
-      });
-      getPurchaseHistory().then((history) => {
-        setPurchaseHistory(history);
-      });
+    setLoading(true);
+    loadingToast("Purchasing reward...");
+    purchaseReward(rewardId).then((res) => {
+      toastDismiss();
+      successToast("Reward purchased successfully");
+      setLoading(false);
     });
   };
 
@@ -34,11 +33,7 @@ const Rewards = () => {
     getRewards().then((rewards) => {
       setAvailableRewards(rewards);
     });
-
-    getPurchaseHistory().then((history) => {
-      setPurchaseHistory(history);
-    });
-  }, []);
+  }, [loading]);
 
   return (
     <>
