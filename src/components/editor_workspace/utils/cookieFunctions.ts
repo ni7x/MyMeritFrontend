@@ -20,9 +20,10 @@ export const mergeFilesWithCookies = (fetchedFiles: MyFile[], currentTaskCookies
     return mergedFiles;
 };
 
-export const serializeFiles = (files: MyFile[], jobId: string, mainFileIndex: number): string => {
+export const serializeFiles = (files: MyFile[], jobId: string, mainFileIndex: number, currentLanguage: string): string => {
     return JSON.stringify({
         jobId: jobId,
+        currentLanguage: currentLanguage,
         mainFileIndex: mainFileIndex,
         files: files
             .filter((f) => f.type === ContentType.TXT)

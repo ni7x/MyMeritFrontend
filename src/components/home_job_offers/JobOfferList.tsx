@@ -5,7 +5,7 @@ import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 const JobOfferList: React.FC<{ jobOffers: JobOfferListedDTO[] }> = ({ jobOffers }) => {
   return (
     <div
-      className={`w-full flex flex-col align-center justify-center`}
+      className={`w-full flex flex-col align-center justify-center gap-4`}
     >
       {!jobOffers || jobOffers.length === 0
         ? <p className="h-[32rem]">No tasks</p>

@@ -5,6 +5,7 @@ import {getContentType} from "./utils/fileUtils";
 import FileTabManager from "./components/file_tab_manager/FileTabManager";
 import Ide from "./components/ide/Ide";
 import {errorToast} from "../../main";
+import LanguageToggleButton from "./components/ide/components/LanguageToggleButton";
 
 interface EditorWorkspaceProps {
     files: MyFile[];
@@ -17,6 +18,8 @@ interface EditorWorkspaceProps {
 const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({files,
                                                           setFiles,
                                                           originalFiles,
+                                                          currentLanguage,
+                                                          setCurrentLanguage,
                                                           isEditable,
                                                           isFeedbackView = false,
                                                           task,
@@ -116,16 +119,19 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({files,
         <div className="flex flex-col w-full items-end h-full ">
             {currentFile && (
                 <div className="flex flex-col w-full h-full">
-                    <FileTabManager
-                        addFile={addFile}
-                        removeFile={withErrorHandling(removeFile)}
-                        renameFile={withErrorHandling(renameFile)}
-                        currentFile={currentFile}
-                        files={files}
-                        mainFileIndex={mainFileIndex}
-                        getFileByName={withErrorHandling(getFileByName)}
-                        setCurrentFileByName={setCurrentFileByName}
-                    />
+                    <div className="flex justify-between w-full items-center">
+                        <FileTabManager
+                            addFile={addFile}
+                            removeFile={withErrorHandling(removeFile)}
+                            renameFile={withErrorHandling(renameFile)}
+                            currentFile={currentFile}
+                            files={files}
+                            mainFileIndex={mainFileIndex}
+                            getFileByName={withErrorHandling(getFileByName)}
+                            setCurrentFileByName={setCurrentFileByName}
+                        />
+                        <LanguageToggleButton languages={task ? task.allowedLanguages : []} setCurrentLanguage={setCurrentLanguage} currentLanguage={currentLanguage}/>
+                    </div>
                     <Ide
                         files={files}
                         originalFiles={originalFiles}
@@ -137,6 +143,7 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({files,
                         submitSolution={submit}
                         task={task}
                         setAsMain={setAsMain}
+                        currentLanguage={currentLanguage}
                         isEditable={isEditable}
                     />
                 </div>

@@ -1,8 +1,9 @@
-interface JobOfferListedDTO {
+interface SolutionListedDTO {
     id: string;
     submitDate: Date;
     solvingTime: number;
-    testResults: boolean [];
+    language: string;
+    testResults: {name: string, passed:boolean}[];
 }
 
-export default JobOfferListedDTO;
+export default SolutionListedDTO;
