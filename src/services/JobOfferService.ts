@@ -220,7 +220,9 @@ const b64toBlob = (base64, type = "application/octet-stream") =>
 const submitSolution = async (
   jobId: string,
   files: MyFile[],
-  token: string
+  token: string,
+  language: string,
+  mainFileName: string
 ) => {
   const URL = import.meta.env.VITE_API_URL + "/job/" + jobId + "/solution";
   const data = new FormData();
@@ -230,6 +232,9 @@ const submitSolution = async (
     const fileObject = new File([fileBlob], file.name, { type: file.type });
     data.append("files", fileObject);
   }
+
+    data.append("language", language);
+    data.append("mainFileName", mainFileName);
   try {
     return await fetch(URL, {
       method: "POST",
