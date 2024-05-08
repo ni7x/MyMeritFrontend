@@ -12,11 +12,11 @@ const MainWrapper = ({
 
   return (
     <main
-      className={`${
+      className={`flex-[1] ${
         isLoginPage()
-          ? "m-0 p-0 h-lvh w-full flex items-center justify-center"
+          ? "m-0 p-0 w-full flex items-center justify-center"
           : // : "mt-14 mx-auto mb-0 py-8 w-[90%]"
-            "w-full mx-auto xl:max-w-6xl 2xl:max-w-[1440px] flex-[1]"
+            "w-full mx-auto xl:max-w-6xl 2xl:max-w-[1440px]"
       }`}
     >
       {children}

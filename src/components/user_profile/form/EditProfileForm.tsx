@@ -7,7 +7,7 @@ import User from "src/types/User";
 import { successToast } from "../../../main";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CustomInput from "../../login/CustomInput";
+import CustomInput from "../../form/CustomInput";
 
 const schema = z.object({
   username: z.string().min(5),

@@ -4,7 +4,7 @@ import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
 import AuthSubTitle from "./AuthSubTitle";
 import AuthForm from "./AuthForm";
 import AuthSubmit from "../form/AuthSubmit";
-import CustomInput from "./CustomInput";
+import CustomInput from "../form/CustomInput";
 import Loading from "../Loading";
 
 const RegisterStep2 = ({

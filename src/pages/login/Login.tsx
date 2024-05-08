@@ -18,7 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Loading from "../../components/Loading";
-import CustomInput from "../../components/login/CustomInput";
+import CustomInput from "../../components/form/CustomInput";
 
 const schema = z.object({
   email: z.string().nonempty("Required"),

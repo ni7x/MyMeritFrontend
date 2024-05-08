@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthSubTitle from "./AuthSubTitle";
 import AuthForm from "./AuthForm";
 import AuthSubmit from "../form/AuthSubmit";
-import CustomInput from "./CustomInput";
+import CustomInput from "../form/CustomInput";
 import Loading from "../Loading";
 
 const RegisterStep1 = ({

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, KeyboardEventHandler } from "react";
 import { Experience, EmploymentType, AllowedLanguages } from "../../types";
-import CustomInput from "../../components/login/CustomInput";
+import CustomInput from "../../components/form/CustomInput";
 import { TagsInput } from "react-tag-input-component";
 import AuthSubmit from "../../components/form/AuthSubmit";
 import MDEditor, { selectWord } from "@uiw/react-md-editor";
@@ -12,6 +12,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 import { submitJobOffer } from "../../services/JobOfferService";
 import { useNavigate } from "react-router-dom";
+import JobStep from "../../components/new_task/JobStep";
 
 const jobOfferSchema = z.object({
   jobTitle: z.string().min(5),
@@ -43,16 +44,19 @@ const taskSchema = z.object({
   opensAt: z.coerce.date(),
   closesAt: z.coerce.date(),
   reward: z.coerce.number().int(),
-  allowedLanguages: z.nativeEnum(AllowedLanguages).array().nonempty("At least one language is required"),
+  allowedLanguages: z
+    .nativeEnum(AllowedLanguages)
+    .array()
+    .nonempty("At least one language is required"),
 });
 
 type JobOfferFields = z.infer<typeof jobOfferSchema>;
 type TaskFields = z.infer<typeof taskSchema>;
 
 const NewTask = () => {
-  const [jobOfferData, setJobOfferData] = useState<JobOfferFields>(
-    {} as JobOfferFields
-  );
+  const [jobOfferData, setJobOfferData] = useState<JobOfferFields>({
+    requiredSkills: [],
+  } as JobOfferFields);
   const [taskData, setTaskData] = useState<TaskFields>({} as TaskFields);
 
   const [requiredSkills, setRequiredSkills] = useState<string[]>([]);
@@ -73,6 +77,7 @@ const NewTask = () => {
     handleSubmit: handleSubmitJobOffer,
     setError: setErrorJobOffer,
     setValue: setValueJobOffer,
+    getValues: getValuesJobOffer,
     formState: { errors: errorsJobOffer, isSubmiting: isSubmitingJobOffer },
   } = useForm<JobOfferFields>({
     defaultValues: {
@@ -94,6 +99,7 @@ const NewTask = () => {
     handleSubmit: handleSubmitTask,
     setError: setErrorTask,
     setValue: setValueTask,
+    getValues: getValuesTask,
     formState: { errors: errorsTask, isSubmiting: isSubmitingTask },
   } = useForm<TaskFields>({
     defaultValues: {
@@ -102,7 +108,7 @@ const NewTask = () => {
       opensAt: new Date(),
       closesAt: new Date(),
       reward: 0,
-      allowedLanguages: [],
+      allowedLanguages: AllowedLanguages.JAVASCRIPT,
     },
     resolver: zodResolver(taskSchema),
   });
@@ -136,199 +142,207 @@ const NewTask = () => {
       </h2>
       {/* {jobOfferData === null ? ( */}
       {activeStep == 0 ? (
-        <form
-          onSubmit={handleSubmitJobOffer(onSubmitJobOffer)}
-          className="flex flex-col gap-4"
-        >
-          <CustomInput
-            id="jobTitle"
-            label="Job Title"
-            type="text"
-            register={registerJobOffer}
-            error={errorsJobOffer?.jobTitle?.message}
-          />
-          <CustomInput
-            id="description"
-            label="Description"
-            type="textarea"
-            register={registerJobOffer}
-            error={errorsJobOffer?.description?.message}
-          />
+        // <form
+        //   onSubmit={handleSubmitJobOffer(onSubmitJobOffer)}
+        //   className="flex flex-col gap-4"
+        // >
+        //   <CustomInput
+        //     id="jobTitle"
+        //     label="Job Title"
+        //     type="text"
+        //     register={registerJobOffer}
+        //     error={errorsJobOffer?.jobTitle?.message}
+        //   />
+        //   <CustomInput
+        //     id="description"
+        //     label="Description"
+        //     type="textarea"
+        //     register={registerJobOffer}
+        //     error={errorsJobOffer?.description?.message}
+        //   />
 
-          <div
-            className={`relative ${
-              errorsJobOffer?.requiredSkills?.message
-                ? "animate-shake error"
-                : ""
-            }`}
-          >
-            <label htmlFor="requiredSkills" className="text-white text-sm">
-              Required Skills
-            </label>
-            <TagsInput
-              value={requiredSkills}
-              onChange={(newRequiredSkills) => {
-                setRequiredSkills(newRequiredSkills);
-                setValueJobOffer("requiredSkills", newRequiredSkills);
-              }}
-              name="requiredSkills"
-              placeHolder="enter required skills and press enter"
-            />
-            {errorsJobOffer?.requiredSkills?.message && (
-              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
-                {errorsJobOffer?.requiredSkills?.message}
-              </p>
-            )}
-          </div>
+        //   <div
+        //     className={`relative ${
+        //       errorsJobOffer?.requiredSkills?.message
+        //         ? "animate-shake error"
+        //         : ""
+        //     }`}
+        //   >
+        //     <label htmlFor="requiredSkills" className="text-white text-sm">
+        //       Required Skills
+        //     </label>
+        //     <TagsInput
+        //       value={requiredSkills}
+        //       onChange={(newRequiredSkills) => {
+        //         setRequiredSkills(newRequiredSkills);
+        //         setValueJobOffer("requiredSkills", newRequiredSkills);
+        //       }}
+        //       name="requiredSkills"
+        //       placeHolder="enter required skills and press enter"
+        //     />
+        //     {errorsJobOffer?.requiredSkills?.message && (
+        //       <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+        //         {errorsJobOffer?.requiredSkills?.message}
+        //       </p>
+        //     )}
+        //   </div>
 
-          <div
-            className={`relative ${
-              errorsJobOffer?.preferredSkills?.message
-                ? "animate-shake error"
-                : ""
-            }`}
-          >
-            <label htmlFor="preferredSkills" className="text-white text-sm">
-              Preferred Skills
-            </label>
+        //   <div
+        //     className={`relative ${
+        //       errorsJobOffer?.preferredSkills?.message
+        //         ? "animate-shake error"
+        //         : ""
+        //     }`}
+        //   >
+        //     <label htmlFor="preferredSkills" className="text-white text-sm">
+        //       Preferred Skills
+        //     </label>
 
-            <TagsInput
-              value={preferredSkills}
-              onChange={(newPreferredSkills) => {
-                setPreferredSkills(newPreferredSkills);
-                setValueJobOffer("preferredSkills", newPreferredSkills);
-              }}
-              name="preferredSkills"
-              placeHolder="enter preferred skills and press enter"
-            />
-            {errorsJobOffer?.preferredSkills?.message && (
-              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
-                {errorsJobOffer?.preferredSkills?.message}
-              </p>
-            )}
-          </div>
+        //     <TagsInput
+        //       value={preferredSkills}
+        //       onChange={(newPreferredSkills) => {
+        //         setPreferredSkills(newPreferredSkills);
+        //         setValueJobOffer("preferredSkills", newPreferredSkills);
+        //       }}
+        //       name="preferredSkills"
+        //       placeHolder="enter preferred skills and press enter"
+        //     />
+        //     {errorsJobOffer?.preferredSkills?.message && (
+        //       <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+        //         {errorsJobOffer?.preferredSkills?.message}
+        //       </p>
+        //     )}
+        //   </div>
 
-          <div
-            className={`relative ${
-              errorsJobOffer?.workLocations?.message
-                ? "animate-shake error"
-                : ""
-            }`}
-          >
-            <label htmlFor="workLocations" className="text-white text-sm">
-              Work Locations
-            </label>
-            <TagsInput
-              value={workLocations}
-              onChange={(newWorkLocations) => {
-                setWorkLocations(newWorkLocations);
-                setValueJobOffer("workLocations", newWorkLocations);
-              }}
-              name="workLocations"
-              placeHolder="enter work locations and press enter"
-            />
-            {errorsJobOffer?.workLocations?.message && (
-              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
-                {errorsJobOffer?.workLocations?.message}
-              </p>
-            )}
-          </div>
+        //   <div
+        //     className={`relative ${
+        //       errorsJobOffer?.workLocations?.message
+        //         ? "animate-shake error"
+        //         : ""
+        //     }`}
+        //   >
+        //     <label htmlFor="workLocations" className="text-white text-sm">
+        //       Work Locations
+        //     </label>
+        //     <TagsInput
+        //       value={workLocations}
+        //       onChange={(newWorkLocations) => {
+        //         setWorkLocations(newWorkLocations);
+        //         setValueJobOffer("workLocations", newWorkLocations);
+        //       }}
+        //       name="workLocations"
+        //       placeHolder="enter work locations and press enter"
+        //     />
+        //     {errorsJobOffer?.workLocations?.message && (
+        //       <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+        //         {errorsJobOffer?.workLocations?.message}
+        //       </p>
+        //     )}
+        //   </div>
 
-          <div
-            className={`relative ${
-              errorsJobOffer?.technologies?.message ? "animate-shake error" : ""
-            }`}
-          >
-            <label htmlFor="technologies" className="text-white text-sm">
-              Technologies
-            </label>
-            <TagsInput
-              value={technologies}
-              onChange={(newTechnologies) => {
-                setTechnologies(newTechnologies);
-                setValueJobOffer("technologies", newTechnologies);
-              }}
-              name="technologies"
-              placeHolder="enter technologies and press enter"
-            />
-            {errorsJobOffer?.technologies?.message && (
-              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
-                {errorsJobOffer?.technologies?.message}
-              </p>
-            )}
-          </div>
+        //   <div
+        //     className={`relative ${
+        //       errorsJobOffer?.technologies?.message ? "animate-shake error" : ""
+        //     }`}
+        //   >
+        //     <label htmlFor="technologies" className="text-white text-sm">
+        //       Technologies
+        //     </label>
+        //     <TagsInput
+        //       value={technologies}
+        //       onChange={(newTechnologies) => {
+        //         setTechnologies(newTechnologies);
+        //         setValueJobOffer("technologies", newTechnologies);
+        //       }}
+        //       name="technologies"
+        //       placeHolder="enter technologies and press enter"
+        //     />
+        //     {errorsJobOffer?.technologies?.message && (
+        //       <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+        //         {errorsJobOffer?.technologies?.message}
+        //       </p>
+        //     )}
+        //   </div>
 
-          <div
-            className={`relative ${
-              errorsJobOffer?.experience?.message ? "error" : ""
-            }`}
-          >
-            <label htmlFor="experience" className="text-white text-sm">
-              Experience
-            </label>
-            <select
-              {...registerJobOffer("experience")}
-              className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
-                errorsJobOffer?.experience?.message
-                  ? " border-[#FC8181]"
-                  : "border-[#44444f]"
-              }`}
-            >
-              {Object.values(Experience).map((experience) => (
-                <option key={experience} value={experience}>
-                  {experience}
-                </option>
-              ))}
-            </select>
-            {errorsJobOffer?.experience?.message && (
-              // <p className="bg-[#b94a48] text-white font-semibold p-2 rounded-b w-full text-xs">
-              //   {error}
-              // </p>
-              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
-                {errorsJobOffer?.experience?.message}
-              </p>
-            )}
-          </div>
+        //   <div
+        //     className={`relative ${
+        //       errorsJobOffer?.experience?.message ? "error" : ""
+        //     }`}
+        //   >
+        //     <label htmlFor="experience" className="text-white text-sm">
+        //       Experience
+        //     </label>
+        //     <select
+        //       {...registerJobOffer("experience")}
+        //       className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
+        //         errorsJobOffer?.experience?.message
+        //           ? " border-[#FC8181]"
+        //           : "border-[#44444f]"
+        //       }`}
+        //     >
+        //       {Object.values(Experience).map((experience) => (
+        //         <option key={experience} value={experience}>
+        //           {experience}
+        //         </option>
+        //       ))}
+        //     </select>
+        //     {errorsJobOffer?.experience?.message && (
+        //       // <p className="bg-[#b94a48] text-white font-semibold p-2 rounded-b w-full text-xs">
+        //       //   {error}
+        //       // </p>
+        //       <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+        //         {errorsJobOffer?.experience?.message}
+        //       </p>
+        //     )}
+        //   </div>
 
-          <CustomInput
-            id="salary"
-            label="Salary"
-            type="number"
-            register={registerJobOffer}
-            error={errorsJobOffer?.salary?.message}
-          />
+        //   <CustomInput
+        //     id="salary"
+        //     label="Salary"
+        //     type="number"
+        //     register={registerJobOffer}
+        //     error={errorsJobOffer?.salary?.message}
+        //   />
 
-          <div className="relative">
-            <label htmlFor="employmentType" className="text-white text-sm">
-              Employment type
-            </label>
-            <select
-              {...registerJobOffer("employmentType")}
-              className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
-                errorsJobOffer?.employmentType?.message
-                  ? " border-[#FC8181]"
-                  : "border-[#44444f]"
-              }`}
-            >
-              {Object.values(EmploymentType).map((employmentType) => (
-                <option key={employmentType} value={employmentType}>
-                  {employmentType}
-                </option>
-              ))}
-            </select>
-            {errorsJobOffer?.employmentType?.message && (
-              // <p className="bg-[#b94a48] text-white font-semibold p-2 rounded-b w-full text-xs">
-              //   {error}
-              // </p>
-              <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
-                {errorsJobOffer?.employmentType?.message}
-              </p>
-            )}
-          </div>
-          <div className="flex w-full justify-end">
-            <AuthSubmit>Next</AuthSubmit>
-          </div>
-        </form>
+        //   <div className="relative">
+        //     <label htmlFor="employmentType" className="text-white text-sm">
+        //       Employment type
+        //     </label>
+        //     <select
+        //       {...registerJobOffer("employmentType")}
+        //       className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
+        //         errorsJobOffer?.employmentType?.message
+        //           ? " border-[#FC8181]"
+        //           : "border-[#44444f]"
+        //       }`}
+        //     >
+        //       {Object.values(EmploymentType).map((employmentType) => (
+        //         <option key={employmentType} value={employmentType}>
+        //           {employmentType}
+        //         </option>
+        //       ))}
+        //     </select>
+        //     {errorsJobOffer?.employmentType?.message && (
+        //       // <p className="bg-[#b94a48] text-white font-semibold p-2 rounded-b w-full text-xs">
+        //       //   {error}
+        //       // </p>
+        //       <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+        //         {errorsJobOffer?.employmentType?.message}
+        //       </p>
+        //     )}
+        //   </div>
+        //   <div className="flex w-full justify-end">
+        //     <AuthSubmit>Next</AuthSubmit>
+        //   </div>
+        // </form>
+        <JobStep
+          handleSubmit={handleSubmitJobOffer}
+          onSubmit={onSubmitJobOffer}
+          register={registerJobOffer}
+          errors={errorsJobOffer}
+          setValue={setValueJobOffer}
+          getValues={getValuesJobOffer}
+        />
       ) : // ) : taskData === null ? (
       activeStep == 1 ? (
         <form
@@ -402,7 +416,8 @@ const NewTask = () => {
             <label htmlFor="experience" className="text-white text-sm">
               Allowed languages
             </label>
-            <select multiple
+            <select
+              multiple
               {...registerTask("allowedLanguages")}
               className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold outline-none focus-visible:outline-none ${
                 errorsTask?.allowedLanguages?.message
