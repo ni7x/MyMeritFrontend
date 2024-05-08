@@ -1,7 +1,9 @@
 import { UseFormRegister, FieldValues } from "react-hook-form";
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, useState } from "react";
 import styles from "./form.module.css";
 import { TagsInput } from "react-tag-input-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -13,7 +15,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   register?: UseFormRegister<FieldValues>;
   setValue?: any;
   getValues?: any;
-  defaultValue?: any;
+  hint?: string;
   error: any;
 }
 
@@ -27,11 +29,12 @@ const CustomInput = ({
   register,
   setValue,
   getValues,
-  defaultValue,
+  hint,
   error,
-  ...rest
 }: InputProps) => {
   const register2 = register ? register : () => {};
+
+  const [isFocused, setIsFocused] = useState(false);
 
   let element = "input";
   if (type === "textarea") {
@@ -43,65 +46,89 @@ const CustomInput = ({
   }
 
   return (
-    <div className={`relative ${error ? "animate-shake" : ""}`}>
-      {label && (
-        <label htmlFor={id} className="text-white text-sm">
+    <div className={`relative flex flex-col ${error ? "animate-shake" : ""}`}>
+      {/* {label && (
+        <label htmlFor={id} className="text-white text-sm mb-2">
           {label}
         </label>
-      )}
-      {element === "TagsInput" ? (
-        <TagsInput
-          name={name ? name : ""}
-          value={getValues ? getValues(id) : defaultValue ? defaultValue : ""}
-          onChange={(val) => setValue(id, val)}
-        />
-      ) : (
-        React.createElement(element, {
-          id: id,
-          name: name ? name : "",
-          type: `${
-            type !== "textarea" && type !== "TagsInput" && type !== "select"
-              ? type
-              : ""
-          }`,
-          placeholder: placeholder ? placeholder : "",
-          ...register2(id),
-          value: `${
-            getValues ? getValues(id) : defaultValue ? defaultValue : ""
-          }`,
-          onChange: (e: any) => setValue(id, e.target.value),
-          className: `${styles.CustomInput} ${error ? styles.error : ""}`,
-          ...(type === "select" && options && options.length > 0
-            ? {
-                children: options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                )),
-              }
-            : {}),
-          ...rest,
-        })
+      )} */}
+      <div className="relative">
+        {label && (
+          <label
+            htmlFor={id}
+            className={`text-white text-sm md:text-base absolute top-0 left-0 p-4 h-full flex items-center transition-all delay-300 ease-linear ${
+              isFocused ? "text-sm h-auto" : ""
+            }`}
+          >
+            {label}
+          </label>
+        )}
+        {element === "TagsInput" ? (
+          <TagsInput
+            name={name ? name : ""}
+            value={getValues(id)}
+            onChange={(val) => setValue(id, val)}
+            placeHolder={placeholder ? placeholder : ""}
+            onBlur={() => {
+              console.log("blur");
+              setIsFocused(false);
+            }}
+            onFocus={() => {
+              console.log("focus");
+              setIsFocused(true);
+            }}
+          />
+        ) : (
+          React.createElement(element, {
+            id: id,
+            name: name ? name : "",
+            type: `${
+              type !== "textarea" && type !== "TagsInput" && type !== "select"
+                ? type
+                : ""
+            }`,
+            placeholder: placeholder ? placeholder : "",
+            onBlur: () => {
+              console.log("blur");
+              setIsFocused(false);
+            },
+            onFocus: () => {
+              console.log("focus");
+              setIsFocused(true);
+            },
+            ...register2(id),
+            className: `bg-main-bg-input rounded border-[1px] border-solid border-main-bg-input p-4 text-sm md:text-base w-full outline-none text-white box-border ${
+              error ? styles.error : ""
+            }`,
+            ...(type === "select" && options && options.length > 0
+              ? {
+                  children: options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  )),
+                }
+              : {}),
+          })
+        )}
+        {error && (
+          <div className="absolute top-0 right-2 p-2 h-full flex justify-center items-center">
+            <FontAwesomeIcon
+              className="text-error-color"
+              icon={faCircleExclamation}
+            />
+          </div>
+        )}
+      </div>
+
+      {hint && (
+        <p className="text-[#888] font-semibold pt-2 rounded-b w-full text-xs">
+          {hint}
+        </p>
       )}
 
-      {/* <input
-        type={type}
-        id={id}
-        placeholder={placeholder ? placeholder : ""}
-        {...register(id)}
-        {...rest}
-        className={`bg-main-bg-input rounded bg-[#44444f] border-[1px] p-4 text-sm text-white box-border w-full font-semibold focus-visible:outline-none ${
-          error
-            ? // ? " border-[#b94a48] rounded-t"
-              " border-[#FC8181]"
-            : "border-[#44444f] bg-[#44444f]"
-        }`}
-      /> */}
       {error && (
-        // <p className="bg-[#b94a48] text-white font-semibold p-2 rounded-b w-full text-xs">
-        //   {error}
-        // </p>
-        <p className="text-[#FC8181] font-semibold py-2 rounded-b w-full text-[0.8rem]">
+        <p className="text-error-color font-semibold py-2 rounded-b w-full text-xs">
           {error}
         </p>
       )}

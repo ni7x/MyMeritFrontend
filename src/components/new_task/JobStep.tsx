@@ -27,6 +27,7 @@ const JobStep = ({
         type="text"
         register={register}
         error={errors?.jobTitle?.message}
+        hint="Enter the job title here"
       />
 
       <CustomInput
@@ -38,11 +39,12 @@ const JobStep = ({
       />
 
       <CustomInput
-        id="requirements"
-        label="Requirements"
+        id="requiredSkills"
+        label="Required skills"
         type="TagsInput"
+        placeholder="Type and press enter to add"
         register={register}
-        error={errors?.requirements?.message}
+        error={errors?.requiredSkills?.message}
         setValue={setValue}
         getValues={getValues}
         defaultValue={[]}
@@ -51,6 +53,7 @@ const JobStep = ({
       <CustomInput
         id="preferredSkills"
         label="Preferred Skills"
+        placeholder="Type and press enter to add"
         type="TagsInput"
         register={register}
         error={errors?.preferredSkills?.message}
@@ -62,6 +65,7 @@ const JobStep = ({
       <CustomInput
         id="workLocations"
         label="Work Locations"
+        placeholder="Type and press enter to add"
         type="TagsInput"
         register={register}
         error={errors?.workLocations?.message}
@@ -73,20 +77,13 @@ const JobStep = ({
       <CustomInput
         id="technologies"
         label="Technologies"
+        placeholder="Type and press enter to add"
         type="TagsInput"
         register={register}
         error={errors?.technologies?.message}
         setValue={setValue}
         getValues={getValues}
         defaultValue={[]}
-      />
-
-      <CustomInput
-        id="salary"
-        label="Salary"
-        type="number"
-        register={register}
-        error={errors?.salary?.message}
       />
 
       <CustomInput

@@ -54,18 +54,12 @@ type JobOfferFields = z.infer<typeof jobOfferSchema>;
 type TaskFields = z.infer<typeof taskSchema>;
 
 const NewTask = () => {
-  const [jobOfferData, setJobOfferData] = useState<JobOfferFields>({
-    requiredSkills: [],
-  } as JobOfferFields);
+  const [jobOfferData, setJobOfferData] = useState<JobOfferFields>(
+    {} as JobOfferFields
+  );
   const [taskData, setTaskData] = useState<TaskFields>({} as TaskFields);
 
-  const [requiredSkills, setRequiredSkills] = useState<string[]>([]);
-  const [preferredSkills, setPreferredSkills] = useState<string[]>([]);
-  const [workLocations, setWorkLocations] = useState<string[]>([]);
-  const [technologies, setTechnologies] = useState<string[]>([]);
-
   const [instructions, setInstructions] = useState<string>("");
-  const [allowedLanguages, setAllowedLanguages] = useState<string[]>([]);
 
   const [activeStep, setActiveStep] = useState<number>(0);
 

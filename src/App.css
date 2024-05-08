@@ -18,7 +18,8 @@ html {
   --toastify-color-info: #3498db;
   --toastify-color-success: #10b981;
   --toastify-color-warning: #facc15;
-  --toastify-color-error: #ef4444;
+  /* --toastify-color-error: #ef4444; */
+  --toastify-color-error: #fc8181;
 
   --toastify-toast-width: 280px;
 }

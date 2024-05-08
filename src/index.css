@@ -17,6 +17,20 @@
   --rti-s: 1rem !important;
   --rti-tag: transparent !important;
   --rti-tag-remove: #e53e3e;
+  --rti-tag-padding: 0.4rem !important;
+}
+
+.rti--tag {
+  border: 1px solid #fff;
+}
+
+.rti--tag button {
+  padding: 0 0.2rem 0 0.8rem !important;
+}
+
+.rti--tag button:focus-visible {
+  outline: none;
+  color: var(--rti-tag-remove);
 }
 
 .error .rti--container {
@@ -25,6 +39,16 @@
 
 .rti--input {
   background-color: #44444f;
+  width: 100% !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
+@media (min-width: 768px) {
+  .rti--input {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+  }
 }
 
 .rti--container:focus-within {
