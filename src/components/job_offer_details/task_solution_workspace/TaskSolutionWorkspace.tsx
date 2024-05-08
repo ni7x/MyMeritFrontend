@@ -16,7 +16,7 @@ const cookies = new Cookies();
 const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEditable: boolean }> = ({ jobId, task, isEditable }) => {
     const {accessToken} = useAuth();
     const [currentLanguage, setCurrentLanguage] = useState<string>(
-        Object.keys(task.templateFiles).length > 0
+        task.templateFiles && Object.keys(task.templateFiles).length > 0
             ? Object.keys(task.templateFiles)[0]
             : (task.allowedLanguages[0] ?? "")
     );
