@@ -15,7 +15,7 @@ const cookies = new Cookies();
 
 const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEditable: boolean }> = ({ jobId, task, isEditable }) => {
     const {accessToken} = useAuth();
-    const [currentLanguage, setCurrentLanguage] = useState<string>(Object.keys(task.templateFiles)[0].toString() ?? task?.allowedLanguages[0] ?? "");
+    const [currentLanguage, setCurrentLanguage] = useState<string>(task.templateFiles ? Object.keys(task.templateFiles)[0].toString() : task?.allowedLanguages[0] ?? "");
     const currentTaskCookies = (cookies.get(jobId + "-" + currentLanguage ??  task?.allowedLanguages[0]));
     const [files, setFiles] = useState<MyFile[]>([]);
     const [filesFetched, setFilesFetched] = useState(false);
