@@ -39,42 +39,28 @@ const getJobOfferById = async (
 
 export const testAll = async (
   files: MyFile[],
-  testFileContent: string,
   taskId: string,
   language: string,
-  mainFileIndex: number
 ) => {
   try {
-    const filez = [...files];
-    filez.splice(mainFileIndex, 1);
-    const testFile = new MyFile(
-      "testmain.cpp",
-      ContentType.TXT,
-      testFileContent
-    );
-    const filesToCompile = [...filez, testFile];
+      const data = new FormData();
 
-    let fileContentBase64;
-    try {
-      fileContentBase64 = await generateEncodedZip(filesToCompile, testFile);
-    } catch (zipError) {
-      errorToast("Main file is not compilable");
-      return null;
-    }
-
-    const response = await fetch(
-      "http://localhost:8080/test/task/" + taskId + "/language/" + language,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileName: "testmain.cpp",
-          fileContentBase64: fileContentBase64,
-        }),
+      for (const file of files) {
+          const fileBlob = await b64toBlob(file.contentBase64, file.type);
+          const fileObject = new File([fileBlob], file.name, { type: file.type });
+          data.append("files", fileObject);
       }
-    );
+
+      const response = await fetch(
+          "http://localhost:8080/test/task/" +
+          taskId +
+          "/language/" +
+          language,
+          {
+              method: "POST",
+              body: data
+          }
+      );
 
     if (!response.ok) {
       console.log(response);
@@ -91,31 +77,20 @@ export const testAll = async (
 
 export const testSingle = async (
   files: MyFile[],
-  testFileContent: string,
   taskId: string,
   language: string,
-  mainFileIndex: number,
   testIndex: number
 ) => {
   try {
-    const filez = [...files];
-    filez.splice(mainFileIndex, 1);
-    const testFile = new MyFile(
-      "testmain.cpp",
-      ContentType.TXT,
-      testFileContent
-    );
-    const filesToCompile = [...filez, testFile];
+      const data = new FormData();
 
-    let fileContentBase64;
-    try {
-      fileContentBase64 = await generateEncodedZip(filesToCompile, testFile);
-    } catch (zipError) {
-      errorToast("Main file is not compilable");
-      return null;
-    }
+      for (const file of files) {
+          const fileBlob = await b64toBlob(file.contentBase64, file.type);
+          const fileObject = new File([fileBlob], file.name, { type: file.type });
+          data.append("files", fileObject);
+      }
 
-    const response = await fetch(
+      const response = await fetch(
       "http://localhost:8080/test/task/" +
         taskId +
         "/language/" +
@@ -124,13 +99,7 @@ export const testSingle = async (
         testIndex,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileName: "testmain.cpp",
-          fileContentBase64: fileContentBase64,
-        }),
+        body: data
       }
     );
 
