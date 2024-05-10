@@ -1,7 +1,6 @@
-import React, {useState} from "react";
-
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlay, faX} from "@fortawesome/free-solid-svg-icons";
+import {faX} from "@fortawesome/free-solid-svg-icons";
+import React, {ChangeEvent, useState} from "react";
 
 interface FileChangeButtonProps {
     name: string;
@@ -9,6 +8,7 @@ interface FileChangeButtonProps {
     removeFile: (name: string) => void;
     currentFileName: string;
     isMain: boolean;
+    renameFile: (oldName: string, newName: string) => void;
 }
 
 const FileChangeButton: React.FC<FileChangeButtonProps> = ({name, setCurrentFileByName, isMain, removeFile, currentFileName, renameFile}) => {
@@ -16,7 +16,7 @@ const FileChangeButton: React.FC<FileChangeButtonProps> = ({name, setCurrentFile
 
     const [isRenaming, setIsRenaming] = useState<boolean>(false);
 
-    const handleClick = event => {
+    const handleClick = (event: React.UIEvent) => {
         if (event.detail === 2) {
             setIsRenaming(true);
         }else if(event.detail === 1){
@@ -30,7 +30,7 @@ const FileChangeButton: React.FC<FileChangeButtonProps> = ({name, setCurrentFile
         setNewFileName(name);
     }
 
-    const changeFileName = (e) => {
+    const changeFileName = (e: ChangeEvent<HTMLInputElement>) => {
         setNewFileName(e.currentTarget.value);
     }
 

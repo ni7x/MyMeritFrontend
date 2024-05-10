@@ -7,6 +7,8 @@ interface FileListProps {
     setCurrentFileByName: (name: string) => void;
     currentFile: MyFile;
     removeFile: (name: string) => void;
+    renameFile: (oldName: string, newName: string) => void;
+    mainFileIndex: number;
 }
 
 const FileList: React.FC<FileListProps>= ({files, setCurrentFileByName, currentFile, removeFile, renameFile, mainFileIndex}) => {
