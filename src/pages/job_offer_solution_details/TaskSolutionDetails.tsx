@@ -45,11 +45,12 @@ const TaskSolutionDetails: React.FC = () => {
 
     return (
         <div className="flex flex-col gap-3 lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)] max-h-[55rem]">
-            <div className="w-[100%] lg:flex-1 h-full max-w-[25rem]">
-                <div className="h-full flex flex-col">
+            <div className="w-[100%] lg:flex-1 h-full">
+                <div className="h-full flex flex-col min-w-[24rem]">
                     <TaskInfo
                         task={task}
                         jobId={jobOfferId}
+                        withToggle={!solutions}
                         feedbackElement={
                             feedback ? (
                                 <FeedbackMessage feedback={feedback}/>
