@@ -8,7 +8,6 @@ import SolutionControls from "./components/SolutionControls";
 import FileControls from "./components/FileControls";
 import RunButton from "./components/RunButton";
 import Timer from "./components/Timer";
-import TestButton from "./components/TestButton";
 import TestsAndInput from "./components/TestsAndInput";
 import TestInterface from "./components/TestInterface";
 import TestOutput from "../../../../models/TestOutput";
@@ -26,7 +25,7 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent,
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [isMaxSize, setIsMaxSize] = useState(false);
-    const [isClosed, setIsClosed] = useState(false);
+    const [setIsClosed] = useState(false);
     const currentFile = files[currentFileIndex];
 
     const setCodeOutput = (inp) =>{
@@ -86,6 +85,7 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent,
                                    userInput={input}
                                    mainFileIndex={mainFileIndex}
                                    task={task}
+                                   currentLanguage={currentLanguage}
                                />
                            }
                            submitButton={submitComponent}

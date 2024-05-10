@@ -5,22 +5,20 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
 import {errorToast} from "../../../../../main";
 import {getCompilation, getToken} from "../../../../../services/JobOfferService";
+import {useAuth} from "../../../../../hooks/useAuth";
 
-const RunButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({isFeedbackView, originalFiles, file, files, setCodeOutput, setLoading, userInput,  mainFileIndex, task}) => {
-
+const RunButton: React.FC<{isFeedbackView:boolean, file:MyFile, setCodeOutput: (output: CodeExecutionOutput) => void;}> = ({isFeedbackView, originalFiles, currentLanguage, files, setCodeOutput, setLoading, userInput,  mainFileIndex, task}) => {
+    const {accessToken} = useAuth();
     const compileCode = async () => {
         setLoading(true);
         try {
             const compiledFiles = isFeedbackView ? originalFiles : files;
-
-            const token = await getToken(userInput, compiledFiles, mainFileIndex, file, task.timeLimit, task.memoryLimit);
-            if (!token) {
+            if(!accessToken){
+                errorToast("No access token");
                 return;
             }
-            const output = await getCompilation(token);
-            if(output){
-                setCodeOutput(output);
-            }
+            const token = await getToken(accessToken, compiledFiles, mainFileIndex, currentLanguage, userInput, task.timeLimit, task.memoryLimit);
+            setCodeOutput(token);
         } catch (error) {
             errorToast("Error compiling code" + error);
         } finally {

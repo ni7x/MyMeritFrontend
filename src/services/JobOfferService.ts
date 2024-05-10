@@ -11,6 +11,7 @@ import CodeExecutionOutput from "../models/CodeExecutionOutput";
 import { httpCall, httpCallWithAuthorization } from "../api/HttpClient";
 import JobOfferDetailsDTO from "../models/dtos/JobOfferDetailsDTO";
 import { JobOffer } from "@types";
+import JudgeParams from "../models/JudgeParams";
 
 const getHomeJobOffers = async (params: QueryParams): Promise<Response> => {
   const URL = import.meta.env.VITE_API_URL + buildURL(params);
@@ -117,48 +118,51 @@ export const testSingle = async (
 };
 
 export const getToken = async (
-  userInput: string,
-  files: MyFile[],
-  mainFileIndex: number,
-  file: MyFile,
-  timeLimit: number,
-  memoryLimit: number
+      token: string,
+      files: MyFile[],
+      mainFileIndex: number,
+      language: string,
+      userInput: string,
+      timeLimit?: number,
+      memoryLimit?: number,
 ) => {
   try {
-    const stdin =
-      userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
-    let fileContentBase64;
-    try {
-      fileContentBase64 = await generateEncodedZip(files, files[mainFileIndex]);
-      console.log(fileContentBase64);
-    } catch (zipError) {
-      errorToast("Main file is not compilable");
-      return null;
-    }
+      const URL = import.meta.env.VITE_API_URL + "/compile-code";
 
-    const response = await fetch("http://localhost:8080/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileName: file.name,
-        fileContentBase64: fileContentBase64,
-        stdin: stdin,
-        timeLimit: timeLimit,
-        memoryLimit: memoryLimit,
-      }),
-    });
+      const encodedInput = userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
+      const params = new JudgeParams();
+      params.stdin = encodedInput;
+      params.memoryLimit = memoryLimit;
+      params.cpuTimeLimit = timeLimit;
+      const data = new FormData();
+      for (const file of files) {
+          const fileBlob = await b64toBlob(file.contentBase64, file.type);
+          const fileObject = new File([fileBlob], file.name, { type: file.type });
+          data.append("files", fileObject);
+      }
+      data.append("language", language);
+      data.append("mainFileName", files[mainFileIndex].name);
+      data.append("judgeParams", JSON.stringify(params));
+      try {
+          const response = await fetch(URL, {
+              method: "POST",
+              body: data,
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+              },
+          });
 
-    if (!response.ok) {
-      errorToast("Error fetching token");
-      return null;
-    }
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
 
-    return await response.text();
+          return await response.json() as CodeExecutionOutput;
+      } catch (error) {
+          console.error("Error:", error);
+      }
+
   } catch (error) {
-    errorToast("Error fetching token");
-    return null;
+    errorToast("Error fetching token" + error);
   }
 };
 
