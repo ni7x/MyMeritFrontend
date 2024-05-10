@@ -1,6 +1,6 @@
 import MultiRangeSlider from "multi-range-slider-react";
 import "./slider.css";
-import { useState } from "react";
+// import { useState } from "react";
 
 const MySlider = ({ min, max, onInputChange, minValue, maxValue }) => {
 

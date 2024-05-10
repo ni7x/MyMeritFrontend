@@ -2,7 +2,7 @@ import Company from '../Company';
 import UserTaskDTO from "./UserTaskDTO";
 import {EmploymentType, Experience} from "../JobOffer";
 import TaskStatus from "../TaskStatus";
-import JobOfferListedDTO from "./SolutionListedDTO";
+// import JobOfferListedDTO from "./SolutionListedDTO";
 import SolutionListedDTO from "./SolutionListedDTO";
 
 interface JobOfferDetailsDTO {

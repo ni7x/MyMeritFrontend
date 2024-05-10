@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
-import Input from "../../components/login/Input";
+// import Input from "../../components/login/Input";
 import Divider from "../../components/login/Divider";
 import OAuthLogin from "../../components/login/OAuthLogin";
 

@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 
 const SolutionControls = ({submitButton, runButton, timer}) => {
     return (

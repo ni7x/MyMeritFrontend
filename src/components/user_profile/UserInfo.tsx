@@ -1,14 +1,14 @@
 import UserHeader from "./UserHeader";
 import UserBody from "./UserBody";
 import UserSection from "./UserSection";
-import User from "../../types/User";
-import Social from "../../types/Social";
+// import User from "../../types/User";
+// import Social from "../../types/Social";
 import EditProfileForm from "./form/EditProfileForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getUser, getUserSocials } from "../../services/UserService";
+// import { getUser, getUserSocials } from "../../services/UserService";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useAuth } from "../../hooks/useAuth";
 

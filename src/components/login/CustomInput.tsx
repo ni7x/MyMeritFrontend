@@ -1,8 +1,8 @@
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { InputHTMLAttributes } from "react";
-import { Tooltip } from "react-tooltip";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+// import { Tooltip } from "react-tooltip";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;

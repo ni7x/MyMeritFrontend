@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import Pagination from "../../components/home_job_offers/Pagination";
 import FilterPanel from "../../components/home_job_offers/FilterPanel";
 import { defaultQueryParams, QueryParams } from "../../models/QueryParams";
-import SecondWrapper from "../../components/SecondWrapper";
+// import SecondWrapper from "../../components/SecondWrapper";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import SearchBar from "../../components/home_job_offers/SearchBar";
 import SortPanel from "../../components/home_job_offers/SortPanel";

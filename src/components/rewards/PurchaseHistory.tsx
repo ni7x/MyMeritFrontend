@@ -1,4 +1,4 @@
-import Reward from "./Reward";
+// import Reward from "./Reward";
 import React from "react";
 import  {PurchasedReward as PurchasedRewardDTO} from "../../models/PurchasedReward";
 import PurchasedReward from "./PurchasedReward";
