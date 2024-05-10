@@ -48,8 +48,8 @@ type Error = {
 };
 
 type AuthContext = {
-  user: CookieUser;
-  userData: User;
+  user: CookieUser | undefined;
+  userData: User | undefined;
   setUserData: (userData: User) => void;
   accessToken: string | null;
   isAuthenticated: () => boolean;
@@ -58,8 +58,8 @@ type AuthContext = {
   signInWithToken: (token: string) => void;
   signUp: ({ username, email, password, code }: UserSignUp) => boolean;
   signOut: () => void;
-  verifyEmail: (email: string) => HttpResponse<any>;
-  verifyCode: (email: string, code: string) => HttpResponse<any>;
+  verifyEmail: (email: string) => HttpResponse<[]>;
+  verifyCode: (email: string, code: string) => HttpResponse<[]>;
   isLoading: boolean;
   isError?: Error;
 };
@@ -177,7 +177,7 @@ const useAuthProvider = () => {
 
   const verifyEmailMutation = useMutation({
     mutationFn: async (email: string) => {
-      const data = await httpCall<any[]>({
+      const data = await httpCall({
         url: import.meta.env.VITE_ROUTE_AUTH_CODE,
         method: "POST",
         body: {
@@ -200,7 +200,7 @@ const useAuthProvider = () => {
 
   const verifyCodeMutation = useMutation({
     mutationFn: async ({ email, code }: { email: string; code: string }) => {
-      const data = await httpCall<any[]>({
+      const data = await httpCall({
         url: import.meta.env.VITE_ROUTE_AUTH_CODE + "?verify=" + code,
         method: "POST",
         body: {
@@ -222,6 +222,7 @@ const useAuthProvider = () => {
   });
 
   const signInWithToken = async (token: string) => {
+    if (isAuthenticated()) return;
     try {
       const decodedToken = jwtDecode<JwtDecodedToken>(token);
       const userInfo = {
@@ -229,6 +230,7 @@ const useAuthProvider = () => {
         accessToken: token,
         isCompany: decodedToken.role.toUpperCase() !== "USER",
       };
+
       setUser(userInfo);
       setCookie("user", userInfo, { path: "/" });
       const userData = await getUser();
