@@ -1,20 +1,24 @@
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import React, { InputHTMLAttributes, useState } from "react";
-import styles from "./form.module.css";
 import { TagsInput } from "react-tag-input-component";
+import MDEditor from "@uiw/react-md-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label?: string;
+  floatLabel?: boolean;
+  alwaysFloatLabel?: boolean;
   name?: string;
+  multiple?: boolean;
   placeholder?: string;
   type: string;
   options?: any;
   register?: UseFormRegister<FieldValues>;
   setValue?: any;
-  getValues?: any;
+  getValues: any;
+  trigger?: any;
   hint?: string;
   error: any;
 }
@@ -22,42 +26,79 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const CustomInput = ({
   id,
   label,
+  floatLabel,
+  alwaysFloatLabel,
   name,
+  multiple,
   placeholder,
   type,
   options,
   register,
   setValue,
   getValues,
+  trigger,
   hint,
   error,
 }: InputProps) => {
   const register2 = register ? register : () => {};
 
   const [isFocused, setIsFocused] = useState(false);
+  const [data, setData] = useState<string | undefined>(getValues(id));
+
+  const labelUp =
+    isFocused ||
+    getValues(id).length > 0 ||
+    placeholder ||
+    (alwaysFloatLabel !== undefined ? alwaysFloatLabel : false)
+      ? true
+      : false;
 
   let element = "input";
-  if (type === "textarea") {
-    element = "textarea";
-  } else if (type === "TagsInput") {
-    element = "TagsInput";
-  } else if (type === "select") {
-    element = "select";
+
+  switch (type) {
+    case "textarea":
+      element = "textarea";
+      break;
+    case "TagsInput":
+      element = "TagsInput";
+      break;
+    case "select":
+      element = "select";
+      break;
+    case "mdeditor":
+      element = "MDEditor";
+      break;
+    default:
+      element = "input";
+      break;
   }
 
   return (
-    <div className={`relative flex flex-col ${error ? "animate-shake" : ""}`}>
-      {/* {label && (
-        <label htmlFor={id} className="text-white text-sm mb-2">
+    <div
+      className={`relative flex flex-col ${error ? "animate-shake error" : ""}`}
+    >
+      {label && (floatLabel !== undefined ? !floatLabel : false) && (
+        <label htmlFor={id} className={`text-white text-sm md:text-base pb-2`}>
           {label}
         </label>
-      )} */}
-      <div className="relative">
-        {label && (
+      )}
+      <div
+        className="relative bg-main-bg-input rounded"
+        tabIndex={0}
+        onFocus={() => {
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+        }}
+      >
+        {label && (floatLabel !== undefined ? !!floatLabel : true) && (
           <label
             htmlFor={id}
-            className={`text-white text-sm md:text-base absolute top-0 left-0 p-4 h-full flex items-center transition-all delay-300 ease-linear ${
-              isFocused ? "text-sm h-auto" : ""
+            className={`absolute top-0 left-0 p-4 flex items-center transition-all duration-100 ease-linear ${
+              labelUp
+                ? "text-xs opacity-70 h-auto -translate-y-3"
+                : "h-full text-sm text-white md:text-base cursor-text"
             }`}
           >
             {label}
@@ -67,54 +108,63 @@ const CustomInput = ({
           <TagsInput
             name={name ? name : ""}
             value={getValues(id)}
-            onChange={(val) => setValue(id, val)}
-            placeHolder={placeholder ? placeholder : ""}
-            onBlur={() => {
-              console.log("blur");
-              setIsFocused(false);
+            onChange={(val) => {
+              setValue(id, val);
+              if (trigger) trigger(val);
             }}
-            onFocus={() => {
-              console.log("focus");
-              setIsFocused(true);
+            placeHolder={placeholder ? placeholder : ""}
+            classNames={{
+              input: "z-10",
+              tag: "z-20 mx-4 mt-6",
             }}
           />
+        ) : element === "MDEditor" ? (
+          <MDEditor
+            height={400}
+            value={data}
+            onChange={(val) => {
+              setData(val);
+              setValue(id, val);
+              trigger(id);
+            }}
+            className={`border-[1px] border-solid ${
+              error ? "border-[#FC8181]" : "border-[#44444f] bg-[#44444f]"
+            }`}
+          />
         ) : (
-          React.createElement(element, {
-            id: id,
-            name: name ? name : "",
-            type: `${
-              type !== "textarea" && type !== "TagsInput" && type !== "select"
-                ? type
-                : ""
-            }`,
-            placeholder: placeholder ? placeholder : "",
-            onBlur: () => {
-              console.log("blur");
-              setIsFocused(false);
+          React.createElement(
+            element,
+            {
+              id: id,
+              name: name ? name : "",
+              type: `${
+                type !== "textarea" && type !== "TagsInput" && type !== "select"
+                  ? type
+                  : ""
+              }`,
+              placeholder: placeholder ? placeholder : "",
+              ...register2(id),
+              className: `bg-transparent transparent z-10 relative flex items-center rounded px-4 pb-4 pt-6 text-sm md:text-base w-full outline-none text-white box-border ${
+                error ? "border-[1px] border-solid border-error-color" : ""
+              }`,
+              multiple: multiple ? true : false,
             },
-            onFocus: () => {
-              console.log("focus");
-              setIsFocused(true);
-            },
-            ...register2(id),
-            className: `bg-main-bg-input rounded border-[1px] border-solid border-main-bg-input p-4 text-sm md:text-base w-full outline-none text-white box-border ${
-              error ? styles.error : ""
-            }`,
-            ...(type === "select" && options && options.length > 0
-              ? {
-                  children: options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  )),
-                }
-              : {}),
-          })
+            type === "select" && options && options.length > 0
+              ? options.map((option: string) =>
+                  React.createElement("option", {
+                    key: option,
+                    value: option,
+                    children: option,
+                    className: "bg-main-bg-input text-white",
+                  })
+                )
+              : null
+          )
         )}
         {error && (
           <div className="absolute top-0 right-2 p-2 h-full flex justify-center items-center">
             <FontAwesomeIcon
-              className="text-error-color"
+              className="text-error-color z-20"
               icon={faCircleExclamation}
             />
           </div>
@@ -122,7 +172,7 @@ const CustomInput = ({
       </div>
 
       {hint && (
-        <p className="text-[#888] font-semibold pt-2 rounded-b w-full text-xs">
+        <p className="opacity-50 font-semibold pt-2 rounded-b w-full text-xs">
           {hint}
         </p>
       )}

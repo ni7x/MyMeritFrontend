@@ -5,8 +5,8 @@ type Task = {
   id: string;
   title: string;
   instructions: string;
-  opensAt: Date;
-  closesAt: Date;
+  opensAt: string;
+  closesAt: string;
   reward: number;
   allowedLanguages: string[];
   memoryLimit: number;

@@ -10,11 +10,11 @@
 }
 
 .rti--container {
-  --rti-bg: #44444f !important;
-  --rti-border: #44444f !important;
-  --rti-main: #44444f !important;
+  --rti-bg: transparent !important;
+  --rti-border: transparent !important;
+  --rti-main: transparent !important;
   --rti-radius: 0.2rem !important;
-  --rti-s: 1rem !important;
+  --rti-s: 0 !important;
   --rti-tag: transparent !important;
   --rti-tag-remove: #e53e3e;
   --rti-tag-padding: 0.4rem !important;
@@ -38,10 +38,11 @@
 }
 
 .rti--input {
-  background-color: #44444f;
+  background-color: transparent;
   width: 100% !important;
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
+  padding: 1.5rem 1rem 1rem 1rem !important;
 }
 
 @media (min-width: 768px) {

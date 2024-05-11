@@ -6,6 +6,7 @@ import "./App.css";
 
 import Home from "./pages/home/Home";
 import Navbar from "./components/navbar/Navbar";
+import NavbarTailwind from "./components/navbar/NavbarTailwind";
 import NotFound from "./pages/not_found/NotFound";
 import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
@@ -28,6 +29,7 @@ const App = () => {
   return (
     <>
       <Navbar />
+      <NavbarTailwind />
       <MainWrapper>
         <SecondWrapper>
           <Routes>

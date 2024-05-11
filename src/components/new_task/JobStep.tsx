@@ -1,6 +1,4 @@
-import Form from "react-bootstrap/Form";
-import { TagsInput } from "react-tag-input-component";
-import { Experience, EmploymentType } from "../../types";
+import { EmploymentType } from "../../types";
 import AuthSubmit from "../form/AuthSubmit";
 import CustomInput from "../form/CustomInput";
 
@@ -11,6 +9,7 @@ const JobStep = ({
   errors,
   setValue,
   getValues,
+  trigger,
 }: {
   handleSubmit: any;
   onSubmit: any;
@@ -18,6 +17,7 @@ const JobStep = ({
   errors: any;
   setValue: any;
   getValues: any;
+  trigger: any;
 }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -26,6 +26,7 @@ const JobStep = ({
         label="Job Title"
         type="text"
         register={register}
+        getValues={getValues}
         error={errors?.jobTitle?.message}
         hint="Enter the job title here"
       />
@@ -35,6 +36,7 @@ const JobStep = ({
         label="Description"
         type="textarea"
         register={register}
+        getValues={getValues}
         error={errors?.description?.message}
       />
 
@@ -47,7 +49,7 @@ const JobStep = ({
         error={errors?.requiredSkills?.message}
         setValue={setValue}
         getValues={getValues}
-        defaultValue={[]}
+        trigger={trigger}
       />
 
       <CustomInput
@@ -59,7 +61,7 @@ const JobStep = ({
         error={errors?.preferredSkills?.message}
         setValue={setValue}
         getValues={getValues}
-        defaultValue={[]}
+        trigger={trigger}
       />
 
       <CustomInput
@@ -71,7 +73,7 @@ const JobStep = ({
         error={errors?.workLocations?.message}
         setValue={setValue}
         getValues={getValues}
-        defaultValue={[]}
+        trigger={trigger}
       />
 
       <CustomInput
@@ -83,14 +85,16 @@ const JobStep = ({
         error={errors?.technologies?.message}
         setValue={setValue}
         getValues={getValues}
-        defaultValue={[]}
+        trigger={trigger}
       />
 
       <CustomInput
         id="salary"
         label="Salary"
+        alwaysFloatLabel={true}
         type="number"
         register={register}
+        getValues={getValues}
         error={errors?.salary?.message}
       />
 
@@ -98,8 +102,9 @@ const JobStep = ({
         id="employmentType"
         label="Employment type"
         type="select"
-        options={Object.values(Experience)}
+        options={Object.values(EmploymentType)}
         register={register}
+        getValues={getValues}
         error={errors?.experience?.message}
       />
       <div className="flex w-full justify-end">

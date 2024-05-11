@@ -11,8 +11,8 @@ export type User = {
 export type Task = {
   title: string;
   instructions: string;
-  opensAt: Date;
-  closesAt: Date;
+  opensAt: string;
+  closesAt: string;
   reward: number;
   allowedLanguages: string[];
   memoryLimit?: number;
@@ -100,6 +100,7 @@ export enum AllowedLanguages {
 }
 
 export type JobOffer = {
+  id?: string;
   jobTitle: string;
   description: string;
   requiredSkills: string[];
