@@ -43,11 +43,11 @@ export default function NavbarTailwind() {
     <Disclosure as="nav" className=" bg-secondary-bg-color">
       {({ open }) => (
         <>
-          <div className="mx-auto w-full xl:max-w-6xl 2xl:max-w-[1440px] px-8">
+          <div className="mx-auto w-full xl:max-w-[1200px] px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <DisclosureButton className="relative inline-flex items-center justify-center rounded-md text-gray-400  focus:outline-none">
+                <DisclosureButton className="relative inline-flex items-center justify-center rounded-md text-gray-400 focus:outline-none">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   <div className="grid w-8 justify-items-center gap-1.5">

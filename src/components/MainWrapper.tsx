@@ -16,7 +16,7 @@ const MainWrapper = ({
         isLoginPage()
           ? "m-0 p-0 w-full flex items-center justify-center"
           : // : "mt-14 mx-auto mb-0 py-8 w-[90%]"
-            "w-full mx-auto xl:max-w-6xl 2xl:max-w-[1440px]"
+            "w-full mx-auto xl:max-w-[1200px]"
       }`}
     >
       {children}
