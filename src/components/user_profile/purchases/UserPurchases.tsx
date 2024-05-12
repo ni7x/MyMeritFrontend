@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PurchaseHistory from "../../../components/rewards/PurchaseHistory";
+import PurchaseHistory from "../../rewards/PurchaseHistory";
 import { getPurchaseHistory } from "../../../services/RewardService";
 import { PurchasedReward as PurchasedRewardDTO } from "../../../types/PurchasedReward";
 

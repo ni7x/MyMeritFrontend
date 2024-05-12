@@ -17,7 +17,7 @@ import SecondWrapper from "./components/SecondWrapper";
 import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
-import UserPurchases from "./pages/user_profile/purchases/UserPurchases";
+import UserPurchases from "./components/user_profile/purchases/UserPurchases";
 import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
 import TaskFeedbackDetails from "./pages/job_offer_solutions_company/TaskFeedbackDetails";
 import OAuth2 from "./pages/OAuth2/OAuth2";
@@ -60,18 +60,16 @@ const App = () => {
               path="/job/new"
               element={<ProtectedRoute userContent={<NewTask />} />}
             />
-            <Route
-              path="/profile/"
-              element={<ProtectedRoute userContent={<UserProfile />} />}
-            />
-            <Route
-              path="/profile/tasks/"
-              element={<ProtectedRoute userContent={<MyTasks />} />}
-            />
-            <Route
-              path="/profile/purchases/"
-              element={<ProtectedRoute userContent={<UserPurchases />} />}
-            />
+
+            {["/profile", "/profile/tasks", "/profile/purchases"].map(
+              (path, index) => (
+                <Route
+                  path={path}
+                  element={<ProtectedRoute userContent={<UserProfile />} />}
+                  key={index}
+                />
+              )
+            )}
             <Route
               path="/rewards/"
               element={<ProtectedRoute userContent={<Rewards />} />}

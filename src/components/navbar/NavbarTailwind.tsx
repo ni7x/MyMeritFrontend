@@ -40,7 +40,7 @@ export default function NavbarTailwind() {
   ];
 
   return (
-    <Disclosure as="nav" className=" bg-secondary-bg-color">
+    <Disclosure as="nav" className="z-10 bg-secondary-bg-color shadow-md">
       {({ open }) => (
         <>
           <div className="mx-auto w-full xl:max-w-[1200px] px-8">
@@ -91,7 +91,7 @@ export default function NavbarTailwind() {
                             item.current
                               ? "bg-main-bg-color text-white"
                               : "text-gray-300 hover:bg-main-bg-color hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium transition-colors duration-100 ease-linear"
+                            "rounded-md px-3 py-2 text-base font-medium transition-colors duration-100 ease-linear"
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >
@@ -222,7 +222,7 @@ export default function NavbarTailwind() {
                       item.current
                         ? "bg-main-bg-color text-white"
                         : "text-gray-300 hover:bg-main-bg-color hover:text-white",
-                      "rounded-md px-3 py-2 text-sm font-medium transition-colors duration-100 ease-linear block"
+                      "rounded-md px-3 py-2 text-base font-medium transition-colors duration-100 ease-linear block"
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >

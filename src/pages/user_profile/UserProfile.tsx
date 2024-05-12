@@ -1,21 +1,31 @@
-import UserInfo from "../../components/user_profile/UserInfo";
-import UserRewards from "../../components/user_profile/UserRewards";
+import UserProfileSidebar from "../../components/user_profile/UserProfileSidebar";
+import PersonalInformation2 from "../../components/user_profile/personal_information/PersonalInformation2";
+import UserPurchases from "../../components/user_profile/purchases/UserPurchases";
 import UserTasks from "../../components/user_profile/UserTasks";
+import { useLocation } from "react-router-dom";
 
 const UserProfile = () => {
+  const { pathname } = useLocation();
+  let page;
+
+  switch (pathname) {
+    case "/profile":
+      page = <PersonalInformation2 />;
+      break;
+    case "/profile/purchases":
+      page = <UserPurchases />;
+      break;
+    case "/profile/tasks":
+      page = <UserTasks />;
+      break;
+    default:
+      page = <PersonalInformation2 />;
+  }
+
   return (
     <>
-      {/* <header className="pb-2">
-        <h1 className="text-2xl">Your account</h1>
-      </header> */}
-
-      <div className="grid md:grid-cols-2 gap-8 mb-8 h-full">
-        <UserInfo />
-        <div className="grid md:grid-row-2 gap-4">
-          <UserTasks />
-          <UserRewards />
-        </div>
-      </div>
+      <div className="pr-60 4xl:pr-0">{page}</div>
+      <UserProfileSidebar />
     </>
   );
 };
