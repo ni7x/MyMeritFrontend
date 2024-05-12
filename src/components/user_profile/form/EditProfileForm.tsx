@@ -43,7 +43,10 @@ const EditProfileForm = ({
     getValues,
     formState: { errors },
   } = useForm<FormValues>({
-    defaultValues: { username, description },
+    defaultValues: {
+      username: username ? username : "",
+      description: description ? description : "",
+    },
     resolver: zodResolver(schema),
   });
 
