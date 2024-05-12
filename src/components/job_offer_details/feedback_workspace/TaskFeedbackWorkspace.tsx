@@ -8,7 +8,7 @@ import Cookies from "universal-cookie";
 import EditorWorkspace from "../../editor_workspace/EditorWorkspace";
 import FeedbackButton from "./FeedbackButton";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
-import Modal from "./Modal";
+// import Modal from "./Modal";
 import FeedbackModal from "./FeedbackModal";
 
 interface TaskFeedbackWorkspaceProps {

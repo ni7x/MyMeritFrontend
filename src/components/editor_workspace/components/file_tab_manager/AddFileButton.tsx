@@ -1,9 +1,15 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {fileToBase64} from "../../utils/fileUtils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileUpload, faPlus} from "@fortawesome/free-solid-svg-icons";
+import MyFile from "../../../../models/MyFile.ts";
 
-const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
+interface Props {
+    addFile: (name: string, content?: string) => void;
+    getFileByName: (name: string) => MyFile | undefined;
+}
+
+const AddFileButton: React.FC<Props> = ({addFile, getFileByName}) => {
     const [name, setName] = useState("");
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
@@ -24,13 +30,13 @@ const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
         setError("");
     }
 
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             createFile();
         }
     };
 
-    const addLocalFile = (event) => {
+    const addLocalFile = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
             const reader = new FileReader();
@@ -46,7 +52,7 @@ const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
 
     return (
         <div className="h-full flex items-center">
-            <div className='w-screen h-screen bg-black bg-opacity-60 fixed z-[1001] top-0 left-0 justify-center items-center z-[1001]' style={{display: isPopUpOpen? "flex":"none" }}>
+            <div className='w-screen h-screen bg-black bg-opacity-60 fixed z-[1001] top-0 left-0 justify-center items-center' style={{display: isPopUpOpen? "flex":"none" }}>
                 <div className="flex flex-col justify-center items-center bg-main-bg-color p-5 rounded">
                     {error != "" && <p className="pb-4 text-sm text-orange-400">{error}</p>}
                     <div className="mb-3 bg-secondary-bg-color rounded p-3 py-3">
@@ -74,7 +80,7 @@ const AddFileButton: React.FC<{}> = ({addFile, getFileByName}) => {
                         >
                             CANCEL
                         </button>
-                        <label htmlFor="fileInput" className="bg-emerald-500 w-[20%] ml-2 rounded p-3 text-center">
+                        <label htmlFor="fileInput" className="bg-emerald-500 w-[20%] ml-2 rounded p-3 text-center cursor-pointer">
                             <FontAwesomeIcon icon={faFileUpload} />
                             <input
                                 id="fileInput"

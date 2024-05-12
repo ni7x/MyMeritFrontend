@@ -1,6 +1,6 @@
 import React from "react";
 import GenericContact from "./GenericContact";
-import BusinessContact from "./BusinessContact";
+// import BusinessContact from "./BusinessContact";
 
 const SupportContact: React.FC = () => {
     const supportFields = [

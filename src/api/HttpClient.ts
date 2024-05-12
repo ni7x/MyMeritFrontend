@@ -70,8 +70,8 @@ export async function httpCallWithAuthorization<Data>({
     body: JSON.stringify(body),
   });
 
-  if (!response.ok) {
-    errorToast(response.status);
+  if (response.status >= 500) {
+    errorToast("Server error. Please try again later.");
     return {} as Data;
   }
 

@@ -1,13 +1,13 @@
 import { useState, FormEvent } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { httpCall } from "../../api/HttpClient";
+// import { useMutation } from "@tanstack/react-query";
+// import { httpCall } from "../../api/HttpClient";
 
 import RegisterStep1 from "../../components/login/RegisterStep1";
 import RegisterStep2 from "../../components/login/RegisterStep2";
 import RegisterStep3 from "../../components/login/RegisterStep3";
 
 import { useAuth } from "../../hooks/useAuth";
-import { useVerifyEmail, useVerifyCode } from "../../hooks/api/useUser";
+// import { useVerifyEmail, useVerifyCode } from "../../hooks/api/useUser";
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
 
@@ -15,7 +15,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { errorToast, successToast } from "../../main";
+// import { errorToast, successToast } from "../../main";
 
 const schema1 = z.object({
   email: z.string().email(),

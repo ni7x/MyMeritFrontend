@@ -7,24 +7,16 @@ const OAuth2 = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { signInWithToken, isAuthenticated, user } = useAuth();
+  const { signInWithToken } = useAuth();
 
   useEffect(() => {
-    if (!user && searchParams.has("token")) {
-      const token = searchParams.get("token");
-      if (token) {
-        signInWithToken(token);
-      }
+    const token = searchParams.get("token");
+    if (token) {
+      signInWithToken(token);
     }
-  }, []);
+  }, [signInWithToken]);
 
-  // useEffect(() => {
-  //   if (isAuthenticated()) {
-  //     navigate("/");
-  //   }
-  // }, [isAuthenticated]);
-
-  return <div>OAuth2</div>;
+  return null;
 };
 
 export default OAuth2;

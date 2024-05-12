@@ -1,5 +1,5 @@
 import React from "react";
-import JobOfferListedDTO from "../../../models/dtos/SolutionListedDTO";
+// import JobOfferListedDTO from "../../../models/dtos/SolutionListedDTO";
 import {formatDistanceToNow} from 'date-fns';
 import SolutionListedDTO from "../../../models/dtos/SolutionListedDTO";
 
