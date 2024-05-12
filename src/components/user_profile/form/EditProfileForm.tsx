@@ -7,7 +7,7 @@ import User from "src/types/User";
 import { successToast } from "../../../main";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CustomInput from "../../login/CustomInput";
+import CustomInput from "../../form/CustomInput";
 
 const schema = z.object({
   username: z.string().min(5),
@@ -40,6 +40,7 @@ const EditProfileForm = ({
     register,
     handleSubmit,
     setError,
+    getValues,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: { username, description },
@@ -139,6 +140,7 @@ const EditProfileForm = ({
         label="Username"
         type="text"
         register={register}
+        getValues={getValues}
         error={errors.username?.message}
       />
 
@@ -147,6 +149,7 @@ const EditProfileForm = ({
         label="Description"
         type="textarea"
         register={register}
+        getValues={getValues}
         error={errors.description?.message}
       />
 

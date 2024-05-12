@@ -3,7 +3,7 @@ const SecondWrapper = ({
 }: {
   children: JSX.Element | JSX.Element[];
 }) => {
-  return <div className="p-8">{children}</div>;
+  return <div className="p-4 sm:p-8 h-full">{children}</div>;
 };
 
 export default SecondWrapper;

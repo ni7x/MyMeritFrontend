@@ -10,6 +10,7 @@ import { loader } from "@monaco-editor/react";
 import { toast, ToastContainer, TypeOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App.tsx";
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 loader.init().then((monaco) => {
   monaco.editor.defineTheme("customTheme", {
@@ -93,7 +94,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <App />
+          <SkeletonTheme baseColor="#21222c" highlightColor="#2c2d37">
+            <App />
+          </SkeletonTheme>
           <ToastContainer
             position="bottom-right"
             autoClose={3000}

@@ -21,8 +21,7 @@ const Navbar = () => {
 
   return (
     <nav className="w-full h-14 z-[1000] flex items-center bg-secondary-bg-color text-base border-b-[1px] border-main-border border-solid">
-      <MainWrapper>
-        <SecondWrapper>
+      <div className="w-full mx-auto xl:max-w-6xl 2xl:max-w-[1440px] py-4 px-8">
           <ul className="flex flex-row gap-8 w-full list-none items-center">
             <MeritLink to="/">
               <img className="w-8 h-8" width="32" height="32" src={meritLogo} />
@@ -125,8 +124,7 @@ const Navbar = () => {
               </div>
             </li>
           </ul>
-        </SecondWrapper>
-      </MainWrapper>
+          </div>
     </nav>
   );
 };

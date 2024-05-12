@@ -1,9 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./normalize.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import Home from "./pages/home/Home";
 import Navbar from "./components/navbar/Navbar";
+import NavbarTailwind from "./components/navbar/NavbarTailwind";
 import NotFound from "./pages/not_found/NotFound";
 import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
@@ -25,7 +27,8 @@ import NewTask from "./pages/new_task/NewTask";
 const App = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <NavbarTailwind />
       <MainWrapper>
         <SecondWrapper>
           <Routes>

@@ -11,8 +11,8 @@ export type User = {
 export type Task = {
   title: string;
   instructions: string;
-  opensAt: Date;
-  closesAt: Date;
+  opensAt: string;
+  closesAt: string;
   reward: number;
   allowedLanguages: string[];
   memoryLimit?: number;
@@ -88,7 +88,19 @@ export enum EmploymentType {
   MIXED = "MIXED",
 }
 
+export enum AllowedLanguages {
+  KOTLIN = "KOTLIN",
+  JAVA = "JAVA",
+  CPP = "CPP",
+  TYPESCRIPT = "TYPESCRIPT",
+  GO = "GO",
+  PYTHON = "PYTHON",
+  JAVASCRIPT = "JAVASCRIPT",
+  PHP = "PHP",
+}
+
 export type JobOffer = {
+  id?: string;
   jobTitle: string;
   description: string;
   requiredSkills: string[];

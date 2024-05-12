@@ -3,7 +3,7 @@ import Cookies from "universal-cookie";
 
 export type HttpResponse<T> = {
   success: boolean;
-  data: T[];
+  data: T;
   message: string;
 };
 
@@ -13,7 +13,7 @@ type RequiredBodyHttpMethod = "POST" | "PUT" | "PATCH";
 
 type HttpCallParams<T extends HttpMethod = HttpMethod> = {
   url: string;
-  method: T;
+  method: HttpMethod;
   body?: T extends RequiredBodyHttpMethod ? unknown : undefined;
 };
 type HttpCallWithAuthorizationParams<T extends HttpMethod = HttpMethod> = {

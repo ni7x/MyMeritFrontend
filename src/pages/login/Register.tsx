@@ -1,28 +1,33 @@
-import { useState, FormEvent } from "react";
-// import { useMutation } from "@tanstack/react-query";
-// import { httpCall } from "../../api/HttpClient";
+import { useState } from "react";
 
 import RegisterStep1 from "../../components/login/RegisterStep1";
 import RegisterStep2 from "../../components/login/RegisterStep2";
 import RegisterStep3 from "../../components/login/RegisterStep3";
 
 import { useAuth } from "../../hooks/useAuth";
-// import { useVerifyEmail, useVerifyCode } from "../../hooks/api/useUser";
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
+import AuthSubTitle from "../../components/login/AuthSubTitle";
 
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
-// import { errorToast, successToast } from "../../main";
 
 const schema1 = z.object({
   email: z.string().email(),
 });
 
 const schema2 = z.object({
-  code: z.number().min(4),
+  code: z
+    .string()
+    .min(4)
+    .refine(
+      (v) => {
+        let n = Number(v);
+        return !isNaN(n) && v?.length > 0;
+      },
+      { message: "Invalid number" }
+    ),
 });
 
 const schema3 = z
@@ -50,8 +55,12 @@ const Register = () => {
     register: register1,
     handleSubmit: handleSubmit1,
     setError: setError1,
-    formState: { errors: errors1, isSubmiting: isSubmiting1 },
+    getValues: getValues1,
+    formState: { errors: errors1 },
   } = useForm<FormFields1>({
+    defaultValues: {
+      email: "",
+    },
     resolver: zodResolver(schema1),
   });
 
@@ -59,8 +68,12 @@ const Register = () => {
     register: register2,
     handleSubmit: handleSubmit2,
     setError: setError2,
-    formState: { errors: errors2, isSubmiting: isSubmiting2 },
+    getValues: getValues2,
+    formState: { errors: errors2 },
   } = useForm<FormFields2>({
+    defaultValues: {
+      code: "",
+    },
     resolver: zodResolver(schema2),
   });
 
@@ -68,8 +81,14 @@ const Register = () => {
     register: register3,
     handleSubmit: handleSubmit3,
     setError: setError3,
-    formState: { errors: errors3, isSubmiting: isSubmiting3 },
+    getValues: getValues3,
+    formState: { errors: errors3 },
   } = useForm<FormFields3>({
+    defaultValues: {
+      username: "",
+      password: "",
+      password2: "",
+    },
     resolver: zodResolver(schema3),
   });
 
@@ -118,6 +137,7 @@ const Register = () => {
       register={register1}
       errors={errors1}
       onSubmit={handleSubmit1(onSubmit1)}
+      getValues={getValues1}
       isLoading={isLoading}
     />
   );
@@ -127,6 +147,7 @@ const Register = () => {
         register={register2}
         errors={errors2}
         onSubmit={handleSubmit2(onSubmit2)}
+        getValues={getValues2}
         isLoading={isLoading}
       />
     );
@@ -136,6 +157,7 @@ const Register = () => {
         register={register3}
         errors={errors3}
         onSubmit={handleSubmit3(onSubmit3)}
+        getValues={getValues3}
         isLoading={isLoading}
       />
     );
@@ -152,6 +174,38 @@ const Register = () => {
       }`}
     >
       <AuthTitle>Create an account</AuthTitle>
+      <div className="grid grid-cols-3 justify-center items-center gap-1 p-2 mb-2">
+        <span
+          onClick={() => setActiveStep(1)}
+          className={`h-1 ${
+            activeStep >= 1
+              ? "bg-success-color cursor-pointer"
+              : "bg-main-bg-color"
+          }`}
+        ></span>
+        <span
+          onClick={() => {
+            if (activeStep >= 2) {
+              setActiveStep(2);
+            }
+          }}
+          className={`h-1 ${
+            activeStep >= 2
+              ? "bg-success-color cursor-pointer"
+              : "bg-main-bg-color"
+          }`}
+        ></span>
+        <span
+          className={`h-1 ${
+            activeStep >= 3 ? "bg-success-color" : "bg-main-bg-color"
+          }`}
+        ></span>
+      </div>
+      <h2 className="pb-4 m-0 text-sm w-full text-center opacity-70">
+        {activeStep == 1 && "Set your email"}
+        {activeStep == 2 && "Verify your email"}
+        {activeStep == 3 && "Fill your credentials"}
+      </h2>
       {step}
       <>
         {errors?.root?.message && (

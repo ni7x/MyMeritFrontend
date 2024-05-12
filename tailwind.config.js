@@ -7,6 +7,7 @@ export default {
         "blue-450": "#4E94F8",
         "emerald-450": "#22C68D",
         "secondary-bg-color": "#3a3b46",
+        "main-bg-input": "#44444f",
         "main-lighter": "#737485",
         "main-lighter-2": "#555764",
         "main-darker": "#21222c",
@@ -19,6 +20,9 @@ export default {
         "ide-color": "#34353f",
         "terminal-border": "#555764",
         "job-primary": "#22C68D",
+        "error-color": "#fc8181",
+        "success-color": "#009E60",
+        "success-darker-color": "#02633D",
       },
       screens: {
         xlg: "1440px",
