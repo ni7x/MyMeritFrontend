@@ -12,6 +12,7 @@ import { httpCall, httpCallWithAuthorization } from "../api/HttpClient";
 import JobOfferDetailsDTO from "../models/dtos/JobOfferDetailsDTO";
 import { JobOffer } from "@types";
 import JudgeParams from "../models/JudgeParams";
+import SolutionPreview from "../models/TaskPreview";
 
 const getHomeJobOffers = async (params: QueryParams): Promise<Response> => {
   const URL = import.meta.env.VITE_API_URL + buildURL(params);
@@ -21,8 +22,13 @@ const getHomeJobOffers = async (params: QueryParams): Promise<Response> => {
   });
 };
 
-const getUserTasks = (userId: string): TaskPreview[] => {
-  return [];
+const getUserSolutions = async (token: string): Promise<SolutionPreview[]> => {
+    const URL = import.meta.env.VITE_API_URL + "/me/solutions";
+    return await httpCallWithAuthorization<SolutionPreview[]>({
+        token,
+        url: URL,
+        method: "GET",
+    });
 };
 
 const getJobOfferById = async (
@@ -322,4 +328,4 @@ export const submitJobOffer = async (data: JobOffer) => {
   } catch (error) {}
 };
 
-export  { getUserTasks, getJobOfferById, getHomeJobOffers, submitSolution, downloadFilesForJob, downloadSolutionFiles, submitFeedback, downloadFeedbackFiles, downloadFiles }
+export  { getUserSolutions, getJobOfferById, getHomeJobOffers, submitSolution, downloadFilesForJob, downloadSolutionFiles, submitFeedback, downloadFeedbackFiles, downloadFiles }

@@ -55,7 +55,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
 
     useEffect(() => {
         if(filesFetched && files)
-            cookies.set("solution-" + solutionId, serializeFiles(files, solutionId, mainFileIndex), { });
+            cookies.set("solution-" + solutionId, serializeFiles(files, task.jobId, solutionId, mainFileIndex), { });
     }, [files, mainFileIndex]);
 
 

@@ -40,6 +40,7 @@ const TaskFeedbackDetails: React.FC = () => {
                     <TaskInfo
                         task={task}
                         jobId={jobId}
+                        withToggle={true}
                     />
                 </div>
                 <TaskFeedbackWorkspace

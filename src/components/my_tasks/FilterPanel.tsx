@@ -15,7 +15,6 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
 
   const showRecent = () => {
     setLastClickedButton("recent");
-    setFilteredTasks(tasks.filter((task) => task.isRecent));
   };
 
   const showAll = () => {
@@ -25,13 +24,13 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
 
   const showRated = () => {
     setLastClickedButton("rated");
-    setFilteredTasks(tasks.filter((task) => task.status === TaskStatus.RATED));
+    setFilteredTasks(tasks.filter((task) => task.feedback != null));
   };
 
   const showUnrated = () => {
     setLastClickedButton("unrated");
     setFilteredTasks(
-      tasks.filter((task) => task.status === TaskStatus.UNRATED)
+      tasks.filter((task) => task.feedback == null)
     );
   };
 
@@ -41,17 +40,17 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
   };
 
   return (
-    <ul className="filter-panel list-none border-main-border border-[1px] border-solid w-full p-0 text-sm rounded-lg">
+    <ul className="bg-ide-color list-none border-main-border border-[1px] border-solid w-full p-0 text-sm rounded-lg h-auto">
       <li>
         {/* <button className={lastClickedButton === "recent" ? "bg-secondary-bg-color" : ""} onClick={showRecent}  > */}
         <FilterButton
-          className={`rounded-t-lg text-[#e5ce54]
+          className={`rounded-t-lg text-[#e5ce54] 
             ${lastClickedButton === "recent" ? "bg-secondary-bg-color" : ""}
           `}
           onClick={showRecent}
         >
           <span>recent activity</span>
-          <span>{getCount(tasks.filter((task) => task.isRecent))}</span>
+
         </FilterButton>
         {/* </button> */}
       </li>
@@ -74,7 +73,7 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
           <span>unrated </span>
           <span>
             {getCount(
-              tasks.filter((task) => task.status === TaskStatus.UNRATED)
+              tasks.filter((task) => task.feedback != null)
             )}
           </span>
         </FilterButton>
@@ -88,7 +87,7 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
         >
           <span>rated </span>
           <span>
-            {getCount(tasks.filter((task) => task.status === TaskStatus.RATED))}
+            {getCount(tasks.filter((task) => task.feedback != null))}
           </span>
         </FilterButton>
       </li>
@@ -99,7 +98,7 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
           `}
           onClick={showBookmarked}
         >
-          <span>bookmarked </span>
+          <span>bookmarked</span>
           <span>{getCount(tasks.filter((task) => task.isBookmarked))}</span>
         </FilterButton>
       </li>
