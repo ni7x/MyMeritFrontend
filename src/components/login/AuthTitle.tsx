@@ -1,6 +1,18 @@
-const AuthTitle = ({ children }: { children: string }) => {
+const AuthTitle = ({
+  children,
+  className,
+}: {
+  children: string;
+  className: string | string[];
+}) => {
   return (
-    <h1 className="pb-6 m-0 text-base text-center font-semibold">{children}</h1>
+    <h1
+      className={`pb-2 m-0 text-lg text-center font-semibold ${
+        className ? className : ""
+      }`}
+    >
+      {children}
+    </h1>
   );
 };
 

@@ -12,42 +12,39 @@ const RegisterStep1 = ({
   register,
   errors,
   onSubmit,
+  getValues,
   isLoading,
 }: {
   register: UseFormRegister<FieldValues>;
   errors?: FieldErrors<FieldValues>;
   onSubmit: (e: FormEvent) => void;
+  getValues: any;
   isLoading: boolean;
 }) => {
   const navigate = useNavigate();
 
   return (
     <>
-      <AuthSubTitle>Step 1 - set your email</AuthSubTitle>
+      {/* <AuthSubTitle>Step 1 - set your email</AuthSubTitle> */}
       <AuthForm handleSubmit={onSubmit}>
         <CustomInput
           id="email"
           type="text"
-          placeholder="Email"
+          // placeholder="Email"
+          label="Email"
+          getValues={getValues}
           register={register}
           error={errors?.email?.message}
         />
         <p className="m-0 text-xs opacity-70">
           We will send you verification code to this email.
         </p>
-        {/* <>
-          {errors?.root?.message && (
-            <p className="w-full font-semibold text-[0.8rem] text-[#b94a48]">
-              {errors?.root?.message}
-            </p>
-          )}
-        </> */}
-        <AuthSubmit>{isLoading ? <Loading /> : "Next"}</AuthSubmit>
+        <AuthSubmit>{isLoading ? <Loading /> : "Send code"}</AuthSubmit>
       </AuthForm>
       <p className=" text-center text-sm mt-4 font-semibold">
         Have an account?{" "}
         <a
-          className="text-[#06a58f]"
+          className="text-success-color"
           href="#"
           onClick={() => {
             navigate("/login");

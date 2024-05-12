@@ -11,28 +11,32 @@ const RegisterStep2 = ({
   register,
   errors,
   onSubmit,
+  getValues,
   isLoading,
 }: {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors<FieldValues> | undefined;
   onSubmit: (e: FormEvent) => void;
+  getValues: any;
   isLoading: boolean;
 }) => {
   return (
     <>
-      <AuthSubTitle>Step 2 - verify your email</AuthSubTitle>
+      {/* <AuthSubTitle>Step 2 - verify your email</AuthSubTitle> */}
       <AuthForm handleSubmit={onSubmit}>
         <CustomInput
           id="code"
           type="text"
-          placeholder="Code"
+          // placeholder="Code"
+          label="Verification code"
           register={register}
+          getValues={getValues}
           error={errors?.code?.message}
         />
         <p className="m-0 text-xs opacity-70">
           Please put here verification code sent to your email.
         </p>
-        <AuthSubmit>{isLoading ? <Loading /> : "Next"}</AuthSubmit>
+        <AuthSubmit>{isLoading ? <Loading /> : "Verify"}</AuthSubmit>
       </AuthForm>
     </>
   );

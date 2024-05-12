@@ -42,8 +42,13 @@ const Login = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmiting },
+    getValues,
+    formState: { errors },
   } = useForm<FormFields>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
     resolver: zodResolver(schema),
   });
 
@@ -65,21 +70,25 @@ const Login = () => {
 
   return (
     <AuthBox>
-      <AuthTitle>Welcome back!</AuthTitle>
+      <AuthTitle className="pb-4">Welcome back!</AuthTitle>
       <AuthForm handleSubmit={handleSubmit(onSubmit)}>
         <CustomInput
           id="email"
           type="text"
-          placeholder="email"
+          label="Email"
+          // placeholder="email"
           register={register}
+          getValues={getValues}
           error={errors.email && errors.email.message}
         />
 
         <CustomInput
           id="password"
           type={processedPassword}
-          placeholder="password"
+          label="Password"
+          // placeholder="password"
           register={register}
+          getValues={getValues}
           error={errors.password && errors.password.message}
         />
 
@@ -95,7 +104,7 @@ const Login = () => {
       <p className=" text-center text-sm mt-4 font-semibold">
         Don't have an account?{" "}
         <a
-          className="text-[#06a58f]"
+          className="text-success-color"
           href="#"
           onClick={() => {
             navigate("/register");

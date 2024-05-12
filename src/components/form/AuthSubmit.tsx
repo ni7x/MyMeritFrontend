@@ -5,7 +5,7 @@ const AuthSubmit = ({
 }) => {
   return (
     <button
-      className=" p-4 rounded leading-none bg-[#06a58f] border-none text-white font-bold text-sm cursor-pointer text- transition-colors duration-200 ease-linear hover:bg-[#057767]"
+      className=" p-4 rounded leading-none  bg-success-color border-none text-white font-bold text-sm cursor-pointer text- transition-colors duration-100 ease-linear hover:bg-success-darker-color"
       type="submit"
     >
       {children}

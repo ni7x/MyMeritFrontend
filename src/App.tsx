@@ -28,7 +28,7 @@ import NewTask from "./pages/new_task/NewTask";
 const App = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <NavbarTailwind />
       <MainWrapper>
         <SecondWrapper>

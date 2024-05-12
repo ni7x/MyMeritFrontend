@@ -84,7 +84,7 @@ const CustomInput = ({
       )}
       <div
         className="relative bg-main-bg-input rounded"
-        tabIndex={0}
+        tabIndex={-1}
         onFocus={() => {
           setIsFocused(true);
         }}

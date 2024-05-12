@@ -21,6 +21,8 @@ export default {
         "terminal-border": "#555764",
         "job-primary": "#22C68D",
         "error-color": "#fc8181",
+        "success-color": "#009E60",
+        "success-darker-color": "#02633D",
       },
       screens: {
         xlg: "1440px",
