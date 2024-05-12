@@ -1,16 +1,19 @@
-import TaskPreview from "../models/TaskPreview";
 import { QueryParams } from "../models/QueryParams";
 import MyFile from "../models/MyFile";
 import { buildURL } from "../components/home_job_offers/URLHelper";
-import {
-  ContentType,
-  generateEncodedZip,
-} from "../components/editor_workspace/utils/fileUtils";
+// import {
+//   ContentType,
+//   generateEncodedZip,
+// } from "../components/editor_workspace/utils/fileUtils";
 import { errorToast } from "../main";
 import CodeExecutionOutput from "../models/CodeExecutionOutput";
 import { httpCall, httpCallWithAuthorization } from "../api/HttpClient";
 import JobOfferDetailsDTO from "../models/dtos/JobOfferDetailsDTO";
 import { JobOffer } from "@types";
+import JudgeParams from "../models/JudgeParams";
+import SolutionPreview from "../models/TaskPreview";
+import ApiResponse from "../types/ApiResponse";
+import JobOfferListedDTO from "../models/dtos/JobOfferListedDTO";
 import { HttpResponse } from "../api/HttpClient";
 
 /**
@@ -26,22 +29,50 @@ const getHomeJobOffers = async (params: QueryParams): Promise<Response> => {
   });
 };
 
-/**
- * Retrieves the tasks associated with a user.
- *
- * @param userId - The ID of the user.
- * @returns An array of TaskPreview objects representing the user's tasks.
- */
-const getUserTasks = (userId: string): TaskPreview[] => {
-  return [];
+const getUserSolutions = async (token: string): Promise<SolutionPreview[]> => {
+  const URL = import.meta.env.VITE_API_URL + "/me/solutions";
+  return await httpCallWithAuthorization<SolutionPreview[]>({
+    token,
+    url: URL,
+    method: "GET",
+  });
 };
 
-/**
- * Retrieves a job offer by its ID.
- * @param {string} jobOfferId - The ID of the job offer.
- * @param {string} token - The authorization token.
- * @returns {Promise<JobOfferDetailsDTO>} - A promise that resolves to the job offer details.
- */
+const getUserBookmarks = async (
+  token: string
+): Promise<JobOfferListedDTO[]> => {
+  const URL = import.meta.env.VITE_API_URL + "/me/bookmarks";
+  return await httpCallWithAuthorization<JobOfferListedDTO[]>({
+    token,
+    url: URL,
+    method: "GET",
+  });
+};
+
+const addToBookmarks = async (
+  token: string,
+  jobOfferId: string
+): Promise<ApiResponse> => {
+  const URL = import.meta.env.VITE_API_URL + "/bookmark/" + jobOfferId;
+  return await httpCallWithAuthorization<ApiResponse>({
+    token,
+    url: URL,
+    method: "POST",
+  });
+};
+
+const removeFromBookmarks = async (
+  token: string,
+  jobOfferId: string
+): Promise<ApiResponse> => {
+  const URL = import.meta.env.VITE_API_URL + "/bookmark/" + jobOfferId;
+  return await httpCallWithAuthorization<ApiResponse>({
+    token,
+    url: URL,
+    method: "DELETE",
+  });
+};
+
 const getJobOfferById = async (
   jobOfferId: string,
   token: string
@@ -57,40 +88,23 @@ const getJobOfferById = async (
 
 export const testAll = async (
   files: MyFile[],
-  testFileContent: string,
   taskId: string,
-  language: string,
-  mainFileIndex: number
+  language: string
 ) => {
   try {
-    const filez = [...files];
-    filez.splice(mainFileIndex, 1);
-    const testFile = new MyFile(
-      "testmain.cpp",
-      ContentType.TXT,
-      testFileContent
-    );
-    const filesToCompile = [...filez, testFile];
+    const data = new FormData();
 
-    let fileContentBase64;
-    try {
-      fileContentBase64 = await generateEncodedZip(filesToCompile, testFile);
-    } catch (zipError) {
-      errorToast("Main file is not compilable");
-      return null;
+    for (const file of files) {
+      const fileBlob = await b64toBlob(file.contentBase64, file.type);
+      const fileObject = new File([fileBlob], file.name, { type: file.type });
+      data.append("files", fileObject);
     }
 
     const response = await fetch(
       "http://localhost:8080/test/task/" + taskId + "/language/" + language,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileName: "testmain.cpp",
-          fileContentBase64: fileContentBase64,
-        }),
+        body: data,
       }
     );
 
@@ -109,28 +123,17 @@ export const testAll = async (
 
 export const testSingle = async (
   files: MyFile[],
-  testFileContent: string,
   taskId: string,
   language: string,
-  mainFileIndex: number,
   testIndex: number
 ) => {
   try {
-    const filez = [...files];
-    filez.splice(mainFileIndex, 1);
-    const testFile = new MyFile(
-      "testmain.cpp",
-      ContentType.TXT,
-      testFileContent
-    );
-    const filesToCompile = [...filez, testFile];
+    const data = new FormData();
 
-    let fileContentBase64;
-    try {
-      fileContentBase64 = await generateEncodedZip(filesToCompile, testFile);
-    } catch (zipError) {
-      errorToast("Main file is not compilable");
-      return null;
+    for (const file of files) {
+      const fileBlob = await b64toBlob(file.contentBase64, file.type);
+      const fileObject = new File([fileBlob], file.name, { type: file.type });
+      data.append("files", fileObject);
     }
 
     const response = await fetch(
@@ -142,13 +145,7 @@ export const testSingle = async (
         testIndex,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileName: "testmain.cpp",
-          fileContentBase64: fileContentBase64,
-        }),
+        body: data,
       }
     );
 
@@ -166,48 +163,51 @@ export const testSingle = async (
 };
 
 export const getToken = async (
-  userInput: string,
+  token: string,
   files: MyFile[],
   mainFileIndex: number,
-  file: MyFile,
-  timeLimit: number,
-  memoryLimit: number
+  language: string,
+  userInput: string,
+  timeLimit?: number,
+  memoryLimit?: number
 ) => {
   try {
-    const stdin =
+    const URL = import.meta.env.VITE_API_URL + "/compile-code";
+
+    const encodedInput =
       userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
-    let fileContentBase64;
+    const params = new JudgeParams();
+    params.stdin = encodedInput;
+    params.memoryLimit = memoryLimit;
+    params.cpuTimeLimit = timeLimit;
+    const data = new FormData();
+    for (const file of files) {
+      const fileBlob = await b64toBlob(file.contentBase64, file.type);
+      const fileObject = new File([fileBlob], file.name, { type: file.type });
+      data.append("files", fileObject);
+    }
+    data.append("language", language);
+    data.append("mainFileName", files[mainFileIndex].name);
+    data.append("judgeParams", JSON.stringify(params));
     try {
-      fileContentBase64 = await generateEncodedZip(files, files[mainFileIndex]);
-      console.log(fileContentBase64);
-    } catch (zipError) {
-      errorToast("Main file is not compilable");
-      return null;
+      const response = await fetch(URL, {
+        method: "POST",
+        body: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return (await response.json()) as CodeExecutionOutput;
+    } catch (error) {
+      console.error("Error:", error);
     }
-
-    const response = await fetch("http://localhost:8080/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileName: file.name,
-        fileContentBase64: fileContentBase64,
-        stdin: stdin,
-        timeLimit: timeLimit,
-        memoryLimit: memoryLimit,
-      }),
-    });
-
-    if (!response.ok) {
-      errorToast("Error fetching token");
-      return null;
-    }
-
-    return await response.text();
   } catch (error) {
-    errorToast("Error fetching token");
-    return null;
+    errorToast("Error fetching token" + error);
   }
 };
 
@@ -238,7 +238,9 @@ const b64toBlob = (base64, type = "application/octet-stream") =>
 const submitSolution = async (
   jobId: string,
   files: MyFile[],
-  token: string
+  token: string,
+  language: string,
+  mainFileName: string
 ) => {
   const URL = import.meta.env.VITE_API_URL + "/job/" + jobId + "/solution";
   const data = new FormData();
@@ -248,6 +250,9 @@ const submitSolution = async (
     const fileObject = new File([fileBlob], file.name, { type: file.type });
     data.append("files", fileObject);
   }
+
+  data.append("language", language);
+  data.append("mainFileName", mainFileName);
   try {
     return await fetch(URL, {
       method: "POST",
@@ -388,7 +393,10 @@ export const submitJobOffer = async (
 };
 
 export {
-  getUserTasks,
+  addToBookmarks,
+  removeFromBookmarks,
+  getUserBookmarks,
+  getUserSolutions,
   getJobOfferById,
   getHomeJobOffers,
   submitSolution,

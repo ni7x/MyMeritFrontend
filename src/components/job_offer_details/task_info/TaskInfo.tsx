@@ -10,7 +10,7 @@ import {
 import { differenceInHours } from 'date-fns';
 import {faTrophy} from "@fortawesome/free-solid-svg-icons";
 
-const TaskInfo: React.FC<{task: Task, jobId: string | undefined}> = ({task, jobId, feedbackElement}) => {
+const TaskInfo: React.FC<{task: Task, jobId: string | undefined,}> = ({task, jobId, feedbackElement, withToggle}) => {
     const [isHidden, setHidden] = useState(false);
     const toggleHidden = () => {
         setHidden(!isHidden);
@@ -27,7 +27,7 @@ const TaskInfo: React.FC<{task: Task, jobId: string | undefined}> = ({task, jobI
 
     if(isHidden){
         return (
-            <div className="flex flex-col rounded flex-1 h-full overflow-x-auto">
+            <div className="flex flex-col rounded flex-1 h-full overflow-x-auto max-w-[10px]">
                 <button
                     onClick={toggleHidden}
                     className="bg-terminal-color p-2 rounded hover:bg-main-lighter-2"
@@ -85,12 +85,15 @@ const TaskInfo: React.FC<{task: Task, jobId: string | undefined}> = ({task, jobI
                                 <FontAwesomeIcon icon={faChevronRight} />
                             </div>
                         </a>
-                        <button
-                            onClick={toggleHidden}
-                            className="bg-task-bck p-2 rounded hover:bg-main-lighter-2"
-                        >
-                            <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} className="text-main-lighter"/>
-                        </button>
+                        {withToggle === true ?
+                                <button
+                                    onClick={toggleHidden}
+                                    className="bg-task-bck p-2 rounded hover:bg-main-lighter-2"
+                                >
+                                    <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} className="text-main-lighter"/>
+                                </button>
+                            : null}
+
                     </div>
                 </div>
             </div>

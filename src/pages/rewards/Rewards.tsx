@@ -3,14 +3,14 @@ import AvailableRewards from "../../components/rewards/AvailableRewards";
 import { getPurchaseHistory, getRewards } from "../../services/RewardService";
 import { getUser } from "../../services/UserService";
 import User from "../../types/User";
-import SecondWrapper from "../../components/SecondWrapper";
-import PurchaseHistory from "../../components/rewards/PurchaseHistory";
+// import SecondWrapper from "../../components/SecondWrapper";
+// import PurchaseHistory from "../../components/rewards/PurchaseHistory";
 import Reward from "../../types/Reward";
-import PurchasedReward from "../../types/PurchasedReward";
+// import PurchasedReward from "../../types/PurchasedReward";
 import { purchaseReward } from "../../services/RewardService";
 import meritCoin from "../../assets/meritcoin.png";
 import { loadingToast, successToast, toastDismiss } from "../../main";
-import { set } from "date-fns";
+// import { set } from "date-fns";
 
 const Rewards = () => {
   const [availableRewards, setAvailableRewards] = useState<Reward[]>([]);

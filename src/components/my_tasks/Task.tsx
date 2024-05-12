@@ -1,80 +1,44 @@
 import TaskPreview from "../../models/TaskPreview";
 import React from "react";
-import TaskStatus from "../../models/TaskStatus";
+import Label from "./Label";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faComment} from "@fortawesome/free-solid-svg-icons";
 
 const Task: React.FC<{ task: TaskPreview }> = ({ task }) => {
-  const getCreditStyle = (credits: number) => {
-    if (credits >= 3 && credits < 7) {
-      return "bg-[#ecc52b]";
-    } else if (credits >= 7) {
-      return "bg-[#fd448e]";
-    }
-  };
-
   return (
-    <li>
-      <a
-        className="w-full bg-secondary-bg-color my-2 mx-0 flex justify-between items-center rounded-md p-2 cursor-pointer text-main-font-color"
-        href={"tasks/" + task.taskID}
-      >
-        <P className="group">
-          <strong>
-            {task.name.length > 30
-              ? task.name.substring(0, 29) + "..."
-              : task.name}
-          </strong>
-          {task.name.length > 30 ? (
-            <span className="group-hover:inline-block hidden bg-[#6a6c76] border-[1px] border-solid border-[#777882] py-1 px-2 absolute rounded ml-[-5px] leading-snug max-w-32 mt-7 text-xs">
-              {task.name}
-            </span>
-          ) : (
-            <></>
-          )}
-        </P>
-
-        <P className="text-main-lighter">
-          {task.submitDate.toLocaleDateString()}
-        </P>
-
-        <P
-          className={`font-semibold italic ${
-            task.status === TaskStatus.RATED
-              ? "text-[#40b0f3]"
-              : "text-main-lighter"
-          }`}
+      <li>
+        <a
+            className="flex flex-row gap-6 bg-terminal-color p-4 rounded hover:bg-[#40424FFF]  items-center rounded"
+            href={"/job/" + task.jobId + "/solution"}
         >
-          {task.status}
-        </P>
-
-        <P className="flex-[0.25] mr-0">
-          <span
-            className={`bg-[#50515d] py-1 px-3 rounded-2xl font-semibold w-full text-center
-              ${getCreditStyle(task.credits)}`}
-          >
-            {task.credits}
-          </span>
-        </P>
-      </a>
-    </li>
+          <img src={"data:image/png;base64," + task.imageBase64} className="w-[4.5rem] h-[4.5rem] rounded"/>
+          <div className="flex flex-col gap-1.5">
+            <div className="flex font-semibold text-lg items-center gap-3 leading-0">
+              <p>{task.taskName}</p>
+              <p
+                  className={`font-semibold text-xs ${
+                      task.feedback
+                          ? "text-[#40b0f3]"
+                          : "text-main-lighter"
+                  }`}
+              >
+                  <FontAwesomeIcon icon={faComment}/>  {task.feedback ? "CLICK TO VIEW FEEDBACK" : "NO FEEDBACK"}
+              </p>
+            </div>
+            <div className="flex gap-10">
+                <Label label="SUBMITTED" value={new Date(task.submitDate).toLocaleDateString()} />
+                <Label label="LANGUAGE" value={task.solutionLanguage} />
+                {task.feedback &&
+                    <Label label="CREDITS RECEIVED"
+                           value={<p class="text-merit-credits-color">{task.feedback.credits} MC  </p>}
+                        />
+                }
+            </div>
+          </div>
+        </a>
+      </li>
   );
 };
 
-const P = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: string | JSX.Element | JSX.Element[];
-}) => {
-  return (
-    <p
-      className={`flex-[1] flex m-0 py-1 px-2 ${
-        className !== undefined ? className : ""
-      }`}
-    >
-      {children}
-    </p>
-  );
-};
 
 export default Task;

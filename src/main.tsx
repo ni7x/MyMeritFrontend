@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 
 import { loader } from "@monaco-editor/react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer, TypeOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App.tsx";
 import { SkeletonTheme } from 'react-loading-skeleton';
@@ -24,48 +24,63 @@ loader.init().then((monaco) => {
   });
 });
 
-export const loadingToast = (message, id = null) => {
+export const loadingToast = (message: string, id?: number) => {
   if (id) {
     toast.update(id, {
       render: message,
       className: "toast-loading",
       isLoading: true,
-      autoClose: false
+      autoClose: false,
     });
     return id;
   } else {
     return toast.loading(message, {
       className: "toast-loading",
-      autoClose: false
+      autoClose: false,
     });
   }
 };
 
-export const updateToast = (message, type, id = null) => {
+export const updateToast = (
+  message: string,
+  type: TypeOptions,
+  id?: number
+) => {
   if (id) {
     toast.update(id, {
       render: message,
       type: type,
       className: `toast-${type}`,
       isLoading: false,
-      autoClose: 1000
+      autoClose: 1000,
     });
   } else {
-    toast[type](message, {
-      className: `toast-${type}`,
-      autoClose: 5000
-    });
+    const autoClose = 5000;
+    switch (type) {
+      case "info":
+        toast.info(message, { autoClose: autoClose });
+        break;
+      case "success":
+        toast.success(message, { autoClose: autoClose });
+        break;
+      case "warning":
+        toast.warning(message, { autoClose: autoClose });
+        break;
+      case "error":
+        toast.error(message, { autoClose: autoClose });
+        break;
+      default:
+        toast(message, { autoClose: autoClose });
+        break;
+    }
   }
 };
 
-
-export const successToast = (message, id = null) => {
+export const successToast = (message: string, id?: number) => {
   updateToast(message, "success", id);
 };
-
-
-export const errorToast = (message, id = null) => {
-  updateToast(message, "error", id)
+export const errorToast = (message: string, id?: number) => {
+  updateToast(message, "error", id);
 };
 
 export const toastDismiss = () => {

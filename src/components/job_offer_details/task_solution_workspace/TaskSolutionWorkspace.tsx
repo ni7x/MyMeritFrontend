@@ -15,7 +15,11 @@ const cookies = new Cookies();
 
 const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEditable: boolean }> = ({ jobId, task, isEditable }) => {
     const {accessToken} = useAuth();
-    const [currentLanguage, setCurrentLanguage] = useState<string>(Object.keys(task.templateFiles)[0].toString() ?? task?.allowedLanguages[0] ?? "");
+    const [currentLanguage, setCurrentLanguage] = useState<string>(
+        task.templateFiles && Object.keys(task.templateFiles).length > 0
+            ? Object.keys(task.templateFiles)[0]
+            : (task.allowedLanguages[0] ?? "")
+    );
     const currentTaskCookies = (cookies.get(jobId + "-" + currentLanguage ??  task?.allowedLanguages[0]));
     const [files, setFiles] = useState<MyFile[]>([]);
     const [filesFetched, setFilesFetched] = useState(false);
@@ -44,8 +48,8 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
                 console.log(currentLanguage)
                 setFiles(currentTaskCookies.files.map(file => new MyFile(file.name, file.type, file.contentBase64)));
                 setFilesFetched(true);
-            } else if(task.templateFiles){
-                const filesToDownload = task.templateFiles[Object.keys(task.templateFiles)[0]];
+            } else if(task.templateFiles && task.templateFiles[currentLanguage]){
+                const filesToDownload = task.templateFiles[currentLanguage];
                 const response = await downloadFiles(filesToDownload, accessToken!);
                 if (response.ok) {
                     const fetchedFiles = await response.json();
@@ -67,7 +71,7 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
         if (filesFetched) {
             cookies.set(jobId + "-" + currentLanguage, serializeFiles(files, jobId, mainFileIndex, currentLanguage),  { expires: new Date(task.closesAt) });
         }
-    }, [files, jobId, filesFetched, mainFileIndex, currentLanguage]);
+    }, [files, jobId, filesFetched, mainFileIndex]);
 
 
 

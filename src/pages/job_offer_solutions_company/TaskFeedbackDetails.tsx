@@ -36,10 +36,11 @@ const TaskFeedbackDetails: React.FC = () => {
     if(task){
         return(
             <div className="flex flex-col gap-3 lg:flex-row w-[90%] mx-auto h-full lg:h-[calc(100vh-120px)]">
-                <div className="w-[100%] lg:flex-1 ">
+                <div className="w-[100%] lg:flex-1">
                     <TaskInfo
                         task={task}
                         jobId={jobId}
+                        withToggle={true}
                     />
                 </div>
                 <TaskFeedbackWorkspace

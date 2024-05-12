@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./normalize.css";
 // import "bootstrap/dist/css/bootstrap.min.css";

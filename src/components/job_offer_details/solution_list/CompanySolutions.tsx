@@ -1,5 +1,5 @@
 import React from "react";
-import JobOfferListedDTO from "../../../models/dtos/SolutionListedDTO";
+// import JobOfferListedDTO from "../../../models/dtos/SolutionListedDTO";
 import {formatDistanceToNow} from 'date-fns';
 import SolutionListedDTO from "../../../models/dtos/SolutionListedDTO";
 
@@ -23,6 +23,12 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
             <div className="w-full text-right">
                 <p>Solutions : {solutions.length}</p>
             </div>
+
+            {solutions.length === 0 ?
+                <h3 className="flex gap-10 bg-terminal-color p-3 px-5 rounded">No solutions yet..</h3> :
+                null
+            }
+
             {solutions.map((solution, index) => (
                     <a
                         key={index}

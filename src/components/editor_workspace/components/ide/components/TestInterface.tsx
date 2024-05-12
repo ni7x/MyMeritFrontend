@@ -7,13 +7,13 @@ import Test from "../../../../../models/Test";
 import UserTaskDTO from "../../../../../models/dtos/UserTaskDTO";
 import TestOutput from "../../../../../models/TestOutput";
 
-const TestInterface: React.FC<{task:UserTaskDTO}>= ({files, setTestOutput, setLoading, task, mainFileIndex, currentLanguage}) => {
+const TestInterface: React.FC<{task:UserTaskDTO}>= ({files, setTestOutput, setLoading, task, currentLanguage}) => {
     const [currentLanguageTests, setCurrentLanguageTests] = useState<Test>(null);
 
     const runAllTests = async () => {
         setLoading(true);
         try {
-            const response = await testAll(files, currentLanguageTests.testFileBase64, task.id, currentLanguage, mainFileIndex);
+            const response = await testAll(files, task.id, currentLanguage);
             setTestOutput(response as TestOutput[]);
         } catch (error) {
             errorToast("Error compiling code");
@@ -25,7 +25,7 @@ const TestInterface: React.FC<{task:UserTaskDTO}>= ({files, setTestOutput, setLo
     const runSingleTest = async (testId) => {
         setLoading(true);
         try {
-            const response = await testSingle(files, currentLanguageTests.testFileBase64, task.id, currentLanguage, mainFileIndex, testId);
+            const response = await testSingle(files, task.id, currentLanguage, testId);
             setTestOutput(response as TestOutput[]);
         } catch (error) {
             errorToast("Error compiling code");

@@ -7,17 +7,15 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 // import { Skeleton } from "@mui/material";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const UserInfo = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const { setUserData, userData } = useAuth();
 
   if (userData == undefined) {
-    return (
-      <Skeleton borderRadius="0.75rem" height="100%" />
-    )
+    return <Skeleton borderRadius="0.75rem" height="100%" />;
   }
 
   return (

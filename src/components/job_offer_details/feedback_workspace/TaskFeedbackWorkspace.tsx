@@ -8,7 +8,7 @@ import Cookies from "universal-cookie";
 import EditorWorkspace from "../../editor_workspace/EditorWorkspace";
 import FeedbackButton from "./FeedbackButton";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
-import Modal from "./Modal";
+// import Modal from "./Modal";
 import FeedbackModal from "./FeedbackModal";
 
 interface TaskFeedbackWorkspaceProps {
@@ -55,7 +55,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
 
     useEffect(() => {
         if(filesFetched && files)
-            cookies.set("solution-" + solutionId, serializeFiles(files, solutionId, mainFileIndex), { });
+            cookies.set("solution-" + solutionId, serializeFiles(files, task.jobId, solutionId, mainFileIndex), { });
     }, [files, mainFileIndex]);
 
 

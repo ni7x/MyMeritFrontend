@@ -10,7 +10,7 @@ const FilterButton = ({
 }) => {
   return (
     <button
-      className={`bg-none border-b-[1px] border-main-border border-solid w-full text-main-front-color p-4 flex justify-between gap-2 font-semibold cursor-pointer ${className}`}
+        className={`bg-none border-b-[1px] border-main-border border-solid w-full text-main-front-color p-4 flex justify-between gap-2 cursor-pointer text-sm ${className}`}
       onClick={onClick}
       {...props}
     >
