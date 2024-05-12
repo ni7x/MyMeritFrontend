@@ -6,6 +6,9 @@ import FilterButton from "./FilterButton";
 const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
   tasks,
   setFilteredTasks,
+    bookmarkedJobs,
+    setIsBookmarkedTab,
+    setIsSolutionTab
 }) => {
   const [lastClickedButton, setLastClickedButton] = useState<string>("all");
 
@@ -18,62 +21,66 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
   };
 
   const showAll = () => {
+    setIsBookmarkedTab(true);
+    setIsSolutionTab(true);
     setLastClickedButton("all");
     setFilteredTasks(tasks);
   };
 
   const showRated = () => {
+    setIsBookmarkedTab(false);
+    setIsSolutionTab(true);
     setLastClickedButton("rated");
-    setFilteredTasks(tasks.filter((task) => task.feedback != null));
+    setFilteredTasks(tasks.filter((task) => task.feedback !== null && task.feedback !== undefined));
   };
 
   const showUnrated = () => {
+    setIsBookmarkedTab(false);
+    setIsSolutionTab(true);
     setLastClickedButton("unrated");
     setFilteredTasks(
-      tasks.filter((task) => task.feedback == null)
+      tasks.filter((task) => task.feedback === null || task.feedback === undefined)
     );
   };
 
   const showBookmarked = () => {
     setLastClickedButton("bookmarked");
-    setFilteredTasks(tasks.filter((task) => task.isBookmarked));
+    setIsBookmarkedTab(true);
+    setIsSolutionTab(false);
   };
 
   return (
     <ul className="bg-ide-color list-none border-main-border border-[1px] border-solid w-full p-0 text-sm rounded-lg h-auto">
       <li>
-        {/* <button className={lastClickedButton === "recent" ? "bg-secondary-bg-color" : ""} onClick={showRecent}  > */}
         <FilterButton
           className={`rounded-t-lg text-[#e5ce54] 
-            ${lastClickedButton === "recent" ? "bg-secondary-bg-color" : ""}
+            ${lastClickedButton === "recent" ? "bg-secondary-bg-color font-semibold" : "font-medium "}
           `}
           onClick={showRecent}
         >
-          <span>recent activity</span>
-
+          <span>RECENT ACTIVITY</span>
         </FilterButton>
-        {/* </button> */}
       </li>
       <li>
         <FilterButton
-          className={lastClickedButton === "all" ? "bg-secondary-bg-color" : ""}
+          className={lastClickedButton === "all" ? "bg-secondary-bg-color font-semibold" : "font-medium "}
           onClick={showAll}
         >
-          <span>all</span>
+          <span>ALL</span>
           <span>{getCount(tasks)}</span>
         </FilterButton>
       </li>
       <li>
         <FilterButton
           className={
-            lastClickedButton === "unrated" ? "bg-secondary-bg-color" : ""
+            lastClickedButton === "unrated" ? "bg-secondary-bg-color font-semibold" : "font-medium "
           }
           onClick={showUnrated}
         >
-          <span>unrated </span>
+          <span>UNRATED</span>
           <span>
             {getCount(
-              tasks.filter((task) => task.feedback != null)
+              tasks.filter((task) => task.feedback === null || task.feedback === undefined)
             )}
           </span>
         </FilterButton>
@@ -81,25 +88,25 @@ const FilterPanel: React.FC<{ tasks: TaskPreview[]; setFilteredTasks }> = ({
       <li>
         <FilterButton
           className={
-            lastClickedButton === "rated" ? "bg-secondary-bg-color" : ""
+            lastClickedButton === "rated" ? "bg-secondary-bg-color font-semibold" : "font-medium "
           }
           onClick={showRated}
         >
-          <span>rated </span>
+          <span>RATED </span>
           <span>
-            {getCount(tasks.filter((task) => task.feedback != null))}
+            {getCount(tasks.filter((task) => task.feedback !== null && task.feedback !== undefined))}
           </span>
         </FilterButton>
       </li>
       <li>
         <FilterButton
           className={`rounded-b-lg border-none
-            ${lastClickedButton === "bookmarked" ? "bg-secondary-bg-color" : ""}
+            ${lastClickedButton === "bookmarked" ? "bg-secondary-bg-color font-semibold" : "font-medium "}
           `}
           onClick={showBookmarked}
         >
-          <span>bookmarked</span>
-          <span>{getCount(tasks.filter((task) => task.isBookmarked))}</span>
+          <span>BOOKMARKED</span>
+          <span>{bookmarkedJobs.length}</span>
         </FilterButton>
       </li>
     </ul>

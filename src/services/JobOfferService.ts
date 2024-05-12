@@ -1,4 +1,3 @@
-import TaskPreview from "../models/TaskPreview";
 import { QueryParams } from "../models/QueryParams";
 import MyFile from "../models/MyFile";
 import { buildURL } from "../components/home_job_offers/URLHelper";
@@ -13,6 +12,8 @@ import JobOfferDetailsDTO from "../models/dtos/JobOfferDetailsDTO";
 import { JobOffer } from "@types";
 import JudgeParams from "../models/JudgeParams";
 import SolutionPreview from "../models/TaskPreview";
+import ApiResponse from "../types/ApiResponse";
+import JobOfferListedDTO from "../models/dtos/JobOfferListedDTO";
 
 const getHomeJobOffers = async (params: QueryParams): Promise<Response> => {
   const URL = import.meta.env.VITE_API_URL + buildURL(params);
@@ -30,6 +31,34 @@ const getUserSolutions = async (token: string): Promise<SolutionPreview[]> => {
         method: "GET",
     });
 };
+
+const getUserBookmarks = async (token: string): Promise<JobOfferListedDTO[]> => {
+    const URL = import.meta.env.VITE_API_URL + "/me/bookmarks";
+    return await httpCallWithAuthorization<JobOfferListedDTO[]>({
+        token,
+        url: URL,
+        method: "GET",
+    });
+};
+
+const addToBookmarks = async (token: string, jobOfferId: string): Promise<ApiResponse> => {
+    const URL = import.meta.env.VITE_API_URL + "/bookmark/" + jobOfferId;
+    return await httpCallWithAuthorization<ApiResponse>({
+        token,
+        url: URL,
+        method: "POST",
+    });
+};
+
+const removeFromBookmarks = async (token: string, jobOfferId: string): Promise<ApiResponse> => {
+    const URL = import.meta.env.VITE_API_URL + "/bookmark/" + jobOfferId;
+    return await httpCallWithAuthorization<ApiResponse>({
+        token,
+        url: URL,
+        method: "DELETE",
+    });
+};
+
 
 const getJobOfferById = async (
   jobOfferId: string,
@@ -328,4 +357,4 @@ export const submitJobOffer = async (data: JobOffer) => {
   } catch (error) {}
 };
 
-export  { getUserSolutions, getJobOfferById, getHomeJobOffers, submitSolution, downloadFilesForJob, downloadSolutionFiles, submitFeedback, downloadFeedbackFiles, downloadFiles }
+export  { addToBookmarks, removeFromBookmarks, getUserBookmarks, getUserSolutions, getJobOfferById, getHomeJobOffers, submitSolution, downloadFilesForJob, downloadSolutionFiles, submitFeedback, downloadFeedbackFiles, downloadFiles }
