@@ -1,24 +1,13 @@
 import React from "react";
 import {differenceInMinutes, formatDistance} from "date-fns";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBookmark, faCalendar, faClock, faLocationDot, faTrophy} from "@fortawesome/free-solid-svg-icons";
-import logo from '../../assets/logo-placeholder.png';
+import {faCalendar, faClock, faLocationDot, faTrophy} from "@fortawesome/free-solid-svg-icons";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import TaskStatus from "../../models/TaskStatus";
-import {addToBookmarks} from "../../services/JobOfferService";
-import {useAuth} from "../../hooks/useAuth";
-import {successToast} from "../../main";
 
 const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
     const solvingTime = differenceInMinutes( new Date(jobOffer.closesAt),  new Date(jobOffer.opensAt));
-    const {accessToken} = useAuth();
 
-    const addJobToBookmarks = () => {
-        addToBookmarks(accessToken!, jobOffer.id).then(r => {
-            if(r.success)
-                successToast("Bookmark added")
-        })
-    }
     return (
         <div className="flex-column bg-secondary-bg-color rounded xl:max-w-full">
             <div className="pt-2.5 px-4 text-[0.8725rem]">
@@ -43,9 +32,6 @@ const  JobOffer: React.FC<{jobOffer: JobOfferListedDTO}> = ({jobOffer})=> {
                             </p>
                         </span>
                     </div>
-                    <button className="flex items-center font-semibold text-task-lighter truncate max-w-[12rem]" onClick={addJobToBookmarks}>
-                        <FontAwesomeIcon icon={faBookmark} className="mr-2"/> BOOKMARK
-                    </button>
                 </div>
             </div>
             <div className="flex px-4">

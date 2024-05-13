@@ -21,7 +21,8 @@ interface JobOfferDetailsDTO {
     task: UserTaskDTO;
     solutions: SolutionListedDTO[];
     templateFiles? : Map<string, string[]>;
-    status: TaskStatus
+    status: TaskStatus,
+    isBookmarked: boolean
 }
 
 
