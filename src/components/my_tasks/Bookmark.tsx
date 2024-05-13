@@ -31,13 +31,10 @@ const Bookmark: React.FC<{ bookmarkedJob: JobOfferListedDTO }> = ({ bookmarkedJo
                             {bookmarkedJob.jobTitle}
                         </a>
                         <button
-                            className="flex items-center focus:outline-none text-task-lighter text-xs hover:text-red-500"
+                            className="flex items-center font-semibold text-task-lighter truncate max-w-[12rem] px-2 py-1 bg-task-bck rounded text-xs hover:bg-red-500 hover:text-white duration-200"
                             onClick={removeJobFromBookmarks}
                         >
-                            <FontAwesomeIcon icon={faBookmark} className="mr-1" />
-                            <span>
-                                BOOKMARKED
-                            </span>
+                            <FontAwesomeIcon icon={faBookmark} className="mr-2" /> REMOVE BOOKMARK
                         </button>
                     </div>
                     <div className="flex gap-10 rounded">
