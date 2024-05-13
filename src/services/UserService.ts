@@ -32,16 +32,12 @@ const getUserTasks = async () => {
 };
 
 const getUser = async () => {
-  try {
-    const data = await httpCall<User>({
-      url: import.meta.env.VITE_API_URL + "/me",
-      method: "GET",
-    });
+  const data = await httpCall<User>({
+    url: import.meta.env.VITE_API_URL + "/me",
+    method: "GET",
+  });
 
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+  return data;
 };
 
 const updateUser = async (
@@ -49,17 +45,15 @@ const updateUser = async (
   description: string,
   imageBase64: string
 ) => {
-  try {
-    return await httpCall<HttpResponse<any>>({
-      url: import.meta.env.VITE_API_URL + "/me/update",
-      method: "POST",
-      body: {
-        username,
-        description,
-        imageBase64,
-      },
-    });
-  } catch (error) {}
+  return await httpCall<HttpResponse<null>>({
+    url: import.meta.env.VITE_API_URL + "/me/update",
+    method: "POST",
+    body: {
+      username,
+      description,
+      imageBase64,
+    },
+  });
 };
 
 export {

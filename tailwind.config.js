@@ -1,6 +1,9 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    backgroundImage: {
+      dotted: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%239CA3AFFF' stroke-width='3' stroke-dasharray='15' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
+    },
     extend: {
       colors: {
         "main-bg-color": "#2c2d37",
@@ -26,6 +29,7 @@ export default {
       },
       screens: {
         xlg: "1440px",
+        "4xl": "1700px",
       },
       animation: {
         shake: "shake 0.5s cubic-bezier(.36,.07,.19,.97)",

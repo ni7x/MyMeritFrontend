@@ -127,9 +127,9 @@ const Register = () => {
 
   const onSubmit3 = (data: FormFields3) => {
     const { email, code } = submitData;
-    const { username, password, password2 } = data;
+    const { username, password } = data;
 
-    signUp({ username, email, password, code /*TODO, password2 */ });
+    signUp({ username, email, password, code });
   };
 
   let step = (
