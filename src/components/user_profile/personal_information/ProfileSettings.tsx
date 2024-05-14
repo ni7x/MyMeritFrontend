@@ -66,6 +66,9 @@ const ProfileSettings = () => {
   };
 
   const handleSave = async () => {
+    if (!newUserData.description) {
+      newUserData.description = "";
+    }
     const validation = schema.safeParse({
       username: newUserData.username,
       description: newUserData.description,
