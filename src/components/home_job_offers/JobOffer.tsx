@@ -21,7 +21,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
     <div className="flex-column bg-secondary-bg-color rounded xl:max-w-full">
       <div className="pt-2.5 px-4 text-[0.8725rem]">
         <div className="font-semibold mt-1 pb-4 flex justify-between items-center flex-wrap gap-2">
-          <div className="flex gap-6">
+          <div className="flex gap-x-6 gap-y-3 flex-wrap">
             <div className="flex-row items-center">
               <span className="flex items-center text-merit-credits-color font-semibold">
                 <FontAwesomeIcon icon={faTrophy} className="mr-2" />
@@ -61,10 +61,10 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
           </div>
         </div>
       </div>
-      <div className="flex px-4">
+      <div className="flex">
         <img
           src={jobOffer.company.imageBase64}
-          className="w-[4.5rem] h-[4.5rem] rounded"
+          className="hidden min-[400px]:block w-[4.5rem] h-[4.5rem] rounded ml-4"
         />
         <div>
           <h3 className="text-2xl font-medium  w-full  px-4">
@@ -93,8 +93,14 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
           </ul>
         </div>
       </div>
-      <div className="flex items-center gap-6 text-sm pb-2.5 px-4 w-full font-medium">
-        <p>{jobOffer.company.username}</p>
+      <div className="flex items-center gap-x-6 gap-y-3 text-sm pb-2.5 px-4 w-full font-medium flex-wrap">
+        <p className="flex items-center">
+          <img
+              src={jobOffer.company.imageBase64}
+              className="block min-[400px]:hidden w-[1.5rem] h-[1.5rem] rounded mr-2"
+          />
+
+          {jobOffer.company.username}</p>
         <div className="flex gap-2 text-task-lighter items-center">
           <FontAwesomeIcon icon={faLocationDot} />
           <ul className="flex">
