@@ -24,7 +24,7 @@ type fieldErrors = {
   description?: string[] | undefined;
 };
 
-const PersonalInformation2 = () => {
+const ProfileSettings = () => {
   const [userData, setUserData] = useState<User>({} as User);
   const [newUserData, setNewUserData] = useState<User>({} as User);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -267,7 +267,8 @@ const PersonalInformation2 = () => {
                     </>
                   ) : (
                     <>
-                      {userData.description.length > 0 ? (
+                      {userData.description &&
+                      userData.description.length > 0 ? (
                         <div className="flex flex-col h-full gap-4">
                           <label className="text-sm text-gray-400">
                             Description
@@ -353,4 +354,4 @@ const PersonalInformation2 = () => {
   );
 };
 
-export default PersonalInformation2;
+export default ProfileSettings;
