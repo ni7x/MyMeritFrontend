@@ -11,6 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   floatLabel?: boolean;
   alwaysFloatLabel?: boolean;
   name?: string;
+  className?: string | string[];
   multiple?: boolean;
   placeholder?: string;
   type: string;
@@ -29,6 +30,7 @@ const CustomInput = ({
   floatLabel,
   alwaysFloatLabel,
   name,
+  className,
   multiple,
   placeholder,
   type,
@@ -75,7 +77,9 @@ const CustomInput = ({
 
   return (
     <div
-      className={`relative flex flex-col ${error ? "animate-shake error" : ""}`}
+      className={`relative flex flex-col ${
+        error ? "animate-shake error" : ""
+      } ${className ? className : ""}`}
     >
       {label && (floatLabel !== undefined ? !floatLabel : false) && (
         <label htmlFor={id} className={`text-white text-sm md:text-base pb-2`}>

@@ -28,7 +28,6 @@ const JobStep = ({
         register={register}
         getValues={getValues}
         error={errors?.jobTitle?.message}
-        hint="Enter the job title here"
       />
 
       <CustomInput
@@ -40,7 +39,33 @@ const JobStep = ({
         error={errors?.description?.message}
       />
 
+      <div className="flex flex-row gap-4">
+        <CustomInput
+          className="flex-1"
+          id="salary"
+          label="Salary (USD)"
+          alwaysFloatLabel={true}
+          type="number"
+          register={register}
+          getValues={getValues}
+          error={errors?.salary?.message}
+        />
+
+        <CustomInput
+          className="flex-1"
+          id="employmentType"
+          label="Employment type"
+          type="select"
+          options={Object.values(EmploymentType)}
+          register={register}
+          getValues={getValues}
+          error={errors?.experience?.message}
+        />
+      </div>
+
+      {/* <div className="w-full flex flex-row gap-4"> */}
       <CustomInput
+        className="flex-1"
         id="requiredSkills"
         label="Required skills"
         type="TagsInput"
@@ -53,6 +78,7 @@ const JobStep = ({
       />
 
       <CustomInput
+        className="flex-1"
         id="preferredSkills"
         label="Preferred Skills"
         placeholder="Type and press enter to add"
@@ -63,8 +89,11 @@ const JobStep = ({
         getValues={getValues}
         trigger={trigger}
       />
+      {/* </div> */}
 
+      {/* <div className="flex flex-row gap-4"> */}
       <CustomInput
+        className="flex-1"
         id="workLocations"
         label="Work Locations"
         placeholder="Type and press enter to add"
@@ -77,6 +106,7 @@ const JobStep = ({
       />
 
       <CustomInput
+        className="flex-1"
         id="technologies"
         label="Technologies"
         placeholder="Type and press enter to add"
@@ -87,26 +117,8 @@ const JobStep = ({
         getValues={getValues}
         trigger={trigger}
       />
+      {/* </div> */}
 
-      <CustomInput
-        id="salary"
-        label="Salary"
-        alwaysFloatLabel={true}
-        type="number"
-        register={register}
-        getValues={getValues}
-        error={errors?.salary?.message}
-      />
-
-      <CustomInput
-        id="employmentType"
-        label="Employment type"
-        type="select"
-        options={Object.values(EmploymentType)}
-        register={register}
-        getValues={getValues}
-        error={errors?.experience?.message}
-      />
       <div className="flex w-full justify-end">
         <AuthSubmit>Next</AuthSubmit>
       </div>

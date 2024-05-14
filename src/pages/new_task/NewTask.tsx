@@ -9,18 +9,16 @@ import {
   AllowedLanguages,
   JobOffer,
 } from "../../types";
-import CustomInput from "../../components/form/CustomInput";
-import AuthSubmit from "../../components/form/AuthSubmit";
-import MDEditor from "@uiw/react-md-editor";
 import { useAuth } from "../../hooks/useAuth";
 
 import { submitJobOffer } from "../../services/JobOfferService";
 import { useNavigate } from "react-router-dom";
 import JobStep from "../../components/new_task/JobStep";
 import TaskStep from "../../components/new_task/TaskStep";
-import isISODate from "is-iso-date";
 
 import { HttpResponse } from "../../api/HttpClient";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const getCurrentDateTimeLocal = () => {
   const now = new Date();
@@ -77,6 +75,14 @@ const taskSchema = z.object({
     .nativeEnum(AllowedLanguages)
     .array()
     .nonempty("At least one language is required"),
+  memoryLimit: z.coerce.number().int(),
+  timeLimit: z
+    .string()
+    .min(1)
+    .max(10)
+    .refine((value) => /^[\d.]+$/.test(value), {
+      message: "Invalid time limit. Please enter a float number",
+    }),
 });
 
 type JobOfferFields = z.infer<typeof jobOfferSchema>;
@@ -134,6 +140,8 @@ const NewTask = () => {
       closesAt: getCurrentDateTimeLocal(),
       reward: 0,
       allowedLanguages: [],
+      memoryLimit: 500,
+      timeLimit: "60.00",
     },
     resolver: zodResolver(taskSchema),
   });
@@ -155,7 +163,6 @@ const NewTask = () => {
    * @param data - The task data to be submitted.
    */
   const onSubmitTask = async (data: TaskFields) => {
-    console.log(data);
     setTaskData(data);
     submitJobOffer({
       ...jobOfferData,
@@ -169,16 +176,31 @@ const NewTask = () => {
     });
   };
 
-  console.log();
-
   return (
     <div>
       <h1>Create a new Job Offer</h1>
-      <h2 className="mb-4">
-        {activeStep == 0
-          ? "Step 1 - Job Offer information"
-          : "Step 2 - Task information"}
-      </h2>
+      <div className="grid grid-cols-2 justify-center items-center gap-1 mb-4">
+        <span
+          onClick={() => setActiveStep(0)}
+          className={`h-12 flex gap-2 justify-center items-center font-semibold rounded text-xs sm:text-sm md:text-base bg-blue-450 ${
+            activeStep > 0 ? " cursor-pointer bg-success-color" : ""
+          }`}
+        >
+          {activeStep == 0 && <FontAwesomeIcon icon={faEdit} />}
+          Job Offer details
+        </span>
+        <span
+          className={`h-12 flex gap-2 justify-center items-center font-semibold rounded text-xs sm:text-sm md:text-base ${
+            activeStep == 1 ? "bg-blue-450" : "bg-main-darker"
+          }`}
+        >
+          {activeStep == 1 && <FontAwesomeIcon icon={faEdit} />}
+          Task details
+        </span>
+      </div>
+      {/* <h2 className="w-full text-lg opacity-70 text-center mb-4">
+        {activeStep == 0 ? "Job Offer information" : "Task information"}
+      </h2> */}
       {activeStep == 0 ? (
         <JobStep
           handleSubmit={handleSubmitJobOffer}
