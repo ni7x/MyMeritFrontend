@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import z from 'zod';
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
@@ -7,15 +6,10 @@ import Cookies from "universal-cookie";
 import { useCookies } from "react-cookie";
 
 import User from "../types/User.ts";
-// import Company from '../models/Company.tsx';
-// import { JwtEncodedUser } from '../types';
 import { HttpResponse, httpCall } from "../api/HttpClient.ts";
 import { getUser } from "../services/UserService.ts";
 
 import { errorToast, successToast } from "../main";
-
-// type UserSignIn = Partial<z.infer<typeof UserModel>>;
-// type UserSignUp = Partial<z.infer<typeof UserModel> & { passwordRepeat: string }>;
 
 type CookieUser = {
   decodedTokenInfo: JwtDecodedToken;
@@ -58,8 +52,8 @@ type AuthContext = {
   signInWithToken: (token: string) => void;
   signUp: ({ username, email, password, code }: UserSignUp) => boolean;
   signOut: () => void;
-  verifyEmail: (email: string) => HttpResponse<[]>;
-  verifyCode: (email: string, code: string) => HttpResponse<[]>;
+  verifyEmail: (email: string) => Promise<HttpResponse<[]>>;
+  verifyCode: (email: string, code: string) => Promise<HttpResponse<[]>>;
   isLoading: boolean;
   isError?: Error;
 };
@@ -177,7 +171,7 @@ const useAuthProvider = () => {
 
   const verifyEmailMutation = useMutation({
     mutationFn: async (email: string) => {
-      const data = await httpCall({
+      const data = await httpCall<any>({
         url: import.meta.env.VITE_ROUTE_AUTH_CODE,
         method: "POST",
         body: {
@@ -200,7 +194,7 @@ const useAuthProvider = () => {
 
   const verifyCodeMutation = useMutation({
     mutationFn: async ({ email, code }: { email: string; code: string }) => {
-      const data = await httpCall({
+      const data = await httpCall<any>({
         url: import.meta.env.VITE_ROUTE_AUTH_CODE + "?verify=" + code,
         method: "POST",
         body: {

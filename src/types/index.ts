@@ -69,7 +69,7 @@ export type Feedback = {
 
 export type CodeTest = {
   language: string;
-  taskId: number;
+  taskId?: number;
   testFileBase64: string;
   testCases: TestCase[];
 };

@@ -10,7 +10,7 @@ const UserProfileSidebar = () => {
   const { pathname } = useLocation();
   const navigation = [
     {
-      name: "Personal information",
+      name: "Profile settings",
       href: "/profile",
       icon: <FontAwesomeIcon className="h-6 w-6" icon={faUser} />,
       current: pathname === "/profile",
@@ -30,7 +30,7 @@ const UserProfileSidebar = () => {
   ];
   return (
     <div className="absolute right-0 top-0 h-full">
-      <div className="flex flex-col items-center w-60 h-full overflow-hidden text-gray-400 bg-main-darker pt-16">
+      <div className="flex flex-col items-center w-16 sm:w-60 h-full overflow-hidden text-gray-400 bg-main-darker pt-16">
         <div className="w-full px-2">
           <div className="flex flex-col items-center w-full mt-3">
             {navigation.map((item) => (
@@ -44,7 +44,9 @@ const UserProfileSidebar = () => {
                 }`}
               >
                 {item.icon}
-                <span className="ml-2 text-sm font-medium">{item.name}</span>
+                <span className="hidden sm:block ml-2 text-sm font-medium">
+                  {item.name}
+                </span>
               </Link>
             ))}
           </div>

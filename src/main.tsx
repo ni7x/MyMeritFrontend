@@ -10,7 +10,7 @@ import { loader } from "@monaco-editor/react";
 import { toast, ToastContainer, TypeOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App.tsx";
-import { SkeletonTheme } from 'react-loading-skeleton';
+import { SkeletonTheme } from "react-loading-skeleton";
 
 loader.init().then((monaco) => {
   monaco.editor.defineTheme("customTheme", {

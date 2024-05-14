@@ -1,6 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AllowedLanguages } from "../../types";
 import AuthSubmit from "../form/AuthSubmit";
 import CustomInput from "../form/CustomInput";
+import { useState } from "react";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const TaskStep = ({
   handleSubmit,
@@ -19,6 +22,7 @@ const TaskStep = ({
   getValues: any;
   trigger: any;
 }) => {
+  const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <CustomInput
@@ -88,6 +92,48 @@ const TaskStep = ({
         getValues={getValues}
         multiple={true}
       />
+
+      <p
+        onClick={() => {
+          setShowAdvanced((prev) => !prev);
+        }}
+        className="opacity-70 cursor-pointer flex items-center flex-row gap-2"
+      >
+        {showAdvanced ? (
+          <>
+            <span>Hide advanced</span>
+            <FontAwesomeIcon icon={faChevronUp} />
+          </>
+        ) : (
+          <>
+            <span>Show advance</span>
+            <FontAwesomeIcon icon={faChevronDown} />
+          </>
+        )}
+      </p>
+      <div
+        className={`${showAdvanced ? "block" : "hidden"} flex flex-col gap-4`}
+      >
+        <CustomInput
+          id="memoryLimit"
+          label="Memory limit"
+          type="number"
+          alwaysFloatLabel={true}
+          register={register}
+          error={errors?.memoryLimit?.message}
+          getValues={getValues}
+        />
+
+        <CustomInput
+          id="timeLimit"
+          label="Time limit"
+          type="text"
+          alwaysFloatLabel={true}
+          register={register}
+          error={errors?.timeLimit?.message}
+          getValues={getValues}
+        />
+      </div>
 
       <div className="flex w-full justify-end">
         <AuthSubmit>Next</AuthSubmit>

@@ -1,5 +1,5 @@
 import UserProfileSidebar from "../../components/user_profile/UserProfileSidebar";
-import PersonalInformation2 from "../../components/user_profile/personal_information/PersonalInformation2";
+import ProfileSettings from "../../components/user_profile/personal_information/ProfileSettings";
 import UserPurchases from "../../components/user_profile/purchases/UserPurchases";
 import UserTasks from "../../components/user_profile/UserTasks";
 import { useLocation } from "react-router-dom";
@@ -10,7 +10,7 @@ const UserProfile = () => {
 
   switch (pathname) {
     case "/profile":
-      page = <PersonalInformation2 />;
+      page = <ProfileSettings />;
       break;
     case "/profile/purchases":
       page = <UserPurchases />;
@@ -19,12 +19,12 @@ const UserProfile = () => {
       page = <UserTasks />;
       break;
     default:
-      page = <PersonalInformation2 />;
+      page = <ProfileSettings />;
   }
 
   return (
     <>
-      <div className="pr-60 4xl:pr-0">{page}</div>
+      <div className="pr-16 sm:pr-60 4xl:pr-0">{page}</div>
       <UserProfileSidebar />
     </>
   );
