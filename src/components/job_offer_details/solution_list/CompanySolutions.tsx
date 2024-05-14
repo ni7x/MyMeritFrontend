@@ -10,6 +10,9 @@ type CompanySolutionsProps = {
 const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
     function getColorClass(passed, total) {
         const percentage = (passed / total) * 100;
+        if(total == 0){
+            return "text-white";
+        }
         if (percentage >= 80) {
             return 'text-emerald-400';
         } else if (percentage >= 50) {
@@ -29,7 +32,7 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
                 null
             }
 
-            {solutions.map((solution, index) => (
+            {solutions.map((solution, index) => (//powineinem zrboic komponenty ale w/e
                     <a
                         key={index}
                         href={"solution/" + solution.id}
@@ -52,14 +55,22 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
                             </p>
                         </div>
 
-                        <div className="text-main-lighter">
-                            <p className="text-xs font-semibold">
-                                TESTS PASSED
-                            </p>
-                            <p className={` ${getColorClass(solution.testResults.filter(t => t.passed).length, solution.testResults.length)}`}>
-                                {solution.testResults.filter(t => t.passed).length/solution.testResults.length * 100}% ({solution.testResults.filter(t => t.passed).length}/{solution.testResults.length})
-                            </p>
-                        </div>
+                            <div className="text-main-lighter">
+                                <p className="text-xs font-semibold">
+                                        TESTS PASSED
+                                    </p>
+
+                                    <p className={` ${getColorClass(solution.testResults.filter(t => t.passed).length, solution.testResults.length)}`}>
+                                        {solution.testResults.length > 0 ?
+                                          <> {solution.testResults.filter(t => t.passed).length/solution.testResults.length * 100}% ({solution.testResults.filter(t => t.passed).length}/{solution.testResults.length})</>
+                                            :
+                                            <>NOT TESTED</>
+                                        }
+                                    </p>
+
+
+                            </div>
+
 
                         <div className="text-main-lighter">
                             <p className="text-xs font-semibold">

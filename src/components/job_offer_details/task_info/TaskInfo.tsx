@@ -27,7 +27,7 @@ const TaskInfo: React.FC<{task: Task, jobId: string | undefined,}> = ({task, job
 
     if(isHidden){
         return (
-            <div className="flex flex-col rounded flex-1 h-full overflow-x-auto max-w-[10px]">
+            <div className="flex flex-col rounded flex-1 h-full overflow-x-auto max-w-[35px]">
                 <button
                     onClick={toggleHidden}
                     className="bg-terminal-color p-2 rounded hover:bg-main-lighter-2"
@@ -39,7 +39,7 @@ const TaskInfo: React.FC<{task: Task, jobId: string | undefined,}> = ({task, job
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full lg:w-[24rem]">
             {feedbackElement}
             <div className="flex flex-col bg-terminal-color rounded w-[100%] h-full overflow-x-auto">
                 <div className="p-[1.5rem]">

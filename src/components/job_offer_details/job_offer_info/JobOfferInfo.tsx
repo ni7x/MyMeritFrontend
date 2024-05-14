@@ -74,7 +74,7 @@ const JobOfferInfo:React.FC<{jobOffer: JobOfferDetailsDTO}> = ({jobOffer}) => {
                         <h3 className="text-3xl font-bold leading-7 mb-1">
                             {jobOffer.jobTitle}
                         </h3>
-                        <div className="flex gap-3 w-full h-full flex-wrap">
+                        <div className="flex gap-3 w-full  flex-wrap">
                             <p className="flex justify-center items-center gap-2 bg-task-bck px-3 py-1.5 rounded text-sm font-semibold">
                                 <FontAwesomeIcon icon={faUser}/> {jobOffer.experience}
                             </p>

@@ -16,13 +16,13 @@ const SortPanel: React.FC<SortPanelProps> = ({ sortValue, handleQueryParamChange
             id="sort-by"
             name="sort-by"
             defaultValue={sortValue}
-            className="appearance-none text-sm font-medium outline-none text-center rounded bg-secondary-bg-color p-3"
+            className="appearance-none text-xs font-semibold outline-none text-center rounded bg-secondary-bg-color p-3 px-5"
             onChange={handleSortChange}
         >
-            <option value="taskReward,asc">Reward Ascending</option>
-            <option value="taskReward,desc">Reward Descending</option>
-            <option value="taskOpensAt,asc">Opens Ascending</option>
-            <option value="taskOpensAt,desc">Opens Descending</option>
+            <option value="taskReward,asc">REWARD ASCENDING</option>
+            <option value="taskReward,desc">REWARD DESCENDING</option>
+            <option value="taskOpensAt,asc">DATE ASCENDING</option>
+            <option value="taskOpensAt,desc">DATE DESCENDING</option>
         </select>
     );
 };
