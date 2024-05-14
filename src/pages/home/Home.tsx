@@ -77,7 +77,7 @@ const Home: React.FC = () => {
           handleChange={handleQueryParamChange}
         />
         <div className="w-full flex flex-col gap-4">
-          <div className="flex justify-between gap-4">
+          <div className="flex justify-between gap-4 flex-wrap">
             <SearchBar
               searchValue={queryParams.search}
               handleQueryParamChange={handleQueryParamChange}

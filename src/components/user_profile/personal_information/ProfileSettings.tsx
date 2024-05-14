@@ -318,7 +318,7 @@ const ProfileSettings = () => {
               {isLoading ? (
                 <Skeleton height={48} />
               ) : (
-                <p className="text-lg font-semibold h-full flex items-center">
+                <p className="text-lg h-full flex items-center opacity-50">
                   {/* {userData.twitter ? userData.twitter : "Not set"} */}
                   Not set
                 </p>
@@ -331,7 +331,7 @@ const ProfileSettings = () => {
               {isLoading ? (
                 <Skeleton height={48} />
               ) : (
-                <p className="text-lg font-semibold h-full flex items-center">
+                <p className="text-lg h-full flex items-center opacity-50">
                   {/* {userData.instagram ? userData.instagram : "Not set"} */}
                   Not set
                 </p>
@@ -344,9 +344,47 @@ const ProfileSettings = () => {
               {isLoading ? (
                 <Skeleton height={48} />
               ) : (
-                <p className="text-lg font-semibold h-full flex items-center">
+                <p className="text-lg h-full flex items-center opacity-50">
                   {/* {userData.facebook ? userData.facebook : "Not set"} */}
                   Not set
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </ProfileSettingsSection>
+
+      <ProfileSettingsSection title="Your achievements">
+        <div className="grid md:grid-cols-[200px_1fr] gap-4">
+          <div className="flex flex-col gap-4">
+            <div className="h-8">
+              {isLoading ? (
+                <Skeleton height={48} />
+              ) : (
+                <p className="text-lg h-full flex items-center opacity-50">
+                  {/* {userData.badges.length > 0
+                    ? userData.badges.join(", ")
+                    : "No badges"} */}
+                  No achievements
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </ProfileSettingsSection>
+
+      <ProfileSettingsSection title="Your badges">
+        <div className="grid md:grid-cols-[200px_1fr] gap-4">
+          <div className="flex flex-col gap-4">
+            <div className="h-8">
+              {isLoading ? (
+                <Skeleton height={48} />
+              ) : (
+                <p className="text-lg h-full flex items-center opacity-50">
+                  {/* {userData.badges.length > 0
+                    ? userData.badges.join(", ")
+                    : "No badges"} */}
+                  No badges
                 </p>
               )}
             </div>

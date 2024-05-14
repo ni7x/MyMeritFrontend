@@ -10,7 +10,7 @@ const UserProfileSidebar = () => {
   const { pathname } = useLocation();
   const navigation = [
     {
-      name: "Profile settings",
+      name: "Profile",
       href: "/profile",
       icon: <FontAwesomeIcon className="h-6 w-6" icon={faUser} />,
       current: pathname === "/profile",
