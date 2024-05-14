@@ -127,7 +127,7 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({files,
                             currentFile={currentFile}
                             files={files}
                             mainFileIndex={mainFileIndex}
-                            getFileByName={withErrorHandling(getFileByName)}
+                            getFileByName={(getFileByName)}
                             setCurrentFileByName={setCurrentFileByName}
                         />
                         <LanguageToggleButton languages={task ? task.allowedLanguages : []} setCurrentLanguage={setCurrentLanguage} currentLanguage={currentLanguage}/>

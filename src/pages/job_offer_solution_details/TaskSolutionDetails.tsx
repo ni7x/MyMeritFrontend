@@ -44,17 +44,15 @@ const TaskSolutionDetails: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-3 lg:flex-row mx-auto h-full lg:h-[calc(100vh-120px)] max-h-[55rem]">
-      <div className="w-[100%] lg:flex-1 h-full">
-        <div className="h-full flex flex-col min-w-[24rem]">
-          <TaskInfo
-            task={task}
-            jobId={jobOfferId}
-            withToggle={!solutions}
-            feedbackElement={
-              feedback ? <FeedbackMessage feedback={feedback} /> : null
-            }
-          />
-        </div>
+      <div className="h-full flex flex-col w-full lg:max-w-[24rem] lg:flex-1">
+        <TaskInfo
+          task={task}
+          jobId={jobOfferId}
+          withToggle={feedback !=undefined}
+          feedbackElement={
+            feedback ? <FeedbackMessage feedback={feedback} /> : null
+          }
+        />
       </div>
       {solutions ? (
         <CompanySolutions solutions={solutions} />

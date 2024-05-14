@@ -31,8 +31,8 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
 
     useEffect(() => {
         const initializeFiles = async () => {
-            const response = await downloadSolutionFiles(solutionId, accessToken);
-            const feedback = await downloadFeedbackFiles(solutionId, accessToken);
+            const response = await downloadSolutionFiles(solutionId, accessToken!);
+            const feedback = await downloadFeedbackFiles(solutionId, accessToken!);
             if (response.ok) {
                 const fetchedFiles = await response.json();
                 setOriginalFiles(fetchedFiles);
