@@ -101,7 +101,7 @@ export const testAll = async (
     }
 
     const response = await fetch(
-      "http://localhost:8080/test/task/" + taskId + "/language/" + language,
+        import.meta.env.VITE_API_URL + "/test/task/" + taskId + "/language/" + language,
       {
         method: "POST",
         body: data,
@@ -137,7 +137,7 @@ export const testSingle = async (
     }
 
     const response = await fetch(
-      "http://localhost:8080/test/task/" +
+        import.meta.env.VITE_API_URL + "/test/task/" +
         taskId +
         "/language/" +
         language +
@@ -213,7 +213,7 @@ export const getToken = async (
 
 export const getCompilation = async (token: string) => {
   try {
-    const response = await fetch("http://localhost:8080/token/" + token, {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/token/" + token, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
