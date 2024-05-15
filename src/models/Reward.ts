@@ -1,11 +1,11 @@
-class Reward {
+class RewardDTO {
   constructor(
     public id: string,
     public name: string,
     public description: string,
     public cost: number,
-    public imageUrl: string
+    public imageBase64: string
   ) {}
 }
 
-export default Reward;
+export default RewardDTO;

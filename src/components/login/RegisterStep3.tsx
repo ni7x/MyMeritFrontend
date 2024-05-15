@@ -1,7 +1,6 @@
 import { FormEvent } from "react";
 import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
 
-import AuthSubTitle from "./AuthSubTitle";
 import AuthForm from "./AuthForm";
 import AuthSubmit from "../form/AuthSubmit";
 import CustomInput from "../form/CustomInput";

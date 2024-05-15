@@ -12,7 +12,6 @@ const TaskStep = ({
   errors,
   setValue,
   getValues,
-  trigger,
 }: {
   handleSubmit: any;
   onSubmit: any;

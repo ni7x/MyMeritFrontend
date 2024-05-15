@@ -8,7 +8,7 @@ const Pagination: React.FC<{
 }> = ({ maxPages, queryParams, setQueryParams }) => {
   const page = queryParams.page;
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     setQueryParams({ ...queryParams, page: newPage });
   };
 

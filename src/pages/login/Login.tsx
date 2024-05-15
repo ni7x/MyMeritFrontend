@@ -3,12 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
-// import Input from "../../components/login/Input";
 import Divider from "../../components/login/Divider";
 import OAuthLogin from "../../components/login/OAuthLogin";
-
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useAuth } from "../../hooks/useAuth";
 import AuthForm from "../../components/login/AuthForm";

@@ -1,4 +1,4 @@
-import Reward from "./Reward";
+import { Reward } from "./Reward";
 
 type PurchasedReward = {
   reward: Reward;

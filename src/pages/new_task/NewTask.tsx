@@ -104,7 +104,6 @@ const NewTask = () => {
   const {
     register: registerJobOffer,
     handleSubmit: handleSubmitJobOffer,
-    setError: setErrorJobOffer,
     setValue: setValueJobOffer,
     getValues: getValuesJobOffer,
     formState: { errors: errorsJobOffer },
@@ -127,7 +126,6 @@ const NewTask = () => {
   const {
     register: registerTask,
     handleSubmit: handleSubmitTask,
-    setError: setErrorTask,
     setValue: setValueTask,
     getValues: getValuesTask,
     formState: { errors: errorsTask },
@@ -163,6 +161,9 @@ const NewTask = () => {
    * @param data - The task data to be submitted.
    */
   const onSubmitTask = async (data: TaskFields) => {
+    if (!userData) {
+      return;
+    }
     setTaskData(data);
     submitJobOffer({
       ...jobOfferData,

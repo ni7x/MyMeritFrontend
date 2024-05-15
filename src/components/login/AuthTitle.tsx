@@ -2,8 +2,8 @@ const AuthTitle = ({
   children,
   className,
 }: {
-  children: string;
-  className: string | string[];
+  children: JSX.Element | JSX.Element[] | string;
+  className?: string | string[];
 }) => {
   return (
     <h1

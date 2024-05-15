@@ -1,11 +1,10 @@
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect } from "react";
 
 const OAuth2 = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const { signInWithToken } = useAuth();
 

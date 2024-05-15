@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { QueryParams } from "../../models/QueryParams";
 import RangeInput from "../range_input/RangeInput";
@@ -54,15 +52,19 @@ const FilterPanel: React.FC<{
         }
       >
         <div className="lg:mt-0 h-[100%] flex flex-col">
-          <div className={"flex justify-between border-b-[1px] mb-5 border-main-border "  +(isPopupOpen ? "" : "hidden")}>
-            <p className="font-medium text-sm text-task-lighter">FILTERS
-            </p>
+          <div
+            className={
+              "flex justify-between border-b-[1px] mb-5 border-main-border " +
+              (isPopupOpen ? "" : "hidden")
+            }
+          >
+            <p className="font-medium text-sm text-task-lighter">FILTERS</p>
             <button
-                onClick={togglePopup}
-                className={
-                    "text-white text-sm  mb-3 self-end hover:underline " +
-                    (isPopupOpen ? "" : "hidden")
-                }
+              onClick={togglePopup}
+              className={
+                "text-white text-sm  mb-3 self-end hover:underline " +
+                (isPopupOpen ? "" : "hidden")
+              }
             >
               CLOSE
             </button>
@@ -75,32 +77,32 @@ const FilterPanel: React.FC<{
               <div className="flex flex-wrap text-sm font-medium">
                 {languages.map((language) => {
                   return (
-                      <button
-                          onClick={() => toggleLanguage(language)}
-                          key={language}
-                          className={
-                              "px-5 py-2 rounded mr-2 mb-3 " +
-                              (isSelected(language)
-                                  ? " border-2 border-emerald-400 text-emerald-300"
-                                  : " bg-main-lighter-2 border-2 border-main-lighter-2 ")
-                          }
-                      >
-                        {language}
-                      </button>
+                    <button
+                      onClick={() => toggleLanguage(language)}
+                      key={language}
+                      className={
+                        "px-5 py-2 rounded mr-2 mb-3 " +
+                        (isSelected(language)
+                          ? " border-2 border-emerald-400 text-emerald-300"
+                          : " bg-main-lighter-2 border-2 border-main-lighter-2 ")
+                      }
+                    >
+                      {language}
+                    </button>
                   );
                 })}
               </div>
             </div>
             <div className="flex flex-col pt-2 text-sm pb-2 lg:justify-center  lg:items-stretch">
               <RangeInput
-                  label="Merit Credits"
-                  min={0}
-                  max={1000}
-                  minValue={queryParams.minCredits}
-                  maxValue={queryParams.maxCredits}
-                  onInputChange={(e) =>
-                      handleFilterChange("minCredits", e.minValue)
-                  }
+                label="Merit Credits"
+                min={0}
+                max={1000}
+                minValue={queryParams.minCredits}
+                maxValue={queryParams.maxCredits}
+                onInputChange={(e) =>
+                  handleFilterChange("minCredits", e.minValue)
+                }
               />
             </div>
             <div className="flex flex-col pt-2 pb-2  lg:items-stretch">
@@ -108,35 +110,46 @@ const FilterPanel: React.FC<{
                 Opens From
               </label>
               <input
-                  type="date"
-                  className="outline-none mt-1 p-2 px-3 w-[100%] rounded bg-main-lighter-2"
-                  onChange={(e) => handleFilterChange("minOpensIn", e.target.value)}
+                type="date"
+                className="outline-none mt-1 p-2 px-3 w-[100%] rounded bg-main-lighter-2"
+                onChange={(e) =>
+                  handleFilterChange("minOpensIn", e.target.value)
+                }
               />
             </div>
 
             <div className="flex flex-col pt-2 pb-2  lg:items-stretch">
-              <label className="pb-1.5 lg:pb-2 text-sm font-medium">Opens To</label>
+              <label className="pb-1.5 lg:pb-2 text-sm font-medium">
+                Opens To
+              </label>
               <input
-                  type="date"
-                  className="outline-none mt-1 p-2 px-3 w-[100%] rounded bg-main-lighter-2"
-                  onChange={(e) => handleFilterChange("maxOpensIn", e.target.value)}
+                type="date"
+                className="outline-none mt-1 p-2 px-3 w-[100%] rounded bg-main-lighter-2"
+                onChange={(e) =>
+                  handleFilterChange("maxOpensIn", e.target.value)
+                }
               />
             </div>
             <div className="flex flex-col pt-2 text-sm pb-2 lg:justify-center lg:items-stretch">
               <RangeInput
-                  label="Salary"
-                  min={0}
-                  max={40000}
-                  minValue={queryParams.minSalary}
-                  maxValue={queryParams.maxSalary}
-                  currency="$"
-                  onInputChange={(e) => handleFilterChange("minSalary", e.minValue)}
+                label="Salary"
+                min={0}
+                max={40000}
+                minValue={queryParams.minSalary}
+                maxValue={queryParams.maxSalary}
+                currency="$"
+                onInputChange={(e) =>
+                  handleFilterChange("minSalary", e.minValue)
+                }
               />
             </div>
           </div>
           <button
-              className={"w-[100%] m-auto bg-emerald-400 text-sm mt-5 font-semibold rounded p-3 " + (isPopupOpen ? "" : "hidden")}
-              onClick={togglePopup}
+            className={
+              "w-[100%] m-auto bg-emerald-400 text-sm mt-5 font-semibold rounded p-3 " +
+              (isPopupOpen ? "" : "hidden")
+            }
+            onClick={togglePopup}
           >
             FILTER
           </button>

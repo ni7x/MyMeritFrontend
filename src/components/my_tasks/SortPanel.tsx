@@ -35,7 +35,11 @@ const SortPanel: React.FC<{
   const sortByCredits = (isAscending: boolean) => {
     const tasks = [...filteredTasks];
     if (isAscending) {
-      setFilteredTasks(tasks.sort((t1, t2) => t1.credits - t2.credits));
+      setFilteredTasks(
+        tasks.sort(
+          (t1: TaskPreview, t2: TaskPreview) => t1.credits - t2.credits
+        )
+      );
     } else {
       setFilteredTasks(tasks.sort((t1, t2) => t2.credits - t1.credits));
     }

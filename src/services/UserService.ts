@@ -9,11 +9,11 @@ const getUsers = () => {
   return users;
 };
 
-const getUserById = (userId: string) => {
+const getUserById = () => {
   return getUsers()[0];
 };
 
-const getUserSocials = (userId: string) => {
+const getUserSocials = () => {
   return socials;
 };
 

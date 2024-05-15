@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import AvailableRewards from "../../components/rewards/AvailableRewards";
-import { getPurchaseHistory, getRewards } from "../../services/RewardService";
+import { getRewards } from "../../services/RewardService";
 import { getUser } from "../../services/UserService";
 import User from "../../types/User";
 // import SecondWrapper from "../../components/SecondWrapper";
 // import PurchaseHistory from "../../components/rewards/PurchaseHistory";
-import Reward from "../../types/Reward";
+import { Reward } from "../../types/Reward";
 // import PurchasedReward from "../../types/PurchasedReward";
 import { purchaseReward } from "../../services/RewardService";
 import meritCoin from "../../assets/meritcoin.png";
@@ -20,7 +20,7 @@ const Rewards = () => {
   const onPurchase = (rewardId: string) => {
     setLoading(true);
     loadingToast("Purchasing reward...");
-    purchaseReward(rewardId).then((res) => {
+    purchaseReward(rewardId).then(() => {
       toastDismiss();
       successToast("Reward purchased successfully");
       setLoading(false);

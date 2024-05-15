@@ -9,6 +9,7 @@ export type User = {
 };
 
 export type Task = {
+  id?: string;
   title: string;
   instructions: string;
   opensAt: string;
@@ -16,7 +17,7 @@ export type Task = {
   reward: number;
   allowedLanguages: string[];
   memoryLimit?: number;
-  timeLimit?: number;
+  timeLimit?: string;
   tests?: CodeTest[];
   solutions?: Solution[];
 };
@@ -63,7 +64,7 @@ export type Feedback = {
   id: string;
   solition: Solution;
   files: string[];
-  commnet: string;
+  comment: string;
   credits: number;
 };
 

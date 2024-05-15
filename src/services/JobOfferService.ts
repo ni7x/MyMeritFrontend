@@ -101,7 +101,11 @@ export const testAll = async (
     }
 
     const response = await fetch(
-        import.meta.env.VITE_API_URL + "/test/task/" + taskId + "/language/" + language,
+      import.meta.env.VITE_API_URL +
+        "/test/task/" +
+        taskId +
+        "/language/" +
+        language,
       {
         method: "POST",
         body: data,
@@ -137,7 +141,8 @@ export const testSingle = async (
     }
 
     const response = await fetch(
-        import.meta.env.VITE_API_URL + "/test/task/" +
+      import.meta.env.VITE_API_URL +
+        "/test/task/" +
         taskId +
         "/language/" +
         language +
@@ -173,7 +178,7 @@ export const getToken = async (
 ) => {
   try {
     const URL = import.meta.env.VITE_API_URL + "/compile-code";
-    console.log(mainFileIndex, language, files)
+    // console.log(mainFileIndex, language, files)
     const encodedInput =
       userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
     const params = new JudgeParams();
@@ -209,12 +214,15 @@ export const getToken = async (
 
 export const getCompilation = async (token: string) => {
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL + "/token/" + token, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/token/" + token,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       errorToast("Compilation problem");
@@ -228,7 +236,7 @@ export const getCompilation = async (token: string) => {
   }
 };
 
-const b64toBlob = (base64, type = "application/octet-stream") =>
+const b64toBlob = (base64: string, type = "application/octet-stream") =>
   fetch(`data:${type};base64,${base64}`).then((res) => res.blob());
 
 const submitSolution = async (

@@ -4,7 +4,7 @@ import UserSection from "./UserSection";
 import EditProfileForm from "./form/EditProfileForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 // import { Skeleton } from "@mui/material";
 import Skeleton from "react-loading-skeleton";

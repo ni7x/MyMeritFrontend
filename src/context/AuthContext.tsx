@@ -184,10 +184,10 @@ const useAuthProvider = () => {
     onMutate: async () => {
       setIsLoading(true);
     },
-    onSuccess: async (response: any) => {
+    onSuccess: async () => {
       setIsLoading(false);
     },
-    onError: async (response: string) => {
+    onError: async () => {
       setIsLoading(false);
     },
   });
@@ -207,10 +207,10 @@ const useAuthProvider = () => {
     onMutate: async () => {
       setIsLoading(true);
     },
-    onSuccess: async (response: any) => {
+    onSuccess: async () => {
       setIsLoading(false);
     },
-    onError: async (response: string) => {
+    onError: async () => {
       setIsLoading(false);
     },
   });

@@ -1,4 +1,4 @@
-import { Reward as RewardDTO } from "../../models/Reward";
+import RewardDTO from "../../models/Reward";
 import Reward from "./Reward";
 import React from "react";
 

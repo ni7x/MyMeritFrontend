@@ -1,13 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./normalize.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import Home from "./pages/home/Home";
-import Navbar from "./components/navbar/Navbar";
 import NavbarTailwind from "./components/navbar/NavbarTailwind";
 import NotFound from "./pages/not_found/NotFound";
-import MyTasks from "./pages/my_tasks/MyTasks";
 import Login from "./pages/login/Login";
 import Register from "./pages/login/Register";
 import TaskSolutionDetails from "./pages/job_offer_solution_details/TaskSolutionDetails";
@@ -17,7 +14,6 @@ import SecondWrapper from "./components/SecondWrapper";
 import Contact from "./pages/contact/Contact";
 import Rewards from "./pages/rewards/Rewards";
 import UserProfile from "./pages/user_profile/UserProfile";
-import UserPurchases from "./components/user_profile/purchases/UserPurchases";
 import JobOfferDetails from "./pages/job_offer_details/JobOfferDetails";
 import TaskFeedbackDetails from "./pages/job_offer_solutions_company/TaskFeedbackDetails";
 import OAuth2 from "./pages/OAuth2/OAuth2";

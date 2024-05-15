@@ -11,7 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   floatLabel?: boolean;
   alwaysFloatLabel?: boolean;
   name?: string;
-  className?: string | string[];
+  className?: string | undefined;
   multiple?: boolean;
   placeholder?: string;
   type: string;

@@ -7,7 +7,6 @@ import RegisterStep3 from "../../components/login/RegisterStep3";
 import { useAuth } from "../../hooks/useAuth";
 import AuthBox from "../../components/login/AuthBox";
 import AuthTitle from "../../components/login/AuthTitle";
-import AuthSubTitle from "../../components/login/AuthSubTitle";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

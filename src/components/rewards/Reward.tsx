@@ -1,4 +1,4 @@
-import { Reward as RewardDTO } from "../../types/Reward";
+import RewardDTO from "../../models/Reward";
 import React, { useState } from "react";
 import baseImg from "../../assets/reward-base.jpg";
 import meritCoin from "../../assets/meritcoin.png";
