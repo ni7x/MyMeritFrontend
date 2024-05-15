@@ -73,9 +73,6 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
         }
     }, [files, jobId, filesFetched, mainFileIndex]);
 
-
-
-
     const submit = () => {
         const id = loadingToast("Submitting your solution...");
 
@@ -98,8 +95,6 @@ const TaskSolutionWorkspace: React.FC<{ jobId: string, task: UserTaskDTO, isEdit
 
         fetchData();
     };
-
-    console.log(task)
 
     return (
         <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">

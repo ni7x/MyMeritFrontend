@@ -25,18 +25,24 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
     const [filesFetched, setFilesFetched] = useState(false);
     const [mainFileIndex] = useState<number>( 0);
     const [currentFileIndex] = useState<number>( 0);
+    const [isAlreadyRated, setIsAlreadyRated] = useState(false);
     const currentFile = files[currentFileIndex];
     const {accessToken} = useAuth();
     const [isModalOpen, setModalOpen] = useState(false);
 
+    const [currentLanguage, setCurrentLanguage] = useState<string>();
+
     useEffect(() => {
         const initializeFiles = async () => {
-            const response = await downloadSolutionFiles(solutionId, accessToken!);
+            const solution = await downloadSolutionFiles(solutionId, accessToken!);
             const feedback = await downloadFeedbackFiles(solutionId, accessToken!);
-            if (response.ok) {
-                const fetchedFiles = await response.json();
-                setOriginalFiles(fetchedFiles);
-                setFiles(fetchedFiles)
+            if (solution.ok) {
+                const fetchedSOlution = await solution.json();
+                console.log(fetchedSOlution)
+                setCurrentLanguage(fetchedSOlution.language)
+                setIsAlreadyRated(fetchedSOlution.isAlreadyRated)
+                setOriginalFiles(fetchedSOlution.files);
+                setFiles(fetchedSOlution.files)
             }
             if (feedback.ok) {
                 const fetchedFiles = await feedback.json();
@@ -101,17 +107,20 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
                         isEditable={isEditable}
                         isFeedbackView={true}
                         originalFiles={originalFiles}
+                        currentLanguage={currentLanguage}
+                        mainFileIndex={mainFileIndex}
                         task={task}
                         submitComponent={
                             isEditable ?
-                                <FeedbackButton
-                                    submit={toggleModal}
-                                />
+                                !isAlreadyRated ?
+                                    <FeedbackButton
+                                        submit={toggleModal}
+                                    />:
+                                    <p>
+                                        user
+                                    </p>
                                 :
-                                <p className="flex  gap-1 justify-center items-center bg-terminal-color text-sm font-medium rounded w-1/2 text-white"
-                                >
-                                     <span className="text-merit-credits-color">{task.companyFeedback?.credits}  MC</span>
-                                </p>
+                                null
                         }
                     />
                 </div>

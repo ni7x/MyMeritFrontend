@@ -37,6 +37,7 @@ const TaskSolutionDetails: React.FC = () => {
 
   const { task, solutions } = jobOffer;
   const feedback = task.companyFeedback;
+  console.log(feedback)
 
   if (!task || (task.status !== TaskStatus.OPEN && !task.userSolution)) {
     return <Navigate to={`/job/${jobOfferId}`} />;
@@ -48,15 +49,16 @@ const TaskSolutionDetails: React.FC = () => {
         <TaskInfo
           task={task}
           jobId={jobOfferId}
-          withToggle={feedback !=undefined}
+          withToggle={feedback !== undefined}
           feedbackElement={
             feedback ? <FeedbackMessage feedback={feedback} /> : null
           }
         />
       </div>
+
       {solutions ? (
         <CompanySolutions solutions={solutions} />
-      ) : feedback ? (
+      ) : (feedback) ? (
         <>
           <TaskFeedbackWorkspace
             jobId={jobOfferId!}

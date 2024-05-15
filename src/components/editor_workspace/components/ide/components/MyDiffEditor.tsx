@@ -12,8 +12,8 @@ interface MyEditorProps{
 }
 
 const MyDiffEditor: React.FC<MyEditorProps> = ({originalFiles, files, currentFileIndex, setFiles, isEditable}) => {
-    const currentFile = files[currentFileIndex];
-    const currentOriginalFile = originalFiles[currentFileIndex];
+    const currentFile = files[currentFileIndex ?? 0];
+    const currentOriginalFile = originalFiles[currentFileIndex ?? 0];
 
     const [modifiedContent, setModifiedContent] = useState(atob(currentFile.contentBase64));
 

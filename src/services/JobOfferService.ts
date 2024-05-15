@@ -173,7 +173,7 @@ export const getToken = async (
 ) => {
   try {
     const URL = import.meta.env.VITE_API_URL + "/compile-code";
-
+    console.log(mainFileIndex, language, files)
     const encodedInput =
       userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
     const params = new JudgeParams();
@@ -197,10 +197,6 @@ export const getToken = async (
           Authorization: `Bearer ${token}`,
         },
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
 
       return (await response.json()) as CodeExecutionOutput;
     } catch (error) {

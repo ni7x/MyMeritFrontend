@@ -69,6 +69,9 @@ const Ide: React.FC<IdeProps>= ({isFeedbackView, originalFiles, submitComponent,
                     <div className="flex md:flex-col flex-col-reverse w-full md:w-1/2 gap-3 h-full">
                         <SolutionControls
                            timer={
+                            isFeedbackView ?
+                                null
+                                :
                                 <Timer
                                     taskClosesAt={task.closesAt}
                                     setIsClosed={setIsClosed}
