@@ -1,6 +1,6 @@
 import UserSection from "./UserSection";
 import { getPurchaseHistory } from "../../services/RewardService";
-import { PurchasedReward as PurchasedRewardDTO } from "../../types/PurchasedReward";
+import PurchasedRewardDTO from "../../models/PurchasedReward";
 import { useEffect, useState } from "react";
 import PurchasedReward from "../../components/rewards/PurchasedReward";
 import { Link } from "react-router-dom";

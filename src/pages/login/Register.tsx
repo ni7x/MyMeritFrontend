@@ -47,7 +47,7 @@ type FormFields3 = z.infer<typeof schema3>;
 type RegisterFields = FormFields1 & FormFields2 & FormFields3;
 
 const Register = () => {
-  const { signUp, verifyEmail, verifyCode, isLoading, isError } = useAuth();
+  const { signUp, verifyEmail, verifyCode, isLoading } = useAuth();
   const [activeStep, setActiveStep] = useState<number>(1);
 
   const {
@@ -79,7 +79,6 @@ const Register = () => {
   const {
     register: register3,
     handleSubmit: handleSubmit3,
-    setError: setError3,
     getValues: getValues3,
     formState: { errors: errors3 },
   } = useForm<FormFields3>({

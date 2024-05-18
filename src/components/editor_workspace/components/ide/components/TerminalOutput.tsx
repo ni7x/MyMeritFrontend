@@ -53,6 +53,7 @@ const TerminalOutput: React.FC<{
   };
 
   const renderTestOutput = (testOutput: TestOutput[]) => {
+    if (!Array.isArray(testOutput) || testOutput.length === 0) return <></>;
     const totalPassed = testOutput.filter((test) => test.passed).length;
     return (
       <div className="flex flex-col h-full gap-1 justify-between">

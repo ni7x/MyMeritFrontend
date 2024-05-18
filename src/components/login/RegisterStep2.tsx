@@ -13,7 +13,7 @@ const RegisterStep2 = ({
   getValues,
   isLoading,
 }: {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<any>;
   errors: FieldErrors<FieldValues> | undefined;
   onSubmit: (e: FormEvent) => void;
   getValues: any;

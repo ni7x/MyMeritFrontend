@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { Feedback } from "@types";
+import Feedback from "../../../models/Feedback";
 
 const FeedbackMessage = ({ feedback }: { feedback: Feedback }) => {
   const [isCommentShown, setIsCommentShown] = useState(false);

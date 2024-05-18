@@ -1,4 +1,4 @@
-const FeedbackButton = (submit: () => void) => {
+const FeedbackButton = ({ submit }: { submit: () => void }) => {
   return (
     <button
       className="bg-blue-450 text-xs font-semibold rounded flex-1  text-white hover:bg-blue-500 disabled:bg-terminal-color"

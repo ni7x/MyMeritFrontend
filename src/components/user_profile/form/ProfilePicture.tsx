@@ -34,7 +34,7 @@ const ProfilePicture = ({
     }
   };
 
-  const onUpload = (e) => {
+  const onUpload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (hiddenInputRef.current) {
       hiddenInputRef.current.click();

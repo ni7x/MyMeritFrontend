@@ -24,8 +24,9 @@ interface IdeProps {
   isFeedbackView: boolean;
   //   originalFiles: MyFile[];
   originalFiles: any;
-  submitComponent: JSX.Element;
+  submitComponent: JSX.Element | null;
   task: UserTaskDTO;
+  submitSolution: () => void;
 }
 
 const Ide: React.FC<IdeProps> = ({

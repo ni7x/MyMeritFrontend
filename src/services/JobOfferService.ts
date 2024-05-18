@@ -16,14 +16,21 @@ import ApiResponse from "../types/ApiResponse";
 import JobOfferListedDTO from "../models/dtos/JobOfferListedDTO";
 import { HttpResponse } from "../api/HttpClient";
 
+type JobOfferResponse = {
+  content: JobOfferListedDTO[];
+  totalPages: number;
+};
+
 /**
  * Retrieves home job offers based on the provided query parameters.
  * @param params - The query parameters for filtering the job offers.
  * @returns A promise that resolves to the response containing the home job offers.
  */
-const getHomeJobOffers = async (params: QueryParams): Promise<Response> => {
+const getHomeJobOffers = async (
+  params: QueryParams
+): Promise<JobOfferResponse> => {
   const URL = import.meta.env.VITE_API_URL + buildURL(params);
-  return await httpCall<Response>({
+  return await httpCall<JobOfferResponse>({
     url: URL,
     method: "GET",
   });
@@ -245,7 +252,7 @@ const submitSolution = async (
   token: string,
   language: string,
   mainFileName: string
-) => {
+): Promise<Response> => {
   const URL = import.meta.env.VITE_API_URL + "/job/" + jobId + "/solution";
   const data = new FormData();
 
@@ -267,6 +274,7 @@ const submitSolution = async (
     });
   } catch (error) {
     console.error("Error:", error);
+    return {} as Response;
   }
 };
 
@@ -314,6 +322,7 @@ const downloadFilesForJob = async (
     });
   } catch (error) {
     console.error("Error:", error);
+    return {} as Response;
   }
 };
 
@@ -335,6 +344,7 @@ const downloadFiles = async (
     });
   } catch (error) {
     console.error("Error:", error);
+    return {} as Response;
   }
 };
 
@@ -353,6 +363,7 @@ const downloadSolutionFiles = async (
     });
   } catch (error) {
     console.error("Error:", error);
+    return {} as Response;
   }
 };
 
@@ -372,6 +383,7 @@ const downloadFeedbackFiles = async (
     });
   } catch (error) {
     console.error("Error:", error);
+    return {} as Response;
   }
 };
 

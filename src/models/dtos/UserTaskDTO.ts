@@ -1,5 +1,4 @@
 import Solution from "../Solution";
-import TaskStatus from "../TaskStatus";
 import Feedback from "../Feedback";
 import Test from "../Test";
 
@@ -14,9 +13,10 @@ class UserTaskDTO {
     public allowedLanguages: string[],
     public memoryLimit: number,
     public timeLimit: number,
-    public status: typeof TaskStatus,
+    public status: "OPEN" | "NOT_YET_OPEN" | "EXPIRED",
     public userSolution: Solution,
     public tests: Test[],
+    public jobId: string,
     public companyFeedback?: Feedback,
     public templateFiles?: Map<string, string[]>
   ) {}

@@ -14,7 +14,7 @@ import { faTrophy } from "@fortawesome/free-solid-svg-icons";
 const TaskInfo: React.FC<{
   task: Task;
   jobId: string | undefined;
-  feedbackElement: JSX.Element;
+  feedbackElement?: JSX.Element;
   withToggle: boolean;
 }> = ({ task, jobId, feedbackElement, withToggle }) => {
   const [isHidden, setHidden] = useState(false);

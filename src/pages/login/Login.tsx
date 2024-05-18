@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AuthBox from "../../components/login/AuthBox";
@@ -30,14 +30,14 @@ type FormFields = z.infer<typeof schema>;
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn, isAuthenticated, isLoading, isError } = useAuth();
+  const { signIn, isAuthenticated, isLoading } = useAuth();
 
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
-    setError,
+    // setError,
     getValues,
     formState: { errors },
   } = useForm<FormFields>({
@@ -48,11 +48,11 @@ const Login = () => {
     resolver: zodResolver(schema),
   });
 
-  const handleShowPassword = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
+  // const handleShowPassword = () => {
+  //   setShowPassword((prevShowPassword) => !prevShowPassword);
+  // };
 
-  const processedPassword = showPassword ? "text" : "password";
+  // const processedPassword = showPassword ? "text" : "password";
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     signIn(data);
@@ -80,7 +80,8 @@ const Login = () => {
 
         <CustomInput
           id="password"
-          type={processedPassword}
+          // type={processedPassword}
+          type="text"
           label="Password"
           // placeholder="password"
           register={register}

@@ -22,16 +22,16 @@ const Home: React.FC = () => {
         searchParams.get("languages")?.split(",") ||
         defaultQueryParams.languages,
       minCredits: searchParams.get("minCredits")
-        ? parseInt(searchParams.get("minCredits"))
+        ? parseInt(searchParams.get("minCredits")!)
         : defaultQueryParams.minCredits,
       maxCredits: searchParams.get("maxCredits")
-        ? parseInt(searchParams.get("maxCredits"))
+        ? parseInt(searchParams.get("maxCredits")!)
         : defaultQueryParams.maxCredits,
       minSalary: searchParams.get("minSalary")
-        ? parseInt(searchParams.get("minSalary"))
+        ? parseInt(searchParams.get("minSalary")!)
         : defaultQueryParams.minSalary,
       maxSalary: searchParams.get("maxSalary")
-        ? parseInt(searchParams.get("maxSalary"))
+        ? parseInt(searchParams.get("maxSalary")!)
         : defaultQueryParams.maxSalary,
       minOpensIn: searchParams.get("minOpensIn")
         ? searchParams.get("minOpensIn")
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
         : defaultQueryParams.maxOpensIn,
       sort: searchParams.get("sort") || defaultQueryParams.sort,
       page: searchParams.get("page")
-        ? parseInt(searchParams.get("page"))
+        ? parseInt(searchParams.get("page")!)
         : defaultQueryParams.page,
     } as QueryParams);
 
@@ -73,7 +73,6 @@ const Home: React.FC = () => {
       <div className="w-full flex flex-col gap-4 lg:flex-row justify-center">
         <FilterPanel
           queryParams={queryParams}
-          tasks={jobOffers}
           handleChange={handleQueryParamChange}
         />
         <div className="w-full flex flex-col gap-4">

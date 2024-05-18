@@ -14,7 +14,7 @@ const schema = z.object({
   description: z.string().max(300),
 });
 
-type FormValues = z.infer<typeof schema> & { imageBase64?: string };
+// type FormValues = z.infer<typeof schema> & { imageBase64?: string };
 
 // type FormValues = {
 //   username: string;
@@ -42,7 +42,7 @@ const EditProfileForm = ({
     setError,
     getValues,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<FieldValues>({
     defaultValues: {
       username: username ? username : "",
       description: description ? description : "",
@@ -89,7 +89,7 @@ const EditProfileForm = ({
     }
   };
 
-  const onUpload = (e) => {
+  const onUpload = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (inputRef.current) {
       inputRef.current.click();

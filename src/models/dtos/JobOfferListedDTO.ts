@@ -1,4 +1,3 @@
-import TaskStatus from "../TaskStatus";
 import User from "../../types/User";
 
 interface JobOfferListedDTO {
@@ -10,7 +9,7 @@ interface JobOfferListedDTO {
   opensAt: Date;
   closesAt: Date;
   company: User;
-  status: typeof TaskStatus;
+  status: "OPEN" | "NOT_YET_OPEN" | "EXPIRED";
 }
 
 export default JobOfferListedDTO;

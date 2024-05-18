@@ -3,7 +3,7 @@ import { socials } from "../common/socials";
 
 import { HttpResponse, httpCall } from "../api/HttpClient";
 import User from "../types/User";
-import Task from "../types/Task";
+import Task from "../models/TaskPreview";
 
 const getUsers = () => {
   return users;
@@ -28,6 +28,7 @@ const getUserTasks = async () => {
     return data;
   } catch (error) {
     console.error(error);
+    return [];
   }
 };
 

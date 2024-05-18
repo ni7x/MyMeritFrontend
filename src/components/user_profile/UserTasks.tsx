@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Task as TaskDto } from "../../types/Task";
+import TaskDto from "../../models/TaskPreview";
 import UserSection from "./UserSection";
 import { getUserTasks } from "../../services/UserService";
 import Task from "../../components/my_tasks/Task";

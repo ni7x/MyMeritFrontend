@@ -72,10 +72,11 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
   }, [solutionId, accessToken]);
 
   useEffect(() => {
-    if (filesFetched && files)
+    if (filesFetched && files && currentLanguage)
       cookies.set(
         "solution-" + solutionId,
-        serializeFiles(files, task.jobId, solutionId, mainFileIndex),
+        // serializeFiles(files, task.jobId, solutionId, mainFileIndex),
+        serializeFiles(files, task.jobId, mainFileIndex, currentLanguage),
         {}
       );
   }, [files, mainFileIndex]);
@@ -104,7 +105,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
     fetchData();
   };
 
-  const submitWithData = (reward, comment) => {
+  const submitWithData = (reward: number, comment: string) => {
     submit(reward, comment);
   };
 
@@ -112,6 +113,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
     setModalOpen(!isModalOpen);
   };
 
+  if (!filesFetched || !currentLanguage) return <div>Loading...</div>; // TODO add better styles for it
   return (
     <div className="flex flex-col w-full items-end h-auto">
       <FeedbackModal
@@ -130,6 +132,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
             originalFiles={originalFiles}
             currentLanguage={currentLanguage}
             mainFileIndex={mainFileIndex}
+            setCurrentLanguage={setCurrentLanguage}
             task={task}
             submitComponent={
               isEditable ? (

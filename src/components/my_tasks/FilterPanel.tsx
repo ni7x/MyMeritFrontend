@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import TaskPreview from "../../models/TaskPreview";
-import TaskStatus from "../../models/TaskStatus";
 import FilterButton from "./FilterButton";
+import JobOfferListedDTO from "src/models/dtos/JobOfferListedDTO";
 
 const FilterPanel: React.FC<{
   tasks: TaskPreview[];
   setFilteredTasks: (tasks: TaskPreview[]) => void;
-  bookmarkedJobs: TaskPreview[];
+  bookmarkedJobs: JobOfferListedDTO[];
   setIsBookmarkedTab: (isBookmarkedTab: boolean) => void;
   setIsSolutionTab: (isSolutionTab: boolean) => void;
 }> = ({

@@ -1,4 +1,4 @@
-import {Feedback} from "@types";
+import { Feedback } from "@types";
 
 class SolutionPreview {
   constructor(
@@ -7,7 +7,8 @@ class SolutionPreview {
     public submitDate: Date,
     public solutionLanguage: string,
     public imageBase64: string,
-    public feedback?: Feedback,
+    public credits: number,
+    public feedback?: Feedback
   ) {}
 }
 

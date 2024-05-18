@@ -9,15 +9,16 @@ const FeedbackModal = ({
   isModalOpen: boolean;
   setModalOpen: (open: boolean) => void;
   toggleModal: () => void;
-  submit: (reward: string, comment: string) => void;
+  submit: (reward: number, comment: string) => void;
 }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const comment = (form.elements.namedItem("comment") as HTMLInputElement)
       .value;
-    const reward = (form.elements.namedItem("reward") as HTMLInputElement)
-      .value;
+    const reward = parseInt(
+      (form.elements.namedItem("reward") as HTMLInputElement).value
+    );
     await submit(reward, comment);
     setModalOpen(false);
   };

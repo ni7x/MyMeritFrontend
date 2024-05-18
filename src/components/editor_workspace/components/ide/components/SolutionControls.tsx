@@ -3,7 +3,7 @@ const SolutionControls = ({
   runButton,
   timer,
 }: {
-  submitButton: JSX.Element;
+  submitButton: JSX.Element | null;
   runButton: JSX.Element;
   timer?: JSX.Element;
 }) => {

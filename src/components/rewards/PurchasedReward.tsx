@@ -1,4 +1,4 @@
-import { PurchasedReward as PurchasedRewardDTO } from "../../types/PurchasedReward";
+import PurchasedRewardDTO from "../../models/PurchasedReward";
 import React from "react";
 import rewardImg from "../../assets/reward-placeholder.png";
 import meritCoin from "../../assets/meritcoin.png";
@@ -26,7 +26,7 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
         <div className="flex-col">
           <p className="text-xs text-task-lighter">purchased</p>
           <p className="mt-1 font-medium">
-            {new Date(purchase.datePurchase).toLocaleDateString()}
+            {new Date(purchase.purchaseDate).toLocaleDateString()}
           </p>
         </div>
         <div className="flex flex-col">

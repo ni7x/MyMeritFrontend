@@ -44,7 +44,7 @@ export const loadingToast = (message: string, id?: number) => {
 export const updateToast = (
   message: string,
   type: TypeOptions,
-  id?: number
+  id?: string
 ) => {
   if (id) {
     toast.update(id, {
@@ -76,10 +76,10 @@ export const updateToast = (
   }
 };
 
-export const successToast = (message: string, id?: number) => {
+export const successToast = (message: string, id?: string) => {
   updateToast(message, "success", id);
 };
-export const errorToast = (message: string, id?: number) => {
+export const errorToast = (message: string, id?: string) => {
   updateToast(message, "error", id);
 };
 

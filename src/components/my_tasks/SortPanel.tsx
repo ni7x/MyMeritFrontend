@@ -9,9 +9,13 @@ const SortPanel: React.FC<{
   const sortByName = (isAscending: boolean) => {
     const tasks = [...filteredTasks];
     if (isAscending) {
-      setFilteredTasks(tasks.sort((t1, t2) => t1.name.localeCompare(t2.name)));
+      setFilteredTasks(
+        tasks.sort((t1, t2) => t1.taskName.localeCompare(t2.taskName))
+      );
     } else {
-      setFilteredTasks(tasks.sort((t1, t2) => t2.name.localeCompare(t1.name)));
+      setFilteredTasks(
+        tasks.sort((t1, t2) => t2.taskName.localeCompare(t1.taskName))
+      );
     }
   };
 

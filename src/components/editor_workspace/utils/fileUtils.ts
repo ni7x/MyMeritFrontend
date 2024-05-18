@@ -1,11 +1,56 @@
 import MyFile from "../../../models/MyFile";
 import JSZip from "jszip";
 import languagesData from "./extension-scripts-map.json";
-import extensionToLanguage from "./language-extension-map.json";
+// import extensionToLanguage from "./language-extension-map.json";
 
 interface Script {
   name: string;
   content: string;
+}
+
+const extensionToLanguage: ExtensionToLanguage = {
+  asm: "assembly",
+  sh: "bash",
+  bas: "basic",
+  c: "c",
+  cpp: "cpp",
+  clj: "clojure",
+  cs: "csharp",
+  cob: "cobol",
+  lisp: "lisp",
+  d: "d",
+  exs: "elixir",
+  erl: "erlang",
+  fsx: "fsharp",
+  f90: "fortran",
+  go: "go",
+  groovy: "groovy",
+  hs: "haskell",
+  html: "html",
+  java: "java",
+  js: "javascript",
+  json: "json",
+  kt: "kotlin",
+  lua: "lua",
+  md: "markdown",
+  ml: "ocaml",
+  m: "matlab",
+  pas: "pascal",
+  pl: "perl",
+  php: "php",
+  py: "python",
+  rb: "ruby",
+  rs: "rust",
+  scala: "scala",
+  scss: "scss",
+  sql: "sql",
+  swift: "swift",
+  ts: "typescript",
+  vb: "visualbasic",
+};
+
+interface ExtensionToLanguage {
+  [key: string]: string;
 }
 
 export const getFileExtension = (fileName: string): string => {
@@ -30,7 +75,7 @@ export const getLanguageFromFileName = (fileName: string): string => {
   return getLanguageFromFileExtension(getFileExtension(fileName));
 };
 
-export const decodeBase64 = (base64) => {
+export const decodeBase64 = (base64: string) => {
   //uzywanie samego atob nie konwerowalo wszystkich znakow specialnych ascii
   const text = atob(base64);
   const length = text.length;
@@ -84,9 +129,9 @@ export const getContentType = (fileName: string): ContentType => {
   return contentType || ContentType.TXT;
 };
 
-const generateScriptsContent = (languages, mainFileName): Script[] => {
+const generateScriptsContent = (mainFileName: string): Script[] => {
   const fileExtension = getFileExtension(mainFileName);
-  const language = languagesData[fileExtension];
+  const language = languagesData[fileExtension as keyof typeof languagesData];
 
   if (!language) {
     throw new Error(`Language not found for file extension: ${fileExtension}`);
@@ -94,15 +139,15 @@ const generateScriptsContent = (languages, mainFileName): Script[] => {
 
   const { compile, run, source_file } = language;
 
-  if (!compile && !run) {
+  if (!compile || !run) {
     console.error(
-      `Compile and run command not defined for language: ${source_file}`
+      `Compile or run command not defined for language: ${source_file}`
     );
     return [];
   }
 
   const compileScriptContent = compile
-    ?.replace(source_file, " *." + fileExtension)
+    .replace(source_file, " *." + fileExtension)
     .replace(" %s ", "");
   const runScriptContent = run?.replace(
     getFileNameWithoutExtension(source_file),
@@ -126,7 +171,7 @@ export const generateEncodedZip = (
     if (!mainFileName) {
       reject(new Error("No main file"));
     }
-    const language = getLanguageFromFileName(mainFileName);
+    // const language = getLanguageFromFileName(mainFileName);
 
     const zip = new JSZip();
 
@@ -134,7 +179,7 @@ export const generateEncodedZip = (
       zip.file(file.name, atob(file.contentBase64));
     });
 
-    generateScriptsContent(language, mainFileName).forEach((script) => {
+    generateScriptsContent(mainFileName).forEach((script) => {
       zip.file(script.name, script.content);
     });
 
@@ -150,7 +195,7 @@ export const generateEncodedZip = (
           }
         };
         reader.onerror = (error) => {
-          reject("Reader problem ", error);
+          reject("Reader problem: " + error);
         };
         reader.readAsDataURL(content);
       })

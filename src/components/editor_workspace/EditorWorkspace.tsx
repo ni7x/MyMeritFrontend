@@ -16,7 +16,8 @@ interface EditorWorkspaceProps {
   isFeedbackView: boolean;
   currentLanguage: string;
   setCurrentLanguage: (language: string) => void;
-  submitComponent: JSX.Element;
+  submitComponent: JSX.Element | null;
+  mainFileIndex: number;
 }
 
 const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
@@ -102,7 +103,9 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
       if (fileToRename) {
         setFiles((prevFiles: MyFile[]) => {
           return prevFiles.map((file) =>
-            file.name === name ? { ...file, name: newName } : file
+            file.name === name
+              ? new MyFile(newName, file.type, file.contentBase64)
+              : file
           );
         });
       }
@@ -129,8 +132,8 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
           <div className="flex justify-between w-full items-center">
             <FileTabManager
               addFile={addFile}
-              removeFile={withErrorHandling(removeFile)}
-              renameFile={withErrorHandling(renameFile)}
+              removeFile={() => withErrorHandling(removeFile)}
+              renameFile={() => withErrorHandling(renameFile)}
               currentFile={currentFile}
               files={files}
               mainFileIndex={mainFileIndex}

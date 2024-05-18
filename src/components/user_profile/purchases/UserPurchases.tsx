@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PurchaseHistory from "../../rewards/PurchaseHistory";
 import { getPurchaseHistory } from "../../../services/RewardService";
-import { PurchasedReward as PurchasedRewardDTO } from "../../../types/PurchasedReward";
+import PurchasedRewardDTO from "../../../models/PurchasedReward";
 
 const UserPurchases = () => {
   const [purchaseHistory, setPurchaseHistory] = useState<PurchasedRewardDTO[]>(

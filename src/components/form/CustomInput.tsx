@@ -1,4 +1,4 @@
-import { UseFormRegister, FieldValues } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import React, { InputHTMLAttributes, useState } from "react";
 import { TagsInput } from "react-tag-input-component";
 import MDEditor from "@uiw/react-md-editor";
@@ -16,7 +16,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   type: string;
   options?: any;
-  register?: UseFormRegister<FieldValues>;
+  register?: UseFormRegister<any>;
+  // register?: FieldValues;
   setValue?: any;
   getValues: any;
   trigger?: any;
@@ -114,7 +115,7 @@ const CustomInput = ({
             value={getValues(id)}
             onChange={(val) => {
               setValue(id, val);
-              if (trigger) trigger(val);
+              if (trigger) trigger(id);
             }}
             placeHolder={placeholder ? placeholder : ""}
             classNames={{

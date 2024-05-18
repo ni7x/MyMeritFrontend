@@ -14,7 +14,7 @@ const RegisterStep1 = ({
   getValues,
   isLoading,
 }: {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<any>;
   errors?: FieldErrors<FieldValues>;
   onSubmit: (e: FormEvent) => void;
   getValues: any;

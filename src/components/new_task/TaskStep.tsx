@@ -12,6 +12,7 @@ const TaskStep = ({
   errors,
   setValue,
   getValues,
+  trigger,
 }: {
   handleSubmit: any;
   onSubmit: any;
@@ -40,6 +41,7 @@ const TaskStep = ({
         floatLabel={false}
         hint={"Enter the task instructions here"}
         type="mdeditor"
+        trigger={trigger}
         register={register}
         getValues={getValues}
         setValue={setValue}
