@@ -175,7 +175,8 @@ export const getToken = async (
     const URL = import.meta.env.VITE_API_URL + "/compile-code";
     console.log(mainFileIndex, language, files)
     const encodedInput =
-      userInput && userInput.trim().length > 0 ? btoa(userInput) : null;
+      userInput && userInput.trim().length > 0 ? btoa(userInput): "";
+    console.log(encodedInput)
     const params = new JudgeParams();
     params.stdin = encodedInput;
     params.memoryLimit = memoryLimit;
@@ -188,7 +189,9 @@ export const getToken = async (
     }
     data.append("language", language);
     data.append("mainFileName", files[mainFileIndex].name);
-    data.append("judgeParams", JSON.stringify(params));
+    data.append("stdin", encodedInput);
+    data.append("memoryLimit", String(memoryLimit));
+    data.append("cpuTimeLimit", String(timeLimit));
     try {
       const response = await fetch(URL, {
         method: "POST",

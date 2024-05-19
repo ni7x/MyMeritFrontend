@@ -25,12 +25,11 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
     const [filesFetched, setFilesFetched] = useState(false);
     const [mainFileIndex] = useState<number>( 0);
     const [currentFileIndex] = useState<number>( 0);
-    const [isAlreadyRated, setIsAlreadyRated] = useState(false);
     const currentFile = files[currentFileIndex];
     const {accessToken} = useAuth();
     const [isModalOpen, setModalOpen] = useState(false);
+    const [userSolution, setUserSolution] = useState();
 
-    const [currentLanguage, setCurrentLanguage] = useState<string>();
 
     useEffect(() => {
         const initializeFiles = async () => {
@@ -38,9 +37,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
             const feedback = await downloadFeedbackFiles(solutionId, accessToken!);
             if (solution.ok) {
                 const fetchedSOlution = await solution.json();
-                console.log(fetchedSOlution)
-                setCurrentLanguage(fetchedSOlution.language)
-                setIsAlreadyRated(fetchedSOlution.isAlreadyRated)
+                setUserSolution(fetchedSOlution)
                 setOriginalFiles(fetchedSOlution.files);
                 setFiles(fetchedSOlution.files)
             }
@@ -107,18 +104,25 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({ solutionI
                         isEditable={isEditable}
                         isFeedbackView={true}
                         originalFiles={originalFiles}
-                        currentLanguage={currentLanguage}
+                        currentLanguage={userSolution.language}
                         mainFileIndex={mainFileIndex}
                         task={task}
                         submitComponent={
                             isEditable ?
-                                !isAlreadyRated ?
+                                !userSolution.isAlreadyRated ?
                                     <FeedbackButton
                                         submit={toggleModal}
                                     />:
-                                    <p>
-                                        user
-                                    </p>
+                                    <>
+                                        <div className="flex bg-terminal-color rounded text-xs font-semibold items-center flex-1">
+                                            <img src={userSolution.user.imageBase64} className="h-[3rem] w-[3rem] rounded"/>
+                                            <div className="flex flex-col px-3 flex-1">
+                                                <p  className="text-xs font-medium text-task-lighter mb-[-1px]">SOLVED BY</p>
+                                                <a href={"/profile/" + userSolution.user.id} className=" text-base font-normal">{userSolution.user.username}</a>
+                                            </div>
+
+                                        </div>
+                                    </>
                                 :
                                 null
                         }

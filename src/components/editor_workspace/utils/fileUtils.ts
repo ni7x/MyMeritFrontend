@@ -22,6 +22,8 @@ const getLanguageFromFileExtension = (fileExtension: string) : string =>{
     const language = extensionToLanguage[fileExtension];
     if(language == "c++"){
         return "cpp";
+    }if(fileExtension == "h"){
+        return "cpp";
     }
     return language ? language.toLowerCase() : fileExtension;
 }
