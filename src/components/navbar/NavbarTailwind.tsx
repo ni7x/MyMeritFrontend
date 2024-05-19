@@ -20,7 +20,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavbarTailwind() {
-  const { isAuthenticated, userData, signOut } = useAuth();
+  const { isAuthenticated, userData, signOut, isAuthenticatedCompany } = useAuth();
 
   const location = useLocation();
 
@@ -103,7 +103,7 @@ export default function NavbarTailwind() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6">
-                {isAuthenticated() && (
+                {isAuthenticatedCompany() && (
                   <Link
                     to="/job/new"
                     className={classNames(
