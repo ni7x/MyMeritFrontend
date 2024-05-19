@@ -13,6 +13,7 @@ import EditorWorkspace from "../../editor_workspace/EditorWorkspace";
 import FeedbackButton from "./FeedbackButton";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 import FeedbackModal from "./FeedbackModal";
+import {User} from "@types";
 
 interface TaskFeedbackWorkspaceProps {
     solutionId: string;
@@ -32,7 +33,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
     const [filesFetched, setFilesFetched] = useState(false);
     const [mainFileIndex] = useState<number>(0);
     const [currentFileIndex] = useState<number>(0);
-    const [isAlreadyRated, setIsAlreadyRated] = useState(false);
+    const [solutionAuthor, setSolutionAuthor] = useState<User>(null);
     const currentFile = files[currentFileIndex];
     const { accessToken } = useAuth();
     const [isModalOpen, setModalOpen] = useState(false);
@@ -46,7 +47,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                 const fetchedSolution = await solution.json();
                 console.log(fetchedSolution);
                 setCurrentLanguage(fetchedSolution.language);
-                setIsAlreadyRated(fetchedSolution.isAlreadyRated);
+                setSolutionAuthor(fetchedSolution.user);//sry za ten caly burdel xd
                 setOriginalFiles(fetchedSolution.files);
                 setFiles(fetchedSolution.files);
             }
@@ -127,12 +128,12 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                         task={task}
                         submitComponent={
                             isEditable ? (
-                                !isAlreadyRated ? (
+                                !solutionAuthor ? (
                                     <FeedbackButton submit={toggleModal} />
                                 ) : (
                                     <div className="flex bg-terminal-color rounded text-xs font-semibold items-center flex-1">
                                         <img
-                                            src={task.userSolution?.user.imageSmall}
+                                            src={solutionAuthor.imageBase64}
                                             className="h-[3rem] w-[3rem] rounded"
                                             alt="User"
                                         />
@@ -141,10 +142,10 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                                                 SOLVED BY
                                             </p>
                                             <a
-                                                href={"/profile/" + task.userSolution?.user.id}
+                                                href={"/profile/" + solutionAuthor.id}
                                                 className="text-base font-normal"
                                             >
-                                                {task.userSolution?.user.username}
+                                                {solutionAuthor.username}
                                             </a>
                                         </div>
                                     </div>
