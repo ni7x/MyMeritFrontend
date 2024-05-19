@@ -29,9 +29,8 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
       </div>
 
       {solutions.length === 0 ? (
-        <h3 className="flex gap-10 bg-terminal-color p-3 px-5 rounded">
-          No solutions yet..
-        </h3>
+        <NoItemsFound
+          itemName="solutions"/>
       ) : null}
 
       {solutions.map(

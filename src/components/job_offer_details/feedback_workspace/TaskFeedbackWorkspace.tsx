@@ -33,6 +33,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
     const [filesFetched, setFilesFetched] = useState(false);
     const [mainFileIndex] = useState<number>(0);
     const [currentFileIndex] = useState<number>(0);
+    const [isAlreadyRated, setIsAlreadyRated] = useState(false);
     const [solutionAuthor, setSolutionAuthor] = useState<User>(null);
     const currentFile = files[currentFileIndex];
     const { accessToken } = useAuth();
@@ -47,6 +48,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                 const fetchedSolution = await solution.json();
                 console.log(fetchedSolution);
                 setCurrentLanguage(fetchedSolution.language);
+                setIsAlreadyRated(fetchedSolution.isAlreadyRated);
                 setSolutionAuthor(fetchedSolution.user);//sry za ten caly burdel xd
                 setOriginalFiles(fetchedSolution.files);
                 setFiles(fetchedSolution.files);
@@ -128,7 +130,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                         task={task}
                         submitComponent={
                             isEditable ? (
-                                !solutionAuthor ? (
+                                !isAlreadyRated ? (
                                     <FeedbackButton submit={toggleModal} />
                                 ) : (
                                     <div className="flex bg-terminal-color rounded text-xs font-semibold items-center flex-1">
