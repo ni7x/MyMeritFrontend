@@ -17,15 +17,15 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
     new Date(jobOffer.opensAt)
   );
 
-  const languageColors = {
-    "JAVA": '#ec9b2a',
-    "PYTHON": '#40a5f8',
-    "JAVASCRIPT": '#f1e05a',
-    "CPP": '#f34b7d',
-    "GO": '#00ADD8',
-    "KOTLIN": '#A97BFF',
-    "TYPESCRIPT": '#2b7489',
-    "PHP": '#4F5D95',
+  const languageColors: { [key: string]: string } = {
+    JAVA: "#ec9b2a",
+    PYTHON: "#40a5f8",
+    JAVASCRIPT: "#f1e05a",
+    CPP: "#f34b7d",
+    GO: "#00ADD8",
+    KOTLIN: "#A97BFF",
+    TYPESCRIPT: "#2b7489",
+    PHP: "#4F5D95",
   };
 
   return (
@@ -75,7 +75,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
       <div className="flex">
         <img
           src={jobOffer.company.imageBase64}
-          className="hidden min-[400px]:block w-[4.5rem] h-[4.5rem] rounded ml-4"
+          className="hidden min-[400px]:block w-[4.5rem] h-[4.5rem] rounded ml-4 object-cover"
         />
         <div>
           <h3 className="text-2xl font-medium  w-full  px-4 hover:underline">
@@ -94,17 +94,17 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
             {jobOffer.technologies.map((technology) => {
               const color = languageColors[technology.toUpperCase()];
               return (
-                  <li
-                      className="mr-3 px-3 py-1 text-sm rounded-md font-semibold"
-                      style={{
-                        backgroundColor: 'transparent',
-                        border: `2px solid ${color}`,
-                        color: color
-                      }}
-                      key={technology}
-                  >
-                    {technology}
-                  </li>
+                <li
+                  className="mr-3 px-3 py-1 text-sm rounded-md font-semibold"
+                  style={{
+                    backgroundColor: "transparent",
+                    border: `2px solid ${color}`,
+                    color: color,
+                  }}
+                  key={technology}
+                >
+                  {technology}
+                </li>
               );
             })}
           </ul>
@@ -113,11 +113,12 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
       <div className="flex items-center gap-x-6 gap-y-3 text-sm pb-2.5 px-4 w-full font-medium flex-wrap">
         <p className="flex items-center">
           <img
-              src={jobOffer.company.imageBase64}
-              className="block min-[400px]:hidden w-[1.5rem] h-[1.5rem] rounded mr-2"
+            src={jobOffer.company.imageBase64}
+            className="block min-[400px]:hidden w-[1.5rem] h-[1.5rem] rounded mr-2 object-cover"
           />
 
-          {jobOffer.company.username}</p>
+          {jobOffer.company.username}
+        </p>
         <div className="flex gap-2 text-task-lighter items-center">
           <FontAwesomeIcon icon={faLocationDot} />
           <ul className="flex">

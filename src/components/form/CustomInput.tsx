@@ -115,7 +115,7 @@ const CustomInput = ({
             value={getValues(id)}
             onChange={(val) => {
               setValue(id, val);
-              if (trigger) trigger(id);
+              if (error && trigger) trigger(id);
             }}
             placeHolder={placeholder ? placeholder : ""}
             classNames={{
@@ -130,7 +130,7 @@ const CustomInput = ({
             onChange={(val) => {
               setData(val);
               setValue(id, val);
-              trigger(id);
+              if (error & trigger) trigger(id);
             }}
             className={`border-[1px] border-solid ${
               error ? "border-[#FC8181]" : "border-[#44444f] bg-[#44444f]"

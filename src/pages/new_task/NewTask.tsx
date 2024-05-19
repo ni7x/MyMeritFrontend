@@ -32,7 +32,7 @@ const getCurrentDateTimeLocal = () => {
 
 const jobOfferSchema = z.object({
   jobTitle: z.string().min(5),
-  description: z.string().nonempty("Required").max(300),
+  description: z.string().nonempty("Required").max(600),
   requiredSkills: z
     .string()
     .array()
@@ -169,6 +169,7 @@ const NewTask = () => {
       ...jobOfferData,
       task: data,
       user: userData,
+      tests: [],
     }).then((res: HttpResponse<JobOffer>) => {
       if (res.data.id) {
         successToast("Job Offer created successfully");

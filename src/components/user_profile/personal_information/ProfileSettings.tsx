@@ -155,7 +155,7 @@ const ProfileSettings = () => {
                         width={128}
                         height={128}
                         src={userData.imageBase64}
-                        className="w-full h-auto max-w-full rounded-full object-cover"
+                        className="w-full h-full max-w-full rounded-full object-cover"
                       />
                     ) : (
                       <FontAwesomeIcon

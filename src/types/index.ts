@@ -113,4 +113,5 @@ export type JobOffer = {
   user: User;
   salary: number;
   employmentType: EmploymentType;
+  tests?: CodeTest[];
 };
