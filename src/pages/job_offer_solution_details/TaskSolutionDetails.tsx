@@ -49,7 +49,7 @@ const TaskSolutionDetails: React.FC = () => {
         <TaskInfo
           task={task}
           jobId={jobOfferId}
-          withToggle={feedback !== undefined}
+          withToggle={feedback !== undefined && feedback !== null}
           feedbackElement={
             feedback ? <FeedbackMessage feedback={feedback} /> : undefined
           }

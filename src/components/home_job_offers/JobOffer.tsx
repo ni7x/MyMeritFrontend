@@ -17,6 +17,17 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
     new Date(jobOffer.opensAt)
   );
 
+  const languageColors = {
+    "JAVA": '#ec9b2a',
+    "PYTHON": '#40a5f8',
+    "JAVASCRIPT": '#f1e05a',
+    "CPP": '#f34b7d',
+    "GO": '#00ADD8',
+    "KOTLIN": '#A97BFF',
+    "TYPESCRIPT": '#2b7489',
+    "PHP": '#4F5D95',
+  };
+
   return (
     <div className="flex-column bg-secondary-bg-color rounded xl:max-w-full">
       <div className="pt-2.5 px-4 text-[0.8725rem]">
@@ -67,7 +78,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
           className="hidden min-[400px]:block w-[4.5rem] h-[4.5rem] rounded ml-4"
         />
         <div>
-          <h3 className="text-2xl font-medium  w-full  px-4">
+          <h3 className="text-2xl font-medium  w-full  px-4 hover:underline">
             <a
               href={
                 "job/" +
@@ -81,13 +92,19 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
 
           <ul className="flex pt-2 pb-4 px-4">
             {jobOffer.technologies.map((technology) => {
+              const color = languageColors[technology.toUpperCase()];
               return (
-                <li
-                  className="mr-3 px-3 py-1 text-sm rounded-md bg-transparent border-[1px] border-task-lighter text-task-lighter font-medium"
-                  key={technology}
-                >
-                  {technology}
-                </li>
+                  <li
+                      className="mr-3 px-3 py-1 text-sm rounded-md font-semibold"
+                      style={{
+                        backgroundColor: 'transparent',
+                        border: `2px solid ${color}`,
+                        color: color
+                      }}
+                      key={technology}
+                  >
+                    {technology}
+                  </li>
               );
             })}
           </ul>

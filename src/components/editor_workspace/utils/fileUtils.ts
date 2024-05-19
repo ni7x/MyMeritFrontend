@@ -63,13 +63,15 @@ const getFileNameWithoutExtension = (fileName: string): string => {
   return lastDotIndex !== -1 ? fileName.substring(0, lastDotIndex) : fileName;
 };
 
-const getLanguageFromFileExtension = (fileExtension: string): string => {
-  const language = extensionToLanguage[fileExtension];
-  if (language == "c++") {
-    return "cpp";
-  }
-  return language ? language.toLowerCase() : fileExtension;
-};
+const getLanguageFromFileExtension = (fileExtension: string) : string =>{
+    const language = extensionToLanguage[fileExtension];
+    if(language == "c++"){
+        return "cpp";
+    }if(fileExtension == "h"){
+        return "cpp";
+    }
+    return language ? language.toLowerCase() : fileExtension;
+}
 
 export const getLanguageFromFileName = (fileName: string): string => {
   return getLanguageFromFileExtension(getFileExtension(fileName));

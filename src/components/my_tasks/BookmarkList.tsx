@@ -1,6 +1,7 @@
 import React from "react";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import Bookmark from "./Bookmark";
+import NoItemsFound from "../NoItemsFound";
 
 const BookmarkList: React.FC<{
   bookmarks: JobOfferListedDTO[];

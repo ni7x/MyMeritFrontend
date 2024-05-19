@@ -2,6 +2,7 @@ import React from "react";
 // import JobOfferListedDTO from "../../../models/dtos/SolutionListedDTO";
 import { formatDistanceToNow } from "date-fns";
 import SolutionListedDTO from "../../../models/dtos/SolutionListedDTO";
+import NoItemsFound from "../../NoItemsFound";
 
 type CompanySolutionsProps = {
   solutions: SolutionListedDTO[];
@@ -56,9 +57,11 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
               <p className="text-white">{solution.solvingTime} minutes</p>
             </div>
 
+            {solutions.length === 0 ?
+                <NoItemsFound itemName="solutions"/>:null
+            }
             <div className="text-main-lighter">
-              <p className="text-xs font-semibold">TESTS PASSED</p>
-
+              <p className="text-xs font-semibold">SOLVED IN</p>
               <p
                 className={` ${getColorClass(
                   solution.testResults.filter((t) => t.passed).length,
