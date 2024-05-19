@@ -81,7 +81,7 @@ const Login = () => {
         <CustomInput
           id="password"
           // type={processedPassword}
-          type="text"
+          type="password"
           label="Password"
           // placeholder="password"
           register={register}
