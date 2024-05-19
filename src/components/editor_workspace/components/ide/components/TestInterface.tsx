@@ -15,8 +15,8 @@ const TestInterface: React.FC<{
   currentLanguage: string;
 }> = ({ files, setTestOutput, setLoading, task, currentLanguage }) => {
   const [currentLanguageTests, setCurrentLanguageTests] = useState<
-    Test | undefined
-  >({} as Test);
+    Test | null
+  >(null);
 
   const runAllTests = async () => {
     setLoading(true);
