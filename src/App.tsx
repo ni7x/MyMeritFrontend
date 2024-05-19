@@ -54,7 +54,7 @@ const App = () => {
             />
             <Route
               path="/job/new"
-              element={<ProtectedRoute userContent={<NewTask />} />}
+              element={<ProtectedRoute companyContent={<NewTask />} />}
             />
 
             {["/profile", "/profile/tasks", "/profile/purchases"].map(
