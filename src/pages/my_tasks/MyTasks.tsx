@@ -42,7 +42,7 @@ const MyTasks = () => {
 
   return (
     <>
-      <div className="flex flex-col md:grid grid-cols-[220px_1fr]  gap-4">
+      <div className="flex flex-col md:grid grid-cols-[220px_1fr]  gap-8">
         {solutions && bookmarkedJobs && <>
           <div>
             <FilterPanel
@@ -62,7 +62,6 @@ const MyTasks = () => {
                     removeFromBookmarkList={removeFromBookmarkList}
                 />
             }
-
           </div>
         </>}
 

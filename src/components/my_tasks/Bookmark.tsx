@@ -38,7 +38,7 @@ const Bookmark: React.FC<{ bookmarkedJob: JobOfferListedDTO }> = ({ bookmarkedJo
                         </button>
                     </div>
                     <div className="flex gap-10 rounded">
-                        <Label label="OPENS" value={new Date(bookmarkedJob.opensAt).toLocaleDateString()} />
+                        <Label label="OPENS" value={new Date(bookmarkedJob.opensAt).toLocaleString()} />
                     </div>
                 </div>
         </li>
