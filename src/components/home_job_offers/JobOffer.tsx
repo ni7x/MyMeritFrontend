@@ -33,7 +33,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
   };
 
   return (
-    <div className="flex-column bg-secondary-bg-color rounded xl:max-w-full">
+    <div className="flex-column bg-secondary-bg-color rounded xl:max-w-full border-[0px] border-main-border">
       <div className="pt-2.5 px-4 text-[0.8725rem]">
         <div className="font-semibold mt-1 pb-4 flex justify-between items-center flex-wrap gap-2">
           <div className="flex gap-x-6 gap-y-3 flex-wrap">
@@ -56,10 +56,10 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
                 <span
                   className={`font-medium ${
                     jobOffer.status == TaskStatus.OPEN
-                      ? "text-green-400"
+                      ? "text-emerald-400"
                       : jobOffer.status == TaskStatus.EXPIRED
                       ? "text-red-500"
-                      : "text-white"
+                      : "text-orange-400"
                   }`}
                 >
                   {jobOffer.status == TaskStatus.OPEN
@@ -69,7 +69,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
                     : "OPENS IN " +
                       formatDistance(new Date(), jobOffer.opensAt, {
                         addSuffix: false,
-                      })}
+                      }).toUpperCase()}
                 </span>
               </p>
             </span>
