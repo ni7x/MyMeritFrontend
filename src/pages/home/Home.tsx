@@ -9,10 +9,11 @@ import { defaultQueryParams, QueryParams } from "../../models/QueryParams";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import SearchBar from "../../components/home_job_offers/SearchBar";
 import SortPanel from "../../components/home_job_offers/SortPanel";
+import { ThreeDots, MagnifyingGlass } from 'react-loader-spinner';
 
 const Home: React.FC = () => {
   const [searchParams] = useSearchParams();
-
+  const [isLoading, setIsLoading] = useState(false);
   const initializeQueryParams = (): QueryParams =>
     ({
       search: searchParams.get("q")
@@ -58,6 +59,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+          setIsLoading(true);
         const response = await getHomeJobOffers(queryParams);
         setMaxPage(response.totalPages);
         setJobOffers(response.content);
@@ -65,35 +67,63 @@ const Home: React.FC = () => {
         console.error("Error fetching jobOffers:", error);
       }
     };
-    fetchData();
+    fetchData().then(()=>{
+        setTimeout(() => {
+            setIsLoading(false);//fake delay
+        }, 350);
+    });
+
+
   }, [queryParams]);
+
+
 
   return (
     <div className="flex flex-col md:grid-cols-[200px_1fr] gap-4 h-full w-full items-center lg:items-baseline">
-      <div className="w-full flex flex-col gap-4 lg:flex-row justify-center">
-        <FilterPanel
-          queryParams={queryParams}
-          handleChange={handleQueryParamChange}
-        />
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex justify-between gap-4 flex-wrap">
-            <SearchBar
-              searchValue={queryParams.search}
-              handleQueryParamChange={handleQueryParamChange}
-            />
-            <SortPanel
-              sortValue={queryParams.sort}
-              handleQueryParamChange={handleQueryParamChange}
-            />
-          </div>
-          <JobOfferList jobOffers={jobOffers} />
-          <Pagination
-            maxPages={maxPage}
-            queryParams={queryParams}
-            setQueryParams={setQueryParams}
-          />
-        </div>
-      </div>
+            <div className="w-full flex flex-col gap-4 lg:flex-row justify-center">
+                <FilterPanel
+                    queryParams={queryParams}
+                    handleChange={handleQueryParamChange}
+                />
+                <div className="w-full flex flex-col gap-4">
+                    <div className="flex justify-between gap-4 flex-wrap">
+                        <SearchBar
+                            searchValue={queryParams.search}
+                            handleQueryParamChange={handleQueryParamChange}
+                        />
+                        <SortPanel
+                            sortValue={queryParams.sort}
+                            handleQueryParamChange={handleQueryParamChange}
+                        />
+                    </div>
+                    {isLoading ?
+                        <div class="w-full h-full flex items-center justify-center">
+                            <ThreeDots
+                                visible={true}
+                                height="60"
+                                width="60"
+                                color="#fff"
+                                radius="5"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                            />
+                        </div>
+
+                        :
+                        <>
+                            <JobOfferList jobOffers={jobOffers} />
+                            <Pagination
+                                maxPages={maxPage}
+                                queryParams={queryParams}
+                                setQueryParams={setQueryParams}
+                            />
+                        </>
+                    }
+                </div>
+            </div>
+
+
     </div>
   );
 };

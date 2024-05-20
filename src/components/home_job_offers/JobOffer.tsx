@@ -6,10 +6,14 @@ import {
   faClock,
   faLocationDot,
   faTrophy,
+    faCalendarAlt
 } from "@fortawesome/free-solid-svg-icons";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import TaskStatus from "../../models/TaskStatus";
 import MeritCoin from "../../assets/meritcoin.png";
+import { Tooltip } from 'react-tooltip'
+
+
 
 const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
   const solvingTime = differenceInMinutes(
@@ -75,7 +79,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
       <div className="flex">
         <img
           src={jobOffer.company.imageBase64}
-          className="hidden min-[400px]:block w-[4.5rem] h-[4.5rem] rounded ml-4 object-cover"
+          className="hidden min-[400px]:block w-[4.5rem] h-[4.5rem] rounded ml-4 object-cover img-anchor"
         />
         <div>
           <h3 className="text-2xl font-medium  w-full  px-4 hover:underline">
@@ -111,10 +115,11 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
         </div>
       </div>
       <div className="flex items-center gap-x-6 gap-y-3 text-sm pb-2.5 px-4 w-full font-medium flex-wrap">
+
         <p className="flex items-center">
           <img
             src={jobOffer.company.imageBase64}
-            className="block min-[400px]:hidden w-[1.5rem] h-[1.5rem] rounded mr-2 object-cover"
+            className="block min-[400px]:hidden w-[1.5rem] h-[1.5rem] rounded mr-2 object-cover img-anchor"
           />
 
           {jobOffer.company.username}
@@ -133,6 +138,25 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
           </ul>
         </div>
       </div>
+      {jobOffer.company.description && jobOffer.company.description.length > 0 &&
+          <Tooltip anchorSelect=".img-anchor" place="left" style={{ backgroundColor: "#555764"}} opacity={1}>
+            <div className="flex py-2 gap-1">
+              <div className="flex-col">
+                <img
+                    src={jobOffer.company.imageBase64}
+                    className="block  w-[3rem] h-[3rem] rounded mr-2 object-cover img-anchor"
+                />
+              </div>
+
+              <div className="w-[15rem] flex  flex-col rounded gap-1">
+                <h3 className="text-[18px] font-medium">{jobOffer.company.username}</h3>
+                <p className="text-main-2 text-[#9ca0b2] ">{jobOffer.company.description}</p>
+
+              </div>
+            </div>
+          </Tooltip>
+      }
+
     </div>
   );
 };
