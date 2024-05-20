@@ -87,7 +87,7 @@ const FilterPanel: React.FC<{
                           : " bg-main-lighter-2 border-2 border-main-lighter-2 ")
                       }
                     >
-                      {language}
+                      {language.toUpperCase()}
                     </button>
                   );
                 })}

@@ -27,7 +27,7 @@ const SearchBar: React.FC<{
     <div className="flex flex-1 bg-secondary-bg-color rounded outline-none p-3 text-sm">
       <input
         type="text"
-        placeholder="Search..."
+        placeholder="Search for technologies, job positions etc..."
         value={searchTerm}
         onChange={handleChange}
         onKeyDown={handleKeyPress}

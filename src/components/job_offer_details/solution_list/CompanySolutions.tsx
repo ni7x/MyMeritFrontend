@@ -38,55 +38,64 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
           solution,
           index //powineinem zrboic komponenty ale w/e
         ) => (
-          <a
-            key={index}
-            href={"solution/" + solution.id}
-            className="flex gap-10 bg-terminal-color p-3 px-5 rounded"
-          >
-            <div className="text-main-lighter">
-              <p className="text-xs font-semibold">SUBMITTED</p>
-              <p className="text-white">
-                {formatDistanceToNow(new Date(solution.submitDate), {
-                  addSuffix: true,
-                })}
-              </p>
-            </div>
-            <div className="text-main-lighter">
-              <p className="text-xs font-semibold">SOLVED IN</p>
-              <p className="text-white">{solution.solvingTime} minutes</p>
-            </div>
+            <a
+                key={index}
+                href={"solution/" + solution.id}
+                className={
+                    "grid sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-4 p-3 px-5 rounded " +
+                    (solution.feedback === null ? " bg-terminal-color border-[1px] border-task-lighter" : "bg-ide-color")
+                }
+            >
+              <div className="text-main-lighter">
+                <p className="text-xs font-semibold">SUBMITTED</p>
+                <p className="text-white truncate">
+                  {formatDistanceToNow(new Date(solution.submitDate), {
+                    addSuffix: true,
+                  })}
+                </p>
+              </div>
+              <div className="text-main-lighter">
+                <p className="text-xs font-semibold">SOLVED IN</p>
+                <p className="text-white">{solution.solvingTime} minutes</p>
+              </div>
 
-            {solutions.length === 0 ?
-                <NoItemsFound itemName="solutions"/>:null
-            }
-            <div className="text-main-lighter">
-              <p className="text-xs font-semibold">SOLVED IN</p>
-              <p
-                className={` ${getColorClass(
-                  solution.testResults.filter((t) => t.passed).length,
-                  solution.testResults.length
-                )}`}
-              >
-                {solution.testResults.length > 0 ? (
-                  <>
-                    {" "}
-                    {(solution.testResults.filter((t) => t.passed).length /
-                      solution.testResults.length) *
-                      100}
-                    % ({solution.testResults.filter((t) => t.passed).length}/
-                    {solution.testResults.length})
-                  </>
-                ) : (
-                  <>NOT TESTED</>
-                )}
-              </p>
-            </div>
+              <div className="text-main-lighter">
+                <p className="text-xs font-semibold">SOLVED IN</p>
+                <p
+                    className={` ${getColorClass(
+                        solution.testResults.filter((t) => t.passed).length,
+                        solution.testResults.length
+                    )}`}
+                >
+                  {solution.testResults.length > 0 ? (
+                      <>
+                        {(solution.testResults.filter((t) => t.passed).length /
+                                solution.testResults.length) *
+                            100}
+                        % ({solution.testResults.filter((t) => t.passed).length}/
+                        {solution.testResults.length})
+                      </>
+                  ) : (
+                      <>NOT TESTED</>
+                  )}
+                </p>
+              </div>
 
-            <div className="text-main-lighter">
-              <p className="text-xs font-semibold">LANGUAGE</p>
-              <p className="text-white">{solution.language}</p>
-            </div>
-          </a>
+              <div className="text-main-lighter">
+                <p className="text-xs font-semibold">LANGUAGE</p>
+                <p className="text-white">{solution.language}</p>
+              </div>
+
+              <div className="text-main-lighter">
+                <p className="text-xs font-semibold">STATUS</p>
+                <p className={solution.feedback !== null ? "text-task-lighter font-medium" : "text-white font-medium"}>
+                  {solution.feedback !== null ? "RATED" : "UNRATED"}
+                </p>
+              </div>
+            </a>
+
+
+
         )
       )}
     </div>

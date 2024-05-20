@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                         />
                     </div>
                     {isLoading ?
-                        <div class="w-full h-full flex items-center justify-center">
+                        <div class="w-full h-full flex items-center justify-center p-2">
                             <ThreeDots
                                 visible={true}
                                 height="60"

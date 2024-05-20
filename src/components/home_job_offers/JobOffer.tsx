@@ -38,15 +38,15 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
         <div className="font-semibold mt-1 pb-4 flex justify-between items-center flex-wrap gap-2">
           <div className="flex gap-x-6 gap-y-3 flex-wrap">
             <div className="flex-row items-center">
-              <span className="flex items-center text-merit-credits-color font-semibold">
+              <span className="flex items-center text-merit-credits-color font-medium">
                 <FontAwesomeIcon icon={faTrophy} className="mr-2" />
                 {jobOffer.reward}{" "}
-                <img src={MeritCoin} className="w-4 h-4 ml-1" alt="MeritCoin" />
+                <img src={MeritCoin} className="w-3.5 h-3.5 ml-1" alt="MeritCoin" />
               </span>
             </div>
             <span className="flex items-center text-task-lighter truncate max-w-[12rem] gap-1">
               <FontAwesomeIcon icon={faClock} className="mr-1" />
-              <span className="font-semibold text-white">
+              <span className="font-medium text-white">
                 {solvingTime} MINUTES
               </span>
             </span>
@@ -54,7 +54,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
               <FontAwesomeIcon icon={faCalendar} className="mr-1" />
               <p>
                 <span
-                  className={`font-semibold ${
+                  className={`font-medium ${
                     jobOffer.status == TaskStatus.OPEN
                       ? "text-green-400"
                       : jobOffer.status == TaskStatus.EXPIRED
@@ -66,7 +66,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
                     ? "OPEN NOW"
                     : jobOffer.status == TaskStatus.EXPIRED
                     ? "CLOSED"
-                    : "OPENS IN" +
+                    : "OPENS IN " +
                       formatDistance(new Date(), jobOffer.opensAt, {
                         addSuffix: false,
                       })}
@@ -99,7 +99,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
               const color = languageColors[technology.toUpperCase()];
               return (
                 <li
-                  className="mr-3 px-3 py-1 text-sm rounded-md font-semibold"
+                  className="mr-3 px-3 py-1 text-sm rounded-md font-medium"
                   style={{
                     backgroundColor: "transparent",
                     border: `2px solid ${color}`,
