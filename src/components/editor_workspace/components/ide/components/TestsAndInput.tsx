@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
+
 const TestsAndInput: React.FC<{
   testInterface: JSX.Element;
   terminalInput: JSX.Element;
-}> = ({ testInterface, terminalInput }) => {
-  const [isTestView, setIsTestView] = useState(false);
+  areThereTests: boolean;
+}> = ({ testInterface, terminalInput, areThereTests }) => {
+  const [isTestView, setIsTestView] = useState(areThereTests);
 
   return (
     <div className="flex h-full">

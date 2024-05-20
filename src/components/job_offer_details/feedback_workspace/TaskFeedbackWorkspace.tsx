@@ -93,6 +93,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                         accessToken
                     )) as Response;
                     if (response.ok) {
+                        setIsAlreadyRated(true);
                         successToast("Feedback submitted");
                     }
                 } else {

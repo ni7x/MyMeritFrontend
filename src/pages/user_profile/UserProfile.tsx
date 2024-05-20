@@ -3,9 +3,11 @@ import ProfileSettings from "../../components/user_profile/personal_information/
 import UserPurchases from "../../components/user_profile/purchases/UserPurchases";
 import MyTasks from "../my_tasks/MyTasks";
 import { useLocation } from "react-router-dom";
+import {useAuth} from "../../hooks/useAuth";
 
 const UserProfile = () => {
   const { pathname } = useLocation();
+  const {isAuthenticatedCompany}  = useAuth();
   let page;
 
   switch (pathname) {
@@ -16,7 +18,12 @@ const UserProfile = () => {
       page = <UserPurchases />;
       break;
     case "/profile/tasks":
-      page = <MyTasks />;
+      if(isAuthenticatedCompany()){
+        page = <></>;
+      }else{
+        page = <MyTasks />;
+      }
+
       break;
     default:
       page = <ProfileSettings />;

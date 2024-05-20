@@ -4,6 +4,7 @@ import TaskPreview from "../../models/TaskPreview";
 import NoItemsFound from "../NoItemsFound";
 
 const TaskList: React.FC<{ tasks: TaskPreview[] }> = ({ tasks }) => {
+
   if(tasks.length === 0){
     return <NoItemsFound itemName="tasks"/>
   }

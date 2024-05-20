@@ -16,18 +16,28 @@ const Task: React.FC<{ task: TaskPreview }> = ({ task }) => {
           className="w-[4.5rem] h-[4.5rem] rounded"
         />
         <div className="flex flex-col gap-1.5">
+
           <div className="flex font-semibold text-lg items-center gap-3 leading-0">
             <p>{task.taskName}</p>
-            <p
-              className={`font-semibold text-xs ${
-                task.feedback ? "text-[#40b0f3]" : "text-main-lighter"
-              }`}
-            >
-              <FontAwesomeIcon icon={faComment} />{" "}
-              {task.feedback ? "CLICK TO VIEW FEEDBACK" : "NO FEEDBACK"}
+            <p>
+              {task.isRecentActivity ?
+                  <p className="text-xs font-medium border-merit-credits-color border-2 text-merit-credits-color px-2 py-1 rounded">
+                    RECENTLY RATED
+                  </p>
+                  :
+                  <p   className={`font-semibold text-xs ${
+                      task.feedback ? "text-[#40b0f3]" : "text-main-lighter"
+                  }`}>
+                    <FontAwesomeIcon icon={faComment} />{" "}
+                    {task.feedback ? "VIEW FEEDBACK" : "NO FEEDBACK"}
+                  </p>
+              }
+
             </p>
+
+
           </div>
-          <div className="flex gap-10">
+          <div className="flex gap-10 items-center">
             <Label
               label="SUBMITTED"
               value={new Date(task.submitDate).toLocaleDateString()}
@@ -44,6 +54,7 @@ const Task: React.FC<{ task: TaskPreview }> = ({ task }) => {
               />
             )}
           </div>
+
         </div>
       </a>
     </li>

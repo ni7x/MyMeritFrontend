@@ -122,6 +122,7 @@ const Ide: React.FC<IdeProps> = ({
             submitButton={submitComponent}
           />
           <TestsAndInput
+            areThereTests={task.tests.find((test) => test.language === currentLanguage) !== undefined}
             terminalInput={<TerminalInput setInput={setInput} input={input} />}
             testInterface={
               <TestInterface

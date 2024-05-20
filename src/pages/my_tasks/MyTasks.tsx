@@ -27,6 +27,9 @@ const MyTasks = () => {
         if (accessToken) {
           const response = await getUserSolutions(accessToken);
           const bookmarks = await getUserBookmarks(accessToken);
+          console.log(response)
+          console.log(bookmarks)
+          //if respone ok lub zmienic w banckenidzie zeby byla pusta lista zamiast nulla
           setBookmarkedJobs(bookmarks);
           setSolutions(response);
           setFilteredSolutions(response);
@@ -47,11 +50,9 @@ const MyTasks = () => {
     setBookmarkedJobs(updatedBookmarkedJobs);
   };
 
-  console.log(isBookmarkedTab);
-
   return (
     <>
-      <div className="flex flex-col md:grid grid-cols-[220px_1fr]  gap-4">
+      <div className="flex flex-col md:grid grid-cols-[220px_1fr]  gap-6">
         {solutions && bookmarkedJobs && (
           <>
             <div>

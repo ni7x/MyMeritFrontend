@@ -24,6 +24,12 @@ const FilterPanel: React.FC<{
 
   const showRecent = () => {
     setLastClickedButton("recent");
+    setIsSolutionTab(true);
+    setFilteredTasks(
+        tasks.filter(
+            (task) => task.isRecentActivity
+        )
+    );
   };
 
   const showAll = () => {

@@ -59,7 +59,7 @@ const TestInterface: React.FC<{
         <>
           <div className="flex justify-between">
             <button
-              className="flex gap-2 justify-center items-center text-emerald-300 p-2 px-5 font-medium text-sm border-[3px] border-emerald-400 bg-transparent rounded hover:bg-emerald-450 hover:text-white hover:border-emerald-450"
+              className="flex gap-2 justify-center items-center text-emerald-300 p-2 px-5 font-medium text-xs border-[3px] border-emerald-400 bg-transparent rounded hover:bg-emerald-450 hover:text-white hover:border-emerald-450"
               onClick={runAllTests}
             >
               <FontAwesomeIcon icon={faPlay} /> RUN ALL TESTS

@@ -8,6 +8,7 @@ class SolutionPreview {
     public solutionLanguage: string,
     public imageBase64: string,
     public credits: number,
+    public isRecentActivity: boolean,
     public feedback?: Feedback
   ) {}
 }

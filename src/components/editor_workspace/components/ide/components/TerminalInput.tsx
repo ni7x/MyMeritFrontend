@@ -24,7 +24,7 @@ const TerminalInput: React.FC<{
       className="w-full resize-none bg-transparent h-auto overflow-hidden border-none outline-none text-sm text-white caret-white"
       value={input}
       onChange={handleChange}
-      placeholder="> enter input"
+      placeholder="> enter program input"
       rows={1}
     />
   );

@@ -109,7 +109,6 @@ const Home: React.FC = () => {
                                 wrapperClass=""
                             />
                         </div>
-
                         :
                         <>
                             <JobOfferList jobOffers={jobOffers} />
