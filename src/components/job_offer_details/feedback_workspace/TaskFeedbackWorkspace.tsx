@@ -14,6 +14,10 @@ import FeedbackButton from "./FeedbackButton";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 import FeedbackModal from "./FeedbackModal";
 import {User} from "@types";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFileDownload, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
+import JSZip from "jszip";
+import { saveAs } from 'file-saver';
 
 interface TaskFeedbackWorkspaceProps {
     solutionId: string;
@@ -106,6 +110,22 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
         fetchData();
     };
 
+    const handleDownload = (files: MyFile[]) => {
+        const zip = new JSZip();
+
+        files.forEach(file => {
+            zip.file(file.name, file.contentBase64, { base64: true });
+        });
+
+        zip.generateAsync({ type: 'blob' })
+            .then(blob => {
+                saveAs(blob, 'files.zip');
+            })
+            .catch(error => {
+                console.error('Error generating zip:', error);
+            });
+    };
+
     const toggleModal = () => {
         setModalOpen(!isModalOpen);
     };
@@ -132,7 +152,13 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                         submitComponent={
                             isEditable ? (
                                 !isAlreadyRated ? (
-                                    <FeedbackButton submit={toggleModal} />
+                                    <>
+                                        <button onClick={()=>handleDownload(originalFiles)} className="flex bg-terminal-color rounded text-base font-semibold items-center px-4">
+                                            <FontAwesomeIcon icon={faFileDownload}/>
+                                        </button>
+                                        <FeedbackButton submit={toggleModal} />
+                                    </>
+
                                 ) : (
                                     <div className="flex bg-terminal-color rounded text-xs font-semibold items-center flex-1">
                                         <img
@@ -153,7 +179,14 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                                         </div>
                                     </div>
                                 )
-                            ) : null
+                            ) : <div className="flex flex-1 gap-3">
+                                    <button onClick={()=>handleDownload(files)} className="flex bg-terminal-color rounded text-base font-semibold items-center px-4">
+                                        <FontAwesomeIcon icon={faFileDownload}/>
+                                    </button>
+                                    <button className="flex border-2 items-center border-red-500 rounded text-xs font-semibold justify-center  px-4 flex-1 text-red-500">
+                                        <p>REPORT A PROBLEM <FontAwesomeIcon icon={faTriangleExclamation} className="ml-2"/></p>
+                                    </button>
+                                  </div>
                         }
                         setCurrentLanguage={setCurrentLanguage}
                     />

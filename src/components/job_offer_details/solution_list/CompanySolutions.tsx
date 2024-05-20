@@ -61,7 +61,7 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
               </div>
 
               <div className="text-main-lighter">
-                <p className="text-xs font-semibold">SOLVED IN</p>
+                <p className="text-xs font-semibold">TEST RESULTS</p>
                 <p
                     className={` ${getColorClass(
                         solution.testResults.filter((t) => t.passed).length,
