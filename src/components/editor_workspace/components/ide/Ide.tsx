@@ -42,10 +42,10 @@ const Ide: React.FC<IdeProps> = ({
   isEditable,
   task,
 }) => {
-  const [output, setCOutput] = useState<CodeExecutionOutput>(
-    {} as CodeExecutionOutput
+  const [output, setCOutput] = useState<CodeExecutionOutput | null>(
+    null
   );
-  const [testOutput, setTOutput] = useState<TestOutput[]>({} as TestOutput[]);
+  const [testOutput, setTOutput] = useState<TestOutput[] | null>(null);
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,12 +55,12 @@ const Ide: React.FC<IdeProps> = ({
 
   const setCodeOutput = (inp: CodeExecutionOutput) => {
     setCOutput(inp);
-    setTOutput({} as TestOutput[]);
+    setTOutput(null);
   };
 
   const setTestOutput = (inp: TestOutput[]) => {
     setTOutput(inp);
-    setCOutput({} as CodeExecutionOutput);
+    setCOutput(null);
   };
 
   return (

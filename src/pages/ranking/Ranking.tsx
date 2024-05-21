@@ -44,14 +44,17 @@ const Ranking = () => {
                     <>
                         <div className="hidden lg:flex  flex-col gap-4">
                             <TopUsers users={users.slice(0, 3)} />
-                            <UserList users={users.slice(3)} />
+                            {users.length > 3 && <UserList users={users.slice(3)} />}
                         </div>
                         <div className="flex lg:hidden w-full">
                             <UserList users={users} />
                         </div>
 
                     </> :
-                    <NoItemsFound itemName="users"/>
+                    <div className="mt-[7rem]">
+                        <NoItemsFound itemName="users"/>
+                    </div>
+
                 }
 
             </div>

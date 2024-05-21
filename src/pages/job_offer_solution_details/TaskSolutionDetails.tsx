@@ -38,6 +38,7 @@ const TaskSolutionDetails: React.FC = () => {
   const { task, solutions } = jobOffer;
   const feedback = task.companyFeedback;
   console.log(feedback);
+  console.log(jobOffer)
 
   if (!task || (task.status !== TaskStatus.OPEN && !task.userSolution)) {
     return <Navigate to={`/job/${jobOfferId}`} />;
