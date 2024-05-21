@@ -1,5 +1,5 @@
 import UserProfileSidebar from "../../components/user_profile/UserProfileSidebar";
-import ProfileSettings from "../../components/user_profile/personal_information/ProfileSettings";
+import ProfileSettings from "../../components/user_profile/profile_settings/ProfileSettings";
 import UserPurchases from "../../components/user_profile/purchases/UserPurchases";
 import MyTasks from "../my_tasks/MyTasks";
 import { useLocation } from "react-router-dom";
