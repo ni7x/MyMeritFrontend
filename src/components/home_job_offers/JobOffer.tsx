@@ -28,8 +28,8 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
     CPP: "#f34b7d",
     GO: "#00ADD8",
     KOTLIN: "#A97BFF",
-    TYPESCRIPT: "#2b7489",
-    PHP: "#4F5D95",
+    TYPESCRIPT: "#46d595",
+    PHP: "#c72eb3",
   };
 
   return (

@@ -19,6 +19,7 @@ import TaskFeedbackDetails from "./pages/job_offer_solutions_company/TaskFeedbac
 import OAuth2 from "./pages/OAuth2/OAuth2";
 import Footer from "./components/Footer";
 import NewTask from "./pages/new_task/NewTask";
+import Ranking from "./pages/ranking/Ranking";
 
 const App = () => {
   return (
@@ -52,6 +53,13 @@ const App = () => {
                 />
               }
             />
+
+              <Route
+                  path="/ranking"
+                  element={
+                      <Ranking/>
+                  }
+              />
             <Route
               path="/job/new"
               element={<ProtectedRoute companyContent={<NewTask />} />}
