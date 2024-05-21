@@ -57,7 +57,7 @@ const TopUsers: React.FC<TopUsersProps> = ({ users }) => {
                         </div>
                         <div className="flex justify-between">
                             <p className="bg-secondary-bg-color  text-[17px] font-semibold w-auto rounded inline-block text-emerald-400">
-                                {user.meritPoints} MP
+                                {user.meritPoints} MS
                             </p>
                         </div>
                         <ul className="flex items-center justify-center gap-3">

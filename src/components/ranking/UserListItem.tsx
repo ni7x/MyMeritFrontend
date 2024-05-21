@@ -51,7 +51,7 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
             </td>
             <td className="md:px-0 lg:px-10 py-3 px-5">
                 <p className="bg-ide-color p-2 px-4 text-sm font-semibold w-auto rounded inline-block text-emerald-400">
-                    {user.meritPoints} <span className="hidden md:inline">MP</span>
+                    {user.meritPoints} <span className="hidden md:inline">MS</span>
                 </p>
             </td>
             <td className="hidden md:flex items-center lg:pr-5  overflow-x-auto overflow-y-hidden lg:overflow-hidden  h-full gap-2 py-3">
