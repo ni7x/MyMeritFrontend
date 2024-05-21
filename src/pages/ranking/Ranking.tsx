@@ -58,7 +58,7 @@ const Ranking = () => {
     return (
         <div className="flex flex-col items-center gap-10">
             <h2 className="text-3xl font-semibold">Leaderboard</h2>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap px-4">
                 <Button
                     label="TOP THIS YEAR"
                     isActive={activeButton === 'year'}
@@ -75,10 +75,15 @@ const Ranking = () => {
                     onClick={() => handleButtonClick('week')}
                 />
             </div>
-            <div className="flex flex-col gap-4 w-[80%] m-auto">
-                <TopUsers users={users.slice(0, 3)} />
+            <div className="lg:w-[80%] m-auto">
+                <div className="hidden lg:flex  flex-col gap-4">
+                    <TopUsers users={users.slice(0, 3)} />
+                    <UserList users={users.slice(3)} />
+                </div>
+                <div className="flex lg:hidden w-full">
+                    <UserList users={users} />
+                </div>
 
-                <UserList users={users.slice(3)} />
             </div>
         </div>
     );

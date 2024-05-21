@@ -8,17 +8,17 @@ interface UserListProps {
 
 const UserList: React.FC<UserListProps> = ({ users }) => {
     return (
-        <table className="w-full h-full" style={{ borderCollapse: 'separate', borderSpacing: '0 1rem' }}>
-            <thead>
-            <tr className="rounded py-3">
-                <th className="px-8  font-medium text-left">RANK</th>
-                <th className="font-medium text-left">USERNAME</th>
-                <th className="px-10  font-medium text-left">MERIT POINTS</th>
-                <th className="font-medium text-left">LANGUAGES</th>
-            </tr>
-            </thead>
+        <table className="h-full w-full table-fixed lg:table-auto rounded-xl " style={{ borderCollapse: 'separate', borderSpacing: '0 1rem'}}>
+                <thead>
+                    <tr className="rounded py-3 ">
+                        <th className="lg:px-8 px-2 font-medium text-left">RANK</th>
+                        <th className="font-medium text-left">USERNAME</th>
+                        <th className="sm:px-20 sm:hidden block font-medium sm:text-left ">MP</th>
+                        <th className="sm:px-0 hidden sm:block font-medium text-left lg:px-10">MERIT POINTS</th>
+                        <th className="font-medium text-left hidden md:table-cell">LANGUAGES</th>
+                    </tr>
+                </thead>
             <tbody>
-
             {users.map((user) => (
                 <UserListItem key={user.id} user={user} />
             ))}

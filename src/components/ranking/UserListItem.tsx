@@ -16,29 +16,45 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
         TYPESCRIPT: "#46d595",
         PHP: "#c72eb3",
     };
+
+    const shortenedNames: { [key: string]: string } = {
+        JAVA: "Java",
+        PYTHON: "Py",
+        JAVASCRIPT: "JS",
+        CPP: "C++",
+        GO: "Go",
+        KOTLIN: "Ktl",
+        TYPESCRIPT: "TS",
+        PHP: "PHP",
+    };
+
+    const colorClass = user.rank === 1 ? "text-yellow-400" :
+        user.rank === 2 ? "text-gray-200" :
+            user.rank === 3 ? "text-yellow-600" : "text-white";
+
     return (
         <tr className="bg-secondary-bg-color rounded py-3 h-full">
-            <td className="px-8 font-semibold py-4">
-                <div className="flex items-center gap-0.5">
-                    <span className="text-task-lighter text-xs font-medium">#</span>{user.rank}
+            <td className="lg:px-8 pl-4 font-semibold py-4 ">
+                <div className={"flex items-center gap-0.5 " +  colorClass} >
+                    <span className={"text-task-lighter text-xs font-medium sm:text-task-lighter " + colorClass} >#</span>{user.rank}
                 </div>
             </td>
-            <td className="py-3">
+            <td className="py-3 lg:p-0">
                 <img
                     src={"data:image/png;base64," + user.profileImageBase64}
                     alt={user.username}
-                    className="w-[2.5rem] h-[2.5rem] rounded-full inline"
+                    className="hidden lg:inline lg:w-[2.5rem] lg:h-[2.5rem] rounded-full inline"
                 />
-                <p className=" inline ml-4">
+                <p className="inline lg:ml-4">
                     {user.username}
                 </p>
             </td>
-            <td className="px-10 py-3">
+            <td className="md:px-0 lg:px-10 py-3 px-5">
                 <p className="bg-ide-color p-2 px-4 text-sm font-semibold w-auto rounded inline-block text-emerald-400">
-                    {user.meritPoints} MP
+                    {user.meritPoints} <span className="hidden md:inline">MP</span>
                 </p>
             </td>
-            <td className="flex items-center h-full gap-2 py-3">
+            <td className="hidden md:flex items-center lg:pr-5  overflow-x-auto overflow-y-hidden lg:overflow-hidden  h-full gap-2 py-3">
                 {user.languages.map(language => {
                     const color = languageColors[language.toUpperCase()] ?? "#8c8f9f";
                     return (
@@ -50,7 +66,8 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
                             }}
                             key={language}
                         >
-                            {language}
+                            <span className="block lg:hidden">{shortenedNames[language.toUpperCase()] ?? language}</span>
+                            <span className="hidden lg:block">{language}</span>
                         </p>
                     );
                 })}
