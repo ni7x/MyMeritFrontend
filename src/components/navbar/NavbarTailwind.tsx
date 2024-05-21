@@ -32,6 +32,12 @@ export default function NavbarTailwind() {
       protected: false,
     },
     {
+      name: "Leaderboard",
+      href: "/leaderboard",
+      current: location.pathname == "/leaderboard",
+      protected: false,
+    },
+    {
       name: "Rewards",
       href: "/rewards",
       current: location.pathname == "/rewards",

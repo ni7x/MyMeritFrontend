@@ -53,13 +53,12 @@ const App = () => {
                 />
               }
             />
-
-              <Route
-                  path="/ranking"
-                  element={
-                      <Ranking/>
-                  }
-              />
+          <Route
+              path="/leaderboard"
+              element={
+                  <Ranking/>
+              }
+          />
             <Route
               path="/job/new"
               element={<ProtectedRoute companyContent={<NewTask />} />}

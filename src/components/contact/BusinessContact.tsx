@@ -15,7 +15,7 @@ const BusinessContact: React.FC = () => {
             title="Business"
             URL={import.meta.env.VITE_CONTACT_BUSINESS}
             fields={businessFields}
-            contactMail="buisnessMail@xd.pl"
+            contactMail="mymerit.contact@gmail.pl"
         />
     );
 };

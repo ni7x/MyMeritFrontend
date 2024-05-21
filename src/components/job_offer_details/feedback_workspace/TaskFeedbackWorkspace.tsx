@@ -130,6 +130,30 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
         setModalOpen(!isModalOpen);
     };
 
+    const submitProblem = () => {
+        const formData = new FormData();
+        formData.append("Task ID", task.id)
+        formData.append("User ID", task.userSolution.user.id)
+
+
+        fetch(import.meta.env.VITE_REPORT_PROBLEM, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    successToast("Problem submitted")
+                } else {
+                    errorToast("Couldn't submit your problem")
+                }
+            })
+            .catch(error => {
+                console.error(error);
+
+            });
+    };
+
+
     return (
         <div className="flex flex-col w-full items-end h-auto">
             <FeedbackModal
@@ -183,8 +207,11 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                                     <button onClick={()=>handleDownload(files)} className="flex bg-terminal-color rounded text-base font-semibold items-center px-4">
                                         <FontAwesomeIcon icon={faFileDownload}/>
                                     </button>
-                                    <button className="flex border-2 items-center border-red-500 rounded text-xs font-semibold justify-center  px-4 flex-1 text-red-500">
-                                        <p>REPORT A PROBLEM <FontAwesomeIcon icon={faTriangleExclamation} className="ml-2"/></p>
+                                    <button
+                                        onClick={submitProblem}
+                                        className="flex border-2 items-center border-orange-500 rounded text-xs font-semibold justify-center  px-4 flex-1 text-orange-500"
+                                    >
+                                        <p>REPORT LOW QUALITY FEEDBACK</p>
                                     </button>
                                   </div>
                         }
