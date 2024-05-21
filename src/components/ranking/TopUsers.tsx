@@ -20,17 +20,20 @@ const TopUsers: React.FC<TopUsersProps> = ({ users }) => {
     };
     const topUsers = users.slice(0, 3);
 
+    const backgroundImageStyle = {
+        backgroundImage: `url(${rankingBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+    };
+
+    const cardClassName = `flex items-center flex-col gap-6 h-auto rounded-xl p-4 w-[15rem] shadow-2xl `;
+
 
     const renderUserCard = (user: RankingUserDTO) => {
-        const cardClassName = `flex items-center flex-col gap-6 h-auto rounded-xl p-4 w-[15rem] shadow-2xl `;
         const colorClass = user.rank === 1 ? " border-yellow-300 text-yellow-400" :
             user.rank === 2 ? " border-gray-200 text-gray-200" :
                 " border-yellow-600 text-yellow-600";
-        const backgroundImageStyle = {
-            backgroundImage: `url(${rankingBg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-        };
+
 
         return (
             <div className={cardClassName} style={backgroundImageStyle}>
@@ -43,7 +46,7 @@ const TopUsers: React.FC<TopUsersProps> = ({ users }) => {
                             <img
                                 src={user.profileImageBase64}
                                  alt={user.username}
-                                className="relative z-10 rounded-full cover h-[5rem] w-[5rem] border-solid border-2 border-task-lighter"
+                                className="relative z-10 rounded-full cover h-[5rem] w-[5rem] border-solid border-2 border-task-bck"
 
                             />
                         </div>
@@ -84,11 +87,26 @@ const TopUsers: React.FC<TopUsersProps> = ({ users }) => {
     return (
         <div className="flex justify-center gap-4">
             <div className="py-5">
-                {renderUserCard(topUsers[1])}
+                {topUsers.length >= 2 ?
+                    renderUserCard(topUsers[1]) :
+                    <div className={cardClassName + " h-full flex items-center justify-center font-semibold text-task-lighter"} style={backgroundImageStyle}>
+                        NO ONE YET
+                    </div>
+                }
             </div>
-            {renderUserCard(topUsers[0])}
+            {topUsers.length >= 1 ?
+                renderUserCard(topUsers[0]) :
+                <div className={cardClassName + " h-full flex items-center justify-center font-semibold text-task-lighter"} style={backgroundImageStyle}>
+                    NO ONE YET
+                </div>
+            }
             <div className="py-5">
-                {renderUserCard(topUsers[2])}
+                {topUsers.length >= 3 ?
+                    renderUserCard(topUsers[2]) :
+                    <div className={cardClassName + " h-full flex items-center justify-center font-semibold text-task-lighter"} style={backgroundImageStyle}>
+                       NO ONE YET
+                    </div>
+                }
             </div>
         </div>
     );

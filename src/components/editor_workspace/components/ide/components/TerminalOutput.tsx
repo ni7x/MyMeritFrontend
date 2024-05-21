@@ -4,8 +4,8 @@ import { decodeBase64 } from "../../../utils/fileUtils";
 import TestOutput from "../../../../../models/TestOutput";
 
 const TerminalOutput: React.FC<{
-  output: CodeExecutionOutput;
-  testOutput: TestOutput[];
+  output: CodeExecutionOutput | null;
+  testOutput: TestOutput[] | null;
   loading: boolean;
   // setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput>>;
   setOutput: (inp: CodeExecutionOutput) => void;
@@ -13,6 +13,7 @@ const TerminalOutput: React.FC<{
   const renderErrorMessage = (message: string) => (
     <span className="text-red-500">{message}</span>
   );
+  console.log(output)
 
   const renderOutput = (output: CodeExecutionOutput) => {
     const stdoutMessage = output.stdout ? decodeBase64(output.stdout) : null;

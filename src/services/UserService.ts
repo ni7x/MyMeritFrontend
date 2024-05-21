@@ -4,6 +4,7 @@ import { socials } from "../common/socials";
 import { HttpResponse, httpCall } from "../api/HttpClient";
 import User from "../types/User";
 import Task from "../models/TaskPreview";
+import RankingUserDTO from "../models/dtos/RankingUserDTO";
 
 const getUsers = () => {
   return users;
@@ -57,6 +58,21 @@ const updateUser = async (
   });
 };
 
+const getRanking = async (dataRange: "week" | "month" | "year") => {
+  try {
+    const data = await httpCall<RankingUserDTO[]>({
+      url: import.meta.env.VITE_API_URL + "/ranking/" + dataRange + "ly",
+      method: "GET",
+    });
+    // successToast("Tasks fetched successfully");
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
 export {
   getUsers,
   getUserById,
@@ -64,4 +80,5 @@ export {
   getUser,
   updateUser,
   getUserTasks,
+  getRanking
 };

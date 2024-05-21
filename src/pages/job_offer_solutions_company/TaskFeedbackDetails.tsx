@@ -12,7 +12,6 @@ const TaskFeedbackDetails: React.FC = () => {
   const { jobId } = useParams<{ jobId: string }>();
   const [task, setTask] = useState<UserTaskDTO>();
   const { accessToken } = useAuth();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
