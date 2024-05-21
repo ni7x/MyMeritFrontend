@@ -36,7 +36,7 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
   const currentFile = files[currentFileIndex];
 
   const withErrorHandling = (func: (...args: string[]) => void) => {
-    (...args: string[]) => {
+    return (...args: string[]) => {
       try {
         if (!isEditable) {
           errorToast("Solution is read only");
@@ -131,9 +131,9 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
         <div className="flex flex-col w-full h-full">
           <div className="flex justify-between w-full items-center">
             <FileTabManager
-              addFile={addFile}
-              removeFile={() => withErrorHandling(removeFile)}
-              renameFile={() => withErrorHandling(renameFile)}
+              addFile={withErrorHandling(addFile)}
+              removeFile={withErrorHandling(removeFile)}
+              renameFile={withErrorHandling(renameFile)}
               currentFile={currentFile}
               files={files}
               mainFileIndex={mainFileIndex}
