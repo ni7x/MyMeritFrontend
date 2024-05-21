@@ -5,8 +5,7 @@ import {
   faCalendar,
   faClock,
   faLocationDot,
-  faTrophy,
-    faCalendarAlt
+  faTrophy
 } from "@fortawesome/free-solid-svg-icons";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import TaskStatus from "../../models/TaskStatus";

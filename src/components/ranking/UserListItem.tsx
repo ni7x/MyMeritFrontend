@@ -41,7 +41,7 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
             </td>
             <td className="py-3 lg:p-0">
                 <img
-                    src={"data:image/png;base64," + user.profileImageBase64}
+                    src={user.profileImageBase64}
                     alt={user.username}
                     className="hidden lg:inline lg:w-[2.5rem] lg:h-[2.5rem] rounded-full inline"
                 />

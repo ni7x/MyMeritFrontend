@@ -12,7 +12,7 @@ const Task: React.FC<{ task: TaskPreview }> = ({ task }) => {
         href={"/job/" + task.jobId + "/solution"}
       >
         <img
-          src={"data:image/png;base64," + task.imageBase64}
+          src={task.imageBase64}
           className="w-[4.5rem] h-[4.5rem] rounded"
         />
         <div className="flex flex-col gap-1.5">

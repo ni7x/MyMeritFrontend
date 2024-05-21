@@ -41,7 +41,7 @@ const TopUsers: React.FC<TopUsersProps> = ({ users }) => {
                     <div className="flex items-center justify-around flex-col gap-6 h-auto h-full">
                         <div>
                             <img
-                                src={"data:image/png;base64," + user.profileImageBase64}
+                                src={user.profileImageBase64}
                                  alt={user.username}
                                 className="relative z-10 rounded-full cover h-[5rem] w-[5rem] border-solid border-2 border-task-lighter"
 

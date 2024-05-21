@@ -24,7 +24,7 @@ const Bookmark: React.FC<{
   return (
     <li className="flex flex-row gap-6 bg-terminal-color p-4 hover:bg-[#40424FFF] cursor-pointer rounded">
       <img
-        src={"data:image/png;base64," + bookmarkedJob.company.imageBase64}
+        src={bookmarkedJob.company.imageBase64}
         className="w-[4.5rem] h-[4.5rem] rounded"
       />
       <div className="flex flex-col gap-1.5">
