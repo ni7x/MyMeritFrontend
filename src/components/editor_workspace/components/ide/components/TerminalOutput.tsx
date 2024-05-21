@@ -2,6 +2,7 @@ import React from "react";
 import CodeExecutionOutput from "../../../../../models/CodeExecutionOutput";
 import { decodeBase64 } from "../../../utils/fileUtils";
 import TestOutput from "../../../../../models/TestOutput";
+import {ColorRing, Oval, TailSpin, Vortex} from "react-loader-spinner";
 
 const TerminalOutput: React.FC<{
   output: CodeExecutionOutput | null;
@@ -106,7 +107,19 @@ const TerminalOutput: React.FC<{
       <div className="flex flex-1 max-h-[27vh] bg-blue w-full text-wrap break-all">
         <pre className="leading-[1.25rem] font-sans font-normal overflow-x-hidden overflow-y-auto text-sm w-full text-wrap break-all md:px-2 md:mt-1 md:mx-2 md:ml-0 p-4 md:p-0">
           {loading
-            ? "Loading please wait..."
+            ?
+              <div className="h-full w-full flex items-center justify-center pb-10">
+                  <Oval
+                      visible={true}
+                      height="45"
+                      width="45"
+                      color="#8c8f9f"
+                      secondaryColor="3a3b46"
+                      ariaLabel="oval-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                  />
+              </div>
             : testOutput
             ? renderTestOutput(testOutput)
             : output
