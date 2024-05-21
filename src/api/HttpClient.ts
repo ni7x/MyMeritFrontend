@@ -37,19 +37,25 @@ export async function httpCall<HttpResponse>({
     Authorization: `Bearer ${accessToken}`,
   };
 
-  const response = await fetch(url, {
-    method: method,
-    headers,
-    credentials: "include",
-    body: JSON.stringify(body),
-  });
-
-  if (response.status >= 500) {
+  try{
+    const response = await fetch(url, {
+      method: method,
+      headers,
+      credentials: "include",
+      body: JSON.stringify(body),
+    });
+  
+    if (response.status >= 500) {
+      errorToast("Server error. Please try again later.");
+      return {} as HttpResponse;
+    }
+  
+    return await response.json();
+  } catch (e) {
     errorToast("Server error. Please try again later.");
     return {} as HttpResponse;
   }
 
-  return await response.json();
 }
 
 export async function httpCallWithAuthorization<Data>({

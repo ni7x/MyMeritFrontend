@@ -3,7 +3,7 @@ import "./normalize.css";
 import "./App.css";
 
 import Home from "./pages/home/Home";
-import NavbarTailwind from "./components/navbar/NavbarTailwind";
+import Navbar from "./components/navbar/Navbar";
 import NotFound from "./pages/not_found/NotFound";
 import Login from "./pages/login/Login";
 import Register from "./pages/login/Register";
@@ -23,8 +23,7 @@ import NewTask from "./pages/new_task/NewTask";
 const App = () => {
   return (
     <>
-      {/* <Navbar /> */}
-      <NavbarTailwind />
+      <Navbar />
       <MainWrapper>
         <SecondWrapper>
           <Routes>

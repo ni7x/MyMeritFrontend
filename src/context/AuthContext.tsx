@@ -54,6 +54,11 @@ type AuthContext = {
   signOut: () => void;
   verifyEmail: (email: string) => Promise<HttpResponse<[]>>;
   verifyCode: (email: string, code: string) => Promise<HttpResponse<[]>>;
+  updateUser: (
+    username: string,
+    description: string,
+    imageBase64: string
+  ) => Promise<HttpResponse<null>>;
   isLoading: boolean;
   isError?: Error;
 };
@@ -67,7 +72,7 @@ const useAuthProvider = () => {
   const navigation = useNavigate();
   const [user, setUser] = useState<CookieUser | undefined>(getUserFromCookie());
   const [userData, setUserData] = useState<User | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<Error | undefined>(undefined);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
@@ -140,8 +145,6 @@ const useAuthProvider = () => {
           email: email,
           password: password,
           code: code,
-          // TODO
-          // password2: password2,
         },
       });
 
@@ -261,13 +264,32 @@ const useAuthProvider = () => {
     return await verifyCodeMutation.mutateAsync({ email, code });
   };
 
+  const updateUser = async (
+    username: string,
+    description: string,
+    imageBase64: string
+  ) => {
+    return await httpCall<HttpResponse<null>>({
+      url: import.meta.env.VITE_API_URL + "/me/update",
+      method: "POST",
+      body: {
+        username,
+        description,
+        imageBase64,
+      },
+    });
+  };
+
   useEffect(() => {
     if (cookies["user"]) {
       setUser(cookies["user"]);
       getUser().then((userData) => {
         setUserData(userData);
+        setIsLoading(false);
       });
     }
+
+    setIsLoading(false);
   }, []);
 
   return {
@@ -283,6 +305,7 @@ const useAuthProvider = () => {
     signOut,
     verifyEmail,
     verifyCode,
+    updateUser,
     isLoading,
     isError,
   };

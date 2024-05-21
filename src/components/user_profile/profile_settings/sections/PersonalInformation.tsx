@@ -1,116 +1,112 @@
+import ProfileSettingsSection from "../ProfileSettingsSection";
+
+import { faCircleUser, faPenToSquare, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPenToSquare,
-  faCircleUser,
-  faCheck,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState, useRef } from "react";
-import { User } from "../../../types";
+
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { getUser, updateUser } from "../../../services/UserService";
-import { successToast } from "../../../main";
+
+import { useState, useRef, useEffect } from "react";
+
 import { z } from "zod";
-import ProfileSettingsSection from "./ProfileSettingsSection";
+
+import { User } from "../../../../types";
+import { successToast } from "../../../../main";
+
+import {useAuth} from "../../../../hooks/useAuth";
+
 
 const schema = z.object({
-  username: z.string().min(5),
-  description: z.string().max(300),
-});
+    username: z.string().min(5),
+    description: z.string().max(300),
+  });
+  
+  type fieldErrors = {
+    username?: string[] | undefined;
+    description?: string[] | undefined;
+  };
 
-type fieldErrors = {
-  username?: string[] | undefined;
-  description?: string[] | undefined;
-};
+const PersonalInformation = () => {
+    const [newUserData, setNewUserData] = useState<User>({} as User);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [error, setError] = useState<fieldErrors>({});
 
-const ProfileSettings = () => {
-  const [userData, setUserData] = useState<User>({} as User);
-  const [newUserData, setNewUserData] = useState<User>({} as User);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [error, setError] = useState<fieldErrors>({});
-
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileInput = event.target;
-
-    // make base64 from file
-    const file = fileInput.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const result = await updateUser(
-          userData.username,
-          userData.description,
-          e.target?.result as string
-        );
-
-        if (result.success) {
-          setUserData({ ...userData, imageBase64: e.target?.result as string });
-          setNewUserData({
-            ...newUserData,
-            imageBase64: e.target?.result as string,
-          });
-          successToast("Profile updated successfully");
+    const {userData, setUserData, isLoading: isLoadingUser, updateUser} = useAuth();
+  
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const handleUploadedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const fileInput = event.target;
+  
+      // make base64 from file
+      const file = fileInput.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const result = await updateUser(
+            userData.username,
+            userData.description,
+            e.target?.result as string
+          );
+  
+          if (result.success) {
+            setUserData({ ...userData, imageBase64: e.target?.result as string });
+            setNewUserData({
+              ...newUserData,
+              imageBase64: e.target?.result as string,
+            });
+            successToast("Profile updated successfully");
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    
+    const onUpload = () => {
+        if (inputRef.current) {
+          inputRef.current.click();
         }
       };
-      reader.readAsDataURL(file);
-    }
-  };
 
-  const onUpload = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
-    }
-  };
+    const handleSave = async () => {
+        if (!newUserData.description) {
+          newUserData.description = "";
+        }
+        const validation = schema.safeParse({
+          username: newUserData.username,
+          description: newUserData.description,
+        });
+    
+        if (!validation.success) {
+          setError(validation.error.flatten().fieldErrors);
+          return;
+        }
+    
+        setError({});
+    
+        const result = await updateUser(
+          newUserData.username,
+          newUserData.description,
+          newUserData.imageBase64
+        );
+    
+        if (result.success) {
+          setUserData(newUserData);
+          successToast("Profile updated successfully");
+        }
+    
+        setIsEditing(false);
+      };
 
-  const handleSave = async () => {
-    if (!newUserData.description) {
-      newUserData.description = "";
-    }
-    const validation = schema.safeParse({
-      username: newUserData.username,
-      description: newUserData.description,
-    });
+      useEffect(() => {
+        if (userData) {
+          setNewUserData(userData);
+        }
+      }, [userData]);
 
-    if (!validation.success) {
-      setError(validation.error.flatten().fieldErrors);
-      return;
-    }
-
-    setError({});
-
-    const result = await updateUser(
-      newUserData.username,
-      newUserData.description,
-      newUserData.imageBase64
-    );
-
-    if (result.success) {
-      setUserData(newUserData);
-      successToast("Profile updated successfully");
-    }
-
-    setIsEditing(false);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getUser();
-      setUserData(data);
-      setNewUserData(data);
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, [updateUser]);
-
-  return (
-    <>
-      <ProfileSettingsSection title="Personal information">
+    return (
+        <ProfileSettingsSection title="Personal information">
         <>
-          {isEditing && (
+          {isEditing && userData && (
             <div className="absolute top-0 right-0 flex flex-row gap-2 p-2">
               <button
                 className="block rounded px-4 py-2 font-semibold bg-error-color transition-colors duration-100 ease-linear"
@@ -133,7 +129,7 @@ const ProfileSettings = () => {
         </>
         <div className="grid md:grid-cols-[200px_1fr] gap-5">
           <div className="relative flex justify-center items-center w-32 h-32 overflow-hidden rounded-full">
-            {isLoading ? (
+            {isLoadingUser || !userData ? (
               <Skeleton circle={true} width={128} height={128} />
             ) : (
               <>
@@ -175,7 +171,7 @@ const ProfileSettings = () => {
           <div className="grid lg:grid-cols-[300px_1fr] gap-5">
             <div className="relative flex flex-col gap-4 my-auto">
               <div className="flex flex-col pb-2">
-                {isLoading ? (
+                {isLoadingUser || !userData ? (
                   <>
                     <Skeleton height={48} />
                   </>
@@ -223,7 +219,7 @@ const ProfileSettings = () => {
                 )}
               </div>
               <div className="flex flex-col">
-                {isLoading ? (
+                {isLoadingUser || !userData ? (
                   <>
                     <Skeleton height={48} />
                   </>
@@ -264,7 +260,7 @@ const ProfileSettings = () => {
                 </>
               ) : (
                 <>
-                  {isLoading ? (
+                  {isLoadingUser || !userData ? (
                     <>
                       <Skeleton height={"100%"} />
                     </>
@@ -309,90 +305,7 @@ const ProfileSettings = () => {
           </div>
         </div>
       </ProfileSettingsSection>
+    );
+}
 
-      <ProfileSettingsSection title="Socials">
-        <div className="grid md:grid-cols-[200px_1fr] gap-4">
-          <div className="flex flex-col gap-4">
-            <label className="text-sm text-gray-400">Twitter</label>
-            <div className="h-8">
-              {isLoading ? (
-                <Skeleton height={48} />
-              ) : (
-                <p className="text-lg h-full flex items-center opacity-50">
-                  {/* {userData.twitter ? userData.twitter : "Not set"} */}
-                  Not set
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col gap-4">
-            <label className="text-sm text-gray-400">Instagram</label>
-            <div className="h-8">
-              {isLoading ? (
-                <Skeleton height={48} />
-              ) : (
-                <p className="text-lg h-full flex items-center opacity-50">
-                  {/* {userData.instagram ? userData.instagram : "Not set"} */}
-                  Not set
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col gap-4">
-            <label className="text-sm text-gray-400">Facebook</label>
-            <div className="h-8">
-              {isLoading ? (
-                <Skeleton height={48} />
-              ) : (
-                <p className="text-lg h-full flex items-center opacity-50">
-                  {/* {userData.facebook ? userData.facebook : "Not set"} */}
-                  Not set
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </ProfileSettingsSection>
-
-      <ProfileSettingsSection title="Your achievements">
-        <div className="grid md:grid-cols-[200px_1fr] gap-4">
-          <div className="flex flex-col gap-4">
-            <div className="h-8">
-              {isLoading ? (
-                <Skeleton height={48} />
-              ) : (
-                <p className="text-lg h-full flex items-center opacity-50">
-                  {/* {userData.badges.length > 0
-                    ? userData.badges.join(", ")
-                    : "No badges"} */}
-                  No achievements
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </ProfileSettingsSection>
-
-      <ProfileSettingsSection title="Your badges">
-        <div className="grid md:grid-cols-[200px_1fr] gap-4">
-          <div className="flex flex-col gap-4">
-            <div className="h-8">
-              {isLoading ? (
-                <Skeleton height={48} />
-              ) : (
-                <p className="text-lg h-full flex items-center opacity-50">
-                  {/* {userData.badges.length > 0
-                    ? userData.badges.join(", ")
-                    : "No badges"} */}
-                  No badges
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </ProfileSettingsSection>
-    </>
-  );
-};
-
-export default ProfileSettings;
+export default PersonalInformation;
