@@ -99,9 +99,9 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
             </div>
           </div>
         </div>
-        <p className="leading-7">{jobOffer.description}</p>
+        <p className="leading-7 bg-secondary-bg-color px-4 py-2 rounded">{jobOffer.description}</p>
         <div>
-          <h3 className="text-sm text-main-lighter font-semibold mb-3">
+          <h3 className="text-sm text-task-lighter font-semibold mb-3">
             MUST HAVE SKILLS
           </h3>
           <ul className="flex gap-3 flex-wrap">
@@ -118,7 +118,7 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
           </ul>
         </div>
         <div>
-          <h3 className="text-sm text-main-lighter font-semibold mb-3">
+          <h3 className="text-sm text-task-lighter font-semibold mb-3">
             NICE TO HAVE SKILLS
           </h3>
           <ul className="flex gap-3 flex-wrap">

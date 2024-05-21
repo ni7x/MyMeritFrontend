@@ -139,7 +139,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
         </div>
       </div>
       {jobOffer.company.description && jobOffer.company.description.length > 0 &&
-          <Tooltip anchorSelect=".img-anchor" place="left" style={{ backgroundColor: "#555764"}} opacity={1}>
+          <Tooltip anchorSelect=".img-anchor" place="left" style={{ backgroundColor: "#434550", boxShadow: "rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px"}} opacity={1}>
             <div className="flex py-2 gap-1">
               <div className="flex-col">
                 <img
@@ -150,7 +150,7 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
 
               <div className="w-[15rem] flex  flex-col rounded gap-1">
                 <h3 className="text-[18px] font-medium">{jobOffer.company.username}</h3>
-                <p className="text-main-2 text-[#9ca0b2] ">{jobOffer.company.description}</p>
+                <p className="text-main-2 text-task-lighter ">{jobOffer.company.description}</p>
 
               </div>
             </div>
