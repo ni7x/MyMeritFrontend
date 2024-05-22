@@ -75,13 +75,13 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
           </div>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex pb-4 items-center">
         <img
           src={jobOffer.company.imageBase64}
           className="hidden min-[400px]:block w-[4.5rem] h-[4.5rem] rounded ml-4 object-cover img-anchor"
         />
-        <div>
-          <h3 className="text-2xl font-medium  w-full  px-4 hover:underline">
+        <div className="flex justify-center flex-col h-full  px-4 w-full">
+          <h3 className="text-2xl font-semibold  w-full hover:underline">
             <a
               href={
                 "job/" +
@@ -92,51 +92,57 @@ const JobOffer: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
               {jobOffer.jobTitle}
             </a>
           </h3>
+          <div className="flex">
+            <div className="flex justify-between w-full gap-x-6 gap-y-1 text-sm  font-medium flex-wrap ">
+              <div className="flex gap-4">
+                <p className="flex items-center">
+                  <img
+                      src={jobOffer.company.imageBase64}
+                      className="block min-[400px]:hidden w-[1.5rem] h-[1.5rem] rounded mr-2 object-cover img-anchor"
+                  />
 
-          <ul className="flex pt-2 pb-4 px-4">
-            {jobOffer.technologies.map((technology) => {
-              const color = languageColors[technology.toUpperCase()];
-              return (
-                <li
-                  className="mr-3 px-3 py-1 text-sm rounded-md font-medium"
-                  style={{
-                    backgroundColor: "transparent",
-                    border: `2px solid ${color}`,
-                    color: color,
-                  }}
-                  key={technology}
-                >
-                  {technology}
-                </li>
-              );
-            })}
-          </ul>
+                  {jobOffer.company.username}
+                </p>
+                <div className="flex gap-2 text-task-lighter items-center">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <ul className="flex">
+                    {jobOffer.workLocations.map((location, index) => (
+                        <li key={location}>
+                          {location}
+                          {index !== jobOffer.workLocations.length - 1 && (
+                              <span className="mx-1">/</span>
+                          )}
+                        </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <ul className="flex  h-full">
+              {jobOffer.technologies.map((technology) => {
+                const color = languageColors[technology.toUpperCase()];
+                return (
+                    <li
+                        className="mr-3 px-3 py-1 text-sm rounded-md font-medium"
+                        style={{
+                          backgroundColor: "transparent",
+                          border: `2px solid ${color}`,
+                          color: color,
+                        }}
+                        key={technology}
+                    >
+                      {technology}
+                    </li>
+                );
+              })}
+            </ul>
+          </div>
+
         </div>
-      </div>
-      <div className="flex items-center gap-x-6 gap-y-3 text-sm pb-2.5 px-4 w-full font-medium flex-wrap">
 
-        <p className="flex items-center">
-          <img
-            src={jobOffer.company.imageBase64}
-            className="block min-[400px]:hidden w-[1.5rem] h-[1.5rem] rounded mr-2 object-cover img-anchor"
-          />
-
-          {jobOffer.company.username}
-        </p>
-        <div className="flex gap-2 text-task-lighter items-center">
-          <FontAwesomeIcon icon={faLocationDot} />
-          <ul className="flex">
-            {jobOffer.workLocations.map((location, index) => (
-              <li key={location}>
-                {location}
-                {index !== jobOffer.workLocations.length - 1 && (
-                  <span className="mx-1">/</span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
+
       {jobOffer.company.description && jobOffer.company.description.length > 0 &&
           <Tooltip anchorSelect=".img-anchor" place="left" style={{ backgroundColor: "#434550", boxShadow: "rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px"}} opacity={1}>
             <div className="flex py-2 gap-1">
