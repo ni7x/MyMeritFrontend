@@ -9,11 +9,14 @@ import { defaultQueryParams, QueryParams } from "../../models/QueryParams";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import SearchBar from "../../components/home_job_offers/SearchBar";
 import SortPanel from "../../components/home_job_offers/SortPanel";
-import { ThreeDots, MagnifyingGlass } from 'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBars, faTableCellsLarge} from "@fortawesome/free-solid-svg-icons";
 
 const Home: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [isFullView, setIsFullView] = useState(true);
   const initializeQueryParams = (): QueryParams =>
     ({
       search: searchParams.get("q")
@@ -79,7 +82,7 @@ const Home: React.FC = () => {
 
 
   return (
-    <div className="flex flex-col md:grid-cols-[200px_1fr] gap-4 h-full w-full items-center lg:items-baseline">
+    <div className="flex flex-col md:grid-cols-[200px_1fr] gap-4 h-full w-full items-center lg:items-baseline" >
             <div className="w-full flex flex-col gap-4 lg:flex-row justify-center">
                 <div className="hidden lg:block">
                     <FilterPanel
@@ -87,9 +90,8 @@ const Home: React.FC = () => {
                         handleChange={handleQueryParamChange}
                     />
                 </div>
-
                 <div className="w-full flex flex-col gap-4">
-                    <div className="flex justify-between gap-4 flex-wrap">
+                    <div className="flex justify-between gap-4 flex-wrap ">
                         <div className="w-full md:flex-1 h-full">
                             <SearchBar
                                 searchValue={queryParams.search}
@@ -106,6 +108,10 @@ const Home: React.FC = () => {
                             sortValue={queryParams.sort}
                             handleQueryParamChange={handleQueryParamChange}
                         />
+                        <button onClick={()=>setIsFullView(!isFullView)} className="hidden xl:block px-4 rounded bg-secondary-bg-color">
+                            {isFullView ? <FontAwesomeIcon icon={faBars}/>
+                                : <FontAwesomeIcon icon={faTableCellsLarge}/>}
+                        </button>
                     </div>
                     {isLoading ?
                         <div className="w-full h-full flex items-center justify-center p-2">
@@ -122,13 +128,16 @@ const Home: React.FC = () => {
                         </div>
                         :
                         <>
-                            <JobOfferList jobOffers={jobOffers} />
+                            <div className="min-h-[27rem]">
+                                <JobOfferList jobOffers={jobOffers} isFullView={isFullView} />
+                            </div>
                             <Pagination
                                 maxPages={maxPage}
                                 queryParams={queryParams}
                                 setQueryParams={setQueryParams}
                             />
                         </>
+
                     }
                 </div>
             </div>
