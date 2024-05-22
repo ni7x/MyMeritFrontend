@@ -35,7 +35,7 @@ export default function Navbar() {
       name: "Leaderboard",
       href: "/leaderboard",
       current: location.pathname == "/leaderboard",
-      protected: true,
+      protected: false,
     },
     {
       name: "Rewards",
