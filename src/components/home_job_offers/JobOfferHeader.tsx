@@ -6,9 +6,23 @@ import { differenceInMinutes } from "date-fns";
 import TaskStatus from "../../models/TaskStatus";
 import MeritCoin from "../../assets/meritcoin.png";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
+import {useAuth} from "../../hooks/useAuth";
+import {errorToast, successToast} from "../../main";
+import {addToBookmarks} from "../../services/JobOfferService";
 
 const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer }) => {
     const solvingTime = differenceInMinutes(new Date(jobOffer.closesAt), new Date(jobOffer.opensAt));
+    const {userData, accessToken} = useAuth();
+    const addJobToBookmarks = () =>{
+       if(userData){
+           if(accessToken) addToBookmarks(accessToken, jobOffer.id).then(r => successToast("Bookmark added!"))
+           else{
+               errorToast("Login to add this job to bookmarks")
+           }
+       }else{
+           errorToast("Login to add this job to bookmarks")
+       }
+    }
 
     return (
         <div className="font-semibold py-2.5 pt-3.5 px-4 flex flex-wrap xs:flex-row justify-between items-center gap-2 gap-y-4">
@@ -48,8 +62,11 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer })
         </span>
             </div>
             <span className="flex justify-start text-task-lighter font-medium">
-        <FontAwesomeIcon icon={faBookmark} />
-        <span className="block xs:hidden ml-2">ADD TO BOOKMARKS</span>
+                <button onClick={addJobToBookmarks}>
+                        <FontAwesomeIcon icon={faBookmark} />
+                         <span className="block xs:hidden ml-2">ADD TO BOOKMARKS</span>
+                </button>
+
       </span>
         </div>
     );
