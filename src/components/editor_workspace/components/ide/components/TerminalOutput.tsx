@@ -108,7 +108,7 @@ const TerminalOutput: React.FC<{
         <pre className="leading-[1.25rem] font-sans font-normal overflow-x-hidden overflow-y-auto text-sm w-full text-wrap break-all md:px-2 md:mt-1 md:mx-2 md:ml-0 p-4 md:p-0">
           {loading
             ?
-              <div className="h-full w-full flex items-center justify-center pb-5">
+              <div className="h-full w-full flex flex-col text-task-lighter  gap-2 items-center justify-center pb-5">
                   <Oval
                       visible={true}
                       height="45"
@@ -119,6 +119,7 @@ const TerminalOutput: React.FC<{
                       wrapperStyle={{}}
                       wrapperClass=""
                   />
+                  Compiling..
               </div>
             : testOutput
             ? renderTestOutput(testOutput)
