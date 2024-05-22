@@ -33,6 +33,7 @@ export default {
       screens: {
         xlg: "1440px",
         "4xl": "1700px",
+        'xs': '450px',
       },
       animation: {
         shake: "shake 0.5s cubic-bezier(.36,.07,.19,.97)",

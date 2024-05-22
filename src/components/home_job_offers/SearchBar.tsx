@@ -24,7 +24,7 @@ const SearchBar: React.FC<{
   };
 
   return (
-    <div className="flex flex-1 bg-secondary-bg-color rounded outline-none p-3 text-sm">
+    <div className="flex flex-1 bg-secondary-bg-color rounded outline-none p-3.5 px-4 text-sm"  >
       <input
         type="text"
         placeholder="Search for technologies, job positions etc..."

@@ -154,10 +154,10 @@ const FilterPanel: React.FC<{
           </div>
         </div>
         <button
-            className="lg:hidden text-center appearance-none text-sm font-medium outline-none py-3 px-5 rounded bg-secondary-bg-color"
+            className="lg:hidden w-full text-center appearance-none text-sm font-medium outline-none py-3 rounded bg-secondary-bg-color"
             onClick={togglePopup}
         >
-          {isPopupOpen ? "Hide filters" : "Show filters"}
+          {isPopupOpen ? "HIDE FILTERS" : "SHOW FILTERS"}
         </button>
       </div>
   );

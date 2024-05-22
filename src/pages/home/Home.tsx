@@ -81,23 +81,34 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col md:grid-cols-[200px_1fr] gap-4 h-full w-full items-center lg:items-baseline">
             <div className="w-full flex flex-col gap-4 lg:flex-row justify-center">
-                <FilterPanel
-                    queryParams={queryParams}
-                    handleChange={handleQueryParamChange}
-                />
+                <div className="hidden lg:block">
+                    <FilterPanel
+                        queryParams={queryParams}
+                        handleChange={handleQueryParamChange}
+                    />
+                </div>
+
                 <div className="w-full flex flex-col gap-4">
                     <div className="flex justify-between gap-4 flex-wrap">
-                        <SearchBar
-                            searchValue={queryParams.search}
-                            handleQueryParamChange={handleQueryParamChange}
-                        />
+                        <div className="w-full md:flex-1 h-full">
+                            <SearchBar
+                                searchValue={queryParams.search}
+                                handleQueryParamChange={handleQueryParamChange}
+                            />
+                        </div>
+                        <div className="block  lg:hidden flex-1">
+                            <FilterPanel
+                                queryParams={queryParams}
+                                handleChange={handleQueryParamChange}
+                            />
+                        </div>
                         <SortPanel
                             sortValue={queryParams.sort}
                             handleQueryParamChange={handleQueryParamChange}
                         />
                     </div>
                     {isLoading ?
-                        <div class="w-full h-full flex items-center justify-center p-2">
+                        <div className="w-full h-full flex items-center justify-center p-2">
                             <ThreeDots
                                 visible={true}
                                 height="60"

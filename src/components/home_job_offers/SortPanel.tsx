@@ -15,13 +15,13 @@ const SortPanel: React.FC<SortPanelProps> = ({
   };
 
   return (
-      <div>
+      <div className="flex-1 md:flex-none">
         <div className="relative">
           <select
               id="sort-by"
               name="sort-by"
               defaultValue={sortValue}
-              className="relative w-full cursor-default rounded-md bg-secondary-bg-color py-2 pl-4 pr-10 text-left text-white   ring-gray-300 focus:outline-none  sm:text-sm sm:leading-6 appearance-none"
+              className="relative w-full cursor-default font-medium rounded-md bg-secondary-bg-color py-3 pl-8 pr-12 text-left text-white   ring-gray-300 focus:outline-none  text-sm  appearance-none"
               onChange={handleSortChange}
               aria-labelledby="sort-by-label"
           >
