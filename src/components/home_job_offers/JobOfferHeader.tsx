@@ -61,10 +61,10 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer })
           </p>
         </span>
             </div>
-            <span className="flex justify-start text-task-lighter font-medium">
+            <span className="flex justify-start text-task-lighter font-medium xs:bg-transparent xs:p-0 bg-ide-color px-3 py-2 rounded">
                 <button onClick={addJobToBookmarks}>
                         <FontAwesomeIcon icon={faBookmark} />
-                         <span className="block xs:hidden ml-2">ADD TO BOOKMARKS</span>
+                         <span className="inline xs:hidden ml-2">ADD TO BOOKMARKS</span>
                 </button>
 
       </span>

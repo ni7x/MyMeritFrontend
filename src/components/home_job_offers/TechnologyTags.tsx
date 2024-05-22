@@ -2,7 +2,7 @@ import React from "react";
 
 const TechnologyTags: React.FC<{ technologies: string[], languageColors: { [key: string]: string } }> = ({ technologies, languageColors }) => {
     return (
-        <ul className="flex h-full gap-x-4">
+        <ul className="flex h-full gap-x-2">
             {technologies.map((technology) => {
                 const color = languageColors[technology.toUpperCase()];
                 return (

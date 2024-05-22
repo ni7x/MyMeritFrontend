@@ -11,7 +11,7 @@ import SearchBar from "../../components/home_job_offers/SearchBar";
 import SortPanel from "../../components/home_job_offers/SortPanel";
 import { ThreeDots } from 'react-loader-spinner';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBars, faTableCellsLarge} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faBorderAll} from "@fortawesome/free-solid-svg-icons";
 
 const Home: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
                         />
                         <button onClick={()=>setIsFullView(!isFullView)} className="hidden xl:block px-4 rounded bg-secondary-bg-color">
                             {isFullView ? <FontAwesomeIcon icon={faBars}/>
-                                : <FontAwesomeIcon icon={faTableCellsLarge}/>}
+                                : <FontAwesomeIcon icon={faBorderAll}/>}
                         </button>
                     </div>
                     {isLoading ?

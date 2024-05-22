@@ -60,15 +60,13 @@ const JobOfferDetailsList: React.FC<{ jobOffer: JobOfferListedDTO, isFullView: b
                     alt={jobOffer.company.username}
                 />
                 <div className="flex h-full xs:pl-4 w-full gap-3 xs:gap-1 flex-col">
-                    <h3 className="text-xl font-semibold w-full hover:underline">
+                    <h3 className="text-2xl font-semibold w-full hover:underline">
                         <a href={`job/${jobOffer.id}${jobOffer.status === TaskStatus.NOT_YET_OPEN ? "" : "/solution"}`}>
                             {jobOffer.jobTitle}
                         </a>
                     </h3>
                     {!isFullView && (
-                        <div className="pt-1">
-                            <TechnologyTags technologies={jobOffer.technologies} languageColors={languageColors} />
-                        </div>
+                        <TechnologyTags technologies={jobOffer.technologies} languageColors={languageColors} />
                     )}
                     {isFullView && (
                         <div className="flex w-full sm:gap-6 xs:gap-4 gap-3 text-sm font-medium xs:justify-between flex-wrap">
