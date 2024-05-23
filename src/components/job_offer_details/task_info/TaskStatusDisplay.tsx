@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import TaskStatus from "../../../models/TaskStatus";
+import { TaskStatus } from "../../../models/TaskStatus";
 import { useNavigate } from "react-router-dom";
 
 const TaskStatusDisplay = ({ status }: { status: string }) => {

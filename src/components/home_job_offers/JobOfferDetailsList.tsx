@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
-import TaskStatus from "../../models/TaskStatus";
+import  { TaskStatus } from "../../models/TaskStatus";
 import TechnologyTags from "./TechnologyTags";
 
 const languageColors = {
@@ -57,7 +57,7 @@ const JobOfferDetailsList: React.FC<{ jobOffer: JobOfferListedDTO, isFullView: b
                 <img
                     src={jobOffer.company.imageBase64}
                     className="hidden xs:block w-[4.5rem] h-[4.5rem] rounded object-cover img-anchor"
-                    alt={jobOffer.company.username}
+                    alt="company image"
                 />
                 <div className="flex h-full xs:pl-4 w-full gap-3 xs:gap-1 flex-col">
                     <h3 className="text-2xl font-semibold w-full hover:underline">

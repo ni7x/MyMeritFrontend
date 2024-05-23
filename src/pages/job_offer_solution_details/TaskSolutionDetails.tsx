@@ -5,7 +5,7 @@ import TaskSolutionWorkspace from "../../components/job_offer_details/task_solut
 import { getJobOfferById } from "../../services/JobOfferService";
 import { useAuth } from "../../hooks/useAuth";
 import JobOfferDetailsDTO from "../../models/dtos/JobOfferDetailsDTO";
-import TaskStatus from "../../models/TaskStatus";
+import { TaskStatus } from "../../models/TaskStatus";
 import CompanySolutions from "../../components/job_offer_details/solution_list/CompanySolutions";
 import TaskFeedbackWorkspace from "../../components/job_offer_details/feedback_workspace/TaskFeedbackWorkspace";
 import FeedbackMessage from "../../components/job_offer_details/task_info/FeedbackMessage";
