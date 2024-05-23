@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faClock, faTrophy, faBookmark } from "@fortawesome/free-solid-svg-icons";
-import { formatDistance } from "date-fns";
+import {formatDistance, formatDistanceToNow} from "date-fns";
 import { differenceInMinutes } from "date-fns";
 import TaskStatus from "../../models/TaskStatus";
 import MeritCoin from "../../assets/meritcoin.png";
@@ -25,22 +25,22 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer })
     }
 
     return (
-        <div className="font-semibold py-2.5 pt-3.5 px-4 flex flex-wrap xs:flex-row justify-between items-center gap-2 gap-y-4">
-            <div className="flex gap-x-7 gap-y-3 flex-wrap xs:flex-nowrap">
+        <div className="font-semibold  py-2.5 pt-3.5 px-4 flex flex-wrap xs:flex-row justify-between items-center gap-2 gap-y-4 w-full truncate">
+            <div className="flex gap-x-7 gap-y-3 flex-wrap xs:flex-nowrap w-[90%]">
                 <div>
-          <span className="flex items-center text-merit-credits-color font-medium">
-            <FontAwesomeIcon icon={faTrophy} className="mr-2" />
-              {jobOffer.reward}
-              <img src={MeritCoin} className="w-3.5 h-3.5 ml-1" alt="MeritCoin" />
-          </span>
+                  <span className="flex items-center text-merit-credits-color font-medium">
+                    <FontAwesomeIcon icon={faTrophy} className="mr-2" />
+                      {jobOffer.reward}
+                      <img src={MeritCoin} className="w-3.5 h-3.5 ml-1" alt="MeritCoin" />
+                  </span>
                 </div>
-                <span className="flex items-center text-task-lighter truncate max-w-[12rem] gap-1">
-          <FontAwesomeIcon icon={faClock} className="mr-1" />
-          <span className="font-medium text-white">
-            {solvingTime} MINUTES
-          </span>
-        </span>
-                <span className="flex items-center text-task-lighter truncate max-w-[12rem] gap-1">
+                <span className="flex items-center text-task-lighter  gap-1 truncate">
+                  <FontAwesomeIcon icon={faClock} className="mr-1" />
+                  <span className="font-medium text-white">
+                    {solvingTime} MINUTES
+                  </span>
+                </span>
+                <span className="flex items-center text-task-lighter gap-1  truncate">
           <FontAwesomeIcon icon={faCalendar} className="mr-1" />
           <p>
             <span
@@ -56,7 +56,7 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({ jobOffer })
                   ? "OPEN NOW"
                   : jobOffer.status === TaskStatus.EXPIRED
                       ? "CLOSED"
-                      : "OPENS IN " + formatDistance(new Date(), jobOffer.opensAt, { addSuffix: false }).toUpperCase()}
+                      : "OPENS IN " + formatDistanceToNow( jobOffer.opensAt ).toUpperCase()}
             </span>
           </p>
         </span>

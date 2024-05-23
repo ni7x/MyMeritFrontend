@@ -9,7 +9,7 @@ const JobOfferList: React.FC<{ jobOffers: JobOfferListedDTO[], isFullView: boole
       className={`w-full flex flex-row flex-wrap align-center gap-4`}
     >
       {!jobOffers || jobOffers.length === 0
-        ? <div className="h-[32rem]"><NoItemsFound itemName="tasks"/></div>
+        ? <div className="h-[32rem] w-full"><NoItemsFound itemName="tasks"/></div>
         : jobOffers.map((jobOffer) => <JobOffer isFullView={isFullView} key={jobOffer.id} jobOffer={jobOffer} />)}
     </div>
   );
