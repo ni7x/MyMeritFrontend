@@ -20,6 +20,7 @@ import OAuth2 from "./pages/OAuth2/OAuth2";
 import Footer from "./components/Footer";
 import NewTask from "./pages/new_task/NewTask";
 import Ranking from "./pages/ranking/Ranking";
+import User from "./pages/user/User";
 
 const App = () => {
   return (
@@ -62,6 +63,8 @@ const App = () => {
               path="/job/new"
               element={<ProtectedRoute companyContent={<NewTask />} />}
             />
+
+            <Route path="/user/:id" element={<User />} />
 
             {["/profile", "/profile/tasks", "/profile/purchases"].map(
               (path, index) => (

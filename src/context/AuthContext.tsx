@@ -10,58 +10,7 @@ import { HttpResponse, httpCall } from "../api/HttpClient.ts";
 import { getUser } from "../services/UserService.ts";
 
 import { errorToast, successToast } from "../main";
-
-type CookieUser = {
-  decodedTokenInfo: JwtDecodedToken;
-  accessToken: string;
-  isCompany: boolean;
-};
-
-type JwtDecodedToken = {
-  sub: string;
-  iat: number;
-  exp: number;
-  role: string;
-};
-
-type UserSignIn = {
-  email: string;
-  password: string;
-};
-
-type UserSignUp = {
-  username: string;
-  email: string;
-  password: string;
-  code: string;
-};
-
-type Error = {
-  type: "SignIn" | "SignUp" | "SignInCompany" | "VerifyEmail" | "VerifyCode";
-  message: string;
-};
-
-type AuthContext = {
-  user: CookieUser | undefined;
-  userData: User | undefined;
-  setUserData: (userData: User) => void;
-  accessToken: string | null;
-  isAuthenticated: () => boolean;
-  isAuthenticatedCompany: () => boolean;
-  signIn: ({ email, password }: UserSignIn) => boolean;
-  signInWithToken: (token: string) => void;
-  signUp: ({ username, email, password, code }: UserSignUp) => boolean;
-  signOut: () => void;
-  verifyEmail: (email: string) => Promise<HttpResponse<[]>>;
-  verifyCode: (email: string, code: string) => Promise<HttpResponse<[]>>;
-  updateUser: (
-    username: string,
-    description: string,
-    imageBase64: string
-  ) => Promise<HttpResponse<null>>;
-  isLoading: boolean;
-  isError?: Error;
-};
+import { CookieUser, JwtDecodedToken, UserSignIn, UserSignUp, AuthError, AuthContextType } from "../types/Auth.ts";
 
 const getUserFromCookie = () => {
   const cookies = new Cookies();
@@ -73,7 +22,7 @@ const useAuthProvider = () => {
   const [user, setUser] = useState<CookieUser | undefined>(getUserFromCookie());
   const [userData, setUserData] = useState<User | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState<Error | undefined>(undefined);
+  const [isError, setIsError] = useState<AuthError | undefined>(undefined);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const isAuthenticated = (): boolean => {
@@ -311,7 +260,7 @@ const useAuthProvider = () => {
   };
 };
 
-const AuthContext = React.createContext({} as AuthContext);
+const AuthContext = React.createContext({} as AuthContextType);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const auth = useAuthProvider();
