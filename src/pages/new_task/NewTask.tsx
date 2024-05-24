@@ -161,6 +161,7 @@ const NewTask = () => {
    * @param data - The task data to be submitted.
    */
   const onSubmitTask = async (data: TaskFields) => {
+    console.log(data)
     if (!userData) {
       return;
     }

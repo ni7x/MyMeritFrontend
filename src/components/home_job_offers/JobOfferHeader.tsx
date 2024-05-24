@@ -33,9 +33,9 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
   };
 
   const solvingTime = ({
-    startDate,
-    endDate,
-  }: {
+                         startDate,
+                         endDate,
+                       }: {
     startDate: Date;
     endDate: Date;
   }) => {
@@ -50,11 +50,14 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
     const minutes = Math.floor((diffInSeconds % 3600) / 60);
     const seconds = diffInSeconds % 60;
 
-    return `${days.toString().padStart(2, "0")}d ${hours
-      .toString()
-      .padStart(2, "0")}h ${minutes
-      .toString()
-      .padStart(2, "0")}m ${seconds.toString().padStart(2, "0")}s`;
+    const timeComponents = [];
+
+    if (days > 0) timeComponents.push(`${days}d`);
+    if (hours > 0) timeComponents.push(`${hours}h`);
+    if (minutes > 0) timeComponents.push(`${minutes}m`);
+    if (seconds > 0 || timeComponents.length === 0) timeComponents.push(`${seconds}s`);
+
+    return timeComponents.join(" ");
   };
 
   const [currentTime, setCurrentTime] = useState(new Date());
