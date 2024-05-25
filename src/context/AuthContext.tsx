@@ -5,12 +5,19 @@ import { jwtDecode } from "jwt-decode";
 import Cookies from "universal-cookie";
 import { useCookies } from "react-cookie";
 
-import User from "../types/User.ts";
+import { User, UserUpdate } from "../types";
 import { HttpResponse, httpCall } from "../api/HttpClient.ts";
 import { getUser } from "../services/UserService.ts";
 
 import { errorToast, successToast } from "../main";
-import { CookieUser, JwtDecodedToken, UserSignIn, UserSignUp, AuthError, AuthContextType } from "../types/Auth.ts";
+import {
+  CookieUser,
+  JwtDecodedToken,
+  UserSignIn,
+  UserSignUp,
+  AuthError,
+  AuthContextType,
+} from "../types/Auth.ts";
 
 const getUserFromCookie = () => {
   const cookies = new Cookies();
@@ -213,19 +220,18 @@ const useAuthProvider = () => {
     return await verifyCodeMutation.mutateAsync({ email, code });
   };
 
-  const updateUser = async (
-    username: string,
-    description: string,
-    imageBase64: string
-  ) => {
+  const updateUser = async (userUpdates: UserUpdate) => {
+    const filteredUpdates = (Object.keys(userUpdates) as (keyof UserUpdate)[])
+      .filter((key): key is keyof UserUpdate => userUpdates[key] !== undefined)
+      .reduce((obj, key) => {
+        obj[key] = userUpdates[key];
+        return obj;
+      }, {} as UserUpdate);
+
     return await httpCall<HttpResponse<null>>({
       url: import.meta.env.VITE_API_URL + "/me/update",
       method: "POST",
-      body: {
-        username,
-        description,
-        imageBase64,
-      },
+      body: filteredUpdates,
     });
   };
 
