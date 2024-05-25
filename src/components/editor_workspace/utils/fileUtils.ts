@@ -49,7 +49,52 @@ const extensionToLanguage: ExtensionToLanguage = {
   vb: "visualbasic",
 };
 
+export const languageToExtension: LanguageToExtension = {
+  assembly: "asm",
+  bash: "sh",
+  basic: "bas",
+  c: "c",
+  cpp: "cpp",
+  clojure: "clj",
+  csharp: "cs",
+  cobol: "cob",
+  lisp: "lisp",
+  d: "d",
+  elixir: "exs",
+  erlang: "erl",
+  fsharp: "fsx",
+  fortran: "f90",
+  go: "go",
+  groovy: "groovy",
+  haskell: "hs",
+  html: "html",
+  java: "java",
+  javascript: "js",
+  json: "json",
+  kotlin: "kt",
+  lua: "lua",
+  markdown: "md",
+  ocaml: "ml",
+  matlab: "m",
+  pascal: "pas",
+  perl: "pl",
+  php: "php",
+  python: "py",
+  ruby: "rb",
+  rust: "rs",
+  scala: "scala",
+  scss: "scss",
+  sql: "sql",
+  swift: "swift",
+  typescript: "ts",
+  visualbasic: "vb"
+};
+
 interface ExtensionToLanguage {
+  [key: string]: string;
+}
+
+interface LanguageToExtension {
   [key: string]: string;
 }
 

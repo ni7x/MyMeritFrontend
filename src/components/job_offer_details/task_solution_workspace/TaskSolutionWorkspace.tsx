@@ -9,7 +9,7 @@ import {
   downloadFilesForJob,
   submitSolution,
 } from "../../../services/JobOfferService";
-import { ContentType } from "../../editor_workspace/utils/fileUtils";
+import {ContentType, languageToExtension} from "../../editor_workspace/utils/fileUtils";
 import { errorToast, loadingToast, successToast } from "../../../main";
 import {
   mergeFilesWithCookies,
@@ -92,7 +92,7 @@ const TaskSolutionWorkspace: React.FC<{
             )
         );
       } else {
-        setFiles([new MyFile("main." + currentLanguage /* do zmiany */, ContentType.TXT, "")]);
+        setFiles([new MyFile("main." + languageToExtension[currentLanguage.toLowerCase()] /* do zmiany */, ContentType.TXT, "")]);
         setFilesFetched(true);
       }
     };
