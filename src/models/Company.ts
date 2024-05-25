@@ -1,6 +1,6 @@
 class Company {
     constructor(
-        public id: number,
+        public id: string,
         public name: string,
         public logoUrl: string,
         public location: string,

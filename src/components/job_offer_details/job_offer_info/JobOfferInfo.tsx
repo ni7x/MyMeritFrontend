@@ -19,7 +19,7 @@ import { successToast } from "../../../main";
 const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
   jobOffer,
 }) => {
-  const { accessToken } = useAuth();
+  const { accessToken, userData } = useAuth();
   const [isBookmarked, setIsBookmarked] = useState(jobOffer.isBookmarked);
 
   const addJobToBookmarks = () => {
@@ -39,10 +39,23 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
       }
     });
   };
+
+
+
   return (
     <div className="flex flex-col w-[100%] lg:w-[45%] lg:max-w-[45rem]">
       <div className="flex justify-between">
-        <TaskStatusDisplay status={jobOffer.status} />
+        {userData?.id !== jobOffer.company.id
+            ?
+            <TaskStatusDisplay status={jobOffer.status} />
+            :
+            <a className="flex justify-center items-center gap-2  bg-emerald-500 text-job-primary p-2 px-3  rounded text-xs font-semibold text-white" href={"/job/" + jobOffer.id + "/solution"}>
+              GO TO SOLUTIONS
+            </a>
+
+
+        }
+
         {isBookmarked !== null ? (
           isBookmarked ? (
             <button
