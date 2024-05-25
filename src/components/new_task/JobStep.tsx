@@ -1,5 +1,5 @@
 import { EmploymentType } from "../../types";
-import AuthSubmit from "../form/AuthSubmit";
+import AuthSubmit from "../form/CustomSubmit";
 import CustomInput from "../form/CustomInput";
 
 const JobStep = ({
@@ -23,7 +23,7 @@ const JobStep = ({
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <CustomInput
         id="jobTitle"
-        label="Job Title"
+        label="Job offer title"
         type="text"
         register={register}
         getValues={getValues}
@@ -34,16 +34,17 @@ const JobStep = ({
         id="description"
         label="Description"
         type="textarea"
+        className="resize-none min-h-64"
         register={register}
         getValues={getValues}
         error={errors?.description?.message}
       />
 
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-col xs:flex-row gap-4">
         <CustomInput
           className="flex-1"
           id="salary"
-          label="Salary (USD)"
+          label="Salary per month (USD)"
           alwaysFloatLabel={true}
           type="number"
           register={register}
@@ -81,7 +82,7 @@ const JobStep = ({
       <CustomInput
         className="flex-1"
         id="preferredSkills"
-        label="Preferred Skills"
+        label="Preferred skills"
         placeholder="Type and press enter to add"
         type="TagsInput"
         register={register}
@@ -95,19 +96,6 @@ const JobStep = ({
       {/* <div className="flex flex-row gap-4"> */}
       <CustomInput
         className="flex-1"
-        id="workLocations"
-        label="Work Locations"
-        placeholder="Type and press enter to add"
-        type="TagsInput"
-        register={register}
-        error={errors?.workLocations?.message}
-        setValue={setValue}
-        getValues={getValues}
-        trigger={trigger}
-      />
-
-      <CustomInput
-        className="flex-1"
         id="technologies"
         label="Technologies"
         placeholder="Type and press enter to add"
@@ -118,10 +106,24 @@ const JobStep = ({
         getValues={getValues}
         trigger={trigger}
       />
+
+      <CustomInput
+        className="flex-1"
+        id="workLocations"
+        label="Work locations"
+        placeholder="Type and press enter to add"
+        type="TagsInput"
+        register={register}
+        error={errors?.workLocations?.message}
+        setValue={setValue}
+        getValues={getValues}
+        trigger={trigger}
+      />
+
       {/* </div> */}
 
       <div className="flex w-full justify-end">
-        <AuthSubmit>Next</AuthSubmit>
+        <AuthSubmit className="w-full">Next</AuthSubmit>
       </div>
     </form>
   );

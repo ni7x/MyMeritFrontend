@@ -136,6 +136,7 @@ const NewTask = () => {
     getValues: getValuesTask,
     formState: { errors: errorsTask },
     trigger: triggerTask,
+    setError: setErrorTask,
   } = useForm<TaskFields>({
     defaultValues: {
       title: "",
@@ -178,9 +179,11 @@ const NewTask = () => {
       user: userData,
       tests: [],
     }).then((res: HttpResponse<JobOffer>) => {
-      if (res.data.id) {
+      if (res.success) {
         successToast("Job Offer created successfully");
         setTimeout(() => navigate("/job/" + res.data.id), 1000);
+      } else {
+        setErrorTask("root", { message: res.message });
       }
     });
   };

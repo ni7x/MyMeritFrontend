@@ -2,7 +2,7 @@ import { FormEvent } from "react";
 import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
 
 import AuthForm from "./AuthForm";
-import AuthSubmit from "../form/AuthSubmit";
+import AuthSubmit from "../form/CustomSubmit";
 import CustomInput from "../form/CustomInput";
 import Loading from "../Loading";
 

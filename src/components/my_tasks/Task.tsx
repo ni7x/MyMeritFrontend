@@ -2,7 +2,7 @@ import TaskPreview from "../../models/TaskPreview";
 import React from "react";
 import Label from "./Label";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Task: React.FC<{ task: TaskPreview }> = ({ task }) => {
   return (
@@ -11,31 +11,37 @@ const Task: React.FC<{ task: TaskPreview }> = ({ task }) => {
         className="flex flex-row gap-6 bg-terminal-color p-4 hover:bg-[#40424FFF]  items-center rounded"
         href={"/job/" + task.jobId + "/solution"}
       >
-        <img
-          src={task.imageBase64}
-          className="w-[4.5rem] h-[4.5rem] rounded"
-        />
-        <div className="flex flex-col gap-1.5">
+        {task.imageBase64 ? (
+          <img
+            src={task.imageBase64}
+            className="w-[4.5rem] h-[4.5rem] rounded"
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon={faUser}
+            className="w-[4.5rem] h-[4.5rem] !box-border p-2"
+          />
+        )}
 
+        <div className="flex flex-col gap-1.5">
           <div className="flex font-semibold text-lg items-center gap-3 leading-0">
             <p>{task.taskName}</p>
             <p>
-              {task.isRecentActivity ?
-                  <p className="text-xs font-medium border-merit-credits-color border-2 text-merit-credits-color px-2 py-1 rounded">
-                    RECENTLY RATED
-                  </p>
-                  :
-                  <p   className={`font-semibold text-xs ${
-                      task.feedback ? "text-[#40b0f3]" : "text-main-lighter"
-                  }`}>
-                    <FontAwesomeIcon icon={faComment} />{" "}
-                    {task.feedback ? "VIEW FEEDBACK" : "NO FEEDBACK"}
-                  </p>
-              }
-
+              {task.isRecentActivity ? (
+                <p className="text-xs font-medium border-merit-credits-color border-2 text-merit-credits-color px-2 py-1 rounded">
+                  RECENTLY RATED
+                </p>
+              ) : (
+                <p
+                  className={`font-semibold text-xs ${
+                    task.feedback ? "text-[#40b0f3]" : "text-main-lighter"
+                  }`}
+                >
+                  <FontAwesomeIcon icon={faComment} />{" "}
+                  {task.feedback ? "VIEW FEEDBACK" : "NO FEEDBACK"}
+                </p>
+              )}
             </p>
-
-
           </div>
           <div className="flex gap-10 items-center">
             <Label
@@ -54,7 +60,6 @@ const Task: React.FC<{ task: TaskPreview }> = ({ task }) => {
               />
             )}
           </div>
-
         </div>
       </a>
     </li>

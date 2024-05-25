@@ -8,7 +8,7 @@ import OAuthLogin from "../../components/login/OAuthLogin";
 
 import { useAuth } from "../../hooks/useAuth";
 import AuthForm from "../../components/login/AuthForm";
-import AuthSubmit from "../../components/form/AuthSubmit";
+import AuthSubmit from "../../components/form/CustomSubmit";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

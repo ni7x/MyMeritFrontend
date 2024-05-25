@@ -4,7 +4,6 @@ import { TagsInput } from "react-tag-input-component";
 import MDEditor from "@uiw/react-md-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
-import { Select } from "@headlessui/react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -101,7 +100,7 @@ const CustomInput = ({
         {label && (floatLabel !== undefined ? !!floatLabel : true) && (
           <label
             htmlFor={id}
-            className={`absolute top-0 left-0 p-4 flex items-center transition-all duration-100 ease-linear ${
+            className={`absolute top-0 left-0 p-4 flex items-center transition-all duration-100 ease-linear whitespace-nowrap ${
               labelUp
                 ? "text-xs opacity-70 h-auto -translate-y-3"
                 : "h-full text-sm text-white md:text-base cursor-text"
@@ -120,7 +119,7 @@ const CustomInput = ({
             }}
             placeHolder={placeholder ? placeholder : ""}
             classNames={{
-              input: "z-10",
+              input: "z-10 pr-8",
               tag: "z-20 mx-4 mt-6",
             }}
           />
@@ -150,7 +149,9 @@ const CustomInput = ({
               }`,
               placeholder: placeholder ? placeholder : "",
               ...register2(id),
-              className: `bg-transparent transparent z-10 relative flex items-center rounded px-4 pb-4 pt-6 text-sm md:text-base w-full outline-none text-white box-border ${
+              className: `${
+                className ? className : ""
+              } bg-transparent transparent z-10 relative flex items-center rounded pl-4 pr-8 pb-4 pt-6 text-sm md:text-base w-full outline-none text-white box-border ${
                 error ? "border-[1px] border-solid border-error-color" : ""
               }`,
               multiple: multiple ? true : false,

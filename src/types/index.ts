@@ -12,6 +12,8 @@ export type User = {
   socialLink2?: string;
   socialName3?: string;
   socialLink3?: string;
+  achivements: string[];
+  badges: string[];
 };
 
 export type UserUpdate = {
