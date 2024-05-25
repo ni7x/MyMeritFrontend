@@ -59,8 +59,8 @@ const JobOfferDetailsList: React.FC<{ jobOffer: JobOfferListedDTO, isFullView: b
                     className="hidden xs:block w-[4.5rem] h-[4.5rem] rounded object-cover img-anchor"
                     alt="company image"
                 />
-                <div className="flex h-full xs:pl-4 w-full gap-3 xs:gap-1 flex-col">
-                    <h3 className="text-2xl font-semibold w-full hover:underline">
+                <div className="flex h-full xs:pl-4 w-full gap-3 xs:gap-1 flex-col truncate ...">
+                    <h3 className="text-2xl font-semibold w-full hover:underline truncate ... ">
                         <a href={`job/${jobOffer.id}${jobOffer.status === TaskStatus.NOT_YET_OPEN ? "" : "/solution"}`}>
                             {jobOffer.jobTitle}
                         </a>
