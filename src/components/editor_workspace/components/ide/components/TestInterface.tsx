@@ -48,9 +48,10 @@ const TestInterface: React.FC<{
   };
 
   useEffect(() => {
-    setCurrentLanguageTests(
-      task.tests.find((test) => test.language === currentLanguage)
-    );
+    if(task.tests)
+      setCurrentLanguageTests(
+        task.tests.find((test) => test.language === currentLanguage)
+      );
   }, [currentLanguage]);
 
   return (
