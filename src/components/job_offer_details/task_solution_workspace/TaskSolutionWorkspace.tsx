@@ -73,23 +73,26 @@ const TaskSolutionWorkspace: React.FC<{
         );
         setFilesFetched(true);
       } else if (
-        task.templateFiles &&
-        task.templateFiles.get(currentLanguage)
+        task.templateFiles
       ) {
-        const filesToDownload = task.templateFiles.get(currentLanguage)!;
-        const response = await downloadFiles(filesToDownload, accessToken!);
-        if (response.ok) {
-          const fetchedFiles = await response.json();
-          setFiles(fetchedFiles);
-          setFilesFetched(true);
+        let templateFiles;
+        const currentLanguageFiles = task.templateFiles[currentLanguage];
+
+        if (currentLanguageFiles) {
+          templateFiles = currentLanguageFiles;
         } else {
-          console.error(
-            "Error downloading template files:",
-            response.statusText
-          );
+          const firstLanguage = Object.keys(task.templateFiles)[0];
+          templateFiles = task.templateFiles[firstLanguage];
         }
+
+        setFiles(
+            templateFiles.map(
+                (file) =>
+                    new MyFile(file.name, ContentType.TXT, file.contentBase64)
+            )
+        );
       } else {
-        setFiles([new MyFile("main.cpp", ContentType.TXT, "")]);
+        setFiles([new MyFile("main." + currentLanguage /* do zmiany */, ContentType.TXT, "")]);
         setFilesFetched(true);
       }
     };
