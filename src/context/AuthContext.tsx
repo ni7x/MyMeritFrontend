@@ -2,28 +2,34 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
-import Cookies from "universal-cookie";
 import { useCookies } from "react-cookie";
 
-import User from "../types/User.ts";
+import { User, UserUpdate } from "../types";
 import { HttpResponse, httpCall } from "../api/HttpClient.ts";
 import { getUser } from "../services/UserService.ts";
 
 import { errorToast, successToast } from "../main";
-import { CookieUser, JwtDecodedToken, UserSignIn, UserSignUp, AuthError, AuthContextType } from "../types/Auth.ts";
-
-const getUserFromCookie = () => {
-  const cookies = new Cookies();
-  return cookies.get("user");
-};
+import {
+  CookieUser,
+  JwtDecodedToken,
+  UserSignIn,
+  UserSignUp,
+  AuthError,
+  AuthContextType,
+} from "../types/Auth.ts";
 
 const useAuthProvider = () => {
   const navigation = useNavigate();
+
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const getUserFromCookie = () => {
+    return cookies["user"];
+  };
+
   const [user, setUser] = useState<CookieUser | undefined>(getUserFromCookie());
   const [userData, setUserData] = useState<User | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<AuthError | undefined>(undefined);
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const isAuthenticated = (): boolean => {
     const isTokenExpired = () => {
@@ -213,23 +219,23 @@ const useAuthProvider = () => {
     return await verifyCodeMutation.mutateAsync({ email, code });
   };
 
-  const updateUser = async (
-    username: string,
-    description: string,
-    imageBase64: string
-  ) => {
+  const updateUser = async (userUpdates: UserUpdate) => {
+    const filteredUpdates = (Object.keys(userUpdates) as (keyof UserUpdate)[])
+      .filter((key): key is keyof UserUpdate => userUpdates[key] !== undefined)
+      .reduce((obj, key) => {
+        obj[key] = userUpdates[key];
+        return obj;
+      }, {} as UserUpdate);
+
     return await httpCall<HttpResponse<null>>({
       url: import.meta.env.VITE_API_URL + "/me/update",
       method: "POST",
-      body: {
-        username,
-        description,
-        imageBase64,
-      },
+      body: filteredUpdates,
     });
   };
 
   useEffect(() => {
+    console.log(cookies);
     if (cookies["user"]) {
       setUser(cookies["user"]);
       getUser().then((userData) => {
@@ -239,7 +245,7 @@ const useAuthProvider = () => {
     }
 
     setIsLoading(false);
-  }, []);
+  }, [cookies]);
 
   return {
     user,

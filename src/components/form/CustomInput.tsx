@@ -4,6 +4,7 @@ import { TagsInput } from "react-tag-input-component";
 import MDEditor from "@uiw/react-md-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { Select } from "@headlessui/react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -88,7 +89,7 @@ const CustomInput = ({
         </label>
       )}
       <div
-        className="relative bg-main-bg-input rounded"
+        className="relative h-full bg-main-bg-input rounded"
         tabIndex={-1}
         onFocus={() => {
           setIsFocused(true);

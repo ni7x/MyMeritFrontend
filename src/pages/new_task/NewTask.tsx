@@ -18,7 +18,7 @@ import TaskStep from "../../components/new_task/TaskStep";
 
 import { HttpResponse } from "../../api/HttpClient";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const getCurrentDateTimeLocal = () => {
   const now = new Date();
@@ -50,7 +50,10 @@ const jobOfferSchema = z.object({
     .array()
     .nonempty("At least one technology is required"),
   experience: z.nativeEnum(Experience),
-  salary: z.coerce.number().int(),
+  salary: z.coerce
+    .number()
+    .int()
+    .nonnegative("Salary must be a positive number"),
   employmentType: z.nativeEnum(EmploymentType),
 });
 
@@ -59,7 +62,7 @@ const taskSchema = z.object({
   instructions: z
     .string()
     .min(1, { message: "Instructions are required" })
-    .max(1000),
+    .max(2000),
   opensAt: z
     .string()
     .refine((val) => /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(val), {
@@ -70,7 +73,10 @@ const taskSchema = z.object({
     .refine((val) => /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(val), {
       message: "Invalid date format",
     }),
-  reward: z.coerce.number().int(),
+  reward: z.coerce
+    .number()
+    .int()
+    .nonnegative("Reward must be a positive number"),
   allowedLanguages: z
     .nativeEnum(AllowedLanguages)
     .array()
@@ -161,7 +167,7 @@ const NewTask = () => {
    * @param data - The task data to be submitted.
    */
   const onSubmitTask = async (data: TaskFields) => {
-    console.log(data)
+    console.log(data);
     if (!userData) {
       return;
     }
@@ -191,6 +197,7 @@ const NewTask = () => {
         >
           {activeStep == 0 && <FontAwesomeIcon icon={faEdit} />}
           Job Offer details
+          {activeStep > 0 && <FontAwesomeIcon icon={faCheck} />}
         </span>
         <span
           className={`h-12 flex gap-2 justify-center items-center font-semibold rounded text-xs sm:text-sm md:text-base ${

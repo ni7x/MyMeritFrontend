@@ -117,7 +117,7 @@ const TaskStep = ({
       >
         <CustomInput
           id="memoryLimit"
-          label="Memory limit"
+          label="Memory limit (kb)"
           type="number"
           alwaysFloatLabel={true}
           register={register}
@@ -127,7 +127,7 @@ const TaskStep = ({
 
         <CustomInput
           id="timeLimit"
-          label="Time limit"
+          label="Time limit (s)"
           type="text"
           alwaysFloatLabel={true}
           register={register}

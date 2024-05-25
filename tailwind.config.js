@@ -6,7 +6,7 @@ export default {
     },
     extend: {
       gridTemplateColumns: {
-        'auto-fit': 'repeat(auto-fit, minmax(0, 1fr))',
+        "auto-fit": "repeat(auto-fit, minmax(0, 1fr))",
       },
       colors: {
         "main-bg-color": "#2c2d37",
@@ -27,13 +27,14 @@ export default {
         "terminal-border": "#555764",
         "job-primary": "#22C68D",
         "error-color": "#fc8181",
+        "error-color-darker": "#A35F5E",
         "success-color": "#009E60",
         "success-darker-color": "#02633D",
       },
       screens: {
         xlg: "1440px",
         "4xl": "1700px",
-        'xs': '450px',
+        xs: "450px",
       },
       animation: {
         shake: "shake 0.5s cubic-bezier(.36,.07,.19,.97)",
