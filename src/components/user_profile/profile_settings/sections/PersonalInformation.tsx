@@ -120,7 +120,7 @@ const PersonalInformation = () => {
         {isEditing && userData && (
           <div className="absolute top-0 right-0 flex flex-row gap-2 p-2">
             <button
-              className="block rounded px-4 py-2 font-semibold bg-error-color transition-colors duration-100 ease-linear"
+              className="block rounded w-12 h-8 font-semibold bg-error-color hover:bg-error-color-darker transition-colors duration-100 ease-linear"
               onClick={() => {
                 setError({});
                 setNewUserData(userData);
@@ -130,7 +130,7 @@ const PersonalInformation = () => {
               <FontAwesomeIcon icon={faTimes} />
             </button>
             <button
-              className="block rounded px-4 font-semibold bg-success-color hover:bg-success-darker-color transition-colors duration-100 ease-linear"
+              className="block rounded w-12 h-8 font-semibold bg-success-color hover:bg-success-darker-color transition-colors duration-100 ease-linear"
               onClick={handleSave}
             >
               <FontAwesomeIcon icon={faCheck} />

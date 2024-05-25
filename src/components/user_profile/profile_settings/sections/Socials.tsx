@@ -69,7 +69,6 @@ const Socials = () => {
     });
 
     if (!validation.success) {
-      console.log(validation.error.flatten().fieldErrors);
       setError(validation.error.flatten().fieldErrors);
       return;
     }
@@ -78,7 +77,7 @@ const Socials = () => {
 
     const result = await updateUser(newSocials);
 
-    if (result.success) {
+    if (result.success && userData) {
       setUserData({ ...userData, ...newSocials });
       successToast("Profile updated successfully");
     }
@@ -98,7 +97,7 @@ const Socials = () => {
         {isEditing && userData && (
           <div className="absolute top-0 right-0 flex flex-row gap-2 p-2">
             <button
-              className="block rounded px-4 py-2 font-semibold bg-error-color transition-colors duration-100 ease-linear"
+              className="block rounded w-12 h-8 font-semibold bg-error-color hover:bg-error-color-darker transition-colors duration-100 ease-linear"
               onClick={() => {
                 setError({});
                 setNewSocials(getSocials(userData));
@@ -108,7 +107,7 @@ const Socials = () => {
               <FontAwesomeIcon icon={faTimes} />
             </button>
             <button
-              className="block rounded px-4 font-semibold bg-success-color hover:bg-success-darker-color transition-colors duration-100 ease-linear"
+              className="block rounded w-12 h-8 font-semibold bg-success-color hover:bg-success-darker-color transition-colors duration-100 ease-linear"
               onClick={handleSave}
             >
               <FontAwesomeIcon icon={faCheck} />

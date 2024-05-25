@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
-import Cookies from "universal-cookie";
 import { useCookies } from "react-cookie";
 
 import { User, UserUpdate } from "../types";
@@ -19,18 +18,18 @@ import {
   AuthContextType,
 } from "../types/Auth.ts";
 
-const getUserFromCookie = () => {
-  const cookies = new Cookies();
-  return cookies.get("user");
-};
-
 const useAuthProvider = () => {
   const navigation = useNavigate();
+
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const getUserFromCookie = () => {
+    return cookies["user"];
+  };
+
   const [user, setUser] = useState<CookieUser | undefined>(getUserFromCookie());
   const [userData, setUserData] = useState<User | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<AuthError | undefined>(undefined);
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const isAuthenticated = (): boolean => {
     const isTokenExpired = () => {
@@ -236,6 +235,7 @@ const useAuthProvider = () => {
   };
 
   useEffect(() => {
+    console.log(cookies);
     if (cookies["user"]) {
       setUser(cookies["user"]);
       getUser().then((userData) => {
@@ -245,7 +245,7 @@ const useAuthProvider = () => {
     }
 
     setIsLoading(false);
-  }, []);
+  }, [cookies]);
 
   return {
     user,

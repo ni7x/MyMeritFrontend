@@ -56,6 +56,7 @@ const JobStep = ({
           id="employmentType"
           label="Employment type"
           type="select"
+          setValue={setValue}
           options={Object.values(EmploymentType)}
           register={register}
           getValues={getValues}
