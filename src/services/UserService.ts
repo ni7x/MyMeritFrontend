@@ -1,22 +1,7 @@
-import { users } from "../common/users";
-import { socials } from "../common/socials";
-
 import { HttpResponse, httpCall } from "../api/HttpClient";
 import { User } from "../types";
 import Task from "../models/TaskPreview";
 import RankingUserDTO from "../models/dtos/RankingUserDTO";
-
-const getUsers = () => {
-  return users;
-};
-
-const getUserById = () => {
-  return getUsers()[0];
-};
-
-const getUserSocials = () => {
-  return socials;
-};
 
 const getUserTasks = async () => {
   try {
