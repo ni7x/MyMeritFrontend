@@ -1,7 +1,6 @@
 import Solution from "../Solution";
 import Feedback from "../Feedback";
 import Test from "../Test";
-import {List} from "postcss/lib/list";
 
 class UserTaskDTO {
   constructor(
@@ -19,7 +18,10 @@ class UserTaskDTO {
     public tests: Test[],
     public jobId: string,
     public companyFeedback?: Feedback,
-    public templateFiles?: Map<string, Array<{ name: string, contentBase64: string }>>
+    public templateFiles?: Map<
+      string,
+      Array<{ name: string; contentBase64: string }>
+    >
   ) {}
 }
 

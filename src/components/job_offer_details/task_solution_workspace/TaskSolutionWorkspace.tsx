@@ -5,11 +5,13 @@ import Cookies from "universal-cookie";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 import { useAuth } from "../../../hooks/useAuth";
 import {
-  downloadFiles,
   downloadFilesForJob,
   submitSolution,
 } from "../../../services/JobOfferService";
-import {ContentType, languageToExtension} from "../../editor_workspace/utils/fileUtils";
+import {
+  ContentType,
+  languageToExtension,
+} from "../../editor_workspace/utils/fileUtils";
 import { errorToast, loadingToast, successToast } from "../../../main";
 import {
   mergeFilesWithCookies,
@@ -72,9 +74,7 @@ const TaskSolutionWorkspace: React.FC<{
           )
         );
         setFilesFetched(true);
-      } else if (
-        task.templateFiles
-      ) {
+      } else if (task.templateFiles) {
         let templateFiles;
         const currentLanguageFiles = task.templateFiles[currentLanguage];
 
@@ -86,13 +86,21 @@ const TaskSolutionWorkspace: React.FC<{
         }
 
         setFiles(
-            templateFiles.map(
-                (file) =>
-                    new MyFile(file.name, ContentType.TXT, file.contentBase64)
-            )
+          templateFiles.map(
+            (file) => new MyFile(file.name, ContentType.TXT, file.contentBase64)
+          )
         );
       } else {
-        setFiles([new MyFile("main." + languageToExtension[currentLanguage.toLowerCase()] /* do zmiany */, ContentType.TXT, "")]);
+        setFiles([
+          new MyFile(
+            "main." +
+              languageToExtension[
+                currentLanguage.toLowerCase()
+              ] /* do zmiany */,
+            ContentType.TXT,
+            ""
+          ),
+        ]);
         setFilesFetched(true);
       }
     };

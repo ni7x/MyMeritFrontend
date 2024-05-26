@@ -58,7 +58,7 @@ export default function CustomSelect({
                       }
                       value={option}
                     >
-                      {({ selected, focus }) => (
+                      {({ selected }) => (
                         <>
                           <div className="flex items-center">
                             <span

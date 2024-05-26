@@ -13,7 +13,12 @@ export type User = {
   socialName3?: string;
   socialLink3?: string;
   achievements: string[];
-  badges: string[];
+  badges: [
+    {
+      language: string;
+      description: string;
+    }
+  ];
 };
 
 export type UserUpdate = {

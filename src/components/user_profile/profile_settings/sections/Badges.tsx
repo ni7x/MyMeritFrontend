@@ -16,9 +16,9 @@ const Badges = () => {
             ) : (
               <p className="text-lg h-full gap-2 flex flex-row flex-wrap items-center relative">
                 {userData.badges.length > 0 &&
-                  userData.badges.map((badge) => (
+                  userData.badges.map((badge, index) => (
                     <div
-                      key={badge}
+                      key={index}
                       className="group bg-indigo-500 font-semibold text-white p-2 rounded text-base relative select-none"
                       data-tooltip-target="tooltip-dark"
                     >
