@@ -5,7 +5,6 @@ import Cookies from "universal-cookie";
 import UserTaskDTO from "../../../models/dtos/UserTaskDTO";
 import { useAuth } from "../../../hooks/useAuth";
 import {
-  downloadFiles,
   downloadFilesForJob,
   submitSolution,
 } from "../../../services/JobOfferService";

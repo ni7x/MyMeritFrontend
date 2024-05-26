@@ -15,8 +15,8 @@ const TestInterface: React.FC<{
   currentLanguage: string;
 }> = ({ files, setTestOutput, setLoading, task, currentLanguage }) => {
   const [currentLanguageTests, setCurrentLanguageTests] = useState<
-    Test | null
-  >(null);
+    Test | undefined
+  >(undefined);
 
   const runAllTests = async () => {
     setLoading(true);
@@ -48,8 +48,8 @@ const TestInterface: React.FC<{
   };
 
   useEffect(() => {
-    console.log(task.tests)
-    if(task.tests)
+    console.log(task.tests);
+    if (task.tests)
       setCurrentLanguageTests(
         task.tests.find((test) => test.language === currentLanguage)
       );

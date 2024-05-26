@@ -4,7 +4,7 @@ class PurchasedReward {
     constructor(
         public id: string,
         public reward: Reward,
-        public purchaseDate: Date,
+        public datePurchase: Date,
     ) {}
 }
 

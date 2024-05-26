@@ -15,7 +15,7 @@ const Achievements = () => {
               <Skeleton height={48} />
             ) : (
               <p className="text-lg h-full flex items-center opacity-50">
-                {userData.achievements.length > 0 ? (
+                {/* {userData.achievements.length > 0 ? (
                   userData.achievements.map((achievement) => (
                     <div
                       key={achievement}
@@ -28,9 +28,9 @@ const Achievements = () => {
                       </div>
                     </div>
                   ))
-                ) : (
-                  <span>No achievements yet</span>
-                )}
+                ) : ( */}
+                <span>No achievements yet</span>
+                {/* )} */}
               </p>
             )}
           </div>
