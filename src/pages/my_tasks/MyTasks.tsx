@@ -16,7 +16,7 @@ const MyTasks = () => {
     []
   );
   const [bookmarkedJobs, setBookmarkedJobs] = useState<JobOfferListedDTO[]>([]);
-  const [isBookmarkedTab, setIsBookmarkedTab] = useState(true);
+  const [, setIsBookmarkedTab] = useState(true);
   const [isSolutionTab, setIsSolutionTab] = useState(true);
 
   const { accessToken } = useAuth();
@@ -27,8 +27,8 @@ const MyTasks = () => {
         if (accessToken) {
           const response = await getUserSolutions(accessToken);
           const bookmarks = await getUserBookmarks(accessToken);
-          console.log(response)
-          console.log(bookmarks)
+          console.log(response);
+          console.log(bookmarks);
           //if respone ok lub zmienic w banckenidzie zeby byla pusta lista zamiast nulla
           setBookmarkedJobs(bookmarks);
           setSolutions(response);

@@ -29,7 +29,7 @@ const UserInfo = () => {
       />
 
       <UserBody
-        description={userData.description}
+        description={userData.description ? userData.description : ""}
         onEdit={() => setShowForm(true)}
       />
 
@@ -54,8 +54,8 @@ const UserInfo = () => {
             </button>
             <EditProfileForm
               username={userData.username}
-              description={userData.description}
-              imageBase64={userData.imageBase64}
+              description={userData.description ? userData.description : ""}
+              imageBase64={userData.imageBase64 ? userData.imageBase64 : ""}
               closeForm={() => setShowForm(false)}
               setUserData={setUserData}
             />

@@ -186,7 +186,7 @@ const useAuthProvider = () => {
       setUser(userInfo);
       setCookie("user", userInfo, { path: "/" });
       const userData = await getUser();
-      setUserData(userData);
+      setUserData(userData as User);
       successToast("Logged in successfully");
       navigation("/");
     } catch (e) {
@@ -235,11 +235,10 @@ const useAuthProvider = () => {
   };
 
   useEffect(() => {
-    console.log(cookies);
     if (cookies["user"]) {
       setUser(cookies["user"]);
       getUser().then((userData) => {
-        setUserData(userData);
+        setUserData(userData as User);
         setIsLoading(false);
       });
     }
