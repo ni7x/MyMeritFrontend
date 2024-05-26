@@ -58,12 +58,4 @@ const getRanking = async (dataRange: "week" | "month" | "year") => {
   }
 };
 
-export {
-  getUsers,
-  getUserById,
-  getUserSocials,
-  getUser,
-  updateUser,
-  getUserTasks,
-  getRanking,
-};
+export { getUser, updateUser, getUserTasks, getRanking };
