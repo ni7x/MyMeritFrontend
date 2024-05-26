@@ -30,6 +30,25 @@ const getCurrentDateTimeLocal = () => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
+const testCase = z.object({
+  name: z.string(),
+  input: z.string(),
+  expectedOutput: z.string(),
+});
+
+const testFile = z.object({
+  language: z.string(),
+  name: z.string(),
+  testFileBase64: z.string(),
+  testCases: z.array(testCase),
+});
+
+const templateFile = z.object({
+  language: z.string(),
+  name: z.string(),
+  contentBase64: z.string(),
+});
+
 const jobOfferSchema = z.object({
   jobTitle: z.string().min(5),
   description: z.string().nonempty("Required").max(600),
@@ -89,6 +108,8 @@ const taskSchema = z.object({
     .refine((value) => /^[\d.]+$/.test(value), {
       message: "Invalid time limit. Please enter a float number",
     }),
+  tests: z.array(testFile).optional(),
+  templateFiles: z.array(templateFile).optional(),
 });
 
 type JobOfferFields = z.infer<typeof jobOfferSchema>;
@@ -147,6 +168,8 @@ const NewTask = () => {
       allowedLanguages: [],
       memoryLimit: 500,
       timeLimit: "60.00",
+      tests: [],
+      templateFiles: [],
     },
     resolver: zodResolver(taskSchema),
   });
@@ -172,12 +195,12 @@ const NewTask = () => {
     if (!userData) {
       return;
     }
+
     setTaskData(data);
     submitJobOffer({
       ...jobOfferData,
       task: data,
       user: userData,
-      tests: [],
     }).then((res: HttpResponse<JobOffer>) => {
       if (res.success) {
         successToast("Job Offer created successfully");

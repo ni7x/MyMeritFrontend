@@ -6,7 +6,6 @@ import {
   Transition,
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -14,23 +13,46 @@ function classNames(...classes: string[]) {
 export default function CustomSelect({
   options,
   value,
+  id,
+  label,
+  getValues,
   onChange,
   className,
+  error,
 }: {
   options: string[];
   value: string;
+  id?: string;
+  getValues?: any;
+  label?: string;
   onChange: (value: string) => void;
   className?: string | string[];
+  error?: string;
 }) {
   return (
-    <div className={`${className ? className : ""}`}>
+    <div className={`${className ? className : ""} relative`}>
       <Listbox value={value} onChange={onChange}>
         {({ open }) => (
           <>
-            <div className="relative">
-              <ListboxButton className="relative w-full cursor-default rounded bg-main-bg-input py-1.5 pl-3 pr-10 text-left text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2  sm:text-sm sm:leading-6">
+            <div className="relative bg-main-bg-input rounded">
+              {label && (
+                <label
+                  htmlFor={id}
+                  className={`absolute top-0 left-0 p-4 flex items-center transition-all duration-100 ease-linear whitespace-nowrap text-xs opacity-70 h-auto -translate-y-3`}
+                >
+                  {label}
+                </label>
+              )}
+              <ListboxButton
+                id={id ? id : ""}
+                className={`relative w-full cursor-default rounded pl-4 pr-8 pb-4 ${
+                  label ? "pt-6" : "pt-4"
+                } text-left text-white shadow-sm outline-none sm:text-sm sm:leading-6`}
+              >
                 <span className="flex items-center">
-                  <span className="ml-3 block truncate">{value}</span>
+                  <span className="ml-3 block truncate text-sm md:text-base">
+                    {id ? getValues(id) : value}
+                  </span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                   <ChevronUpDownIcon
@@ -46,7 +68,7 @@ export default function CustomSelect({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <ListboxOptions className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-main-bg-input py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <ListboxOptions className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md bg-main-bg-input py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {options.map((option, index) => (
                     <ListboxOption
                       key={index}
@@ -58,12 +80,14 @@ export default function CustomSelect({
                       }
                       value={option}
                     >
-                      {({ selected, focus }) => (
+                      {({ selected }) => (
                         <>
                           <div className="flex items-center">
                             <span
                               className={classNames(
-                                selected ? "font-semibold" : "font-normal",
+                                (id ? getValues(id) === option : selected)
+                                  ? "font-semibold"
+                                  : "font-normal",
                                 "ml-3 block truncate"
                               )}
                             >
@@ -71,7 +95,7 @@ export default function CustomSelect({
                             </span>
                           </div>
 
-                          {selected ? (
+                          {(id ? getValues(id) === option : selected) ? (
                             <span
                               className={classNames(
                                 "text-white absolute inset-y-0 right-0 flex items-center pr-4"
@@ -90,6 +114,11 @@ export default function CustomSelect({
                 </ListboxOptions>
               </Transition>
             </div>
+            {error && (
+              <p className="text-error-color font-semibold py-2 rounded-b w-full text-xs">
+                {error}
+              </p>
+            )}
           </>
         )}
       </Listbox>

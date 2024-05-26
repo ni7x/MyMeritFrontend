@@ -1,6 +1,7 @@
 import { EmploymentType } from "../../types";
 import AuthSubmit from "../form/CustomSubmit";
 import CustomInput from "../form/CustomInput";
+import CustomSelect from "../form/CustomSelect";
 
 const JobStep = ({
   handleSubmit,
@@ -52,7 +53,7 @@ const JobStep = ({
           error={errors?.salary?.message}
         />
 
-        <CustomInput
+        {/* <CustomInput
           className="flex-1"
           id="employmentType"
           label="Employment type"
@@ -61,6 +62,17 @@ const JobStep = ({
           options={Object.values(EmploymentType)}
           register={register}
           getValues={getValues}
+          error={errors?.experience?.message}
+        /> */}
+
+        <CustomSelect
+          className="flex-1"
+          value={getValues("employmentType")}
+          getValues={getValues}
+          id="employmentType"
+          label="Employment type"
+          options={Object.values(EmploymentType)}
+          onChange={(value) => setValue("employmentType", value)}
           error={errors?.experience?.message}
         />
       </div>
