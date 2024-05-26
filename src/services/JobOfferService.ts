@@ -12,7 +12,7 @@ import JobOfferDetailsDTO from "../models/dtos/JobOfferDetailsDTO";
 import { JobOffer } from "@types";
 import JudgeParams from "../models/JudgeParams";
 import SolutionPreview from "../models/TaskPreview";
-import ApiResponse from "../types/ApiResponse";
+import { ApiResponse } from "../types";
 import JobOfferListedDTO from "../models/dtos/JobOfferListedDTO";
 import { HttpResponse } from "../api/HttpClient";
 
@@ -187,8 +187,8 @@ export const getToken = async (
     const URL = import.meta.env.VITE_API_URL + "/compile-code";
     // console.log(mainFileIndex, language, files)
     const encodedInput =
-      userInput && userInput.trim().length > 0 ? btoa(userInput): "";
-    console.log(encodedInput)
+      userInput && userInput.trim().length > 0 ? btoa(userInput) : "";
+    console.log(encodedInput);
     const params = new JudgeParams();
     params.stdin = encodedInput;
     params.memoryLimit = memoryLimit;

@@ -1,5 +1,5 @@
-import User from "../../types/User";
-import {Experience} from "@types";
+import { User } from "../../types";
+import { Experience } from "@types";
 
 interface JobOfferListedDTO {
   id: string;
@@ -11,7 +11,7 @@ interface JobOfferListedDTO {
   closesAt: Date;
   company: User;
   status: "OPEN" | "NOT_YET_OPEN" | "EXPIRED";
-  experience: Experience
+  experience: Experience;
 }
 
 export default JobOfferListedDTO;

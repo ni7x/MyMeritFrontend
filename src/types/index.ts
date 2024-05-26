@@ -151,3 +151,9 @@ export type JobOffer = {
   employmentType: EmploymentType;
   tests?: CodeTest[];
 };
+
+export type ApiResponse = {
+  success: boolean;
+  message: string;
+  data: any;
+};
