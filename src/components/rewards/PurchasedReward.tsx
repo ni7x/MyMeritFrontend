@@ -26,7 +26,7 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
         <div className="flex-col">
           <p className="text-xs text-task-lighter">purchased</p>
           <p className="mt-1 font-medium">
-            {new Date(purchase.purchaseDate).toLocaleDateString()}
+            {new Date(purchase.datePurchase).toLocaleDateString()}
           </p>
         </div>
         <div className="flex flex-col">
