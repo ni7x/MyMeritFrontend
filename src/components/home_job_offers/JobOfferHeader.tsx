@@ -22,7 +22,7 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
     if (userData) {
       if (accessToken)
         addToBookmarks(accessToken, jobOffer.id).then(() =>
-          successToast("Bookmark added!"),
+          successToast("Bookmark added!")
         );
       else {
         errorToast("Login to add this job to bookmarks");
@@ -33,9 +33,9 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
   };
 
   const solvingTime = ({
-                         startDate,
-                         endDate,
-                       }: {
+    startDate,
+    endDate,
+  }: {
     startDate: Date;
     endDate: Date;
   }) => {
@@ -43,6 +43,8 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
 
     if (jobOffer.status === TaskStatus.OPEN) {
       diffInSeconds = differenceInSeconds(endDate, currentTime2);
+    } else if (jobOffer.status === TaskStatus.EXPIRED) {
+      diffInSeconds = differenceInSeconds(endDate, startDate);
     }
 
     const days = Math.floor(diffInSeconds / (3600 * 24));
@@ -55,13 +57,16 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
     if (days > 0) timeComponents.push(`${days}d`);
     if (hours > 0) timeComponents.push(`${hours}h`);
     if (minutes > 0) timeComponents.push(`${minutes}m`);
-    if (seconds > 0 || timeComponents.length === 0) timeComponents.push(`${seconds}s`);
+    if (seconds > 0 || timeComponents.length === 0)
+      timeComponents.push(`${seconds}s`);
 
     return timeComponents.join(" ");
   };
 
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [currentTime2, setCurrentTime2] = useState(jobOffer.opensAt);
+  const [currentTime2, setCurrentTime2] = useState(
+    jobOffer.status === TaskStatus.OPEN ? new Date() : jobOffer.opensAt
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -115,19 +120,19 @@ const JobOfferHeader: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
                 jobOffer.status === TaskStatus.OPEN
                   ? "text-emerald-400"
                   : jobOffer.status === TaskStatus.EXPIRED
-                    ? "text-red-500"
-                    : "text-orange-400"
+                  ? "text-red-500"
+                  : "text-orange-400"
               }`}
             >
               {jobOffer.status == TaskStatus.OPEN
                 ? "OPEN NOW"
                 : jobOffer.status == TaskStatus.EXPIRED
-                  ? "CLOSED"
-                  : "OPENS IN " +
-                    formatDistance(currentTime, jobOffer.opensAt, {
-                      addSuffix: false,
-                      includeSeconds: true,
-                    }).toUpperCase()}
+                ? "CLOSED"
+                : "OPENS IN " +
+                  formatDistance(currentTime, jobOffer.opensAt, {
+                    addSuffix: false,
+                    includeSeconds: true,
+                  }).toUpperCase()}
             </span>
           </p>
         </span>
