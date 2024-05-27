@@ -3,11 +3,11 @@ import ProfileSettings from "../../components/user_profile/profile_settings/Prof
 import UserPurchases from "../../components/user_profile/purchases/UserPurchases";
 import MyTasks from "../my_tasks/MyTasks";
 import { useLocation } from "react-router-dom";
-import {useAuth} from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 const UserProfile = () => {
   const { pathname } = useLocation();
-  const {isAuthenticatedCompany}  = useAuth();
+  const { isAuthenticatedCompany } = useAuth();
   let page;
 
   switch (pathname) {
@@ -18,9 +18,9 @@ const UserProfile = () => {
       page = <UserPurchases />;
       break;
     case "/profile/tasks":
-      if(isAuthenticatedCompany()){
+      if (isAuthenticatedCompany()) {
         page = <></>;
-      }else{
+      } else {
         page = <MyTasks />;
       }
 
@@ -31,7 +31,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="pr-16 sm:pr-60 4xl:pr-0">{page}</div>
+      <div className="pr-16 sm:pr-60 4xl:pr-16">{page}</div>
       <UserProfileSidebar />
     </>
   );

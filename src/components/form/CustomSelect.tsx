@@ -50,7 +50,7 @@ export default function CustomSelect({
                 } text-left text-white shadow-sm outline-none sm:text-sm sm:leading-6`}
               >
                 <span className="flex items-center">
-                  <span className="ml-3 block truncate text-sm md:text-base">
+                  <span className="block truncate text-sm md:text-base">
                     {id ? getValues(id) : value}
                   </span>
                 </span>
@@ -88,7 +88,7 @@ export default function CustomSelect({
                                 (id ? getValues(id) === option : selected)
                                   ? "font-semibold"
                                   : "font-normal",
-                                "ml-3 block truncate"
+                                "text-sm block truncate"
                               )}
                             >
                               {option}

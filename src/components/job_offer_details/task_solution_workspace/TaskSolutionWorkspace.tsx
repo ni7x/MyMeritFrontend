@@ -180,7 +180,7 @@ const TaskSolutionWorkspace: React.FC<{
   };
 
   return (
-    <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
+    <div className="flex flex-col w-full lg:w-3/4 items-end h-auto">
       {currentFile && (
         <div className="flex flex-col w-full h-full">
           <EditorWorkspace

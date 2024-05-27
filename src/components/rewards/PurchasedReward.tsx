@@ -7,9 +7,9 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
   purchase,
 }) => {
   return (
-    <li className="w-[100%] h-[5rem] bg-secondary-bg-color mb-4 rounded flex">
+    <li className="w-full h-[300px] sm:h-[5rem] bg-secondary-bg-color mb-4 rounded flex flex-col sm:flex-row">
       <div
-        className="w-[5rem] bg-cover bg-center rounded-l"
+        className="w-full h-full sm:w-[5rem] bg-cover bg-center max-sm:rounded-t sm:rounded-l"
         style={{
           backgroundImage: `url(${
             purchase.reward.imageBase64 == ""
@@ -18,7 +18,7 @@ const PurchasedReward: React.FC<{ purchase: PurchasedRewardDTO }> = ({
           })`,
         }}
       ></div>
-      <div className="flex justify-between w-full h-full items-center px-4">
+      <div className="flex flex-wrap justify-between w-full h-full items-center px-4">
         <div className="flex-col">
           <p className="text-xs text-task-lighter">name</p>
           <p className="mt-1 font-medium">{purchase.reward.name}</p>
