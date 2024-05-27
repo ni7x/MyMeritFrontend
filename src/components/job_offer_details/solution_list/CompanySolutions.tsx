@@ -22,10 +22,9 @@ const CompanySolutions: React.FC<CompanySolutionsProps> = ({ solutions }) => {
       return "text-red-400";
     }
   }
-  console.log(solutions)
   return (
-    <div className="flex flex-col w-full lg:w-full h-auto gap-5">
-      <div className="w-full text-right flex justify-end gap-4">
+    <div className="flex flex-col w-full lg:w-full h-auto gap-4 pl-1">
+      <div className="w-full text-right flex justify-end gap-4 mb-2">
         <p className="text-task-lighter font-semibold text-sm">UNRATED <span className="ml-1.5 text-white font-semibold bg-emerald-450 px-2 py-0.5 rounded border-[2px] border-emerald-450 ">{solutions.filter(s=>s.feedback == null).length}</span></p>
         <p className="text-task-lighter font-semibold text-sm">ALL <span className="ml-1.5 text-task-lighter  font-semibold bg-transparent border-[2px] border-task-lighter px-2 py-0.5 rounded">{solutions.length}</span></p>
       </div>

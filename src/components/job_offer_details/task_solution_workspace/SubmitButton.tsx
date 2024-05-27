@@ -7,7 +7,7 @@ const SubmitButton = ({
 }) => {
   return (
     <button
-      className="bg-blue-450 text-xs font-semibold rounded w-1/2 text-white hover:bg-blue-500 disabled:bg-terminal-color"
+      className="bg-blue-450 flex-1 text-xs font-semibold rounded w-1/2 text-white hover:bg-blue-500 disabled:bg-terminal-color"
       onClick={submitSolution}
       disabled={isClosed}
     >
