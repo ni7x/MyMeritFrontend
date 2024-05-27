@@ -97,8 +97,8 @@ const TaskSolutionWorkspace: React.FC<{
           )
         );
         setFilesFetched(true);
-      } else if (task.templateFiles) {
-        let templateFiles;
+      } else if (task.templateFiles && task.templateFiles.length > 0) {
+        let templateFiles = [];
 
         // grouped by languages
         const groupedByLanguages = transformByLanguages(task.templateFiles);
@@ -111,12 +111,6 @@ const TaskSolutionWorkspace: React.FC<{
           const firstLanguage = Object.keys(groupedByLanguages)[0];
           templateFiles = groupedByLanguages[firstLanguage];
         }
-
-        templateFiles.map((file) => {
-          console.log(
-            new MyFile(file.name, ContentType.TXT, file.contentBase64)
-          );
-        });
 
         setFiles(
           templateFiles.map(
