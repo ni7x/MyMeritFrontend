@@ -44,7 +44,7 @@ const TaskSolutionDetails: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-3 lg:flex-row mx-auto h-full lg:h-[calc(100vh-120px)] lg:max-h-[55rem]">
-      <div className="h-full flex flex-col w-full w-1/3">
+      <div className="h-full flex flex-col w-full lg:w-1/3">
         <TaskInfo
           task={task}
           jobId={jobOfferId}

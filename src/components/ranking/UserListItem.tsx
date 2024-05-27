@@ -54,7 +54,7 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
           {user.rank}
         </div>
       </td>
-      <td className="py-3 lg:p-0 m-auto">
+      <td className="py-3 pr-5 lg:p-0 m-auto">
         {user.profileImageBase64 ? (
           <img
             src={user.profileImageBase64}
@@ -68,14 +68,16 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
           />
         )}
 
-        <p className="inline lg:ml-4">{user.username}</p>
+        <p className="block truncate lg:ml-4">{user.username}</p>
       </td>
       <td className="md:px-0 lg:px-10 py-3 px-5">
-        <p className="bg-ide-color p-2 px-4 text-sm font-semibold w-auto rounded inline-block text-emerald-400">
-          {user.meritPoints} <span className="hidden md:inline">MS</span>
-        </p>
+        <div className="w-full flex justify-center">
+          <p className="bg-ide-color p-2 px-4 text-sm font-semibold w-auto rounded inline-block text-emerald-400">
+            {user.meritPoints} <span className="hidden md:inline">MS</span>
+          </p>
+        </div>
       </td>
-      <td className="hidden md:flex items-center lg:pr-5  overflow-x-auto overflow-y-hidden lg:overflow-hidden  h-full gap-2 py-3">
+      <td className="hidden md:flex justify-center items-center lg:pr-5 overflow-x-auto overflow-y-hidden lg:overflow-hidden h-full gap-2 py-3">
         {user.languages.map((language) => {
           const color = languageColors[language.toUpperCase()] ?? "#8c8f9f";
           return (
