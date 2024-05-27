@@ -7,14 +7,23 @@ import {
   faChevronUp,
   faChevronDown,
   faPlus,
-  faX,
+  faPen,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import FileForm from "./FileForm";
+import TemplateFileForm from "./TemplateFileForm";
 
-type OutputFile = {
+type OutputTestFile = {
+  language: string;
+  testCases: { name: string; input: string; expectedOutput: string }[];
+  name: string;
+  testFileBase64: string;
+};
+
+type OutputTemplateFile = {
   language: string;
   name: string;
-  base64: string;
+  contentBase64: string;
 };
 
 const TaskStep = ({
@@ -35,32 +44,18 @@ const TaskStep = ({
   trigger: any;
 }) => {
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+  const [activeTestFile, setActiveTestFile] = useState<number | false>(false);
+  const [activeTemplateFile, setActiveTemplateFile] = useState<number | false>(
+    false
+  );
   const [showTestsFileForm, setShowTestsFileForm] = useState<boolean>(false);
   const [showTemplatesFileForm, setShowTemplatesFileForm] =
     useState<boolean>(false);
-  const [testsFiles, setTestsFiles] = useState<OutputFile[]>([]);
-  const [templateFiles, setTemplateFiles] = useState<OutputFile[]>([]);
 
-  const handleAddTestsFiles = (file: OutputFile) => {
-    setTestsFiles((prev) => [
-      ...prev,
-      {
-        language: file.language,
-        name: file.name,
-        base64: file.base64,
-      },
-    ]);
-  };
+  const [, dummy] = useState(0);
 
-  const handleAddTemplateFiles = (file: OutputFile) => {
-    setTemplateFiles((prev) => [
-      ...prev,
-      {
-        language: file.language,
-        name: file.name,
-        base64: file.base64,
-      },
-    ]);
+  const forceUpdate = () => {
+    dummy((prev) => prev + 1);
   };
 
   return (
@@ -156,7 +151,9 @@ const TaskStep = ({
         )}
       </p>
       <div
-        className={`${showAdvanced ? "block" : "hidden"} flex flex-col gap-4`}
+        className={`${
+          showAdvanced ? "block" : "hidden"
+        } flex flex-col gap-4 p-4 bg-main-darker rounded`}
       >
         <CustomInput
           id="memoryLimit"
@@ -181,7 +178,7 @@ const TaskStep = ({
         <div className="bg-main-bg-input z-10 relative flex items-center rounded pl-4 pr-8 pb-4 pt-6 text-sm md:text-base w-full outline-none text-white box-border">
           <h2
             className={`absolute top-0 left-0 p-4 flex items-center transition-all duration-100 ease-linear whitespace-nowrap ${
-              testsFiles.length > 0
+              getValues("tests").length > 0
                 ? "text-xs opacity-70 h-auto -translate-y-3"
                 : "h-full text-sm text-white md:text-base cursor-text"
             }`}
@@ -189,26 +186,42 @@ const TaskStep = ({
             Tests files
           </h2>
           <div className="flex flex-wrap flex-row gap-4 relative pr-12 min-h-8 w-full">
-            {testsFiles.map((file, index) => (
+            {getValues("tests").map((file: OutputTestFile, index: number) => (
               <div
                 key={index}
-                className="flex flex-row gap-2 border border-white rounded w-max p-1 items-center"
+                className="flex flex-row gap-2 bg-main-bg-color rounded w-max items-center h-8 p-1 !box-border"
               >
                 <span>{file.name}</span>
                 <span>{file.language}</span>
                 <FontAwesomeIcon
-                  icon={faX}
-                  className="mx-2 text-sm cursor-pointer text-error-color"
+                  icon={faPen}
+                  className="mx-2 text-xs cursor-pointer text-white hover:text-indigo-500 transition-colors duration-100 ease-linear rounded-r"
                   onClick={() => {
-                    setTestsFiles((prev) => prev.filter((_, i) => i !== index));
+                    setActiveTestFile(index);
+                    setShowTestsFileForm((prev) => !prev);
+                  }}
+                />
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  className="mr-2 text-base cursor-pointer text-white hover:text-error-color transition-colors duration-100 ease-linear rounded-r"
+                  onClick={() => {
+                    const prev = getValues("tests") as OutputTestFile[];
+                    setValue(
+                      "tests",
+                      prev.filter((_, i) => i !== index)
+                    );
+                    forceUpdate();
                   }}
                 />
               </div>
             ))}
             <button
-              onClick={() => setShowTestsFileForm((prev) => !prev)}
+              onClick={() => {
+                setActiveTestFile(false);
+                setShowTestsFileForm((prev) => !prev);
+              }}
               type="button"
-              className="absolute top-0 right-0 py-1 px-2 text-sm text-white bg-main-bg-color hover:bg-main-darker transition-colors duration-100 ease-linear rounded"
+              className="absolute top-0 right-0 flex justify-center items-center w-8 h-8 text-sm text-white bg-main-bg-color hover:bg-main-darker transition-colors duration-100 ease-linear rounded"
             >
               <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -218,7 +231,7 @@ const TaskStep = ({
         <div className="bg-main-bg-input z-10 relative flex items-center rounded pl-4 pr-8 pb-4 pt-6 text-sm md:text-base w-full outline-none text-white box-border">
           <h2
             className={`absolute top-0 left-0 p-4 flex items-center transition-all duration-100 ease-linear whitespace-nowrap ${
-              templateFiles.length > 0
+              getValues("templateFiles").length > 0
                 ? "text-xs opacity-70 h-auto -translate-y-3"
                 : "h-full text-sm text-white md:text-base cursor-text"
             }`}
@@ -226,28 +239,48 @@ const TaskStep = ({
             Template files
           </h2>
           <div className="flex flex-wrap flex-row gap-4 relative pr-12 min-h-8 w-full">
-            {templateFiles.map((file, index) => (
-              <div
-                key={index}
-                className="flex flex-row gap-2 border border-white rounded w-max p-1 items-center"
-              >
-                <span>{file.name}</span>
-                <span>{file.language}</span>
-                <FontAwesomeIcon
-                  icon={faX}
-                  className="mx-2 text-sm cursor-pointer text-error-color"
-                  onClick={() => {
-                    setTemplateFiles((prev) =>
-                      prev.filter((_, i) => i !== index)
-                    );
-                  }}
-                />
-              </div>
-            ))}
+            {getValues("templateFiles").map(
+              (file: OutputTemplateFile, index: number) => (
+                <div
+                  key={index}
+                  className="flex flex-row gap-2 bg-main-bg-color rounded w-max items-center h-8 p-1 !box-border"
+                >
+                  <span>{file.name}</span>
+                  <span>{file.language}</span>
+                  <FontAwesomeIcon
+                    icon={faPen}
+                    className="mx-2 text-xs cursor-pointer text-white hover:text-indigo-500 transition-colors duration-100 ease-linear rounded-r"
+                    onClick={() => {
+                      setActiveTemplateFile(index);
+                      setShowTemplatesFileForm((prev) => !prev);
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    className="mr-2 text-base cursor-pointer text-white hover:text-error-color transition-colors duration-100 ease-linear rounded-r"
+                    onClick={() => {
+                      const prev = getValues(
+                        "templateFiles"
+                      ) as OutputTemplateFile[];
+
+                      setValue(
+                        "templateFiles",
+                        prev.filter((_, i) => i !== index)
+                      );
+
+                      forceUpdate();
+                    }}
+                  />
+                </div>
+              )
+            )}
             <button
-              onClick={() => setShowTemplatesFileForm((prev) => !prev)}
+              onClick={() => {
+                setActiveTemplateFile(false);
+                setShowTemplatesFileForm((prev) => !prev);
+              }}
               type="button"
-              className="absolute top-0 right-0 py-1 px-2 text-sm text-white bg-main-bg-color hover:bg-main-darker transition-colors duration-100 ease-linear rounded"
+              className="absolute top-0 right-0 flex justify-center items-center w-8 h-8 text-sm text-white bg-main-bg-color hover:bg-main-darker transition-colors duration-100 ease-linear rounded"
             >
               <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -259,14 +292,18 @@ const TaskStep = ({
         open={showTestsFileForm}
         setOpen={setShowTestsFileForm}
         languages={Object.values(AllowedLanguages)}
-        handler={handleAddTestsFiles}
+        getValues={getValues}
+        setValue={setValue}
+        data={activeTestFile}
       />
 
-      <FileForm
+      <TemplateFileForm
         open={showTemplatesFileForm}
         setOpen={setShowTemplatesFileForm}
         languages={Object.values(AllowedLanguages)}
-        handler={handleAddTemplateFiles}
+        getValues={getValues}
+        setValue={setValue}
+        data={activeTemplateFile}
       />
 
       <div className="flex w-full justify-end">

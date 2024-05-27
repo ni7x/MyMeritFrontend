@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { updateUser } from "../../../services/UserService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import User from "src/types/User";
+import { User } from "src/types";
 import { successToast } from "../../../main";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

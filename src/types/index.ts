@@ -43,8 +43,20 @@ export type Task = {
   allowedLanguages: string[];
   memoryLimit?: number;
   timeLimit?: string;
-  tests?: CodeTest[];
-  solutions?: Solution[];
+  tests?: testFile[];
+  templateFiles?: templateFile[];
+};
+
+export type testFile = {
+  language: string;
+  testFileBase64: string;
+  testCases: TestCase[];
+};
+
+export type templateFile = {
+  language: string;
+  name: string;
+  contentBase64: string;
 };
 
 export type Solution = {
@@ -76,7 +88,6 @@ export type Reward = {
 export type TestCase = {
   name: string;
   input: string;
-  status: boolean;
   expectedOutput: string;
 };
 
@@ -139,4 +150,10 @@ export type JobOffer = {
   salary: number;
   employmentType: EmploymentType;
   tests?: CodeTest[];
+};
+
+export type ApiResponse = {
+  success: boolean;
+  message: string;
+  data: any;
 };

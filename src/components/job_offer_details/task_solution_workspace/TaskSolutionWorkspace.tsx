@@ -19,8 +19,31 @@ import {
 } from "../../editor_workspace/utils/cookieFunctions";
 import EditorWorkspace from "../../editor_workspace/EditorWorkspace";
 import SubmitButton from "./SubmitButton";
+import { templateFile } from "../../../types";
 
 const cookies = new Cookies();
+
+type TransformedLanguageData = {
+  [key: string]: {
+    name: string;
+    contentBase64: string;
+  }[];
+};
+
+const transformByLanguages = (
+  data: templateFile[]
+): TransformedLanguageData => {
+  return data.reduce((acc, item) => {
+    if (!acc[item.language]) {
+      acc[item.language] = [];
+    }
+    acc[item.language].push({
+      name: item.name,
+      contentBase64: item.contentBase64,
+    });
+    return acc;
+  }, {} as TransformedLanguageData);
+};
 
 const TaskSolutionWorkspace: React.FC<{
   jobId: string;
@@ -30,7 +53,7 @@ const TaskSolutionWorkspace: React.FC<{
   const { accessToken } = useAuth();
   const [currentLanguage, setCurrentLanguage] = useState<string>(
     task.templateFiles && Object.keys(task.templateFiles).length > 0
-      ? Object.keys(task.templateFiles)[0]
+      ? Object.keys(transformByLanguages(task.templateFiles))[0]
       : task.allowedLanguages[0] ?? ""
   );
   const currentTaskCookies = cookies.get(
@@ -76,14 +99,24 @@ const TaskSolutionWorkspace: React.FC<{
         setFilesFetched(true);
       } else if (task.templateFiles) {
         let templateFiles;
-        const currentLanguageFiles = task.templateFiles[currentLanguage];
+
+        // grouped by languages
+        const groupedByLanguages = transformByLanguages(task.templateFiles);
+
+        const currentLanguageFiles = groupedByLanguages[currentLanguage];
 
         if (currentLanguageFiles) {
           templateFiles = currentLanguageFiles;
         } else {
-          const firstLanguage = Object.keys(task.templateFiles)[0];
-          templateFiles = task.templateFiles[firstLanguage];
+          const firstLanguage = Object.keys(groupedByLanguages)[0];
+          templateFiles = groupedByLanguages[firstLanguage];
         }
+
+        templateFiles.map((file) => {
+          console.log(
+            new MyFile(file.name, ContentType.TXT, file.contentBase64)
+          );
+        });
 
         setFiles(
           templateFiles.map(
@@ -147,7 +180,7 @@ const TaskSolutionWorkspace: React.FC<{
   };
 
   return (
-    <div className="flex flex-col w-full lg:w-[65%] items-end h-auto">
+    <div className="flex flex-col w-full lg:w-3/4 items-end h-auto">
       {currentFile && (
         <div className="flex flex-col w-full h-full">
           <EditorWorkspace

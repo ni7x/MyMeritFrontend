@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { differenceInHours } from "date-fns";
 import { faTrophy } from "@fortawesome/free-solid-svg-icons";
+import MeritCoin from "../../../assets/meritcoin.png";
 
 const TaskInfo: React.FC<{
   task: Task;
@@ -48,16 +49,21 @@ const TaskInfo: React.FC<{
   }
 
   return (
-    <div className="flex flex-col h-full lg:w-[24rem]">
+    <div className="flex flex-col h-full w-full">
       {feedbackElement}
       <div className="flex flex-col bg-terminal-color rounded w-[100%] h-full overflow-x-auto">
         <div className="p-[1.5rem]">
           <div className="flex flex-row w-100 text-sm font-medium gap-4">
             <div>
               <p className="inline-block text-merit-credits-color">
-                <span>
+                <span className="flex flex-row items-center">
                   <FontAwesomeIcon icon={faTrophy} className="mr-1.5" />
-                  {task.reward} MC
+                  {task.reward}{" "}
+                  <img
+                    src={MeritCoin}
+                    className="ml-1 w-3.5 h-3.5 inline"
+                    alt="Merit Coin"
+                  />
                 </span>
               </p>
             </div>

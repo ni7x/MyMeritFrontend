@@ -20,7 +20,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
-  const { isAuthenticated, userData, signOut, isAuthenticatedCompany } = useAuth();
+  const { isAuthenticated, userData, signOut, isAuthenticatedCompany } =
+    useAuth();
 
   const location = useLocation();
 
@@ -49,7 +50,7 @@ export default function Navbar() {
     <Disclosure as="nav" className="z-10 bg-secondary-bg-color shadow-md">
       {({ open }) => (
         <>
-          <div className="mx-auto w-full xl:max-w-[1200px] px-8">
+          <div className="mx-auto w-full xl:max-w-[1200px] 2xl:max-w-[1400px] px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}

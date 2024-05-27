@@ -1,4 +1,4 @@
-import { Reward } from "../types/Reward";
+import { Reward } from "../types";
 import PurchasedReward from "../models/PurchasedReward";
 
 import { httpCall } from "../api/HttpClient";

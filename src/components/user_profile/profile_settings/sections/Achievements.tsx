@@ -4,7 +4,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useAuth } from "../../../../hooks/useAuth";
 
 const Achievements = () => {
-  const { userData, setUserData, isLoading } = useAuth();
+  const { userData, isLoading } = useAuth();
 
   return (
     <ProfileSettingsSection title="Your achievements">

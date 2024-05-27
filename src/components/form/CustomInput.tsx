@@ -78,7 +78,7 @@ const CustomInput = ({
 
   return (
     <div
-      className={`relative flex flex-col ${
+      className={`relative flex flex-col rounded ${
         error ? "animate-shake error" : ""
       } ${className ? className : ""}`}
     >
@@ -120,7 +120,7 @@ const CustomInput = ({
             placeHolder={placeholder ? placeholder : ""}
             classNames={{
               input: "z-10 pr-8",
-              tag: "z-20 mx-4 mt-6",
+              tag: "z-20 mx-4 mt-6 !bg-main-bg-color !border-0",
             }}
           />
         ) : element === "MDEditor" ? (
