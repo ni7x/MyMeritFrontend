@@ -49,7 +49,7 @@ const TaskInfo: React.FC<{
   }
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col lg:min-w-[24rem] h-full">
       {feedbackElement}
       <div className="flex flex-col bg-terminal-color rounded w-[100%] h-full overflow-x-auto">
         <div className="p-[1.5rem]">
