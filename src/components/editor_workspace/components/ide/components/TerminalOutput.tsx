@@ -22,7 +22,12 @@ const TerminalOutput: React.FC<{
       ? decodeBase64(output.compile_output)
       : null;
     const stderrMessage = output.stderr ? decodeBase64(output.stderr) : null;
-    const defaultMessage = output.status.description;
+    let defaultMessage;
+    if(output.status.id === 12){
+          defaultMessage = "Memory Limit Exception / " + output.status.description;
+    }else{
+        defaultMessage  = output.status.description;
+    }
     const allOutputsNull =
       !stdoutMessage && !compileOutputMessage && !stderrMessage;
     return (
