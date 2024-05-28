@@ -124,6 +124,7 @@ const Ide: React.FC<IdeProps> = ({
           <TestsAndInput
             areThereTests={task.tests && task.tests.find((test) => test.language === currentLanguage) !== undefined}
             terminalInput={<TerminalInput setInput={setInput} input={input} />}
+            templateFileNames={task.templateFiles?.map((t)=>t.name)}
             testInterface={
               <TestInterface
                 files={files}
