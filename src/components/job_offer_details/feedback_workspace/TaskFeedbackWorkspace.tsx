@@ -74,7 +74,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
         const currentFeedbackCookies = cookies.get("solution-" + solutionId);
         if (currentFeedbackCookies) {
           newFiles = currentFeedbackCookies.files.map(
-              (file) => new MyFile(file.name, file.type, file.contentBase64)
+              (file:MyFile) => new MyFile(file.name, file.type, file.contentBase64)
           );
         }
 
