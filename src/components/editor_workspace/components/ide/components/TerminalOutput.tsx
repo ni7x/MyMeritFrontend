@@ -9,7 +9,7 @@ const TerminalOutput: React.FC<{
   testOutput: TestOutput[] | null;
   loading: boolean;
   // setOutput: React.Dispatch<React.SetStateAction<CodeExecutionOutput>>;
-  setOutput: (inp: CodeExecutionOutput) => void;
+  setOutput: (inp: CodeExecutionOutput | null) => void;
 }> = ({ output, testOutput, loading, setOutput }) => {
   const renderErrorMessage = (message: string) => (
     <span className="text-red-500">{message}</span>
@@ -103,7 +103,7 @@ const TerminalOutput: React.FC<{
       <div className="flex justify-between text-task-lighter text-xs font-normal mx-4 mt-4 md:mx-2 md:mt-2">
         <p>OUTPUT</p>
         <button
-          onClick={() => setOutput({} as CodeExecutionOutput)}
+          onClick={() => setOutput(null)}
           className="text-merit-credits-color hover:underline"
         >
           CLEAR
