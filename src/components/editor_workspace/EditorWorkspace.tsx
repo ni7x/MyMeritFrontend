@@ -18,6 +18,7 @@ interface EditorWorkspaceProps {
   setCurrentLanguage: (language: string) => void;
   submitComponent: JSX.Element | null;
   mainFileIndex: number;
+  isCodeEditable?: boolean;
 }
 
 const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
@@ -27,6 +28,7 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
   currentLanguage,
   setCurrentLanguage,
   isEditable,
+  isCodeEditable = isEditable,
   isFeedbackView = false,
   task,
   submitComponent,
@@ -158,7 +160,7 @@ const EditorWorkspace: React.FC<EditorWorkspaceProps> = ({
             task={task}
             setAsMain={setAsMain}
             currentLanguage={currentLanguage}
-            isEditable={isEditable}
+            isEditable={isCodeEditable}
           />
         </div>
       )}

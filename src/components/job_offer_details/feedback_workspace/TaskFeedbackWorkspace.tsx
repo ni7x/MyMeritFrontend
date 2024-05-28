@@ -59,7 +59,7 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
           const fetchedSolution = await solutionResponse.json();
           setCurrentLanguage(fetchedSolution.language);
           setIsAlreadyRated(fetchedSolution.isAlreadyRated);
-          setSolutionAuthor(fetchedSolution.user); 
+          setSolutionAuthor(fetchedSolution.user);
           newFiles = fetchedSolution.files;
           setOriginalFiles(fetchedSolution.files);
         }
@@ -186,8 +186,9 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
           <EditorWorkspace
             files={files}
             setFiles={setFiles}
-            isEditable={isEditable}
+            isEditable={false}
             isFeedbackView={true}
+            isCodeEditable={!isAlreadyRated}
             originalFiles={originalFiles}
             currentLanguage={currentLanguage!}
             mainFileIndex={mainFileIndex}
