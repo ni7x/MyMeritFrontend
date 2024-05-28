@@ -68,7 +68,7 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
           />
         )}
 
-        <p className="block truncate lg:ml-4">{user.username}</p>
+        <p className="block truncate inline lg:ml-4">{user.username}</p>
       </td>
       <td className="md:px-0 lg:px-10 py-3 px-5">
         <div className="w-full flex justify-center">
