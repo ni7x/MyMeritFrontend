@@ -64,22 +64,28 @@ const TerminalOutput: React.FC<{
     const totalPassed = testOutput.filter((test) => test.passed).length;
     return (
       <div className="flex flex-col h-full gap-1 justify-between">
-        <div>
+        <div className="flex flex-col gap-2">
           {testOutput.map((test) => {
             return (
-              <p
-                className={
-                  "w-full flex gap-1 " +
-                  (test.passed ? "text-emerald-400" : "text-red-500")
-                }
-              >
-                <span>
-                  <span className="font-medium text-xs italic">
-                    {test.name.toUpperCase()}
-                  </span>
-                </span>
-                {test.passed ? "passed" : "failed"}
-              </p>
+                <div className="w-full flex flex-col gap-2">
+                    <p
+                        className={
+                            "w-full flex gap-1 " +
+                            (test.passed ? "text-emerald-400" : "text-red-500")
+                        }
+                    >
+                        <span>
+                          <span className="font-medium text-xs italic">
+                            {test.name.toUpperCase()}
+                          </span>
+                        </span>
+                        {test.passed ? "passed" : "failed"}
+                    </p>
+                    {test.errorMessage &&
+                        <p className="max-h-[5rem] overflow-y-auto bg-task-bck rounded p-2">{atob(test.errorMessage)}</p>
+                    }
+                </div>
+
             );
           })}
         </div>
