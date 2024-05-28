@@ -53,7 +53,7 @@ const Ide: React.FC<IdeProps> = ({
   // const [isClosed, setIsClosed] = useState(false);
   const currentFile = files[currentFileIndex];
 
-  const setCodeOutput = (inp: CodeExecutionOutput) => {
+  const setCodeOutput = (inp: CodeExecutionOutput | null) => {
     setCOutput(inp);
     setTOutput(null);
   };
