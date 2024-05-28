@@ -80,7 +80,7 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
 
       <div className="flex flex-col gap-8">
         <div className="flex mt-5 gap-5">
-          <img src={logoPlaceholder} className="w-[8rem] h-[8rem] rounded" />
+          <img src={jobOffer.company.imageBase64} className="w-[8rem] h-[8rem] rounded  rounded object-cover img-anchor" />
           <div className="flex flex-col gap-3">
             <p className="flex gap-3 items-center">
               {jobOffer.company.name}
