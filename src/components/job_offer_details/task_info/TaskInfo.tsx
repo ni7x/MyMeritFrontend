@@ -51,7 +51,7 @@ const TaskInfo: React.FC<{
   return (
     <div className="flex flex-col lg:min-w-[24rem] h-full">
       {feedbackElement}
-      <div className="flex flex-col bg-terminal-color rounded w-[100%] h-full overflow-x-auto">
+      <div className="flex flex-col  bg-terminal-color rounded w-[100%] h-full overflow-x-auto">
         <div className="p-[1.5rem]">
           <div className="flex flex-row w-100 text-sm font-medium gap-4">
             <div>
@@ -110,7 +110,7 @@ const TaskInfo: React.FC<{
               );
             })}
           </ul>
-          <div className="flex mt-5 justify-between">
+          <div className="flex mt-5 justify-between ">
             <a
               className="flex bg-emerald-500 gap-2 p-2 px-3 text-center rounded-b rounded text-xs  font-semibold text-white"
               href={`/job/${jobId}`}
@@ -121,7 +121,7 @@ const TaskInfo: React.FC<{
                 <FontAwesomeIcon icon={faChevronRight} />
               </div>
             </a>
-            {withToggle === true ? (
+            {withToggle ? (
               <button
                 onClick={toggleHidden}
                 className="bg-task-bck p-2 rounded hover:bg-main-lighter-2"

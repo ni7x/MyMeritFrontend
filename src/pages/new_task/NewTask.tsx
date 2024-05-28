@@ -100,14 +100,18 @@ const taskSchema = z.object({
     .nativeEnum(AllowedLanguages)
     .array()
     .nonempty("At least one language is required"),
-  memoryLimit: z.coerce.number().int(),
+  memoryLimit: z.coerce.number().int().min(2048),
   timeLimit: z
     .string()
-    .min(1)
-    .max(10)
-    .refine((value) => /^[\d.]+$/.test(value), {
-      message: "Invalid time limit. Please enter a float number",
-    }),
+      .refine((value) => {
+        const num = parseFloat(value);
+        return num >= 1 && num <= 10;
+      }, {
+        message: "Time limit must be between 1 and 10",
+      })
+      .refine((value) => /^(\d+(\.\d+)?)$/.test(value), {
+        message: "Invalid time limit. Please enter a float number",
+      }),
   tests: z.array(testFile).optional(),
   templateFiles: z.array(templateFile).optional(),
 });
@@ -166,7 +170,7 @@ const NewTask = () => {
       closesAt: getCurrentDateTimeLocal(),
       reward: 0,
       allowedLanguages: [],
-      memoryLimit: 1024,
+      memoryLimit: 2048,
       timeLimit: "10.00",
       tests: [],
       templateFiles: [],
