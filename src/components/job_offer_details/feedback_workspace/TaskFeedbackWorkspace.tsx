@@ -46,34 +46,48 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
 
   useEffect(() => {
     const initializeFiles = async () => {
-      const solution = await downloadSolutionFiles(solutionId, accessToken!);
-      const feedback = await downloadFeedbackFiles(solutionId, accessToken!);
-      if (solution.ok) {
-        const fetchedSolution = await solution.json();
-        console.log(fetchedSolution);
-        setCurrentLanguage(fetchedSolution.language);
-        setIsAlreadyRated(fetchedSolution.isAlreadyRated);
-        setSolutionAuthor(fetchedSolution.user); //sry za ten caly burdel xd
-        setOriginalFiles(fetchedSolution.files);
-        setFiles(fetchedSolution.files);
-      }
-      if (feedback.ok) {
-        const fetchedFiles = await feedback.json();
-        if (fetchedFiles.length > 0) {
-          setFiles(fetchedFiles);
+      try {
+        // Fetch solution and feedback files concurrently
+        const [solutionResponse, feedbackResponse] = await Promise.all([
+          downloadSolutionFiles(solutionId, accessToken!),
+          downloadFeedbackFiles(solutionId, accessToken!),
+        ]);
+
+        let newFiles = [];
+
+        if (solutionResponse.ok) {
+          const fetchedSolution = await solutionResponse.json();
+          setCurrentLanguage(fetchedSolution.language);
+          setIsAlreadyRated(fetchedSolution.isAlreadyRated);
+          setSolutionAuthor(fetchedSolution.user); 
+          newFiles = fetchedSolution.files;
+          setOriginalFiles(fetchedSolution.files);
         }
-      }
-      const currentFeedbackCookies = cookies.get("solution-" + solutionId);
-      if (currentFeedbackCookies) {
-        setFiles(
-          currentFeedbackCookies.files.map(
-            (file: MyFile) =>
-              new MyFile(file.name, file.type, file.contentBase64)
-          )
-        );
+
+        if (feedbackResponse.ok) {
+          const fetchedFeedbackFiles = await feedbackResponse.json();
+          if (fetchedFeedbackFiles.length > 0) {
+            newFiles = fetchedFeedbackFiles;
+          }
+        }
+
+        const currentFeedbackCookies = cookies.get("solution-" + solutionId);
+        if (currentFeedbackCookies) {
+          newFiles = currentFeedbackCookies.files.map(
+              (file) => new MyFile(file.name, file.type, file.contentBase64)
+          );
+        }
+
+        setFiles(newFiles);
+      } catch (error) {
+        console.error('Error initializing files:', error);
+        // Handle errors if necessary
+      } finally {
+        setFilesFetched(true);
       }
     };
-    initializeFiles().then(() => setFilesFetched(true));
+
+    initializeFiles();
   }, [solutionId, accessToken]);
 
   useEffect(() => {

@@ -57,7 +57,6 @@ const MyDiffEditor: React.FC<MyEditorProps> = ({
         overviewRulerBorder: false,
         hideCursorInOverviewRuler: true,
         readOnly: !isEditable,
-
         renderOverviewRuler: false,
       }}
     />
