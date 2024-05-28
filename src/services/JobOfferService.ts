@@ -219,7 +219,7 @@ export const getToken = async (
 
       return (await response.json()) as CodeExecutionOutput;
     } catch (error) {
-      errorToast(error)
+      errorToast(String(error))
     }
   } catch (error) {
     errorToast("Error fetching token" + error);
