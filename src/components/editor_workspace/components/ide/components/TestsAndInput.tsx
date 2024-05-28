@@ -5,7 +5,7 @@ const TestsAndInput: React.FC<{
   testInterface: JSX.Element;
   terminalInput: JSX.Element;
   areThereTests: boolean;
-  templateFileNames: string[];
+  templateFileNames?: string[];
 }> = ({ testInterface, terminalInput, areThereTests, templateFileNames }) => {
   const [isTestView, setIsTestView] = useState(areThereTests);
 
