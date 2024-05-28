@@ -213,9 +213,13 @@ export const getToken = async (
         },
       });
 
+      if (!response.ok) {                                 //Judge 0 Erorr
+        return new CodeExecutionOutput("", "SnVkZ2UwIEVycm9y", null, {id:15, description: "SnVkZ2UwIEVycm9y"}, null, null)
+      }
+
       return (await response.json()) as CodeExecutionOutput;
     } catch (error) {
-      console.error("Error:", error);
+      errorToast(error)
     }
   } catch (error) {
     errorToast("Error fetching token" + error);

@@ -4,8 +4,8 @@ class CodeExecutionOutput {
     public stderr: string,
     public compile_output: string | null,
     public status: Status,
-    public exit_code: number,
-    public time: number
+    public exit_code: number | null,
+    public time: number | null
   ) {}
 }
 
