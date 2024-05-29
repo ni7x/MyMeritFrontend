@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CustomInput from "../../form/CustomInput";
 
 const schema = z.object({
-  username: z.string().min(5),
+  username: z.string().min(4),
   description: z.string().max(300),
 });
 

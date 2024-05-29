@@ -100,7 +100,7 @@ const taskSchema = z.object({
     .nativeEnum(AllowedLanguages)
     .array()
     .nonempty("At least one language is required"),
-  memoryLimit: z.coerce.number().int().min(2048),
+  memoryLimit: z.coerce.number().int().min(128000),
   timeLimit: z
     .string()
       .refine((value) => {

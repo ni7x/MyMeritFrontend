@@ -6,7 +6,6 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logoPlaceholder from "../../../assets/logo-placeholder.png";
 import TaskStatusDisplay from "../task_info/TaskStatusDisplay";
 import JobOfferDetailsDTO from "../../../models/dtos/JobOfferDetailsDTO";
 import { useAuth } from "../../../hooks/useAuth";
@@ -79,10 +78,13 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
 
       <div className="flex flex-col gap-8">
         <div className="flex mt-5 gap-5">
-          <img src={logoPlaceholder} className="w-[8rem] h-[8rem] rounded" />
+          <img
+            src={jobOffer.company.imageBase64}
+            className="w-[8rem] h-[8rem] rounded  rounded object-cover img-anchor"
+          />
           <div className="flex flex-col gap-3">
             <p className="flex gap-3 items-center">
-              {jobOffer.company.name}
+              {jobOffer.company.username}
               <Link
                 to={`/profile/${jobOffer.company.id}`}
                 className="text-xs font-semibold text-emerald-400"

@@ -3,6 +3,7 @@ import UserTaskDTO from "./UserTaskDTO";
 import { EmploymentType, Experience } from "../JobOffer";
 // import JobOfferListedDTO from "./SolutionListedDTO";
 import SolutionListedDTO from "./SolutionListedDTO";
+import {User} from "@types";
 
 interface JobOfferDetailsDTO {
   id: string;
@@ -16,7 +17,7 @@ interface JobOfferDetailsDTO {
   workLocations: string[];
   opensAt: Date;
   closesAt: Date;
-  company: Company;
+  company: User;
   task: UserTaskDTO;
   solutions: SolutionListedDTO[];
   templateFiles?: Map<string, string[]>;
