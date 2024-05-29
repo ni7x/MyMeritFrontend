@@ -11,4 +11,4 @@ RUN npm run build
 
 EXPOSE 5173
 
-ENTRYPOINT exec npm run preview
+CMD [ "npm", "run", "preview" ]
