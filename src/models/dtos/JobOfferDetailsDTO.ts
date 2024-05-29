@@ -1,9 +1,8 @@
-import Company from "../Company";
 import UserTaskDTO from "./UserTaskDTO";
 import { EmploymentType, Experience } from "../JobOffer";
 // import JobOfferListedDTO from "./SolutionListedDTO";
 import SolutionListedDTO from "./SolutionListedDTO";
-import {User} from "@types";
+import { User } from "@types";
 
 interface JobOfferDetailsDTO {
   id: string;
