@@ -98,7 +98,7 @@ const TaskInfo: React.FC<{
               />
             </div>
           </div>
-          <ul className="flex gap-2.5">
+          <ul className="flex gap-2.5 flex-wrap">
             {task.allowedLanguages.map((language) => {
               return (
                 <li
