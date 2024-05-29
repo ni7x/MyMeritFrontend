@@ -12,13 +12,8 @@ export type User = {
   socialLink2?: string;
   socialName3?: string;
   socialLink3?: string;
-  achievements: string[];
-  badges: [
-    {
-      language: string;
-      description: string;
-    }
-  ];
+  achievements: Achievement[];
+  badges: Badge[];
 };
 
 export type UserUpdate = {
@@ -156,4 +151,24 @@ export type ApiResponse = {
   success: boolean;
   message: string;
   data: any;
+};
+
+export type Achievement = {
+  name: string;
+  description: string;
+  base64image: string;
+};
+
+export type Badge = {
+  language: string;
+  description: string;
+  tasksCounter: number;
+  level: Level;
+};
+
+type Level = {
+  level: number;
+  modifier: number;
+  progress: number;
+  threshold: number;
 };

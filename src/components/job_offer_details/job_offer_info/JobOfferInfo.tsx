@@ -15,6 +15,7 @@ import {
   removeFromBookmarks,
 } from "../../../services/JobOfferService";
 import { successToast } from "../../../main";
+import { Link } from "react-router-dom";
 
 const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
   jobOffer,
@@ -40,21 +41,19 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
     });
   };
 
-
-
   return (
     <div className="flex flex-col w-[100%] lg:w-[45%] lg:max-w-[45rem]">
       <div className="flex justify-between">
-        {userData?.id !== jobOffer.company.id
-            ?
-            <TaskStatusDisplay status={jobOffer.status} />
-            :
-            <a className="flex justify-center items-center gap-2  bg-emerald-500 text-job-primary p-2 px-3  rounded text-xs font-semibold text-white" href={"/job/" + jobOffer.id + "/solution"}>
-              GO TO SOLUTIONS
-            </a>
-
-
-        }
+        {userData?.id !== jobOffer.company.id ? (
+          <TaskStatusDisplay status={jobOffer.status} />
+        ) : (
+          <a
+            className="flex justify-center items-center gap-2  bg-emerald-500 text-job-primary p-2 px-3  rounded text-xs font-semibold text-white"
+            href={"/job/" + jobOffer.id + "/solution"}
+          >
+            GO TO SOLUTIONS
+          </a>
+        )}
 
         {isBookmarked !== null ? (
           isBookmarked ? (
@@ -84,9 +83,12 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
           <div className="flex flex-col gap-3">
             <p className="flex gap-3 items-center">
               {jobOffer.company.name}
-              <a href={""} className="text-xs font-semibold text-emerald-400">
+              <Link
+                to={`/profile/${jobOffer.company.id}`}
+                className="text-xs font-semibold text-emerald-400"
+              >
                 SEE MORE ABOUT THIS COMPANY
-              </a>
+              </Link>
             </p>
             <h3 className="text-3xl font-bold leading-7 mb-1">
               {jobOffer.jobTitle}
@@ -112,7 +114,9 @@ const JobOfferInfo: React.FC<{ jobOffer: JobOfferDetailsDTO }> = ({
             </div>
           </div>
         </div>
-        <p className="leading-7 bg-secondary-bg-color px-4 py-2 rounded">{jobOffer.description}</p>
+        <p className="leading-7 bg-secondary-bg-color px-4 py-2 rounded">
+          {jobOffer.description}
+        </p>
         <div>
           <h3 className="text-sm text-task-lighter font-semibold mb-3">
             MUST HAVE SKILLS

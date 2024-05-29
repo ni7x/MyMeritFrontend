@@ -1,6 +1,6 @@
-import UserHeader from "./UserHeader";
-import UserBody from "./UserBody";
-import UserSection from "./UserSection";
+import UserHeader from "../user/UserHeader";
+import UserBody from "../user/UserDescription";
+import UserSection from "../user/UserSection";
 import EditProfileForm from "./form/EditProfileForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";

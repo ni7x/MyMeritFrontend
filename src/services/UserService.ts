@@ -58,4 +58,13 @@ const getRanking = async (dataRange: "week" | "month" | "year") => {
   }
 };
 
-export { getUser, updateUser, getUserTasks, getRanking };
+const getUserFromId = async (id: string) => {
+  const data = await httpCall<{ user: User }>({
+    url: import.meta.env.VITE_API_URL + "/user/" + id,
+    method: "GET",
+  });
+
+  return data;
+};
+
+export { getUser, updateUser, getUserTasks, getRanking, getUserFromId };

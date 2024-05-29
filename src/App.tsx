@@ -21,6 +21,7 @@ import Footer from "./components/Footer";
 import NewTask from "./pages/new_task/NewTask";
 import Ranking from "./pages/ranking/Ranking";
 import User from "./pages/user/User";
+import Redirect404 from "./pages/Redirect404";
 
 const App = () => {
   return (
@@ -53,28 +54,21 @@ const App = () => {
                 />
               }
             />
-          <Route
-              path="/leaderboard"
-              element={
-                  <Ranking/>
-              }
-          />
+            <Route path="/leaderboard" element={<Ranking />} />
             <Route
               path="/job/new"
               element={<ProtectedRoute companyContent={<NewTask />} />}
             />
 
-            <Route path="/user/:id" element={<User />} />
+            <Route path="/profile/:id" element={<User />} />
 
-            {["/profile", "/profile/tasks", "/profile/purchases"].map(
-              (path, index) => (
-                <Route
-                  path={path}
-                  element={<ProtectedRoute userContent={<UserProfile />} />}
-                  key={index}
-                />
-              )
-            )}
+            {["/me", "/me/tasks", "/me/purchases"].map((path, index) => (
+              <Route
+                path={path}
+                element={<ProtectedRoute userContent={<UserProfile />} />}
+                key={index}
+              />
+            ))}
             <Route
               path="/rewards/"
               element={<ProtectedRoute userContent={<Rewards />} />}
@@ -83,7 +77,8 @@ const App = () => {
             <Route path="/oauth2/redirect" element={<OAuth2 />} />
             <Route path="/login/" element={<Login />} />
             <Route path="/register/" element={<Register />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Redirect404 />} />
           </Routes>
         </SecondWrapper>
       </MainWrapper>

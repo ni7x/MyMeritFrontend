@@ -11,13 +11,13 @@ const UserProfile = () => {
   let page;
 
   switch (pathname) {
-    case "/profile":
+    case "/me":
       page = <ProfileSettings />;
       break;
-    case "/profile/purchases":
+    case "/me/purchases":
       page = <UserPurchases />;
       break;
-    case "/profile/tasks":
+    case "/me/tasks":
       if (isAuthenticatedCompany()) {
         page = <></>;
       } else {

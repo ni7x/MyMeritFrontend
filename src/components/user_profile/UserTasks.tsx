@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TaskDto from "../../models/TaskPreview";
-import UserSection from "./UserSection";
+import UserSection from "../user/UserSection";
 import { getUserTasks } from "../../services/UserService";
 import Task from "../../components/my_tasks/Task";
 import Skeleton from "react-loading-skeleton";

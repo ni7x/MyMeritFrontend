@@ -3,6 +3,7 @@ import RankingUserDTO from "../../models/dtos/RankingUserDTO";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrophy, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import rankingBg from "../../assets/ranking-bg.png";
+import { Link } from "react-router-dom";
 interface TopUsersProps {
   users: RankingUserDTO[];
 }
@@ -45,7 +46,7 @@ const TopUsers: React.FC<TopUsersProps> = ({ users }) => {
         </p>
         <div className="relative z-10 flex justify-center items-center h-full w-[90%]">
           <div className="flex items-center justify-around flex-col gap-6 h-auto h-full">
-            <div>
+            <Link to={`/profile/${user.id}`}>
               {user.profileImageBase64 ? (
                 <img
                   src={user.profileImageBase64}
@@ -58,13 +59,13 @@ const TopUsers: React.FC<TopUsersProps> = ({ users }) => {
                   className="relative z-10 rounded-full cover h-[5rem] w-[5rem] border-solid border-2 border-task-bck"
                 />
               )}
-            </div>
+            </Link>
             <div className="flex">
               <h2
                 className="text-xl font-semibold text-center"
                 style={{ wordBreak: "break-all" }}
               >
-                {user.username}
+                <Link to={`/profile/${user.id}`}>{user.username}</Link>
               </h2>
             </div>
             <div className="flex justify-between">

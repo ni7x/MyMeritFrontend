@@ -1,4 +1,4 @@
-import UserSection from "./UserSection";
+import UserSection from "../user/UserSection";
 import { getPurchaseHistory } from "../../services/RewardService";
 import PurchasedRewardDTO from "../../models/PurchasedReward";
 import { useEffect, useState } from "react";
@@ -42,7 +42,7 @@ const UserRewards = () => {
       <>
         {purchaseHistory.length != 0 && (
           <Link
-            to="/profile/purchases"
+            to="/me/purchases"
             className="absolute bottom-0 left-0 w-full flex justify-center text-sm text-primary font-semibold opacity-70 p-4 text-gray-200 hover:opacity-100 transition-opacity duration-200 ease-linear"
           >
             View all

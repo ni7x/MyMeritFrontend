@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { Link } from "react-router-dom";
 
 interface TaskFeedbackWorkspaceProps {
   solutionId: string;
@@ -74,13 +75,14 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
         const currentFeedbackCookies = cookies.get("solution-" + solutionId);
         if (currentFeedbackCookies) {
           newFiles = currentFeedbackCookies.files.map(
-              (file:MyFile) => new MyFile(file.name, file.type, file.contentBase64)
+            (file: MyFile) =>
+              new MyFile(file.name, file.type, file.contentBase64)
           );
         }
 
         setFiles(newFiles);
       } catch (error) {
-        console.error('Error initializing files:', error);
+        console.error("Error initializing files:", error);
         // Handle errors if necessary
       } finally {
         setFilesFetched(true);
@@ -216,12 +218,12 @@ const TaskFeedbackWorkspace: React.FC<TaskFeedbackWorkspaceProps> = ({
                       <p className="text-xs font-medium text-task-lighter mb-[-1px]">
                         SOLVED BY
                       </p>
-                      <a
-                        href={"/profile/" + solutionAuthor.id}
+                      <Link
+                        to={"/profile/" + solutionAuthor.id}
                         className="text-base font-normal"
                       >
                         {solutionAuthor.username}
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )

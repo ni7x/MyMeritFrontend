@@ -1,68 +1,59 @@
-import UserHeader from "../../components/user_profile/UserHeader";
-import UserBody from "../../components/user_profile/UserBody";
-import UserSection from "../../components/user_profile/UserSection";
-import EditProfileForm from "../../components/user_profile/form/EditProfileForm";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
-// import { Skeleton } from "@mui/material";
+import UserHeader from "../../components/user/UserHeader";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { getUserFromId } from "../../services/UserService";
+import { User as UserType } from "../../types";
+import UserSocials from "../../components/user/UserSocials";
+import UserDescription from "../../components/user/UserDescription";
+import UserAchievements from "../../components/user/UserAchievements";
+import UserBadges from "../../components/user/UserBadges";
 
 const User = () => {
-  const [showForm, setShowForm] = useState<boolean>(false);
-  const { setUserData, userData } = useAuth();
+  const [userData, setUserData] = useState<UserType | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams<{ id: string }>();
+  const Navigate = useNavigate();
+  if (id == undefined) {
+    Navigate("/404");
+    return;
+  }
 
-  if (userData == undefined) {
-    return <Skeleton borderRadius="0.75rem" height="100%" />;
+  useEffect(() => {
+    getUserFromId(id)
+      .then((data) => {
+        if (!data.user) {
+          Navigate("/404");
+        }
+
+        setUserData(data.user);
+      })
+      .catch((error) => {
+        console.error(error);
+        Navigate("/404");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (userData == undefined || isLoading) {
+    return (
+      <div className="max-w-3xl m-auto">
+        <Skeleton borderRadius="0.75rem" className="!h-[calc(100vh-200px)]" />
+      </div>
+    );
   }
 
   return (
-    <UserSection>
-      <UserHeader
-        imageBase64={userData.imageBase64}
-        username={userData.username}
-        email={userData.email}
-        role={userData.role}
-        points={userData.credits}
-      />
-
-      <UserBody
-        description={userData.description ? userData.description : ""}
-        onEdit={() => setShowForm(true)}
-      />
-
-      <>
-        <div
-          className={`fixed ${
-            !showForm && `opacity-0 invisible`
-          } w-full h-full top-0 left-0 bg-black bg-opacity-50 z-[1000] flex justify-center items-center transition-opacity duration-300 ${
-            showForm && `opacity-100 visible`
-          }`}
-        >
-          <div
-            className={`p-8 scale-0 relative bg-main-bg-color rounded-lg z-[1001] ${
-              showForm && `scale-100`
-            } transition-transform duration-300`}
-          >
-            <button
-              className="absolute top-0 right-0 p-4 text-lg"
-              onClick={() => setShowForm(false)}
-            >
-              <FontAwesomeIcon icon={faXmark} />
-            </button>
-            <EditProfileForm
-              username={userData.username}
-              description={userData.description ? userData.description : ""}
-              imageBase64={userData.imageBase64 ? userData.imageBase64 : ""}
-              closeForm={() => setShowForm(false)}
-              setUserData={setUserData}
-            />
-          </div>
-        </div>
-      </>
-    </UserSection>
+    <div className="max-w-3xl m-auto flex flex-col gap-4">
+      <UserHeader user={userData} />
+      <UserDescription user={userData} />
+      <UserSocials user={userData} />
+      <UserAchievements user={userData} />
+      <UserBadges user={userData} />
+    </div>
   );
 };
 

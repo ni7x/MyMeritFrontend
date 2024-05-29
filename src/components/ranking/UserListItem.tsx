@@ -2,6 +2,7 @@ import React from "react";
 import RankingUserDTO from "../../models/dtos/RankingUserDTO";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 interface UserListItemProps {
   user: RankingUserDTO;
@@ -55,20 +56,22 @@ const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
         </div>
       </td>
       <td className="py-3 pr-5 lg:p-0 m-auto">
-        {user.profileImageBase64 ? (
-          <img
-            src={user.profileImageBase64}
-            alt={user.username}
-            className="hidden lg:inline lg:w-[2.5rem] lg:h-[2.5rem] rounded-full"
-          />
-        ) : (
-          <FontAwesomeIcon
-            icon={faUserCircle}
-            className="hidden lg:inline lg:w-[2.5rem] lg:h-[2.5rem] rounded-full align-middle"
-          />
-        )}
+        <Link to={`/profile/${user.id}`} className="flex flex-row items-center">
+          {user.profileImageBase64 ? (
+            <img
+              src={user.profileImageBase64}
+              alt={user.username}
+              className="hidden lg:inline lg:w-[2.5rem] lg:h-[2.5rem] rounded-full"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faUserCircle}
+              className="hidden lg:inline lg:w-[2.5rem] lg:h-[2.5rem] rounded-full align-middle"
+            />
+          )}
 
-        <p className="block truncate inline lg:ml-4">{user.username}</p>
+          <p className="block truncate lg:ml-4">{user.username}</p>
+        </Link>
       </td>
       <td className="md:px-0 lg:px-10 py-3 px-5">
         <div className="w-full flex justify-center">

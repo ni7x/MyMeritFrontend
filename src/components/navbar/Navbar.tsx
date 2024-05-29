@@ -157,7 +157,7 @@ export default function Navbar() {
                         <>
                           <MenuItem>
                             <Link
-                              to="/profile"
+                              to="/me"
                               className={classNames(
                                 "block px-4 py-2 text-sm hover:bg-main-bg-color rounded transition-colors duration-100 ease-linear"
                               )}
@@ -165,26 +165,6 @@ export default function Navbar() {
                               Your Profile
                             </Link>
                           </MenuItem>
-                          {/* <MenuItem>
-                            <Link
-                              to="/profile/tasks"
-                              className={classNames(
-                                "block px-4 py-2 text-sm hover:bg-main-bg-color rounded transition-colors duration-100 ease-linear"
-                              )}
-                            >
-                              Tasks
-                            </Link>
-                          </MenuItem>
-                          <MenuItem>
-                            <Link
-                              to="/profile/purchases"
-                              className={classNames(
-                                "block px-4 py-2 text-sm hover:bg-main-bg-color rounded transition-colors duration-100 ease-linear"
-                              )}
-                            >
-                              Purchase history
-                            </Link>
-                          </MenuItem> */}
                         </>
                       )}
 

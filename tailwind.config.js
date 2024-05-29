@@ -46,6 +46,14 @@ export default {
           "30%, 50%, 70%": { transform: "translate3d(-4px, 0, 0)" },
           "40%, 60%": { transform: "translate3d(4px, 0, 0)" },
         },
+        appear: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
       },
     },
   },

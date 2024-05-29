@@ -3,7 +3,15 @@ const SecondWrapper = ({
 }: {
   children: JSX.Element | JSX.Element[];
 }) => {
-  return <div className="p-4 sm:p-8 h-full">{children}</div>;
+  const isNotFoundPage = (): boolean => {
+    return location.pathname === "/404";
+  };
+
+  return (
+    <div className={`${isNotFoundPage() ? "h-full" : "p-4 sm:p-8 h-full"}`}>
+      {children}
+    </div>
+  );
 };
 
 export default SecondWrapper;

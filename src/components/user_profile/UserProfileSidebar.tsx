@@ -11,21 +11,21 @@ const UserProfileSidebar = () => {
   const navigation = [
     {
       name: "Profile",
-      href: "/profile",
+      href: "/me",
       icon: <FontAwesomeIcon className="h-6 w-6" icon={faUser} />,
-      current: pathname === "/profile",
+      current: pathname === "/me",
     },
     {
       name: "My tasks",
-      href: "/profile/tasks",
+      href: "/me/tasks",
       icon: <FontAwesomeIcon className="h-6 w-6" icon={faListCheck} />,
-      current: pathname === "/profile/tasks",
+      current: pathname === "/me/tasks",
     },
     {
       name: "Purchase history",
-      href: "/profile/purchases",
+      href: "/me/purchases",
       icon: <FontAwesomeIcon className="h-6 w-6" icon={faReceipt} />,
-      current: pathname === "/profile/purchases",
+      current: pathname === "/me/purchases",
     },
   ];
   return (

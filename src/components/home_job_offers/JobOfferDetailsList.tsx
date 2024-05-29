@@ -8,6 +8,7 @@ import {
 import JobOfferListedDTO from "../../models/dtos/JobOfferListedDTO";
 import { TaskStatus } from "../../models/TaskStatus";
 import TechnologyTags from "./TechnologyTags";
+import { Link } from "react-router-dom";
 
 const languageColors = {
   JAVA: "#ec9b2a",
@@ -23,14 +24,17 @@ const languageColors = {
 const CompanyDetails: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
   jobOffer,
 }) => (
-  <p className="flex items-center w-[20rem] xs:w-auto">
+  <Link
+    to={`/profile/${jobOffer.company.id}`}
+    className="flex items-center w-[20rem] xs:w-auto"
+  >
     <img
       src={jobOffer.company.imageBase64}
       className="block xs:hidden w-[1.5rem] h-[1.5rem] rounded mr-2 object-cover img-anchor"
       alt={jobOffer.company.username}
     />
     {jobOffer.company.username}
-  </p>
+  </Link>
 );
 
 const WorkLocations: React.FC<{ jobOffer: JobOfferListedDTO }> = ({
